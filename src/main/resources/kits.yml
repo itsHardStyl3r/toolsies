@@ -1,0 +1,15 @@
+kits:
+  default:
+    items:
+      DIAMOND_SWORD:
+        amount: 1
+        name: "&aKit Start"
+        lore:
+          - "&e<name>"
+          - "&e<date>"
+      DIAMOND_CHESTPLATE:
+        amount: 1
+        name: "&aKit Start"
+        lore:
+          - "&e<name>"
+          - "&e<date>"
