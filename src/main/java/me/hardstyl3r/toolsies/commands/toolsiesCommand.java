@@ -44,7 +44,7 @@ public class toolsiesCommand implements CommandExecutor, TabCompleter {
         } else {
             sender.sendMessage("MySQL connection: " + (Hikari.getHikari() != null ? ChatColor.GREEN + "yes" : ChatColor.RED + "no"));
         }
-        return false;
+        return true;
     }
 
     @Override

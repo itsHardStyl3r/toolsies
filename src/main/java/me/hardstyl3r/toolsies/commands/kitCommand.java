@@ -33,6 +33,6 @@ public class kitCommand implements CommandExecutor {
         } else {
             sender.sendMessage("Available kits: " + kitManager.getKits().toString());
         }
-        return false;
+        return true;
     }
 }
