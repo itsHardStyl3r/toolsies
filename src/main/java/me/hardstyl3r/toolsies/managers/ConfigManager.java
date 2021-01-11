@@ -8,40 +8,36 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
 
 public class ConfigManager {
 
     public ConfigManager() {
-        loadConfig("config");
+        config = loadConfig("config");
     }
 
     private String getPath() {
         return "." + File.separator + "plugins" + File.separator + "toolsies" + File.separator;
     }
 
-    private final HashMap<String, FileConfiguration> configs = new HashMap<>();
+    private FileConfiguration config;
 
-    public void loadConfig(String file) {
+    public YamlConfiguration loadConfig(String file) {
         File configFile = new File(getPath() + file + ".yml");
         if (!configFile.exists()) {
             try {
                 configFile.getParentFile().mkdirs();
                 copy(Toolsies.getInstance().getResource(file + ".yml"), configFile);
                 System.out.println("Created " + file + ".yml.");
-                configs.put(file, YamlConfiguration.loadConfiguration(configFile));
             } catch (Exception e) {
                 System.out.println("Failed to create " + file + ".yml.");
+                return null;
             }
         }
+        return YamlConfiguration.loadConfiguration(configFile);
     }
 
     public FileConfiguration getConfig() {
-        return configs.get("config");
-    }
-
-    public FileConfiguration getConfig(String s) {
-        return configs.get(s);
+        return config;
     }
 
     private boolean copy(InputStream source, File file) {
