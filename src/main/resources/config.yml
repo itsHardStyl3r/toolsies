@@ -1,0 +1,11 @@
+#                                            #
+#              DATABASE SECTION              #
+#                                            #
+# https://github.com/brettwooldridge/HikariCP
+#
+# warn: you need to create database `toolsies`
+database:
+  host: 127.0.0.1
+  port: 3306
+  user:
+  password:

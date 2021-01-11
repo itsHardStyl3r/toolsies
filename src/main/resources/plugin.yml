@@ -1,0 +1,8 @@
+name: toolsies
+version: ${project.version}
+main: me.hardstyl3r.toolsies.Toolsies
+api-version: 1.16
+authors: [hardStyl3r]
+description: nifty gifties
+commands:
+  toolsies:
