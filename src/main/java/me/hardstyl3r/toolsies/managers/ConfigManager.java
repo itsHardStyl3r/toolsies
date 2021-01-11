@@ -25,20 +25,22 @@ public class ConfigManager {
     public void loadConfig(String file) {
         File configFile = new File(getPath() + file + ".yml");
         if (!configFile.exists()) {
-            if (configFile.getParentFile().mkdirs() && copy(Toolsies.getInstance().getResource(file + ".yml"), configFile)) {
+            try {
+                configFile.getParentFile().mkdirs();
+                copy(Toolsies.getInstance().getResource(file + ".yml"), configFile);
                 System.out.println("Created " + file + ".yml.");
-            } else {
+                configs.put(file, YamlConfiguration.loadConfiguration(configFile));
+            } catch (Exception e) {
                 System.out.println("Failed to create " + file + ".yml.");
             }
         }
-        configs.put(file, YamlConfiguration.loadConfiguration(configFile));
     }
 
     public FileConfiguration getConfig() {
         return configs.get("config");
     }
 
-    public FileConfiguration getConfig(String s){
+    public FileConfiguration getConfig(String s) {
         return configs.get(s);
     }
 
