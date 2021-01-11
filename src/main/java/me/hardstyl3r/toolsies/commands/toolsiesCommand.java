@@ -4,14 +4,13 @@ import me.hardstyl3r.toolsies.Hikari;
 import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.managers.ConfigManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.file.FileConfiguration;
 
-import javax.tools.Tool;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,12 +19,12 @@ import java.util.List;
 public class toolsiesCommand implements CommandExecutor, TabCompleter {
 
     private final UserManager userManager;
-    private final ConfigManager configManager;
+    private final FileConfiguration config;
 
     public toolsiesCommand(Toolsies plugin, UserManager userManager, ConfigManager configManager) {
         plugin.getCommand("toolsies").setExecutor(this);
         this.userManager = userManager;
-        this.configManager = configManager;
+        this.config = configManager.getConfig();
     }
 
     @Override
@@ -38,7 +37,7 @@ public class toolsiesCommand implements CommandExecutor, TabCompleter {
             if (args[0].equalsIgnoreCase("mysql")) {
                 sender.sendMessage("Does " + args[1] + " exist in the database? " + (userManager.getUser(args[1]) != null ? "yes" : "no"));
             } else if (args[0].equalsIgnoreCase("config")) {
-                sender.sendMessage(args[1] + " from config.yml: " + configManager.getConfig().get(args[1]));
+                sender.sendMessage(args[1] + " from config.yml: " + config.get(args[1]));
             } else {
                 sender.sendMessage("Unknown argument.");
             }
