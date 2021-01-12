@@ -11,8 +11,12 @@ kit:
   kit_applied: "&a# &7Przyznano kit <name>."
   available_kits: "&e# &7Dostępne kity: <kits>."
   no_kits_available: "&e# &7Nie ma żadnych dostępnych kitów."
+  cant_gift_to_that_player: "&c# &7Nie możesz przyznać kitu <name> graczowi <player>."
+  gifted_kit_to_player: "&a# &7Przyznano kit <name> graczowi <player>."
+  player_gifted: "&e# &7Przyznano kit <name> przez <admin>."
 
 players:
+  unknown: "&c# &7Gracz <name> nie istnieje."
   join:
     broadcast: "&e<name> dołączył do gry"
     motd:
