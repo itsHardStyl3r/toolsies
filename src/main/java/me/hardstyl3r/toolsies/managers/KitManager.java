@@ -34,7 +34,7 @@ public class KitManager {
     public void giveKit(Player p, String kit) {
         kit = kit.toLowerCase();
         for (String kitMaterial : getConfig().getConfigurationSection("kits." + kit + ".items").getKeys(false)) {
-            Material material = Material.matchMaterial(kitMaterial);
+            Material material = Material.matchMaterial((kitMaterial.contains("-") ? kitMaterial.split("-")[0] : kitMaterial));
             if (material == null) {
                 System.out.println("Kit " + kit + ": " + kitMaterial + " is not correct Material.");
                 return;

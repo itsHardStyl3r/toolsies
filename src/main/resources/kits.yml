@@ -1,5 +1,15 @@
+#                                            #
+#                KITS SECTION                #
+#                                            #
+# The items section uses Material (item ids) to
+# populate the kit. If you need to add two or more
+# items (Materials), add some number after the dash.
+# The number won't matter.
+#
 kits:
-  default:
+  start:
+    # The default kit will add one Diamond Sword and
+    # two stacks of 32 of Steak.
     items:
       DIAMOND_SWORD:
         amount: 1
@@ -7,9 +17,9 @@ kits:
         lore:
           - "&e<name>"
           - "&e<date>"
-      DIAMOND_CHESTPLATE:
-        amount: 1
+      COOKED_BEEF:
+        amount: 32
         name: "&aKit Start"
-        lore:
-          - "&e<name>"
-          - "&e<date>"
+      COOKED_BEEF-1:
+        amount: 32
+        name: "&aKit Start 2"
