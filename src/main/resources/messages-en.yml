@@ -1,5 +1,4 @@
 no_permission: "&4You don't have permission to do this. &8(<permission>)"
-new_player: "&dPlayer <name> joined the server for the first time!"
 
 locale:
   unknown_locale: "&c# &7Locale <name> does not exist."
@@ -11,6 +10,15 @@ kit:
   unknown_kit: "&c# &7Kit <name> does not exist."
   kit_applied: "&a# &7Applied kit <name>."
   available_kits: "&e# &7Available kits: <kits>."
+
+players:
+  join:
+    broadcast: "&e<name> joined the game"
+    motd:
+      - '&6* &7Welcome to the server, <name>!'
+    new_player: "&dPlayer <name> joined the server for the first time!"
+  quit:
+    broadcast: "&e<name> left the game"
 
 config:
   name: 'English'

@@ -21,13 +21,14 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onJoinPlayer(PlayerJoinEvent e) {
+        e.setJoinMessage("");
         Player target = e.getPlayer();
         if (!userManager.hasPlayedBefore(target)) {
-            for(Player p : Bukkit.getOnlinePlayers()){
-                if(p != target) {
-                    User u = userManager.getUser(p);
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (p != target) {
+                    User users = userManager.getUser(p);
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            u.getLocale().getConfig().getString("new_player")).replace("<name>", target.getName()));
+                            users.getLocale().getConfig().getString("players.join.new_player")).replace("<name>", target.getName()));
                 }
             }
             userManager.createUser(target);
@@ -40,6 +41,16 @@ public class PlayerJoinListener implements Listener {
         if (!u.getName().equals(target.getName())) {
             u.setName(target.getName());
             userManager.updateUser(u);
+        }
+
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            User users = userManager.getUser(p);
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    users.getLocale().getConfig().getString("players.join.broadcast")).replace("<name>", target.getName()));
+        }
+
+        for (String s : u.getLocale().getConfig().getStringList("players.join.motd")){
+            target.sendMessage(ChatColor.translateAlternateColorCodes('&', s).replace("<name>", target.getName()));
         }
     }
 }

@@ -4,6 +4,7 @@ import me.hardstyl3r.toolsies.commands.kitCommand;
 import me.hardstyl3r.toolsies.commands.localeCommand;
 import me.hardstyl3r.toolsies.commands.toolsiesCommand;
 import me.hardstyl3r.toolsies.listeners.PlayerJoinListener;
+import me.hardstyl3r.toolsies.listeners.PlayerQuitListener;
 import me.hardstyl3r.toolsies.managers.ConfigManager;
 import me.hardstyl3r.toolsies.managers.KitManager;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
@@ -49,6 +50,7 @@ public class Toolsies extends JavaPlugin {
 
     private void initListeners() {
         new PlayerJoinListener(this, userManager);
+        new PlayerQuitListener(this, userManager);
     }
 
     public static Toolsies getInstance() {
