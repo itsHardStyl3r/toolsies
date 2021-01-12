@@ -32,6 +32,7 @@ public class KitManager {
     }
 
     public void giveKit(Player p, String kit) {
+        kit = kit.toLowerCase();
         for (String kitMaterial : getConfig().getConfigurationSection("kits." + kit + ".items").getKeys(false)) {
             Material material = Material.matchMaterial(kitMaterial);
             if (material == null) {
