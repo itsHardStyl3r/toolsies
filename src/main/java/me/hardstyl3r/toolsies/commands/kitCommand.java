@@ -9,11 +9,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
-public class kitCommand implements CommandExecutor {
+public class kitCommand implements CommandExecutor, TabCompleter {
 
     private final KitManager kitManager;
     private final UserManager userManager;
@@ -92,5 +96,33 @@ public class kitCommand implements CommandExecutor {
                     u.getLocale().getConfig().getString("kit.available_kits")).replace("<kits>", all.toString()));
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!sender.hasPermission("toolsies.kit")) {
+            return Collections.emptyList();
+        }
+        List<String> allarguments = new ArrayList<>(kitManager.getKits(sender));
+        if (args.length == 1) {
+            ArrayList<String> firstargument = new ArrayList<>();
+            if (!args[0].isEmpty()) {
+                for (String arg : allarguments) {
+                    if (arg.toLowerCase().startsWith(args[0].toLowerCase())) {
+                        firstargument.add(arg);
+                    }
+                }
+            } else {
+                return allarguments;
+            }
+            return firstargument;
+        }
+        if(args.length == 2){
+            if(!sender.hasPermission("toolsies.kits.others")){
+                return Collections.emptyList();
+            }
+            return null;
+        }
+        return Collections.emptyList();
     }
 }
