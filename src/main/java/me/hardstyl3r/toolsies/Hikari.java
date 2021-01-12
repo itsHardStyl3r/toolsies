@@ -2,7 +2,6 @@ package me.hardstyl3r.toolsies;
 
 import com.zaxxer.hikari.HikariDataSource;
 import me.hardstyl3r.toolsies.managers.ConfigManager;
-import me.hardstyl3r.toolsies.managers.UserManager;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.sql.Connection;
@@ -40,7 +39,7 @@ public class Hikari {
         Connection connection = null;
         PreparedStatement p = null;
 
-        String players = "CREATE TABLE IF NOT EXISTS `users` (`uuid` VARCHAR(36) NOT NULL, `name` VARCHAR(16) NOT NULL)";
+        String players = "CREATE TABLE IF NOT EXISTS `users` (`uuid` VARCHAR(36) NOT NULL, `name` VARCHAR(16) NOT NULL, `locale` VARCHAR(5))";
         try {
             connection = hikari.getConnection();
             p = connection.prepareStatement(players);

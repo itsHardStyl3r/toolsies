@@ -1,0 +1,15 @@
+config:
+  name: 'Polski'
+  aliases:
+    # 'pl' <- this is already the ID
+    - 'polish'
+    - 'poland'
+    - 'polska'
+
+no_permission: "&4Nie masz do tego uprawnień. &8(<permission>)"
+
+locale:
+  unknown_locale: "&c# &7Język <name> nie istnieje."
+  changed_own: "&a# &7Twój język został zmieniony na <name>."
+  current_locale: "&e# &7Twój obecny język to <name>."
+  available_locales: "&e# &7Dostępne języki to: <locales>.\n  By zmienić język, wpisz /locale <język>."

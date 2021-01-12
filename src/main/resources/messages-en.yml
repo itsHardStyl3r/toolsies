@@ -1,0 +1,18 @@
+config:
+  name: 'English'
+  aliases:
+    # 'en' <- this is already the ID
+    - 'england'
+    - 'angielski'
+    - 'british'
+    - 'american'
+    - 'ang'
+    - 'eng'
+
+no_permission: "&4You don't have permission to do this. &8(<permission>)"
+
+locale:
+  unknown_locale: "&c# &7Locale <name> does not exist."
+  changed_own: "&a# &7Your locale has been changed to <name>."
+  current_locale: "&e# &7Your current locale is <name>."
+  available_locales: "&e# &7Available languages: <locales>.\n  In order to change your locale, use /locale <locale>."

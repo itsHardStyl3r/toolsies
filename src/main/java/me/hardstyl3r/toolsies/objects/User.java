@@ -8,6 +8,7 @@ public class User {
 
     private final UUID uuid;
     private String name;
+    private Locale locale;
 
     public User(String name, UUID uuid) {
         this.name = name;
@@ -29,5 +30,13 @@ public class User {
 
     public void setName(String s) {
         this.name = s;
+    }
+
+    public Locale getLocale(){
+        return this.locale;
+    }
+
+    public void setLocale(Locale l){
+        this.locale = l;
     }
 }

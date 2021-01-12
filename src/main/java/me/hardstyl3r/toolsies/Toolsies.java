@@ -1,10 +1,12 @@
 package me.hardstyl3r.toolsies;
 
 import me.hardstyl3r.toolsies.commands.kitCommand;
+import me.hardstyl3r.toolsies.commands.localeCommand;
 import me.hardstyl3r.toolsies.commands.toolsiesCommand;
 import me.hardstyl3r.toolsies.listeners.PlayerJoinListener;
 import me.hardstyl3r.toolsies.managers.ConfigManager;
 import me.hardstyl3r.toolsies.managers.KitManager;
+import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,6 +16,7 @@ public class Toolsies extends JavaPlugin {
     public UserManager userManager;
     public ConfigManager configManager;
     public KitManager kitManager;
+    public LocaleManager localeManager;
 
     @Override
     public void onEnable() {
@@ -33,13 +36,15 @@ public class Toolsies extends JavaPlugin {
     private void initManagers() {
         configManager = new ConfigManager();
         new Hikari(configManager);
-        userManager = new UserManager();
+        localeManager = new LocaleManager(configManager);
+        userManager = new UserManager(configManager, localeManager);
         kitManager = new KitManager(configManager);
     }
 
     private void initCommands() {
         new toolsiesCommand(this, userManager, configManager);
         new kitCommand(this, kitManager);
+        new localeCommand(this, userManager, localeManager);
     }
 
     private void initListeners() {

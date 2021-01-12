@@ -1,3 +1,4 @@
+# toolsies-0.1-ALPHA config
 #                                            #
 #              DATABASE SECTION              #
 #                                            #
@@ -9,3 +10,26 @@ database:
   port: 3306
   user:
   password:
+
+#                                            #
+#              DEFAULT SECTION               #
+#                                            #
+#
+# this is unified section for the default values.
+#
+
+default:
+  locale: 'pl'
+
+#                                            #
+#               LOCALE SECTION               #
+#                                            #
+#
+# `locales` accepts the ID of locales, which is
+# the value after the dash in .jar root
+#
+# non-existent languages will not cause a crash
+# but empty list will.
+locales:
+  - 'pl'
+  - 'en'

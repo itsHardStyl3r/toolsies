@@ -22,7 +22,12 @@ public class ConfigManager {
     private FileConfiguration config;
 
     public YamlConfiguration loadConfig(String file) {
-        File configFile = new File(getPath() + file + ".yml");
+        return loadConfig(file, "");
+    }
+
+    public YamlConfiguration loadConfig(String file, String to) {
+        if (!to.equals("")) to = to + File.separator;
+        File configFile = new File(getPath() + to + file + ".yml");
         if (!configFile.exists()) {
             try {
                 configFile.getParentFile().mkdirs();
