@@ -1,14 +1,3 @@
-config:
-  name: 'English'
-  aliases:
-    # 'en' <- this is already the ID
-    - 'england'
-    - 'angielski'
-    - 'british'
-    - 'american'
-    - 'ang'
-    - 'eng'
-
 no_permission: "&4You don't have permission to do this. &8(<permission>)"
 new_player: "&dPlayer <name> joined the server for the first time!"
 
@@ -22,3 +11,14 @@ kit:
   unknown_kit: "&c# &7Kit <name> does not exist."
   kit_applied: "&a# &7Applied kit <name>."
   available_kits: "&e# &7Available kits: <kits>."
+
+config:
+  name: 'English'
+  aliases:
+    # 'en' <- this is already the ID
+    - 'england'
+    - 'angielski'
+    - 'british'
+    - 'american'
+    - 'ang'
+    - 'eng'
