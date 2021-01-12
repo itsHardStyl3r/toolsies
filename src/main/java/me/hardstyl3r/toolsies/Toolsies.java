@@ -43,7 +43,7 @@ public class Toolsies extends JavaPlugin {
 
     private void initCommands() {
         new toolsiesCommand(this, userManager);
-        new kitCommand(this, kitManager);
+        new kitCommand(this, userManager, kitManager);
         new localeCommand(this, userManager, localeManager);
     }
 

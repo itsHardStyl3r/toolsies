@@ -7,9 +7,15 @@ config:
     - 'polska'
 
 no_permission: "&4Nie masz do tego uprawnień. &8(<permission>)"
+new_player: "&dGracz <name> po raz pierwszy dołączył na serwer!"
 
 locale:
   unknown_locale: "&c# &7Język <name> nie istnieje."
   changed_own: "&a# &7Twój język został zmieniony na <name>."
   current_locale: "&e# &7Twój obecny język to <name>."
   available_locales: "&e# &7Dostępne języki to: <locales>.\n  By zmienić język, wpisz /locale <język>."
+
+kit:
+  unknown_kit: "&c# &7Kit <name> nie istnieje."
+  kit_applied: "&a# &7Przyznano kit <name>."
+  available_kits: "&e# &7Dostępne kity: <kits>."
