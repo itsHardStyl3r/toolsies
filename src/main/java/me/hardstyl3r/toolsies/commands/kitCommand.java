@@ -18,6 +18,10 @@ public class kitCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if(!(sender instanceof Player)){
+            sender.sendMessage("This command does not work in console.");
+            return true;
+        }
         if (!sender.hasPermission("toolsies.kit")) {
             sender.sendMessage("You don't have permission to do this.");
             return true;
