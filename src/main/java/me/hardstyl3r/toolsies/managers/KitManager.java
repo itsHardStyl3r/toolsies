@@ -59,6 +59,7 @@ public class KitManager {
             if (name != null) {
                 im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
             }
+            item.setItemMeta(im);
             p.getInventory().addItem(item);
         }
     }
