@@ -9,9 +9,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public class localeCommand implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public class localeCommand implements CommandExecutor, TabCompleter {
 
     private final UserManager userManager;
     private final LocaleManager localeManager;
@@ -50,5 +56,27 @@ public class localeCommand implements CommandExecutor {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', u.getLocale().getConfig().getString("locale.available_locales")).replace("<locales>", localeManager.getLocales().toString()));
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!sender.hasPermission("toolsies.locale")) {
+            return Collections.emptyList();
+        }
+        List<String> allarguments = localeManager.getLocales();
+        if (args.length == 1) {
+            ArrayList<String> firstargument = new ArrayList<>();
+            if (!args[0].isEmpty()) {
+                for (String arg : allarguments) {
+                    if (arg.toLowerCase().startsWith(args[0].toLowerCase())) {
+                        firstargument.add(arg);
+                    }
+                }
+            } else {
+                return allarguments;
+            }
+            return firstargument;
+        }
+        return Collections.emptyList();
     }
 }
