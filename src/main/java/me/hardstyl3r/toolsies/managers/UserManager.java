@@ -2,6 +2,7 @@ package me.hardstyl3r.toolsies.managers;
 
 import me.hardstyl3r.toolsies.Hikari;
 import me.hardstyl3r.toolsies.objects.User;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -9,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class UserManager {
@@ -30,6 +30,10 @@ public class UserManager {
 
     public User getUser(Player player) {
         return getUser(player.getUniqueId());
+    }
+
+    public User getUser(CommandSender sender){
+        return getUser(sender.getName());
     }
 
     public boolean hasPlayedBefore(Player p) {
