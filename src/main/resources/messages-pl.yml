@@ -7,7 +7,6 @@ locale:
   available_locales: "&e# &7Dostępne języki to: <locales>.\n  By zmienić język, wpisz /locale <język>."
 
 kit:
-  unknown_kit: "&c# &7Kit <name> nie istnieje."
   kit_applied: "&a# &7Przyznano kit <name>."
   available_kits: "&e# &7Dostępne kity: <kits>."
   no_kits_available: "&e# &7Nie ma żadnych dostępnych kitów."

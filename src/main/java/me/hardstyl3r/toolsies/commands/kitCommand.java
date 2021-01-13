@@ -40,11 +40,12 @@ public class kitCommand implements CommandExecutor, TabCompleter {
                     u.getLocale().getConfig().getString("no_permission")).replace("<permission>", "toolsies.kit"));
             return true;
         }
+        Set<String> kits = kitManager.getKits(sender);
         if (args.length >= 1 && args.length <= 2) {
             String kit = args[0];
             if (!kitManager.isKit(kit) || !sender.hasPermission("toolsies.kits." + kit.toLowerCase())) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        u.getLocale().getConfig().getString("kit.unknown_kit")).replace("<name>", kit));
+                        u.getLocale().getConfig().getString("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits"))).replace("<kits>", kits.toString()));
                 return true;
             }
             Player target = (Player) sender;
@@ -73,9 +74,8 @@ public class kitCommand implements CommandExecutor, TabCompleter {
                     u.getLocale().getConfig().getString("kit." + (sender == target ? "kit_applied" : "gifted_kit_to_player"))).replace("<name>", kit).replace("<player>", target.getName()));
             return true;
         }
-        Set<String> all = kitManager.getKits(sender);
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                u.getLocale().getConfig().getString("kit." + (all.isEmpty() ? "no_kits_available" : "available_kits"))).replace("<kits>", all.toString()));
+                u.getLocale().getConfig().getString("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits"))).replace("<kits>", kits.toString()));
         return true;
     }
 
