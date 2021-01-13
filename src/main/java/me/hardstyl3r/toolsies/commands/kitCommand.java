@@ -42,36 +42,41 @@ public class kitCommand implements CommandExecutor, TabCompleter {
         }
         Set<String> kits = kitManager.getKits(sender);
         if (args.length >= 1 && args.length <= 2) {
-            String kit = args[0];
-            if (!kitManager.isKit(kit) || !sender.hasPermission("toolsies.kits." + kit.toLowerCase())) {
+            String kit = args[0].toLowerCase();
+            if (!kitManager.isKit(kit) || !sender.hasPermission("toolsies.kits." + kit)) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         u.getLocale().getConfig().getString("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits"))).replace("<kits>", kits.toString()));
                 return true;
             }
             Player target = (Player) sender;
             if (args.length == 2) {
-                if (sender.hasPermission("toolsies.kits.others")) {
+                if(sender.hasPermission("toolsies.kits.others")) {
                     target = Bukkit.getPlayerExact(args[1]);
                     if (target == null) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                                 u.getLocale().getConfig().getString("players.unknown")).replace("<name>", args[1]));
                         return true;
                     }
-                    if (!sender.hasPermission("toolsies.kits.others.bypass")) {
+                    if (!sender.hasPermission("toolsies.kits.others-bypass")) {
                         if (!target.hasPermission("toolsies.kits." + kit) || !sender.hasPermission("toolsies.kits.others." + kit)) {
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                    u.getLocale().getConfig().getString("kit.cant_gift_to_that_player")).replace("<name>", kit).replace("<player>", target.getName()));
+                                    u.getLocale().getConfig().getString("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits"))).replace("<kits>", kits.toString()));
                             return true;
                         }
                     }
-                    User utarget = userManager.getUser(target);
-                    target.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            utarget.getLocale().getConfig().getString("kit.player_gifted")).replace("<name>", kit).replace("<admin>", sender.getName()));
                 }
             }
             kitManager.giveKit(target, kit);
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    u.getLocale().getConfig().getString("kit." + (sender == target ? "kit_applied" : "gifted_kit_to_player"))).replace("<name>", kit).replace("<player>", target.getName()));
+            User utarget = userManager.getUser(target);
+            if(sender == target){
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        u.getLocale().getConfig().getString("kit.kit_applied")).replace("<name>", kit));
+            } else {
+                target.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        utarget.getLocale().getConfig().getString("kit.player_gifted")).replace("<name>", kit).replace("<admin>", sender.getName()));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        u.getLocale().getConfig().getString("kit.gifted_kit_to_player")).replace("<name>", kit).replace("<player>", target.getName()));
+            }
             return true;
         }
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',

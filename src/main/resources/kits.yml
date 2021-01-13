@@ -6,6 +6,14 @@
 # items (Materials), add some number after the dash.
 # The number won't matter.
 #
+# In order to receive the kit, sender needs `toolsies.kit.<kit>`.
+#
+# The kits can be gifted if sender can receive a kit on their own
+# and has permissions
+# `toolsies.kits.others` and `toolsies.kits.others.<kit>`.
+# The target needs to have permissions allowing them to
+# receive the kit.
+#
 kits:
   start:
     # The default kit will add one Diamond Sword and
