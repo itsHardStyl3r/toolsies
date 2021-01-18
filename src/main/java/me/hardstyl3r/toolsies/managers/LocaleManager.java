@@ -44,7 +44,7 @@ public class LocaleManager {
     public Locale getLocale(String s) {
         s = s.toLowerCase();
         for (Locale l : locales.values()) {
-            if (l.getId().equalsIgnoreCase(s) || l.getAliases().contains(s)) {
+            if (l.getId().equalsIgnoreCase(s) || l.getAliases().contains(s) || s.equalsIgnoreCase(l.getName())) {
                 return l;
             }
         }
