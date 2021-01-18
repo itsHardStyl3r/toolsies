@@ -31,3 +31,33 @@ kits:
       COOKED_BEEF-1:
         amount: 32
         name: "&aKit Start 2"
+  vip:
+    items:
+      DIAMOND_CHESTPLATE:
+        amount: 1
+        name: "&bKit VIP"
+        lore:
+          - "&e<name>"
+          - "&e<date>"
+  svip:
+    items:
+      DIAMOND_LEGGINGS:
+        amount: 1
+        name: "&dKit SVIP"
+        lore:
+          - "&e<name>"
+          - "&e<date>"
+  admin:
+    items:
+      LEATHER:
+        amount: 1
+        name: "&aKit Admin"
+        lore:
+          - "&e<name>"
+          - "&e<date>"
+      COMPASS:
+        amount: 1
+        name: "&aKit Admin"
+      STRING:
+        amount: 1
+        name: "&aKit Admin"

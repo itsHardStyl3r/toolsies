@@ -2,6 +2,7 @@ package me.hardstyl3r.toolsies.objects;
 
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.UUID;
 
 public class User {
@@ -9,6 +10,7 @@ public class User {
     private final UUID uuid;
     private String name;
     private Locale locale;
+    private List<String> groups;
 
     public User(String name, UUID uuid) {
         this.name = name;
@@ -38,5 +40,21 @@ public class User {
 
     public void setLocale(Locale l){
         this.locale = l;
+    }
+
+    public List<String> getGroups(){
+        return groups;
+    }
+
+    public void setGroups(List<String> l){
+        this.groups = l;
+    }
+
+    /**
+     * HAXX
+     * This should respect priorities.
+     */
+    public String getMainGroup(){
+        return getGroups().get(getGroups().size() - 1);
     }
 }

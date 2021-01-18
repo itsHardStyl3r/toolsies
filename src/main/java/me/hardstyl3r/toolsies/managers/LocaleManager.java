@@ -11,9 +11,11 @@ import java.util.List;
 public class LocaleManager {
 
     private final ConfigManager configManager;
+    private final FileConfiguration config;
 
     public LocaleManager(ConfigManager configManager) {
         this.configManager = configManager;
+        config = configManager.loadConfig("messages");
         loadLocales();
     }
 
@@ -33,6 +35,10 @@ public class LocaleManager {
                 System.out.println("Could not find messages-" + s + ".");
             }
         }
+    }
+
+    public FileConfiguration getConfig(){
+        return config;
     }
 
     public Locale getLocale(String s) {

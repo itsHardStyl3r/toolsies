@@ -9,8 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 public class UserManager {
 
@@ -63,6 +62,7 @@ public class UserManager {
             while (rs.next()) {
                 User user = new User(rs.getString("name"), UUID.fromString(rs.getString("uuid")));
                 user.setLocale(localeManager.getLocale(rs.getString("locale")));
+                user.setGroups(new ArrayList<>(Arrays.asList(rs.getString("groups").split(","))));
                 users.put(user.getUUID(), user);
                 System.out.println("UserManager.loadUsers(): Found and set up user " + user.getName() + " (" + user.getUUID() + "). Result? " + users.containsKey(user.getUUID()) + " (expected: true)");
             }
@@ -89,17 +89,20 @@ public class UserManager {
     public void createUser(Player player) {
         Connection connection = null;
         PreparedStatement p = null;
-        String update = "INSERT INTO `users` VALUES(?, ?, ?)";
+        String update = "INSERT INTO `users` VALUES(?, ?, ?, ?)";
         try {
             connection = Hikari.getHikari().getConnection();
             User user = new User(player);
             p = connection.prepareStatement(update);
             String locale = configManager.getConfig().getString("default.locale");
+            String group = configManager.getConfig().getString("default.group");
             p.setString(1, player.getUniqueId().toString());
             p.setString(2, player.getName());
             p.setString(3, locale);
+            p.setString(4, group);
             p.execute();
             user.setLocale(localeManager.getLocale(locale));
+            user.setGroups(Collections.singletonList(group));
             users.put(player.getUniqueId(), user);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -125,13 +128,14 @@ public class UserManager {
         Connection connection = null;
         PreparedStatement p = null;
 
-        String update = "UPDATE `users` SET `name`=?, `locale`=? WHERE `uuid`=?";
+        String update = "UPDATE `users` SET `name`=?, `locale`=?, `groups`=? WHERE `uuid`=?";
         try {
             connection = Hikari.getHikari().getConnection();
             p = connection.prepareStatement(update);
             p.setString(1, u.getName());
             p.setString(2, u.getLocale().getId());
-            p.setString(3, u.getUUID().toString());
+            p.setString(3, u.getGroups().toString().replace("[", "").replace("]","").replace(" ", ""));
+            p.setString(4, u.getUUID().toString());
             p.execute();
             System.out.println("UserManager.updateUser(): Updating user " + u.getName() + " (" + u.getUUID() + ").");
         } catch (SQLException e) {
@@ -153,4 +157,6 @@ public class UserManager {
             }
         }
     }
+
+
 }

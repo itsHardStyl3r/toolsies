@@ -1,6 +1,7 @@
 package me.hardstyl3r.toolsies.listeners;
 
 import me.hardstyl3r.toolsies.Toolsies;
+import me.hardstyl3r.toolsies.managers.PermissionsManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.User;
 import org.bukkit.Bukkit;
@@ -13,9 +14,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class PlayerJoinListener implements Listener {
 
     private final UserManager userManager;
+    private final PermissionsManager permissionsManager;
 
-    public PlayerJoinListener(Toolsies plugin, UserManager userManager) {
+    public PlayerJoinListener(Toolsies plugin, UserManager userManager, PermissionsManager permissionsManager) {
         this.userManager = userManager;
+        this.permissionsManager = permissionsManager;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -52,5 +55,6 @@ public class PlayerJoinListener implements Listener {
         for (String s : u.getLocale().getConfig().getStringList("players.join.motd")){
             target.sendMessage(ChatColor.translateAlternateColorCodes('&', s).replace("<name>", target.getName()));
         }
+        permissionsManager.startPermissions(target, u);
     }
 }

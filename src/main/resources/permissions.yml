@@ -1,0 +1,48 @@
+#                                            #
+#             PERMISSIONS SECTION            #
+#                                            #
+# `groups` sections contains the name of the group.
+# To change the display name, check messages.yml.
+#
+# Users can have multiple groups.
+#
+# TO-DO: The group with highest priority is the main one.
+# Currently: Hax: Main group is the last one in order.
+groups:
+  player:
+    permissions:
+      - 'toolsies.group'
+      - 'toolsies.kit'
+      - 'toolsies.kits.start'
+      - 'toolsies.locale'
+  # priority: 1
+  vip:
+    permissions:
+      - 'toolsies.kits.vip'
+      - 'toolsies.chat.color'
+    inherits:
+      - 'player'
+  # priority: 2
+  svip:
+    permissions:
+      - '-toolsies.kits.vip'
+      - 'toolsies.kits.svip'
+      - 'toolsies.chat.color'
+    inherits:
+      - 'player'
+      - 'vip'
+  # priority: 3
+  admin:
+    permissions:
+      - 'toolsies.group.list'
+      - 'toolsies.group.set'
+      - 'toolsies.group.add'
+      - 'toolsies.group.remove'
+      - 'toolsies.kits.admin'
+      - 'toolsies.kits.others'
+      - 'toolsies.kits.others-bypass'
+    inherits:
+      - 'player'
+      - 'vip'
+      - 'svip'
+  # priority: 4

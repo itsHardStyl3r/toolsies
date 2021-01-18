@@ -1,6 +1,7 @@
 package me.hardstyl3r.toolsies.listeners;
 
 import me.hardstyl3r.toolsies.Toolsies;
+import me.hardstyl3r.toolsies.managers.PermissionsManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.User;
 import org.bukkit.Bukkit;
@@ -13,9 +14,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class PlayerQuitListener implements Listener {
 
     private final UserManager userManager;
+    private final PermissionsManager permissionsManager;
 
-    public PlayerQuitListener(Toolsies plugin, UserManager userManager) {
+    public PlayerQuitListener(Toolsies plugin, UserManager userManager, PermissionsManager permissionsManager) {
         this.userManager = userManager;
+        this.permissionsManager = permissionsManager;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -28,5 +31,6 @@ public class PlayerQuitListener implements Listener {
             p.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     users.getLocale().getConfig().getString("players.quit.broadcast")).replace("<name>", target.getName()));
         }
+        permissionsManager.stopPermissions(target);
     }
 }

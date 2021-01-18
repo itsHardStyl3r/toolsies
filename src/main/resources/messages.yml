@@ -1,0 +1,7 @@
+groups:
+  op-prefix: "&c<name>&f"
+  format:
+    player: "&8PLAYER&f <name>: <message>"
+    vip: "&bVIP&f <name>: <message>"
+    admin: "&aADMIN&f <name>: <message>"
+    svip: "&dSVIP&f: <name>: <message>"
