@@ -1,4 +1,11 @@
 no_permission: "&4You don't have permission to do this. &8(<permission>)"
+usage:
+  header: "&e# &7Available usages:"
+  format: "&e>   &7<usages>"
+  argument: "&e@    &7<args>"
+
+common:
+  player: "player"
 
 locale:
   unknown_locale: "&c# &7Locale <name> does not exist."
@@ -7,6 +14,9 @@ locale:
   available_locales: "&e# &7Available languages: <locales>.\n  In order to change your locale, use /locale <locale>."
 
 kit:
+  usage:
+    kit: "/kit <kit> [arg-player] - gives a kit"
+    console-kit: "/kit <kit> <player> - gives a kit"
   kit_applied: "&a# &7Applied kit <name>."
   available_kits: "&e# &7Available kits: <kits>."
   no_kits_available: "&e# &7There are no available kits."
@@ -15,8 +25,20 @@ kit:
   player_gifted: "&e# &7You have been gifted a kit <name> by <admin>."
 
 group:
-  current_group: "&e# &7Your current group is: <group>."
-  current_group_multiple: "&e# &7Your current groups are: <groups>."
+  usage:
+    group: "/group [arg-player] - checks current group"
+    group-list: "/group list - lists all groups"
+    console-group-list: "/group list - lists all groups"
+    group-set: "/group set <group> [player] - sets a group"
+    console-group-set: "/group set <group> <player> - sets a group"
+    group-remove: "/group remove <group> [player] - removes a group"
+    console-group-remove: "/group remove <group> <player> - removes a group"
+    group-add: "/group add <group> [player] - adds a group"
+    console-group-add: "/group add <group> <player> - adds a group"
+  current_group: "&e# &7Your current group: <group>."
+  current_groups: "&e# &7Your current groups: <group>."
+  current_group_sender: "&e# &7<player>'s current group: <group>."
+  current_groups_sender: "&e# &7<player>'s current groups: <group>."
   unknown_group: "&c# &7Group <name> does not exist."
   current_group_already_own: "&e# &7You already are in group <name>."
   current_group_already_sender: "&e# &7<player> is already in group <name>."

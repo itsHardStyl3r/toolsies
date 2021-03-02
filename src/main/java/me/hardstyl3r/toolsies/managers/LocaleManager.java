@@ -2,7 +2,11 @@ package me.hardstyl3r.toolsies.managers;
 
 import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.objects.Locale;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +41,7 @@ public class LocaleManager {
         }
     }
 
-    public FileConfiguration getConfig(){
+    public FileConfiguration getConfig() {
         return config;
     }
 
@@ -57,5 +61,48 @@ public class LocaleManager {
             current.add(l.getName());
         }
         return current;
+    }
+
+    public Locale getDefault() {
+        return getLocale(configManager.getConfig().getString("default.locale"));
+    }
+
+    public void sendUsage(CommandSender sender, Command cmd, Locale locale) {
+        String command = cmd.getName();
+        FileConfiguration config = locale.getConfig();
+        if (!(sender instanceof Player)) {
+            for (String s : config.getConfigurationSection(command + ".usage").getKeys(false)) {
+                if (s.startsWith("console-")) {
+                    sender.sendMessage(config.getString(command + ".usage." + s));
+                }
+            }
+            return;
+        }
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString(command + ".usage.header") == null ? config.getString("usage.header") : config.getString(command + ".usage.header")));
+        String style = (config.getString(command + ".usage.style") == null ? config.getString("usage.format") : config.getString(command + ".usage.style"));
+        String arg = (config.getString(command + ".usage.argument") == null ? config.getString("usage.argument") : config.getString(command + ".usage.argument"));
+        for (String s : config.getConfigurationSection(command + ".usage").getKeys(false)) {
+            if (!s.startsWith("console-") && !s.equals("header") && !s.equals("style")) {
+                if (!s.startsWith("arg")) {
+                    String permission = "toolsies." + s.replace("-", ".").replaceAll("\\d", "");
+                    if (sender.hasPermission(permission)) {
+                        System.out.println("Command: Checking for permission: toolsies." + s.replace("-", "."));
+                        String usage = config.getString(command + ".usage." + s);
+                        if (sender.hasPermission(permission + ".others")) {
+                            usage = usage.replace("arg-player", config.getString("common.player"));
+                        } else {
+                            usage = usage.replace("[arg-player] ", "").replace("<arg-player> ", "");
+                        }
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', style.replace("<usages>", usage)));
+                    }
+                } else {
+                    String val = s.replace("-", ".").replace("arg", "").replaceAll("\\d", "");
+                    if (sender.hasPermission("toolsies." + (val.isEmpty() ? command : val))) {
+                        System.out.println("Command: Checking for permission: toolsies." + (val.isEmpty() ? command : val));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', arg.replace("<args>", config.getString(command + ".usage." + s))));
+                    }
+                }
+            }
+        }
     }
 }

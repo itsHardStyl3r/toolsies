@@ -13,7 +13,6 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,30 +29,35 @@ public class localeCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if(!(sender instanceof Player)){
-            sender.sendMessage("This command does not work in console.");
-            return true;
+        Locale l = localeManager.getDefault();
+        if (sender instanceof Player) {
+            l = userManager.getUser(sender).getLocale();
+        } else {
+            if(args.length == 1){
+                localeManager.sendUsage(sender, cmd, l);
+                return true;
+            }
         }
-        User u = userManager.getUser(sender);
         if (!sender.hasPermission("toolsies.locale")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', u.getLocale().getConfig().getString("no_permission")).replace("<permission>", "toolsies.locale"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.locale"));
             return true;
         }
         if(args.length == 1){
             if(localeManager.getLocale(args[0]) == null){
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', u.getLocale().getConfig().getString("locale.unknown_locale")).replace("<name>", args[0]));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("locale.unknown_locale")).replace("<name>", args[0]));
                 return true;
             }
-            Locale l = localeManager.getLocale(args[0]);
-            if(u.getLocale().equals(l)){
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', u.getLocale().getConfig().getString("locale.current_locale")).replace("<name>", l.getName()));
+            Locale locale = localeManager.getLocale(args[0]);
+            if(l.equals(locale)){
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("locale.current_locale")).replace("<name>", locale.getName()));
                 return true;
             }
-            u.setLocale(l);
+            User u = userManager.getUser(sender);
+            u.setLocale(locale);
             userManager.updateUser(u);
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("locale.changed_own")).replace("<name>", l.getName()));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', locale.getConfig().getString("locale.changed_own")).replace("<name>", locale.getName()));
         } else {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', u.getLocale().getConfig().getString("locale.available_locales")).replace("<locales>", localeManager.getLocales().toString()));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("locale.available_locales")).replace("<locales>", localeManager.getLocales().toString()));
         }
         return true;
     }
