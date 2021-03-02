@@ -52,7 +52,7 @@ public class PlayerJoinListener implements Listener {
                     users.getLocale().getConfig().getString("players.join.broadcast")).replace("<name>", target.getName()));
         }
 
-        for (String s : u.getLocale().getConfig().getStringList("players.join.motd")){
+        for (String s : u.getLocale().getConfig().getStringList("players.join.motd")) {
             target.sendMessage(ChatColor.translateAlternateColorCodes('&', s).replace("<name>", target.getName()));
         }
         permissionsManager.startPermissions(target, u);

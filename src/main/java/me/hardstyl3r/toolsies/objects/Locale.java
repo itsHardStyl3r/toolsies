@@ -11,7 +11,7 @@ public class Locale {
     private List<String> aliases;
     private String name;
 
-    public Locale(String id, FileConfiguration config){
+    public Locale(String id, FileConfiguration config) {
         this.id = id;
         this.config = config;
     }
@@ -24,15 +24,15 @@ public class Locale {
         return config;
     }
 
-    public void setAliases(List<String> l){
+    public void setAliases(List<String> l) {
         this.aliases = l;
     }
 
-    public List<String> getAliases(){
+    public List<String> getAliases() {
         return aliases;
     }
 
-    public void setName(String s){
+    public void setName(String s) {
         this.name = s;
     }
 
@@ -40,7 +40,7 @@ public class Locale {
         return name;
     }
 
-    public String toString(){
+    public String toString() {
         return getName();
     }
 }

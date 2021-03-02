@@ -23,7 +23,7 @@ public class PlayerQuitListener implements Listener {
     }
 
     @EventHandler
-    public void onQuit(PlayerQuitEvent e){
+    public void onQuit(PlayerQuitEvent e) {
         e.setQuitMessage("");
         Player target = e.getPlayer();
         for (Player p : Bukkit.getOnlinePlayers()) {

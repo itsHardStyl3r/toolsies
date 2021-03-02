@@ -33,7 +33,7 @@ public class localeCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player) {
             l = userManager.getUser(sender).getLocale();
         } else {
-            if(args.length == 1){
+            if (args.length == 1) {
                 localeManager.sendUsage(sender, cmd, l);
                 return true;
             }
@@ -42,13 +42,13 @@ public class localeCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.locale"));
             return true;
         }
-        if(args.length == 1){
-            if(localeManager.getLocale(args[0]) == null){
+        if (args.length == 1) {
+            if (localeManager.getLocale(args[0]) == null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("locale.unknown_locale")).replace("<name>", args[0]));
                 return true;
             }
             Locale locale = localeManager.getLocale(args[0]);
-            if(l.equals(locale)){
+            if (l.equals(locale)) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("locale.current_locale")).replace("<name>", locale.getName()));
                 return true;
             }

@@ -66,7 +66,7 @@ public class PermissionsManager {
             setPermissionsFromGroup(attachment, group);
         }
         System.out.println("DUMP OF PERMISSIONS - START");
-        for(String s : attachment.getPermissions().keySet()){
+        for (String s : attachment.getPermissions().keySet()) {
             System.out.println(s + " = " + attachment.getPermissions().get(s).toString());
         }
         System.out.println("DUMP OF PERMISSIONS - END");

@@ -34,19 +34,19 @@ public class User {
         this.name = s;
     }
 
-    public Locale getLocale(){
+    public Locale getLocale() {
         return this.locale;
     }
 
-    public void setLocale(Locale l){
+    public void setLocale(Locale l) {
         this.locale = l;
     }
 
-    public List<String> getGroups(){
+    public List<String> getGroups() {
         return groups;
     }
 
-    public void setGroups(List<String> l){
+    public void setGroups(List<String> l) {
         this.groups = l;
     }
 
@@ -54,7 +54,7 @@ public class User {
      * HAXX
      * This should respect priorities.
      */
-    public String getMainGroup(){
+    public String getMainGroup() {
         return getGroups().get(getGroups().size() - 1);
     }
 }

@@ -36,7 +36,7 @@ public class UserManager {
         return getUser(player.getUniqueId());
     }
 
-    public User getUser(CommandSender sender){
+    public User getUser(CommandSender sender) {
         return getUser(sender.getName());
     }
 
@@ -134,7 +134,7 @@ public class UserManager {
             p = connection.prepareStatement(update);
             p.setString(1, u.getName());
             p.setString(2, u.getLocale().getId());
-            p.setString(3, u.getGroups().toString().replace("[", "").replace("]","").replace(" ", ""));
+            p.setString(3, u.getGroups().toString().replace("[", "").replace("]", "").replace(" ", ""));
             p.setString(4, u.getUUID().toString());
             p.execute();
             System.out.println("UserManager.updateUser(): Updating user " + u.getName() + " (" + u.getUUID() + ").");

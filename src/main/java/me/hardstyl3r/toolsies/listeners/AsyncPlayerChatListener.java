@@ -21,16 +21,16 @@ public class AsyncPlayerChatListener implements Listener {
     }
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent e){
+    public void onChat(AsyncPlayerChatEvent e) {
         User u = userManager.getUser(e.getPlayer());
-        if(e.getPlayer().hasPermission("toolsies.chat.color")){
+        if (e.getPlayer().hasPermission("toolsies.chat.color")) {
             e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
         }
         String format = localeManager.getConfig().getString("groups.format." + u.getMainGroup());
-        if(e.getPlayer().isOp()){
+        if (e.getPlayer().isOp()) {
             format = format.replace("<name>", localeManager.getConfig().getString("groups.op-prefix"));
         }
-        if(format == null){
+        if (format == null) {
             e.setFormat("[" + u.getMainGroup() + "] " + e.getFormat());
         } else {
             e.setFormat(ChatColor.translateAlternateColorCodes('&', format)

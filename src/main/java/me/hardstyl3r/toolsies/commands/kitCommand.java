@@ -38,7 +38,7 @@ public class kitCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player) {
             l = userManager.getUser(sender).getLocale();
         } else {
-            if(args.length != 2){
+            if (args.length != 2) {
                 localeManager.sendUsage(sender, cmd, l);
                 return true;
             }
@@ -49,7 +49,7 @@ public class kitCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         Set<String> kits = kitManager.getKits(sender);
-        if(args.length == 0){
+        if (args.length == 0) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     l.getConfig().getString("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits"))).replace("<kits>", kits.toString()));
         } else if (args.length >= 1 && args.length <= 2) {
@@ -61,7 +61,7 @@ public class kitCommand implements CommandExecutor, TabCompleter {
             }
             Player target = (Player) sender;
             if (args.length == 2) {
-                if(sender.hasPermission("toolsies.kits.others")) {
+                if (sender.hasPermission("toolsies.kits.others")) {
                     target = Bukkit.getPlayerExact(args[1]);
                     if (target == null) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
@@ -79,7 +79,7 @@ public class kitCommand implements CommandExecutor, TabCompleter {
             }
             kitManager.giveKit(target, kit);
             User utarget = userManager.getUser(target);
-            if(sender == target){
+            if (sender == target) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         l.getConfig().getString("kit.kit_applied")).replace("<name>", kit));
             } else {
