@@ -7,7 +7,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class PermissionsManager {
 
@@ -147,7 +150,7 @@ public class PermissionsManager {
     Not the nicest way, but quickest.
      */
     public String listGroups(List<Group> groups) {
-        if(groups == null) return "";
+        if (groups == null) return "";
         ArrayList<String> convert = new ArrayList<>();
         for (Group g : groups) {
             convert.add(g.getName());
