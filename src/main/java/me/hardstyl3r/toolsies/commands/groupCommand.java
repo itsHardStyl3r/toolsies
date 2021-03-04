@@ -78,7 +78,7 @@ public class groupCommand implements CommandExecutor {
                 localeManager.sendUsage(sender, cmd, l);
             }
         } else if (args.length <= 3) {
-            List<String> arguments = Arrays.asList("set", "add", "remove", "info");
+            List<String> arguments = Arrays.asList("set", "add", "remove");
             if (!arguments.contains(args[0])) {
                 localeManager.sendUsage(sender, cmd, l);
                 return true;
