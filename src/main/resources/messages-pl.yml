@@ -22,6 +22,9 @@ locale:
   available_locales: "&e# &7Dostępne języki to: <locales>.\n  By zmienić język, wpisz /locale <język>."
 
 kit:
+  usage:
+    kit: "/kit [kit] [arg-player] - przynaje lub sprawdza dostępne kity"
+    console-kit: "/kit <kit> <gracz> - przyznaje kit graczowi"
   kit_applied: "&a# &7Przyznano kit <name>."
   available_kits: "&e# &7Dostępne kity: <kits>."
   no_kits_available: "&e# &7Nie ma żadnych dostępnych kitów."

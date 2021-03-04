@@ -23,7 +23,7 @@ locale:
 
 kit:
   usage:
-    kit: "/kit <kit> [arg-player] - gives a kit"
+    kit: "/kit [kit] [arg-player] - gives or checks for available kits"
     console-kit: "/kit <kit> <player> - gives a kit"
   kit_applied: "&a# &7Applied kit <name>."
   available_kits: "&e# &7Available kits: <kits>."
