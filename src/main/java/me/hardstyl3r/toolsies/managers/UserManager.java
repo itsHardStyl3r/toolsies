@@ -16,12 +16,10 @@ import java.util.UUID;
 
 public class UserManager {
 
-    private final ConfigManager configManager;
     private final LocaleManager localeManager;
     private final PermissionsManager permissionsManager;
 
-    public UserManager(ConfigManager configManager, LocaleManager localeManager, PermissionsManager permissionsManager) {
-        this.configManager = configManager;
+    public UserManager(LocaleManager localeManager, PermissionsManager permissionsManager) {
         this.localeManager = localeManager;
         this.permissionsManager = permissionsManager;
         loadUsers();
@@ -105,13 +103,12 @@ public class UserManager {
             connection = Hikari.getHikari().getConnection();
             User user = new User(player);
             p = connection.prepareStatement(update);
-            String locale = configManager.getConfig().getString("default.locale");
             p.setString(1, player.getUniqueId().toString());
             p.setString(2, player.getName());
-            p.setString(3, locale);
+            p.setString(3, localeManager.getDefault().getId());
             p.setString(4, permissionsManager.listGroups(permissionsManager.getDefaultGroups()));
             p.execute();
-            user.setLocale(localeManager.getLocale(locale));
+            user.setLocale(localeManager.getDefault());
             user.setGroups(permissionsManager.getDefaultGroups());
             users.put(player.getUniqueId(), user);
         } catch (SQLException e) {
