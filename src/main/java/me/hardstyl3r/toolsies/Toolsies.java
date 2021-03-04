@@ -38,9 +38,9 @@ public class Toolsies extends JavaPlugin {
         configManager = new ConfigManager();
         new Hikari(configManager);
         localeManager = new LocaleManager(configManager);
-        userManager = new UserManager(configManager, localeManager);
+        permissionsManager = new PermissionsManager(configManager);
+        userManager = new UserManager(configManager, localeManager, permissionsManager);
         kitManager = new KitManager(configManager);
-        permissionsManager = new PermissionsManager(configManager, userManager);
     }
 
     private void initCommands() {

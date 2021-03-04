@@ -1,6 +1,7 @@
 package me.hardstyl3r.toolsies.managers;
 
 import me.hardstyl3r.toolsies.Hikari;
+import me.hardstyl3r.toolsies.objects.Group;
 import me.hardstyl3r.toolsies.objects.User;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -9,16 +10,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class UserManager {
 
     private final ConfigManager configManager;
     private final LocaleManager localeManager;
+    private final PermissionsManager permissionsManager;
 
-    public UserManager(ConfigManager configManager, LocaleManager localeManager) {
+    public UserManager(ConfigManager configManager, LocaleManager localeManager, PermissionsManager permissionsManager) {
         this.configManager = configManager;
         this.localeManager = localeManager;
+        this.permissionsManager = permissionsManager;
         loadUsers();
     }
 
@@ -62,7 +67,13 @@ public class UserManager {
             while (rs.next()) {
                 User user = new User(rs.getString("name"), UUID.fromString(rs.getString("uuid")));
                 user.setLocale(localeManager.getLocale(rs.getString("locale")));
-                user.setGroups(new ArrayList<>(Arrays.asList(rs.getString("groups").split(","))));
+                ArrayList<Group> groups = new ArrayList<>();
+                for (String s : rs.getString("groups").split(",")) {
+                    if (permissionsManager.getGroup(s) != null) {
+                        groups.add(permissionsManager.getGroup(s));
+                    }
+                }
+                user.setGroups(groups);
                 users.put(user.getUUID(), user);
                 System.out.println("UserManager.loadUsers(): Found and set up user " + user.getName() + " (" + user.getUUID() + "). Result? " + users.containsKey(user.getUUID()) + " (expected: true)");
             }
@@ -95,14 +106,13 @@ public class UserManager {
             User user = new User(player);
             p = connection.prepareStatement(update);
             String locale = configManager.getConfig().getString("default.locale");
-            String group = configManager.getConfig().getString("default.group");
             p.setString(1, player.getUniqueId().toString());
             p.setString(2, player.getName());
             p.setString(3, locale);
-            p.setString(4, group);
+            p.setString(4, permissionsManager.listGroups(permissionsManager.getDefaultGroups()));
             p.execute();
             user.setLocale(localeManager.getLocale(locale));
-            user.setGroups(Collections.singletonList(group));
+            user.setGroups(permissionsManager.getDefaultGroups());
             users.put(player.getUniqueId(), user);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -134,7 +144,7 @@ public class UserManager {
             p = connection.prepareStatement(update);
             p.setString(1, u.getName());
             p.setString(2, u.getLocale().getId());
-            p.setString(3, u.getGroups().toString().replace("[", "").replace("]", "").replace(" ", ""));
+            p.setString(3, permissionsManager.listGroups(u.getGroups()));
             p.setString(4, u.getUUID().toString());
             p.execute();
             System.out.println("UserManager.updateUser(): Updating user " + u.getName() + " (" + u.getUUID() + ").");
@@ -157,6 +167,4 @@ public class UserManager {
             }
         }
     }
-
-
 }

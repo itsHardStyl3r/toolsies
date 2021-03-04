@@ -1,6 +1,7 @@
 package me.hardstyl3r.toolsies.managers;
 
 import me.hardstyl3r.toolsies.Toolsies;
+import me.hardstyl3r.toolsies.objects.Group;
 import me.hardstyl3r.toolsies.objects.User;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -12,8 +13,9 @@ public class PermissionsManager {
 
     private final FileConfiguration config;
 
-    public PermissionsManager(ConfigManager configManager, UserManager userManager) {
+    public PermissionsManager(ConfigManager configManager) {
         config = configManager.loadConfig("permissions");
+        loadGroups();
     }
 
     public FileConfiguration getConfig() {
@@ -21,49 +23,98 @@ public class PermissionsManager {
     }
 
     private final HashMap<UUID, PermissionAttachment> permissions = new HashMap<>();
+    private final HashMap<String, Group> groups = new HashMap<>();
 
-    public boolean isGroup(String group) {
-        return getGroups().contains(group);
+    private void loadGroups() {
+        if (config.getConfigurationSection("groups").getKeys(false) == null) {
+            System.out.println("Could not find any groups. This is bad.");
+            return;
+        }
+        for (String name : config.getConfigurationSection("groups").getKeys(false)) {
+            Group g = new Group(name);
+            if (config.getStringList("groups." + name + ".permissions").isEmpty()) {
+                System.out.println("Group " + name + ": Could not find any permissions.");
+            }
+            g.setPermissions(config.getStringList("groups." + name + ".permissions"));
+            g.setPriority(config.getInt("groups." + name + ".priority"));
+            g.setDefault(config.getBoolean("groups." + name + ".default"));
+            groups.put(name, g);
+            System.out.println("Found and put " + (g.isDefault() ? "default " : "") + "group " + g.getName() + " (priority: " + g.getPriority() + ") with " + g.getPermissions().size() + " permissions.");
+        }
+        System.out.println("Loaded groups, heading to inherits.");
+        for (Group group : groups.values()) {
+            String name = group.getName();
+            ArrayList<Group> inherits = new ArrayList<>();
+            if (config.getStringList("groups." + name + ".inherits").isEmpty()) {
+                System.out.println("Group " + name + ": Could not find any inherits.");
+                continue;
+            }
+            for (String inherit : config.getStringList("groups." + name + ".inherits")) {
+                inherits.add(getGroup(inherit));
+                System.out.println("Group " + name + " now inherits from " + inherit);
+            }
+            group.setInherits(inherits);
+        }
     }
 
-    public Set<String> getGroups() {
-        if (config.getConfigurationSection("groups") == null) {
-            return Collections.emptySet();
-        } else {
-            return config.getConfigurationSection("groups").getKeys(false);
+    public Group getGroup(String name) {
+        return groups.get(name);
+    }
+
+    public List<String> getGroups() {
+        ArrayList<String> current = new ArrayList<>();
+        for (Group g : groups.values()) {
+            current.add(g.getName());
         }
+        return current;
     }
 
     public void startPermissions(Player p, User u) {
         if (permissions.containsKey(p.getUniqueId())) {
-            System.out.println("Found " + u.getName() + " (" + u.getUUID() + ") in `permissions`. Refreshing permissions.");
+            System.out.println("Found " + u.getName() + " in permissions. Refreshing permissions.");
             p.removeAttachment(permissions.get(p.getUniqueId()));
             stopPermissions(p);
         }
         PermissionAttachment attachment = p.addAttachment(Toolsies.getInstance());
+        System.out.println("Putting " + u.getName() + " to permissions.");
         permissions.put(p.getUniqueId(), attachment);
-        System.out.println("Put " + u.getName() + " (" + u.getUUID() + ") to `permissions`. Result: Is there? " + permissions.containsKey(p.getUniqueId()) + ". (expected: true)");
-        System.out.println("Invoking setupPermissions for " + u.getName() + " (" + u.getUUID() + ").");
+        System.out.println("Invoking setupPermissions for " + u.getName() + ".");
         setupPermissions(u);
     }
 
     public void stopPermissions(Player p) {
+        System.out.println("Removing " + p.getName() + " from playerPermissions.");
         permissions.remove(p.getUniqueId());
-        System.out.println("Removed " + p.getName() + " (" + p.getUniqueId() + ") from playerPermissions. Result: Is there? " + permissions.containsKey(p.getUniqueId()) + ". (expected: false)");
     }
 
-    public void setupPermissions(User u) {
+    public List<Group> getDefaultGroups() {
+        ArrayList<Group> newgroups = new ArrayList<>();
+        for (Group g : groups.values()) {
+            if (g.isDefault()) newgroups.add(g);
+        }
+        return newgroups;
+    }
+
+    private void setupPermissions(User u) {
         PermissionAttachment attachment = permissions.get(u.getUUID());
-        List<String> groups = u.getGroups();
-        System.out.println(u.getName() + " (" + u.getUUID() + ") is in groups: " + u.getGroups().toString() + ".");
-        for (String group : groups) {
-            if (config.getStringList("groups." + group + ".inherits") != null) {
-                for (String inherit : config.getStringList("groups." + group + ".inherits")) {
-                    System.out.println("Group " + group + " inherits from: " + inherit);
-                    setPermissionsFromGroup(attachment, inherit);
+        List<Group> groups = u.getGroups();
+        if (groups.size() == 0) {
+            groups = getDefaultGroups();
+            System.out.println("Defaulted to default groups for " + u.getName() + "! User should have a group!");
+        }
+        System.out.println(u.getName() + " (" + u.getUUID() + ") is in groups: " + listGroups(u.getGroups()) + ".");
+        for (Group g : groups) {
+            if (g.getInherits() != null) {
+                for (Group inherit : g.getInherits()) {
+                    if (!u.getGroups().contains(inherit)) {
+                        System.out.println("Group " + g.getName() + " inherits from: " + inherit.getName());
+                        setPermissionsFromGroup(attachment, inherit);
+                    } else {
+                        System.out.println("Group " + g.getName() + ": Skipped inheritance of " + inherit.getName() + ", because User is in that group.");
+                    }
                 }
             }
-            setPermissionsFromGroup(attachment, group);
+            setPermissionsFromGroup(attachment, g);
         }
         System.out.println("DUMP OF PERMISSIONS - START");
         for (String s : attachment.getPermissions().keySet()) {
@@ -72,22 +123,38 @@ public class PermissionsManager {
         System.out.println("DUMP OF PERMISSIONS - END");
     }
 
-    private void setPermissionsFromGroup(PermissionAttachment attachment, String group) {
-        System.out.println("Retrieving permissions from group " + group);
-        if (config.getStringList("groups." + group + ".permissions") != null) {
-            for (String permission : config.getStringList("groups." + group + ".permissions")) {
+    private void setPermissionsFromGroup(PermissionAttachment attachment, Group group) {
+        String name = group.getName();
+        System.out.println("Retrieving permissions from group " + name);
+        if (!group.getPermissions().isEmpty()) {
+            for (String permission : group.getPermissions()) {
                 if (attachment.getPermissions().containsKey(permission)) {
                     System.out.println("Redundant permission: " + permission + ". Skipping.");
                     continue;
                 }
-                System.out.println("setPermission(" + permission + ").");
                 if (permission.startsWith("-")) {
                     System.out.println("unsetPermission(" + permission.replace("-", "") + ").");
                     attachment.unsetPermission(permission.replace("-", ""));
                 } else {
+                    System.out.println("setPermission(" + permission + ").");
                     attachment.setPermission(permission, true);
                 }
             }
         }
+    }
+
+    /*
+    Not the nicest way, but quickest.
+     */
+    public String listGroups(List<Group> groups) {
+        if(groups == null) return "";
+        ArrayList<String> convert = new ArrayList<>();
+        for (Group g : groups) {
+            convert.add(g.getName());
+        }
+        return convert.toString()
+                .replace("[", "")
+                .replace("]", "")
+                .replace(" ", "");
     }
 }

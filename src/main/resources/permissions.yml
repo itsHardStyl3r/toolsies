@@ -2,12 +2,20 @@
 #             PERMISSIONS SECTION            #
 #                                            #
 # `groups` sections contains the name of the group.
-# To change the display name, check messages.yml.
+# Chat formatting is handled in messages.yml.
 #
 # Users can have multiple groups.
 #
-# TO-DO: The group with highest priority is the main one.
-# Currently: Hax: Main group is the last one in order.
+# There can be multiple default groups.
+#
+# Priorities of the groups are respected,
+# the group with the highest priority is considered main.
+# Non-specified priority is defaulted to 0.
+#
+# To unset a permission (e.g. when it's inherited),
+# append it with minus.
+#
+# Permissions from inherits are applied first.
 groups:
   player:
     permissions:
@@ -15,14 +23,15 @@ groups:
       - 'toolsies.kit'
       - 'toolsies.kits.start'
       - 'toolsies.locale'
-  # priority: 1
+    priority: 1
+    default: true
   vip:
     permissions:
       - 'toolsies.kits.vip'
       - 'toolsies.chat.color'
     inherits:
       - 'player'
-  # priority: 2
+    priority: 2
   svip:
     permissions:
       - '-toolsies.kits.vip'
@@ -31,18 +40,23 @@ groups:
     inherits:
       - 'player'
       - 'vip'
-  # priority: 3
+    priority: 3
+  moderator:
+    permissions:
+      - 'toolsies.kits.admin'
+      - 'toolsies.chat.color'
+    inherits:
+      - 'player'
+    priority: 4
   admin:
     permissions:
       - 'toolsies.group.list'
       - 'toolsies.group.set'
       - 'toolsies.group.add'
       - 'toolsies.group.remove'
-      - 'toolsies.kits.admin'
       - 'toolsies.kits.others'
       - 'toolsies.kits.others-bypass'
     inherits:
       - 'player'
-      - 'vip'
-      - 'svip'
-  # priority: 4
+      - 'moderator'
+    priority: 5

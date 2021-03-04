@@ -18,7 +18,6 @@ database:
 # this is unified section for the default values.
 default:
   locale: 'pl'
-  group: 'player'
 
 #                                            #
 #               LOCALE SECTION               #

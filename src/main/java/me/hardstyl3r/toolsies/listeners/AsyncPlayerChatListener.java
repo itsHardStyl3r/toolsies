@@ -26,12 +26,12 @@ public class AsyncPlayerChatListener implements Listener {
         if (e.getPlayer().hasPermission("toolsies.chat.color")) {
             e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
         }
-        String format = localeManager.getConfig().getString("groups.format." + u.getMainGroup());
+        String format = localeManager.getConfig().getString("groups.format." + u.getMainGroup().getName());
         if (e.getPlayer().isOp()) {
             format = format.replace("<name>", localeManager.getConfig().getString("groups.op-prefix"));
         }
         if (format == null) {
-            e.setFormat("[" + u.getMainGroup() + "] " + e.getFormat());
+            e.setFormat("[" + u.getMainGroup().getName() + "] " + e.getFormat());
         } else {
             e.setFormat(ChatColor.translateAlternateColorCodes('&', format)
                     .replace("<name>", "%1$s")
