@@ -56,6 +56,10 @@ group:
   list: "&e# &7Available groups: <groups>."
   list_none: "&e# &7No available groups."
 
+broadcast:
+  usage:
+    broadcast: "/broadcast <message> - broadcasts a message"
+
 players:
   unknown: "&c# &7Player <name> does not exist."
   join:

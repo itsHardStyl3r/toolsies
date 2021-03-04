@@ -1,9 +1,6 @@
 package me.hardstyl3r.toolsies;
 
-import me.hardstyl3r.toolsies.commands.groupCommand;
-import me.hardstyl3r.toolsies.commands.kitCommand;
-import me.hardstyl3r.toolsies.commands.localeCommand;
-import me.hardstyl3r.toolsies.commands.toolsiesCommand;
+import me.hardstyl3r.toolsies.commands.*;
 import me.hardstyl3r.toolsies.listeners.AsyncPlayerChatListener;
 import me.hardstyl3r.toolsies.listeners.PlayerJoinListener;
 import me.hardstyl3r.toolsies.listeners.PlayerQuitListener;
@@ -48,6 +45,7 @@ public class Toolsies extends JavaPlugin {
         new kitCommand(this, userManager, kitManager, localeManager);
         new localeCommand(this, userManager, localeManager);
         new groupCommand(this, userManager, permissionsManager, localeManager);
+        new broadcastCommand(this, userManager, localeManager);
     }
 
     private void initListeners() {

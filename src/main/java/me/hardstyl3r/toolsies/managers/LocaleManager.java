@@ -105,4 +105,15 @@ public class LocaleManager {
             }
         }
     }
+
+    public String createMessage(String[] args, int startFrom){
+        StringBuilder msg = new StringBuilder();
+        for (int i = startFrom; i < args.length; i++) {
+            msg.append(args[i]);
+            if (i <= args.length - 2) {
+                msg.append(" ");
+            }
+        }
+        return msg.toString();
+    }
 }

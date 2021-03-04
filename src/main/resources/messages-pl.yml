@@ -53,6 +53,10 @@ group:
   list: "&e# &7Dostępne grupy: <groups>."
   list_none: "&e# &7Brak dostępnych grup."
 
+broadcast:
+  usage:
+    broadcast: "/broadcast <wiadomość> - ogłasza wiadomość"
+
 players:
   unknown: "&c# &7Gracz <name> nie istnieje."
   join:

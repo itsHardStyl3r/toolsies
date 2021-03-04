@@ -45,6 +45,7 @@ groups:
     permissions:
       - 'toolsies.kits.admin'
       - 'toolsies.chat.color'
+      - 'toolsies.broadcast'
     inherits:
       - 'player'
     priority: 4

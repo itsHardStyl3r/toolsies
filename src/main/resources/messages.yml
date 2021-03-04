@@ -12,3 +12,5 @@ groups:
     svip: "&dSVIP&f: <name>: <message>"
     moderator: "&2MOD&f: <name>: <message>"
     admin: "&aADMIN&f <name>: <message>"
+
+broadcast: " &6&l>> &f&l<message>"
