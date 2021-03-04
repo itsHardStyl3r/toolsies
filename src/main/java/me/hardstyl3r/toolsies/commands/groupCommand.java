@@ -12,6 +12,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class groupCommand implements CommandExecutor {
+public class groupCommand implements CommandExecutor, TabCompleter {
 
     private final UserManager userManager;
     private final PermissionsManager permissionManager;
@@ -243,5 +244,27 @@ public class groupCommand implements CommandExecutor {
             localeManager.sendUsage(sender, cmd, l);
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!sender.hasPermission("toolsies.group")) {
+            return Collections.emptyList();
+        }
+        List<String> allarguments = new ArrayList<String>(Arrays.asList("set", "add", "remove", "list"));
+        if (sender.hasPermission("toolsies.group.others")) {
+            allarguments.add(userManager.getUser(sender).getLocale().getConfig().getString("tab-completion.player.optional"));
+        }
+        if (args.length == 1) {
+            return localeManager.formatTabArguments(args[0], allarguments);
+        }
+        if (sender.hasPermission("toolsies.group.set") || sender.hasPermission("toolsies.group.add") || sender.hasPermission("toolsies.group.remove")) {
+            if (args.length == 2) {
+                return localeManager.formatTabArguments(args[1], permissionManager.getGroups());
+            } else if (args.length == 3) {
+                return null;
+            }
+        }
+        return Collections.emptyList();
     }
 }

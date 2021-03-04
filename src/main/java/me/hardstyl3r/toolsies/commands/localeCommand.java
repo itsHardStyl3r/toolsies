@@ -67,19 +67,10 @@ public class localeCommand implements CommandExecutor, TabCompleter {
         if (!sender.hasPermission("toolsies.locale")) {
             return Collections.emptyList();
         }
-        List<String> allarguments = localeManager.getLocales();
+        List<String> allarguments = new ArrayList<>(localeManager.getLocales());
+        allarguments.remove(userManager.getUser(sender).getLocale().getName());
         if (args.length == 1) {
-            ArrayList<String> firstargument = new ArrayList<>();
-            if (!args[0].isEmpty()) {
-                for (String arg : allarguments) {
-                    if (arg.toLowerCase().startsWith(args[0].toLowerCase())) {
-                        firstargument.add(arg);
-                    }
-                }
-            } else {
-                return allarguments;
-            }
-            return firstargument;
+            return localeManager.formatTabArguments(args[0], allarguments);
         }
         return Collections.emptyList();
     }

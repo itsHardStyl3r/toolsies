@@ -101,23 +101,14 @@ public class kitCommand implements CommandExecutor, TabCompleter {
         }
         List<String> allarguments = new ArrayList<>(kitManager.getKits(sender));
         if (args.length == 1) {
-            ArrayList<String> firstargument = new ArrayList<>();
-            if (!args[0].isEmpty()) {
-                for (String arg : allarguments) {
-                    if (arg.toLowerCase().startsWith(args[0].toLowerCase())) {
-                        firstargument.add(arg);
-                    }
-                }
-            } else {
-                return allarguments;
-            }
-            return firstargument;
+            return localeManager.formatTabArguments(args[0], allarguments);
         }
-        if (args.length == 2) {
-            if (!sender.hasPermission("toolsies.kits.others")) {
-                return Collections.emptyList();
+        if (sender.hasPermission("toolsies.kits.others")) {
+            if (args.length == 2) {
+                if (sender.hasPermission("toolsies.kits.others." + args[0]) || sender.hasPermission("toolsies.kits.others-bypass")) {
+                    return null;
+                }
             }
-            return null;
         }
         return Collections.emptyList();
     }

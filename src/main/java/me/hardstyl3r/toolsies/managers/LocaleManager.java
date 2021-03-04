@@ -106,7 +106,7 @@ public class LocaleManager {
         }
     }
 
-    public String createMessage(String[] args, int startFrom){
+    public String createMessage(String[] args, int startFrom) {
         StringBuilder msg = new StringBuilder();
         for (int i = startFrom; i < args.length; i++) {
             msg.append(args[i]);
@@ -115,5 +115,19 @@ public class LocaleManager {
             }
         }
         return msg.toString();
+    }
+
+    public List<String> formatTabArguments(String argsStart, List<String> allarguments) {
+        ArrayList<String> firstargument = new ArrayList<>();
+        if (!argsStart.isEmpty()) {
+            for (String arg : allarguments) {
+                if (arg.toLowerCase().startsWith(argsStart.toLowerCase())) {
+                    firstargument.add(arg);
+                }
+            }
+        } else {
+            return allarguments;
+        }
+        return firstargument;
     }
 }

@@ -7,6 +7,14 @@ usage:
 common:
   player: "player"
 
+tab-completion:
+  player:
+    required: "<player>"
+    optional: "[player]"
+  message:
+    required: "<message>"
+    optional: "[message]"
+
 locale:
   unknown_locale: "&c# &7Locale <name> does not exist."
   changed_own: "&a# &7Your locale has been changed to <name>."

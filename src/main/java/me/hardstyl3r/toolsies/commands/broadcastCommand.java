@@ -9,9 +9,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public class broadcastCommand implements CommandExecutor {
+import java.util.Collections;
+import java.util.List;
+
+public class broadcastCommand implements CommandExecutor, TabCompleter {
 
     private final LocaleManager localeManager;
     private final UserManager userManager;
@@ -37,11 +41,22 @@ public class broadcastCommand implements CommandExecutor {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.broadcast"));
             return true;
         }
-        if(args.length >= 1){
+        if (args.length >= 1) {
             Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', localeManager.getConfig().getString("broadcast").replace("<message>", localeManager.createMessage(args, 0))));
         } else {
             localeManager.sendUsage(sender, cmd, l);
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!sender.hasPermission("toolsies.broadcast")) {
+            return Collections.emptyList();
+        }
+        if (args.length == 1) {
+            return localeManager.formatTabArguments(args[0], Collections.singletonList(userManager.getUser(sender).getLocale().getConfig().getString("tab-completion.message.required")));
+        }
+        return Collections.emptyList();
     }
 }

@@ -7,6 +7,14 @@ usage:
 common:
   player: "gracz"
 
+tab-completion:
+  player:
+    required: "<gracz>"
+    optional: "[gracz]"
+  message:
+    required: "<wiadomość>"
+    optional: "[wiadomość]"
+
 locale:
   unknown_locale: "&c# &7Język <name> nie istnieje."
   changed_own: "&a# &7Twój język został zmieniony na <name>."
