@@ -61,15 +61,15 @@ public class kitCommand implements CommandExecutor, TabCompleter {
             }
             Player target = (Player) sender;
             if (args.length == 2) {
-                if (sender.hasPermission("toolsies.kits.others")) {
+                if (sender.hasPermission("toolsies.kit.others")) {
                     target = Bukkit.getPlayerExact(args[1]);
                     if (target == null) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                                 l.getConfig().getString("players.unknown")).replace("<name>", args[1]));
                         return true;
                     }
-                    if (!sender.hasPermission("toolsies.kits.others-bypass")) {
-                        if (!target.hasPermission("toolsies.kits." + kit) || !sender.hasPermission("toolsies.kits.others." + kit)) {
+                    if (!sender.hasPermission("toolsies.kit.others.bypass")) {
+                        if (!target.hasPermission("toolsies.kits." + kit) || !sender.hasPermission("toolsies.kit.others." + kit)) {
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                                     l.getConfig().getString("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits"))).replace("<kits>", kits.toString()));
                             return true;
@@ -103,9 +103,9 @@ public class kitCommand implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             return localeManager.formatTabArguments(args[0], allarguments);
         }
-        if (sender.hasPermission("toolsies.kits.others")) {
+        if (sender.hasPermission("toolsies.kit.others")) {
             if (args.length == 2) {
-                if (sender.hasPermission("toolsies.kits.others." + args[0]) || sender.hasPermission("toolsies.kits.others-bypass")) {
+                if (sender.hasPermission("toolsies.kit.others." + args[0]) || sender.hasPermission("toolsies.kit.others.bypass")) {
                     return null;
                 }
             }

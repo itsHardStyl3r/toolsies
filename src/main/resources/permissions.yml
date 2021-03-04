@@ -55,8 +55,8 @@ groups:
       - 'toolsies.group.set'
       - 'toolsies.group.add'
       - 'toolsies.group.remove'
-      - 'toolsies.kits.others'
-      - 'toolsies.kits.others-bypass'
+      - 'toolsies.kit.others'
+      - 'toolsies.kit.others.bypass'
     inherits:
       - 'player'
       - 'moderator'
