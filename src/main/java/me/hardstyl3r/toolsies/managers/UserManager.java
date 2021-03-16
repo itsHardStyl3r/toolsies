@@ -10,9 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 public class UserManager {
 
@@ -71,6 +69,11 @@ public class UserManager {
                         groups.add(permissionsManager.getGroup(s));
                     }
                 }
+                if (rs.getString("permissions") != null || !rs.getString("permissions").equals("")) {
+                    user.setPermissions(Arrays.asList(rs.getString("permissions").split(",")));
+                } else {
+                    user.setPermissions(Collections.emptyList());
+                }
                 user.setGroups(groups);
                 users.put(user.getUUID(), user);
                 System.out.println("UserManager.loadUsers(): Found and set up user " + user.getName() + " (" + user.getUUID() + "). Result? " + users.containsKey(user.getUUID()) + " (expected: true)");
@@ -98,7 +101,7 @@ public class UserManager {
     public void createUser(Player player) {
         Connection connection = null;
         PreparedStatement p = null;
-        String update = "INSERT INTO `users` VALUES(?, ?, ?, ?)";
+        String update = "INSERT INTO `users` VALUES(?, ?, ?, ?, ?)";
         try {
             connection = Hikari.getHikari().getConnection();
             User user = new User(player);
@@ -107,9 +110,11 @@ public class UserManager {
             p.setString(2, player.getName());
             p.setString(3, localeManager.getDefault().getId());
             p.setString(4, permissionsManager.listGroups(permissionsManager.getDefaultGroups()));
+            p.setString(5, null);
             p.execute();
             user.setLocale(localeManager.getDefault());
             user.setGroups(permissionsManager.getDefaultGroups());
+            user.setPermissions(Collections.emptyList());
             users.put(player.getUniqueId(), user);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -135,14 +140,15 @@ public class UserManager {
         Connection connection = null;
         PreparedStatement p = null;
 
-        String update = "UPDATE `users` SET `name`=?, `locale`=?, `groups`=? WHERE `uuid`=?";
+        String update = "UPDATE `users` SET `name`=?, `locale`=?, `groups`=?, `permissions`=? WHERE `uuid`=?";
         try {
             connection = Hikari.getHikari().getConnection();
             p = connection.prepareStatement(update);
             p.setString(1, u.getName());
             p.setString(2, u.getLocale().getId());
             p.setString(3, permissionsManager.listGroups(u.getGroups()));
-            p.setString(4, u.getUUID().toString());
+            p.setString(4, serialize(u.getPermissions()));
+            p.setString(5, u.getUUID().toString());
             p.execute();
             System.out.println("UserManager.updateUser(): Updating user " + u.getName() + " (" + u.getUUID() + ").");
         } catch (SQLException e) {
@@ -163,5 +169,17 @@ public class UserManager {
                 }
             }
         }
+    }
+
+    public String serialize(List<String> strings) {
+        if (strings == null) return null;
+        if (strings.isEmpty() || strings.size() == 0) return null;
+        for (String s : strings) {
+            if (s.contains(",")) s.replace(",", ".");
+        }
+        return strings.toString()
+                .replace("[", "")
+                .replace("]", "")
+                .replace(" ", "");
     }
 }

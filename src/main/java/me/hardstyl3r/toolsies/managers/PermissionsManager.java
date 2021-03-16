@@ -119,6 +119,14 @@ public class PermissionsManager {
             }
             setPermissionsFromGroup(attachment, g);
         }
+        if (u.hasPermissions()) {
+            System.out.println("Found " + u.getPermissions().size() + " additional permissions.");
+            for (String permission : u.getPermissions()) {
+                setPermission(attachment, permission);
+            }
+        } else {
+            System.out.println("User does not have any additional permissions, skipping.");
+        }
         System.out.println("DUMP OF PERMISSIONS - START");
         for (String s : attachment.getPermissions().keySet()) {
             System.out.println(s + " = " + attachment.getPermissions().get(s).toString());
@@ -135,14 +143,18 @@ public class PermissionsManager {
                     System.out.println("Redundant permission: " + permission + ". Skipping.");
                     continue;
                 }
-                if (permission.startsWith("-")) {
-                    System.out.println("unsetPermission(" + permission.replace("-", "") + ").");
-                    attachment.unsetPermission(permission.replace("-", ""));
-                } else {
-                    System.out.println("setPermission(" + permission + ").");
-                    attachment.setPermission(permission, true);
-                }
+                setPermission(attachment, permission);
             }
+        }
+    }
+
+    private void setPermission(PermissionAttachment attachment, String permission) {
+        if (permission.startsWith("-")) {
+            System.out.println("unsetPermission(" + permission.replace("-", "") + ").");
+            attachment.unsetPermission(permission.replace("-", ""));
+        } else {
+            System.out.println("setPermission(" + permission + ").");
+            attachment.setPermission(permission, true);
         }
     }
 

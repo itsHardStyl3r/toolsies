@@ -10,3 +10,4 @@ commands:
   locale:
   group:
   broadcast:
+  permission:

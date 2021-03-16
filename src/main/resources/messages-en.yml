@@ -14,6 +14,9 @@ tab-completion:
   message:
     required: "<message>"
     optional: "[message]"
+  permission:
+    required: "<permission>"
+    optional: "[permission]"
 
 locale:
   unknown_locale: "&c# &7Locale <name> does not exist."
@@ -67,6 +70,35 @@ group:
 broadcast:
   usage:
     broadcast: "/broadcast <message> - broadcasts a message"
+
+permission:
+  usage:
+    permission: "/permission [arg-player] - displays additional permissions"
+    console-permission: "/permission <player> - displays additional permissions"
+    permission-clear: "/permission remove [arg-player] - clears permissions"
+    console-permission-clear: "/permission clear <gracz> - clears permissions"
+    permission-add: "/permission add <uprawnienie> [arg-player] - grants permmission"
+    console-permission-add: "/permission add <uprawnienie> <gracz> - grants permmission"
+    permission-remove: "/permission remove <uprawnienie> [arg-player] - revokes permmission"
+    console-permission-remove: "/permission remove <uprawnienie> <gracz> - revokes permmission"
+  current_permissions: "&e# &7Your additional permissions: <permissions>"
+  current_permissions_sender: "&e# &7<player>'s additional permissions: <permissions>"
+  no_permissions: "&e# &7You're not granted any additional permissions."
+  no_permissions_sender: "&e# &7<player> is not granted any additional permissions."
+  illegal_characters: "&c# &7Permission can only consist of letters and numbers."
+  clear_permissions: "&a# &7Cleared permissions (<count>)."
+  clear_permissions_sender: "&a# &7Cleared <player>'s permissions (<count>)."
+  clear_permissions_target: "&e# &7Your additional permissions were cleared by <admin>."
+  has_permission_already: "&e# &7You're already granted this permission."
+  has_permission_already_sender: "&e# &7<player> is already granted this permission."
+  add_permission: "&a# &7Granted permission <permission>."
+  add_permission_sender: "&a# &7Granted <player> permission <permission>"
+  add_permission_target: "&e# &7Additional permissions granted by <admin>."
+  does_not_have_permission: "&e# &7You're not granted this permission."
+  does_not_have_permission_sender: "&e# &7<player> is not granted this permission."
+  remove_permission: "&a# &7Revoked permission <permission>"
+  remove_permission_sender: "&a# &7Revoked <player> permission <permission>"
+  remove_permission_target: "&e# &7Additional permissions revoked by <admin>."
 
 players:
   unknown: "&c# &7Player <name> does not exist."

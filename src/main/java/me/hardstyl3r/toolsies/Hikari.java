@@ -39,7 +39,7 @@ public class Hikari {
         Connection connection = null;
         PreparedStatement p = null;
 
-        String players = "CREATE TABLE IF NOT EXISTS `users` (`uuid` VARCHAR(36) NOT NULL, `name` VARCHAR(16) NOT NULL, `locale` VARCHAR(5), `groups` TINYTEXT)";
+        String players = "CREATE TABLE IF NOT EXISTS `users` (`uuid` VARCHAR(36) NOT NULL, `name` VARCHAR(16) NOT NULL, `locale` VARCHAR(5), `groups` TEXT, `permissions` TEXT)";
         try {
             connection = hikari.getConnection();
             p = connection.prepareStatement(players);

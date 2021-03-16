@@ -14,6 +14,9 @@ tab-completion:
   message:
     required: "<wiadomość>"
     optional: "[wiadomość]"
+  permission:
+    required: "<uprawnienie>"
+    optional: "[uprawnienie]"
 
 locale:
   unknown_locale: "&c# &7Język <name> nie istnieje."
@@ -67,6 +70,35 @@ group:
 broadcast:
   usage:
     broadcast: "/broadcast <wiadomość> - ogłasza wiadomość"
+
+permission:
+  usage:
+    permission: "/permission [arg-player] - sprawdza dodatkowe uprawnienia"
+    console-permission: "/permission <player> - sprawdza dodatkowe uprawnienia"
+    permission-clear: "/permission remove [arg-player] - odbiera wszystkie uprawnienia"
+    console-permission-clear: "/permission clear <gracz> - odbiera wszystkie uprawnienia"
+    permission-add: "/permission add <uprawnienie> [arg-player] - przyznaje uprawnienie"
+    console-permission-add: "/permission add <uprawnienie> <gracz> - przyznaje uprawnienie"
+    permission-remove: "/permission remove <uprawnienie> [arg-player] - odbiera uprawnienie"
+    console-permission-remove: "/permission remove <uprawnienie> <gracz> - odbiera uprawnienie"
+  current_permissions: "&e# &7Twoje dodatkowe uprawnienia: <permissions>"
+  current_permissions_sender: "&e# &7Dodatkowe uprawnienia <player>: <permissions>"
+  no_permissions: "&e# &7Nie masz dodatkowych uprawnień."
+  no_permissions_sender: "&e# &7<player> nie ma dodatkowych uprawnień."
+  illegal_characters: "&c# &7Uprawnienie może się składać tylko z liter i liczb."
+  clear_permissions: "&a# &7Wyczyszczono uprawnienia (<count>)."
+  clear_permissions_sender: "&a# &7Wyczyszczono uprawnienia <player> (<count>)."
+  clear_permissions_target: "&e# &7Twoje dodatkowe uprawnienia zostały wyczyszczone przez <admin>."
+  has_permission_already: "&e# &7Już masz takie uprawnienie."
+  has_permission_already_sender: "&e# &7<player> już ma takie uprawnienie."
+  add_permission: "&a# &7Przyznano uprawnienie <permission>."
+  add_permission_sender: "&a# &7Przyznano <player> uprawnienie <permission>"
+  add_permission_target: "&e# &7Przyznano dodatkowe uprawnienia przez <admin>."
+  does_not_have_permission: "&e# &7Nie masz takiego uprawnienia."
+  does_not_have_permission_sender: "&e# &7<player> nie ma takiego uprawnienia."
+  remove_permission: "&a# &7Odebrano uprawnienie <permission>"
+  remove_permission_sender: "&a# &7Odebrano <player> uprawnienie <permission>"
+  remove_permission_target: "&e# &7Odebrano dodatkowe uprawnienie przez <admin>."
 
 players:
   unknown: "&c# &7Gracz <name> nie istnieje."

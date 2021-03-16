@@ -5,6 +5,8 @@ import me.hardstyl3r.toolsies.listeners.AsyncPlayerChatListener;
 import me.hardstyl3r.toolsies.listeners.PlayerJoinListener;
 import me.hardstyl3r.toolsies.listeners.PlayerQuitListener;
 import me.hardstyl3r.toolsies.managers.*;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Toolsies extends JavaPlugin {
@@ -22,6 +24,13 @@ public class Toolsies extends JavaPlugin {
         initManagers();
         initCommands();
         initListeners();
+
+        /*
+        Permissions are reloaded after /reload.
+         */
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            permissionsManager.startPermissions(p, userManager.getUser(p));
+        }
     }
 
     @Override
@@ -46,6 +55,7 @@ public class Toolsies extends JavaPlugin {
         new localeCommand(this, userManager, localeManager);
         new groupCommand(this, userManager, permissionsManager, localeManager);
         new broadcastCommand(this, userManager, localeManager);
+        new permissionCommand(this, userManager, localeManager, permissionsManager);
     }
 
     private void initListeners() {

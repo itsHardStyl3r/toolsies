@@ -12,6 +12,7 @@ public class User {
     private String name;
     private Locale locale;
     private List<Group> groups;
+    private List<String> permissions;
 
     public User(String name, UUID uuid) {
         this.name = name;
@@ -54,5 +55,18 @@ public class User {
 
     public Group getMainGroup() {
         return getGroups().get(getGroups().size() - 1);
+    }
+
+    public List<String> getPermissions() {
+        return this.permissions;
+    }
+
+    public void setPermissions(List<String> permissions) {
+        this.permissions = permissions;
+    }
+
+    public Boolean hasPermissions() {
+        if (permissions == null) return false;
+        return permissions.size() != 0;
     }
 }
