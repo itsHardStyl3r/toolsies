@@ -69,10 +69,10 @@ public class UserManager {
                         groups.add(permissionsManager.getGroup(s));
                     }
                 }
-                if (rs.getString("permissions") != null || !rs.getString("permissions").equals("")) {
-                    user.setPermissions(Arrays.asList(rs.getString("permissions").split(",")));
-                } else {
+                if (rs.getString("permissions") == null || rs.getString("permissions").equals("")) {
                     user.setPermissions(Collections.emptyList());
+                } else {
+                    user.setPermissions(Arrays.asList(rs.getString("permissions").split(",")));
                 }
                 user.setGroups(groups);
                 users.put(user.getUUID(), user);
