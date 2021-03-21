@@ -54,9 +54,14 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
         }
         if (args.length == 0) {
             User u = userManager.getUser(sender);
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("permission." + (u.hasPermissions() ? "current_permissions" : "no_permissions")))
-                    .replace("<permissions>", userManager.serialize(u.getPermissions())));
+            if(!u.hasPermissions()){
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        l.getConfig().getString("permission.no_permissions")));
+            } else {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        l.getConfig().getString("permission.current_permissions"))
+                        .replace("<permissions>", userManager.serialize(u.getPermissions())));
+            }
         } else if (args.length == 1) {
             if (userManager.getUser(args[0]) != null) {
                 if (!sender.hasPermission("toolsies.permission.others")) {
@@ -64,10 +69,16 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 User u = userManager.getUser(args[0]);
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("permission." + (u.hasPermissions() ? "current_permissions" : "no_permissions") + (sender.getName().equals(u.getName()) ? "" : "_sender")))
-                        .replace("<player>", u.getName())
-                        .replace("<permissions>", userManager.serialize(u.getPermissions())));
+                if(!u.hasPermissions()){
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                            l.getConfig().getString("permission.no_permissions" + (sender.getName().equals(u.getName()) ? "" : "_sender")))
+                            .replace("<player>", u.getName()));
+                } else {
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                            l.getConfig().getString("permission.current_permissions" + (sender.getName().equals(u.getName()) ? "" : "_sender")))
+                            .replace("<player>", u.getName())
+                            .replace("<permissions>", userManager.serialize(u.getPermissions())));
+                }
             } else {
                 localeManager.sendUsage(sender, cmd, l);
             }
