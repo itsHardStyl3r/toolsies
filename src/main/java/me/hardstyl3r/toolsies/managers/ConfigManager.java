@@ -45,6 +45,26 @@ public class ConfigManager {
         return config;
     }
 
+
+    public boolean saveConfig(FileConfiguration config, String file) {
+        return saveConfig(config, file, "");
+    }
+
+    public boolean saveConfig(FileConfiguration config, String file, String to) {
+        if (!to.equals("")) {
+            to = to + File.separator;
+        }
+        File configFile = new File(getPath() + to + file + ".yml");
+        try {
+            config.save(configFile);
+            System.out.println("Saved " + file + ".yml.");
+            return true;
+        } catch (Exception e) {
+            System.out.println("Failed to save " + file + ".yml.");
+        }
+        return false;
+    }
+
     private boolean copy(InputStream source, File file) {
         try {
             OutputStream out = new FileOutputStream(file);

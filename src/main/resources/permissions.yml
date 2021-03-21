@@ -23,6 +23,7 @@ groups:
       - 'toolsies.kit'
       - 'toolsies.kits.start'
       - 'toolsies.locale'
+      - 'toolsies.spawn'
     priority: 1
     default: true
   vip:
@@ -49,6 +50,9 @@ groups:
       - 'toolsies.permission'
       - 'toolsies.permission.others'
       - 'toolsies.permission.clear'
+      - 'toolsies.spawn.world'
+      - 'toolsies.spawn.others'
+      - 'toolsies.getspawn'
     inherits:
       - 'player'
     priority: 4
@@ -62,6 +66,9 @@ groups:
       - 'toolsies.kit.others.bypass'
       - 'toolsies.permission.add'
       - 'toolsies.permission.remove'
+      - 'toolsies.delspawn'
+      - 'toolsies.setspawn'
+      - 'toolsies.spawn.bypass'
     inherits:
       - 'player'
       - 'moderator'

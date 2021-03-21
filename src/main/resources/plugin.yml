@@ -11,3 +11,7 @@ commands:
   group:
   broadcast:
   permission:
+  delspawn:
+  getspawn:
+  setspawn:
+  spawn:

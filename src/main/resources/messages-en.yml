@@ -6,6 +6,9 @@ usage:
 
 common:
   player: "player"
+  boolean:
+    true: "yes"
+    false: "no"
 
 tab-completion:
   player:
@@ -99,6 +102,57 @@ permission:
   remove_permission: "&a# &7Revoked permission <permission>"
   remove_permission_sender: "&a# &7Revoked <player> permission <permission>"
   remove_permission_target: "&e# &7Additional permissions revoked by <admin>."
+
+getspawn:
+  usage:
+    getspawn: "/getspawn [świat] - spawn information"
+    console-getspawn: "/getspawn [świat] - spawn information"
+  unknown_world: "&c# &7World <name> does not exist."
+  unknown_spawn: "&c# &7World <name> does not have a spawn point."
+  small:
+    - "&e# &7Spawnpoint information of <name>"
+    - "&e> &7XYZ: <x>, <y>, <z>"
+    - "&e> &7Yaw/Pitch: <yaw>, <pitch>"
+  details:
+    - "&e# &7Spawn information of <name>"
+    - "&e> &7XYZ: <x>, <y>, <z>"
+    - "&e> &7Yaw/Pitch: <yaw>, <pitch>"
+    - "&e> &7Distance: <distance> blocks"
+    - "&e> &7Set by <owner> on <time>."
+    - "&e> &7Preferred? <preferred>"
+    - "&e> &7Default? <default>"
+
+spawn:
+  usage:
+    spawn: "/spawn [world] [arg-player] - teleports to spawn"
+    console-spawn: "/spawn [world] <player> - teleports to spawn"
+  unknown_spawn: "&c# &7World <name> does not have a spawn point."
+  teleported_to_spawn: "&a# &7Teleported to spawn."
+  teleported_to_spawn_sender: "&a# &7Teleported <name> to spawn."
+  teleported_to_spawn_target: "&e# &7Teleported to spawn by <admin>."
+  spawn_is_current_location: "&e# &7You're currently on spawn."
+  spawn_is_current_location_sender: "&e# &7<name> is currently on spawn."
+
+setspawn:
+  usage:
+    setspawn: "/setspawn [world] [preferred/default] - sets or manages spawn"
+    console-setspawn: "/setspawn <world> <preferred/default> - sets or manages spawn"
+  setspawn: "&a# &7Set spawn <name>."
+  setspawn_default: "&a# &7Set default spawn <name>."
+  spawn_is_current_location: "&e# &7There's already set spawn here."
+  set_preferred_false: "&a# &7Spawn <name> is no longer preferred."
+  set_preferred_true: "&a# &7Spawn <name> is now preferred."
+  set_default: "&a# &7Spawn <name> is now default."
+  set_default_already: "&e# &7Spawn <name> is already default."
+
+delspawn:
+  usage:
+    delspawn: "/delspawn [world] - deletes spawn"
+    console-delspawn: "/delspawn <world> - deletes spawn"
+  unknown_spawn: "&c# &7World <name> does not have a spawn point."
+  delspawn: "&a# &7Deleted spawn <name>."
+  delspawn_default: "&c# &7You can't delete default spawn <name>."
+  no_spawn_specified: "&e# &7You have to be on spawn or specify it."
 
 players:
   unknown: "&c# &7Player <name> does not exist."

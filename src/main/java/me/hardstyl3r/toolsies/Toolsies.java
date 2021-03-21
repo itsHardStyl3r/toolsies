@@ -4,6 +4,7 @@ import me.hardstyl3r.toolsies.commands.*;
 import me.hardstyl3r.toolsies.listeners.AsyncPlayerChatListener;
 import me.hardstyl3r.toolsies.listeners.PlayerJoinListener;
 import me.hardstyl3r.toolsies.listeners.PlayerQuitListener;
+import me.hardstyl3r.toolsies.listeners.PlayerRespawnListener;
 import me.hardstyl3r.toolsies.managers.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,6 +18,7 @@ public class Toolsies extends JavaPlugin {
     public KitManager kitManager;
     public LocaleManager localeManager;
     public PermissionsManager permissionsManager;
+    public LocationManager locationManager;
 
     @Override
     public void onEnable() {
@@ -47,6 +49,7 @@ public class Toolsies extends JavaPlugin {
         permissionsManager = new PermissionsManager(configManager);
         userManager = new UserManager(localeManager, permissionsManager);
         kitManager = new KitManager(configManager);
+        locationManager = new LocationManager(configManager);
     }
 
     private void initCommands() {
@@ -56,12 +59,17 @@ public class Toolsies extends JavaPlugin {
         new groupCommand(this, userManager, permissionsManager, localeManager);
         new broadcastCommand(this, userManager, localeManager);
         new permissionCommand(this, userManager, localeManager, permissionsManager);
+        new spawnCommand(this, userManager, localeManager, locationManager);
+        new setspawnCommand(this, userManager, localeManager, locationManager);
+        new getspawnCommand(this, userManager, localeManager, locationManager);
+        new delspawnCommand(this, userManager, localeManager, locationManager);
     }
 
     private void initListeners() {
         new PlayerJoinListener(this, userManager, permissionsManager);
         new PlayerQuitListener(this, userManager, permissionsManager);
         new AsyncPlayerChatListener(this, userManager, localeManager);
+        new PlayerRespawnListener(this, locationManager);
     }
 
     public static Toolsies getInstance() {

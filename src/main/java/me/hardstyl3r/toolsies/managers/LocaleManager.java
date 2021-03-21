@@ -130,4 +130,8 @@ public class LocaleManager {
         }
         return firstargument;
     }
+
+    public String translateBoolean(Locale l, boolean b) {
+        return l.getConfig().getString("common.boolean." + b);
+    }
 }

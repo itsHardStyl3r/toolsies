@@ -6,6 +6,9 @@ usage:
 
 common:
   player: "gracz"
+  boolean:
+    true: "tak"
+    false: "nie"
 
 tab-completion:
   player:
@@ -99,6 +102,57 @@ permission:
   remove_permission: "&a# &7Odebrano uprawnienie <permission>"
   remove_permission_sender: "&a# &7Odebrano <player> uprawnienie <permission>"
   remove_permission_target: "&e# &7Odebrano dodatkowe uprawnienie przez <admin>."
+
+getspawn:
+  usage:
+    getspawn: "/getspawn [świat] - informacje o spawnie"
+    console-getspawn: "/getspawn [świat] - informacje o spawnie"
+  unknown_world: "&c# &7Świat <name> nie istnieje."
+  unknown_spawn: "&c# &7Świat <name> nie ma ustawionego spawnu."
+  small:
+    - "&e# &7Informacje o spawnpoincie <name>"
+    - "&e> &7XYZ: <x>, <y>, <z>"
+    - "&e> &7Yaw/Pitch: <yaw>, <pitch>"
+  details:
+    - "&e# &7Informacje o spawnie <name>"
+    - "&e> &7XYZ: <x>, <y>, <z>"
+    - "&e> &7Yaw/Pitch: <yaw>, <pitch>"
+    - "&e> &7Odległość: <distance> bloków"
+    - "&e> &7Ustawiony przez <owner> o <time>."
+    - "&e> &7Preferowany? <preferred>"
+    - "&e> &7Domyślny? <default>"
+
+spawn:
+  usage:
+    spawn: "/spawn [świat] [arg-player] - teleportuje na spawn"
+    console-spawn: "/spawn <świat> <gracz> - teleportuje na spawn"
+  unknown_spawn: "&c# &7Świat <name> nie ma ustawionego spawnu."
+  teleported_to_spawn: "&a# &7Teleportowano na spawn."
+  teleported_to_spawn_sender: "&a# &7Teleportowano <name> na spawn."
+  teleported_to_spawn_target: "&e# &7Teleportowano na spawn przez <admin>."
+  spawn_is_current_location: "&e# &7Już znajdujesz się na spawnie."
+  spawn_is_current_location_sender: "&e# &7<name> już znajduje się na spawnie."
+
+setspawn:
+  usage:
+    setspawn: "/setspawn [świat] [preferred/default] - ustawia lub zarządza spawnem"
+    console-setspawn: "/setspawn <świat> <preferred/default> - ustawia lub zarządza spawnem"
+  setspawn: "&a# &7Ustawiono spawn <name>."
+  setspawn_default: "&a# &7Ustawiono domyślny spawn <name>."
+  spawn_is_current_location: "&e# &7W tym miejscu znajduje się już spawn."
+  set_preferred_false: "&a# &7Spawn <name> nie jest już preferowany."
+  set_preferred_true: "&a# &7Spawn <name> jest teraz preferowany."
+  set_default: "&a# &7Spawn <name> jest teraz domyślny."
+  set_default_already: "&e# &7Spawn <name> jest już domyślny."
+
+delspawn:
+  usage:
+    delspawn: "/delspawn [świat] - usuwa spawn"
+    console-delspawn: "/delspawn <świat> - usuwa spawn"
+  unknown_spawn: "&c# &7Świat <name> nie ma ustawionego spawnu."
+  delspawn: "&a# &7Usunięto spawn <name>."
+  delspawn_default: "&c# &7Nie możesz usunąć domyślnego spawnu <name>."
+  no_spawn_specified: "&e# &7Musisz znajdować się na spawnie lub określić świat."
 
 players:
   unknown: "&c# &7Gracz <name> nie istnieje."
