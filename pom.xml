@@ -10,6 +10,7 @@
     <version>0.6-BETA</version>
     <modules>
         <module>toolsies</module>
+        <module>tPerms</module>
     </modules>
 
     <properties>

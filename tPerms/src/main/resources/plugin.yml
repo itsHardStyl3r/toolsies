@@ -1,0 +1,7 @@
+name: tPerms
+version: ${project.version}
+main: me.hardstyl3r.tperms.TPerms
+api-version: 1.16
+authors: [ hardStyl3r ]
+description: Toolsies addon to support permissions
+depend: [ toolsies ]
