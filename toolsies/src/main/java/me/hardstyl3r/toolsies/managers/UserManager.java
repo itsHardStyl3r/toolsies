@@ -1,8 +1,10 @@
 package me.hardstyl3r.toolsies.managers;
 
 import me.hardstyl3r.toolsies.Hikari;
+import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.objects.Group;
 import me.hardstyl3r.toolsies.objects.User;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -11,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class UserManager {
 
@@ -23,7 +26,7 @@ public class UserManager {
         loadUsers();
     }
 
-    private final HashMap<UUID, User> users = new HashMap<>();
+    private final ConcurrentHashMap<UUID, User> users = new ConcurrentHashMap<>();
 
     public User getUser(String name) {
         return users.values().stream().filter(u -> u.getName().equals(name)).findFirst().orElse(null);
@@ -45,130 +48,112 @@ public class UserManager {
         return getUser(p.getUniqueId()) != null;
     }
 
-    public HashMap<UUID, User> getUsers() {
-        return users;
-    }
-
     public void loadUsers() {
-        users.clear();
-        Connection connection = null;
-        PreparedStatement p = null;
+        Bukkit.getScheduler().runTaskAsynchronously(Toolsies.getInstance(), () -> {
+            users.clear();
+            Connection connection = null;
+            PreparedStatement p = null;
+            ResultSet rs = null;
 
-        String call = "SELECT * FROM `users`";
-        try {
-            connection = Hikari.getHikari().getConnection();
-            p = connection.prepareCall(call);
-            p.execute();
-            ResultSet rs = p.getResultSet();
-            while (rs.next()) {
-                User user = new User(rs.getString("name"), UUID.fromString(rs.getString("uuid")));
-                user.setLocale(localeManager.getLocale(rs.getString("locale")));
-                ArrayList<Group> groups = new ArrayList<>();
-                for (String s : rs.getString("groups").split(",")) {
-                    if (permissionsManager.getGroup(s) != null) {
-                        groups.add(permissionsManager.getGroup(s));
+            String call = "SELECT `uuid`, `name`, `locale`, `groups`, `permissions` FROM `users`;";
+            try {
+                connection = Hikari.getHikari().getConnection();
+                p = connection.prepareCall(call);
+                p.execute();
+                rs = p.getResultSet();
+                while (rs.next()) {
+                    User user = new User(rs.getString("name"), UUID.fromString(rs.getString("uuid")));
+                    if (localeManager.getLocale(rs.getString("locale")) == null) {
+                        System.out.println("loadUsers(): User " + user.getName() + " had unknown locale.");
+                        user.setLocale(localeManager.getDefault());
+                    } else {
+                        user.setLocale(localeManager.getLocale(rs.getString("locale")));
+                    }
+                    ArrayList<Group> groups = new ArrayList<>();
+                    for (String s : rs.getString("groups").split(",")) {
+                        if (permissionsManager.getGroup(s) != null) {
+                            groups.add(permissionsManager.getGroup(s));
+                        }
+                    }
+                    if (groups.isEmpty()) {
+                        System.out.println("loadUsers(): User " + user.getName() + " had no groups or they were incorrect.");
+                        user.setGroups(permissionsManager.getDefaultGroups());
+                    } else {
+                        user.setGroups(groups);
+                    }
+                    if (rs.getString("permissions") == null || rs.getString("permissions").equals("")) {
+                        user.setPermissions(Collections.emptyList());
+                    } else {
+                        user.setPermissions(Arrays.asList(rs.getString("permissions").split(",")));
+                    }
+                    users.put(user.getUUID(), user);
+                    /*
+                    This should be fine.
+                     */
+                    Player player = Bukkit.getPlayer(user.getUUID());
+                    if (player != null) {
+                        permissionsManager.startPermissions(player, user);
                     }
                 }
-                if (rs.getString("permissions") == null || rs.getString("permissions").equals("")) {
-                    user.setPermissions(Collections.emptyList());
-                } else {
-                    user.setPermissions(Arrays.asList(rs.getString("permissions").split(",")));
-                }
-                user.setGroups(groups);
-                users.put(user.getUUID(), user);
-                System.out.println("UserManager.loadUsers(): Found and set up user " + user.getName() + " (" + user.getUUID() + "). Result? " + users.containsKey(user.getUUID()) + " (expected: true)");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                System.out.println("loadUsers(): Loaded " + users.size() + " users.");
+                Hikari.close(connection, p, rs);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (p != null) {
-                try {
-                    p.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        });
     }
 
     public void createUser(Player player) {
-        Connection connection = null;
-        PreparedStatement p = null;
-        String update = "INSERT INTO `users` VALUES(?, ?, ?, ?, ?)";
-        try {
-            connection = Hikari.getHikari().getConnection();
-            User user = new User(player);
-            p = connection.prepareStatement(update);
-            p.setString(1, player.getUniqueId().toString());
-            p.setString(2, player.getName());
-            p.setString(3, localeManager.getDefault().getId());
-            p.setString(4, permissionsManager.listGroups(permissionsManager.getDefaultGroups()));
-            p.setString(5, null);
-            p.execute();
-            user.setLocale(localeManager.getDefault());
-            user.setGroups(permissionsManager.getDefaultGroups());
-            user.setPermissions(Collections.emptyList());
-            users.put(player.getUniqueId(), user);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        User user = new User(player);
+        user.setLocale(localeManager.getDefault());
+        user.setGroups(permissionsManager.getDefaultGroups());
+        user.setPermissions(Collections.emptyList());
+        users.put(player.getUniqueId(), user);
+        Bukkit.getScheduler().runTaskAsynchronously(Toolsies.getInstance(), () -> {
+            Connection connection = null;
+            PreparedStatement p = null;
+            String update = "INSERT INTO `users` VALUES(?, ?, ?, ?, ?)";
+            try {
+                connection = Hikari.getHikari().getConnection();
+                p = connection.prepareStatement(update);
+                p.setString(1, player.getUniqueId().toString());
+                p.setString(2, player.getName());
+                p.setString(3, localeManager.getDefault().getId());
+                p.setString(4, permissionsManager.listGroups(permissionsManager.getDefaultGroups()));
+                p.setString(5, null);
+                p.execute();
+                System.out.println("createUser(): Created new " + user.getName());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                Hikari.close(connection, p, null);
             }
-            if (p != null) {
-                try {
-                    p.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        });
     }
 
     public void updateUser(User u) {
-        Connection connection = null;
-        PreparedStatement p = null;
+        Bukkit.getScheduler().runTaskAsynchronously(Toolsies.getInstance(), () -> {
+            Connection connection = null;
+            PreparedStatement p = null;
 
-        String update = "UPDATE `users` SET `name`=?, `locale`=?, `groups`=?, `permissions`=? WHERE `uuid`=?";
-        try {
-            connection = Hikari.getHikari().getConnection();
-            p = connection.prepareStatement(update);
-            p.setString(1, u.getName());
-            p.setString(2, u.getLocale().getId());
-            p.setString(3, permissionsManager.listGroups(u.getGroups()));
-            p.setString(4, serialize(u.getPermissions()));
-            p.setString(5, u.getUUID().toString());
-            p.execute();
-            System.out.println("UserManager.updateUser(): Updating user " + u.getName() + " (" + u.getUUID() + ").");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            String update = "UPDATE `users` SET `name`=?, `locale`=?, `groups`=?, `permissions`=? WHERE `uuid`=?";
+            try {
+                connection = Hikari.getHikari().getConnection();
+                p = connection.prepareStatement(update);
+                p.setString(1, u.getName());
+                p.setString(2, u.getLocale().getId());
+                p.setString(3, permissionsManager.listGroups(u.getGroups()));
+                p.setString(4, serialize(u.getPermissions()));
+                p.setString(5, u.getUUID().toString());
+                p.execute();
+                System.out.println("loadUsers(): Updated " + u.getName() + ".");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                Hikari.close(connection, p, null);
             }
-            if (p != null) {
-                try {
-                    p.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        });
     }
 
     public String serialize(List<String> strings) {

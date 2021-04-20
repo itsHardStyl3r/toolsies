@@ -73,6 +73,14 @@ public class PermissionsManager {
     }
 
     public void startPermissions(Player p, User u) {
+        if (p == null) {
+            System.out.println("Player is null.");
+            return;
+        }
+        if (u == null) {
+            System.out.println("User is null.");
+            return;
+        }
         if (permissions.containsKey(p.getUniqueId())) {
             System.out.println("Found " + u.getName() + " in permissions. Refreshing permissions.");
             p.removeAttachment(permissions.get(p.getUniqueId()));

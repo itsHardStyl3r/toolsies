@@ -2,10 +2,12 @@ package me.hardstyl3r.toolsies;
 
 import com.zaxxer.hikari.HikariDataSource;
 import me.hardstyl3r.toolsies.managers.ConfigManager;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Hikari {
@@ -15,19 +17,19 @@ public class Hikari {
 
     public Hikari(ConfigManager configManager) {
         this.config = configManager.getConfig();
-        connectToDatabase();
-        initDatabase();
+        initializeDataSource();
+        createTables();
     }
 
     public static HikariDataSource getHikari() {
         return hikari;
     }
 
-    public void connectToDatabase() {
+    private void initializeDataSource() {
         hikari = new HikariDataSource();
 
         hikari.setMaximumPoolSize(10);
-        hikari.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+        hikari.setDataSourceClassName(config.getString("database.class"));
         hikari.addDataSourceProperty("serverName", config.getString("database.host"));
         hikari.addDataSourceProperty("port", config.getString("database.port"));
         hikari.addDataSourceProperty("databaseName", "toolsies");
@@ -35,31 +37,44 @@ public class Hikari {
         hikari.addDataSourceProperty("password", config.getString("database.password"));
     }
 
-    private void initDatabase() {
-        Connection connection = null;
-        PreparedStatement p = null;
+    private void createTables() {
+        Bukkit.getScheduler().runTaskAsynchronously(Toolsies.getInstance(), () -> {
+            Connection connection = null;
+            PreparedStatement p = null;
 
-        String players = "CREATE TABLE IF NOT EXISTS `users` (`uuid` VARCHAR(36) NOT NULL, `name` VARCHAR(16) NOT NULL, `locale` VARCHAR(5), `groups` TEXT, `permissions` TEXT)";
-        try {
-            connection = hikari.getConnection();
-            p = connection.prepareStatement(players);
-            p.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            String users = "CREATE TABLE IF NOT EXISTS `users` (`uuid` VARCHAR(36) NOT NULL, `name` VARCHAR(16) NOT NULL, `locale` VARCHAR(5), `groups` TEXT, `permissions` TEXT)";
+            try {
+                connection = hikari.getConnection();
+                p = connection.prepareStatement(users);
+                p.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                close(connection, p, null);
             }
-            if (p != null) {
-                try {
-                    p.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        });
+    }
+
+    public static void close(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (preparedStatement != null) {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
