@@ -36,7 +36,7 @@ public class kitCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            if (args.length != 2) {
+            if (args.length == 1) {
                 localeManager.sendUsage(sender, cmd, l);
                 return true;
             }
@@ -57,7 +57,7 @@ public class kitCommand implements CommandExecutor, TabCompleter {
                         l.getConfig().getString("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits"))).replace("<kits>", kits.toString()));
                 return true;
             }
-            Player target = (Player) sender;
+            Player target = null;
             if (args.length == 2) {
                 if (sender.hasPermission("toolsies.kit.others")) {
                     target = Bukkit.getPlayerExact(args[1]);
@@ -74,6 +74,8 @@ public class kitCommand implements CommandExecutor, TabCompleter {
                         }
                     }
                 }
+            } else {
+                target = (Player) sender;
             }
             kitManager.giveKit(target, kit);
             User utarget = userManager.getUser(target);

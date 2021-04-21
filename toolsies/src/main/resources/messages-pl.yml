@@ -1,4 +1,6 @@
 no_permission: "&4Nie masz do tego uprawnień. &8(<permission>)"
+console_sender: "Ta komenda nie może zostać wykonana w konsoli."
+
 usage:
   header: "&e# &7Dostępne zastosowania:"
   format: "&e>   &7<usages>"
@@ -73,6 +75,7 @@ group:
 broadcast:
   usage:
     broadcast: "/broadcast <wiadomość> - ogłasza wiadomość"
+    console-broadcast: "/broadcast <wiadomość> - ogłasza wiadomość"
 
 permission:
   usage:

@@ -30,7 +30,7 @@ public class broadcastCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            if (args.length == 1) {
+            if (args.length == 0) {
                 localeManager.sendUsage(sender, cmd, l);
                 return true;
             }
@@ -39,7 +39,7 @@ public class broadcastCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.broadcast"));
             return true;
         }
-        if (args.length >= 1) {
+        if (args.length > 0) {
             Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', localeManager.getConfig().getString("broadcast").replace("<message>", localeManager.createMessage(args, 0))));
         } else {
             localeManager.sendUsage(sender, cmd, l);

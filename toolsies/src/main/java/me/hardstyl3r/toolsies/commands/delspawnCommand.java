@@ -34,7 +34,7 @@ public class delspawnCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            if (args.length >= 2) {
+            if (args.length > 1) {
                 localeManager.sendUsage(sender, cmd, l);
                 return true;
             }

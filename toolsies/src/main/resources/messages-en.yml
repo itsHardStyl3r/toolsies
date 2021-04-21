@@ -1,4 +1,6 @@
 no_permission: "&4You don't have permission to do this. &8(<permission>)"
+console_sender: "This command can't be executed in console."
+
 usage:
   header: "&e# &7Available usages:"
   format: "&e>   &7<usages>"
@@ -73,6 +75,7 @@ group:
 broadcast:
   usage:
     broadcast: "/broadcast <message> - broadcasts a message"
+    console-broadcast: "/broadcast <message> - broadcasts a message"
 
 permission:
   usage:

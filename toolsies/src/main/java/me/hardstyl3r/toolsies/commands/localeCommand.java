@@ -31,10 +31,8 @@ public class localeCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            if (args.length == 1) {
-                localeManager.sendUsage(sender, cmd, l);
-                return true;
-            }
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("console_sender")));
+            return true;
         }
         if (!sender.hasPermission("toolsies.locale")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.locale"));
