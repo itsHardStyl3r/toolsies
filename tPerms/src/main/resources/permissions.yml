@@ -37,7 +37,6 @@ groups:
     permissions:
       - '-toolsies.kits.vip'
       - 'toolsies.kits.svip'
-      - 'toolsies.chat.color'
     inherits:
       - 'player'
       - 'vip'

@@ -108,7 +108,7 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
         }
         if (args.length == 1) {
             ArrayList<String> worlds = new ArrayList<>();
-            for(World w : Bukkit.getWorlds()){
+            for (World w : Bukkit.getWorlds()) {
                 worlds.add(w.getName());
             }
             return localeManager.formatTabArguments(args[0], worlds);

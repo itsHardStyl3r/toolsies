@@ -2,8 +2,6 @@ package me.hardstyl3r.toolsies.objects;
 
 import org.bukkit.entity.Player;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.UUID;
 
 public class User {
@@ -11,8 +9,6 @@ public class User {
     private final UUID uuid;
     private String name;
     private Locale locale;
-    private List<Group> groups;
-    private List<String> permissions;
 
     public User(String name, UUID uuid) {
         this.name = name;
@@ -42,31 +38,5 @@ public class User {
 
     public void setLocale(Locale l) {
         this.locale = l;
-    }
-
-    public List<Group> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(List<Group> l) {
-        l.sort(Comparator.comparing(Group::getPriority));
-        this.groups = l;
-    }
-
-    public Group getMainGroup() {
-        return getGroups().get(getGroups().size() - 1);
-    }
-
-    public List<String> getPermissions() {
-        return this.permissions;
-    }
-
-    public void setPermissions(List<String> permissions) {
-        this.permissions = permissions;
-    }
-
-    public Boolean hasPermissions() {
-        if (permissions == null) return false;
-        return permissions.size() != 0;
     }
 }

@@ -8,9 +8,7 @@ commands:
   toolsies:
   kit:
   locale:
-  group:
   broadcast:
-  permission:
   delspawn:
   getspawn:
   setspawn:

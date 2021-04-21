@@ -1,11 +1,12 @@
-package me.hardstyl3r.toolsies.commands;
+package me.hardstyl3r.tperms.commands;
 
-import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
-import me.hardstyl3r.toolsies.managers.PermissionsManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
-import me.hardstyl3r.toolsies.objects.User;
+import me.hardstyl3r.tperms.TPerms;
+import me.hardstyl3r.tperms.managers.PermissibleUserManager;
+import me.hardstyl3r.tperms.managers.PermissionsManager;
+import me.hardstyl3r.tperms.objects.PermissibleUser;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -24,12 +25,14 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
     private final UserManager userManager;
     private final LocaleManager localeManager;
     private final PermissionsManager permissionsManager;
+    private final PermissibleUserManager permissibleUserManager;
 
-    public permissionCommand(Toolsies plugin, UserManager userManager, LocaleManager localeManager, PermissionsManager permissionsManager) {
+    public permissionCommand(TPerms plugin, UserManager userManager, LocaleManager localeManager, PermissionsManager permissionsManager, PermissibleUserManager permissibleUserManager) {
         plugin.getCommand("permission").setExecutor(this);
         this.userManager = userManager;
         this.localeManager = localeManager;
         this.permissionsManager = permissionsManager;
+        this.permissibleUserManager = permissibleUserManager;
     }
 
     @Override
@@ -53,23 +56,23 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         if (args.length == 0) {
-            User u = userManager.getUser(sender);
-            if(!u.hasPermissions()){
+            PermissibleUser u = permissibleUserManager.getUser(sender);
+            if (!u.hasPermissions()) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         l.getConfig().getString("permission.no_permissions")));
             } else {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         l.getConfig().getString("permission.current_permissions"))
-                        .replace("<permissions>", userManager.serialize(u.getPermissions())));
+                        .replace("<permissions>", permissibleUserManager.serialize(u.getPermissions())));
             }
         } else if (args.length == 1) {
-            if (userManager.getUser(args[0]) != null) {
+            if (permissibleUserManager.getUser(args[0]) != null) {
                 if (!sender.hasPermission("toolsies.permission.others")) {
                     localeManager.sendUsage(sender, cmd, l);
                     return true;
                 }
-                User u = userManager.getUser(args[0]);
-                if(!u.hasPermissions()){
+                PermissibleUser u = permissibleUserManager.getUser(args[0]);
+                if (!u.hasPermissions()) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             l.getConfig().getString("permission.no_permissions" + (sender.getName().equals(u.getName()) ? "" : "_sender")))
                             .replace("<player>", u.getName()));
@@ -77,7 +80,7 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             l.getConfig().getString("permission.current_permissions" + (sender.getName().equals(u.getName()) ? "" : "_sender")))
                             .replace("<player>", u.getName())
-                            .replace("<permissions>", userManager.serialize(u.getPermissions())));
+                            .replace("<permissions>", permissibleUserManager.serialize(u.getPermissions())));
                 }
             } else {
                 localeManager.sendUsage(sender, cmd, l);
@@ -103,16 +106,16 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
             Player target = null;
-            User uTarget = null;
+            PermissibleUser puTarget = null;
             if (sender instanceof Player) {
                 target = ((Player) sender);
-                uTarget = userManager.getUser(target);
+                puTarget = permissibleUserManager.getUser(target);
             }
             if (args.length == 3 || (args[0].equalsIgnoreCase("clear") && args.length == 2)) {
                 String check = (args[0].equalsIgnoreCase("clear") ? args[1] : args[2]);
                 target = Bukkit.getPlayerExact(check);
-                if (userManager.getUser(check) != null) {
-                    uTarget = userManager.getUser(check);
+                if (permissibleUserManager.getUser(check) != null) {
+                    puTarget = permissibleUserManager.getUser(check);
                 } else {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             l.getConfig().getString("players.unknown"))
@@ -120,35 +123,35 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
             }
-            List<String> permissions = new ArrayList<>(uTarget.getPermissions());
+            List<String> permissions = new ArrayList<>(puTarget.getPermissions());
             if (args[0].equalsIgnoreCase("clear")) {
-                if (!uTarget.hasPermissions()) {
+                if (!puTarget.hasPermissions()) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             l.getConfig().getString("permission.no_permissions" + (target == sender ? "" : "_sender")))
-                            .replace("<player>", uTarget.getName()));
+                            .replace("<player>", puTarget.getName()));
                     return true;
                 }
                 if (target == sender) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             l.getConfig().getString("permission.clear_permissions"))
-                            .replace("<count>", String.valueOf(uTarget.getPermissions().size())));
+                            .replace("<count>", String.valueOf(puTarget.getPermissions().size())));
                 } else {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             l.getConfig().getString("permission.clear_permissions_sender"))
-                            .replace("<count>", String.valueOf(uTarget.getPermissions().size()))
-                            .replace("<player>", uTarget.getName()));
+                            .replace("<count>", String.valueOf(puTarget.getPermissions().size()))
+                            .replace("<player>", puTarget.getName()));
                     if (target != null) {
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&',
                                 l.getConfig().getString("permission.clear_permissions_target"))
                                 .replace("<admin>", sender.getName()));
                     }
                 }
-                uTarget.setPermissions(Collections.emptyList());
+                puTarget.setPermissions(Collections.emptyList());
             } else if (args[0].equalsIgnoreCase("add")) {
-                if (uTarget.getPermissions().contains(permission)) {
+                if (puTarget.getPermissions().contains(permission)) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             l.getConfig().getString("permission.has_permission_already" + (target == sender ? "" : "_sender")))
-                            .replace("<player>", uTarget.getName()));
+                            .replace("<player>", puTarget.getName()));
                     return true;
                 }
                 if (target == sender) {
@@ -159,7 +162,7 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             l.getConfig().getString("permission.add_permission_sender"))
                             .replace("<permission>", permission)
-                            .replace("<player>", uTarget.getName()));
+                            .replace("<player>", puTarget.getName()));
                     if (target != null) {
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&',
                                 l.getConfig().getString("permission.add_permission_target"))
@@ -167,12 +170,12 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
                     }
                 }
                 permissions.add(permission);
-                uTarget.setPermissions(permissions);
+                puTarget.setPermissions(permissions);
             } else if (args[0].equalsIgnoreCase("remove")) {
-                if (!uTarget.getPermissions().contains(permission)) {
+                if (!puTarget.getPermissions().contains(permission)) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             l.getConfig().getString("permission.has_permission_already" + (target == sender ? "" : "_sender")))
-                            .replace("<player>", uTarget.getName()));
+                            .replace("<player>", puTarget.getName()));
                     return true;
                 }
                 if (target == sender) {
@@ -183,7 +186,7 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             l.getConfig().getString("permission.remove_permission_sender"))
                             .replace("<permission>", permission)
-                            .replace("<player>", uTarget.getName()));
+                            .replace("<player>", puTarget.getName()));
                     if (target != null) {
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&',
                                 l.getConfig().getString("permission.remove_permission_target"))
@@ -191,14 +194,14 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
                     }
                 }
                 permissions.remove(permission);
-                uTarget.setPermissions(permissions);
+                puTarget.setPermissions(permissions);
             } else {
                 localeManager.sendUsage(sender, cmd, l);
                 return true;
             }
-            userManager.updateUser(uTarget);
+            permissibleUserManager.updatePermissibleUser(puTarget);
             if (target != null) {
-                permissionsManager.startPermissions(target, uTarget);
+                permissionsManager.startPermissions(target, puTarget);
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

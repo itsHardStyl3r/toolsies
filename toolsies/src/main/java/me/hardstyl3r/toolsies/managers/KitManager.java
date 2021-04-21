@@ -18,7 +18,7 @@ public class KitManager {
     private final FileConfiguration config;
 
     public KitManager(ConfigManager configManager) {
-        config = configManager.loadConfig("kits");
+        config = configManager.loadConfig(null, "kits");
     }
 
     public FileConfiguration getConfig() {

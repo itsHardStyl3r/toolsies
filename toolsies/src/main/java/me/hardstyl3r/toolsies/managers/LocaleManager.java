@@ -19,7 +19,7 @@ public class LocaleManager {
 
     public LocaleManager(ConfigManager configManager) {
         this.configManager = configManager;
-        config = configManager.loadConfig("messages");
+        config = configManager.loadConfig(null, "messages");
         loadLocales();
     }
 
@@ -29,7 +29,7 @@ public class LocaleManager {
         for (String s : configManager.getConfig().getStringList("locales")) {
             String file = "messages-" + s;
             if (Toolsies.getInstance().getResource(file + ".yml") != null) {
-                FileConfiguration config = configManager.loadConfig(file, "messages");
+                FileConfiguration config = configManager.loadConfig(null, file, "messages");
                 Locale l = new Locale(s, config);
                 l.setAliases(config.getStringList("config.aliases"));
                 l.setName(config.getString("config.name"));

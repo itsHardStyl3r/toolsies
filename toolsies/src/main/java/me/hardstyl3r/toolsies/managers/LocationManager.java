@@ -21,7 +21,7 @@ public class LocationManager {
 
     public LocationManager(ConfigManager configManager) {
         this.configManager = configManager;
-        config = configManager.loadConfig("locations");
+        config = configManager.loadConfig(null, "locations");
         loadSpawns();
     }
 
@@ -104,7 +104,7 @@ public class LocationManager {
         return worlds;
     }
 
-    public ArrayList<String> getSpawns(){
+    public ArrayList<String> getSpawns() {
         ArrayList<String> worlds = new ArrayList<>();
         for (Spawn s : spawns.values()) {
             worlds.add(s.getName());
@@ -136,12 +136,12 @@ public class LocationManager {
         config.set(path + ".added", s.getAdded());
         config.set(path + ".preferred", s.isPreferred());
         config.set(path + ".default", s.isDefault());
-        configManager.saveConfig(config, "locations");
+        configManager.saveConfig(null, config, "locations");
     }
 
     public void deleteSpawn(Spawn s) {
         spawns.remove(s.getName());
         config.set("spawn." + s.getLocation().getWorld().getName(), null);
-        configManager.saveConfig(config, "locations");
+        configManager.saveConfig(null, config, "locations");
     }
 }

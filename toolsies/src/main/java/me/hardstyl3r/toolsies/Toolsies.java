@@ -1,7 +1,6 @@
 package me.hardstyl3r.toolsies;
 
 import me.hardstyl3r.toolsies.commands.*;
-import me.hardstyl3r.toolsies.listeners.AsyncPlayerChatListener;
 import me.hardstyl3r.toolsies.listeners.PlayerJoinListener;
 import me.hardstyl3r.toolsies.listeners.PlayerQuitListener;
 import me.hardstyl3r.toolsies.listeners.PlayerRespawnListener;
@@ -15,7 +14,6 @@ public class Toolsies extends JavaPlugin {
     public ConfigManager configManager;
     public KitManager kitManager;
     public LocaleManager localeManager;
-    public PermissionsManager permissionsManager;
     public LocationManager locationManager;
 
     @Override
@@ -37,8 +35,7 @@ public class Toolsies extends JavaPlugin {
         configManager = new ConfigManager();
         new Hikari(configManager);
         localeManager = new LocaleManager(configManager);
-        permissionsManager = new PermissionsManager(configManager);
-        userManager = new UserManager(localeManager, permissionsManager);
+        userManager = new UserManager(localeManager);
         kitManager = new KitManager(configManager);
         locationManager = new LocationManager(configManager);
     }
@@ -47,9 +44,7 @@ public class Toolsies extends JavaPlugin {
         new toolsiesCommand(this, userManager);
         new kitCommand(this, userManager, kitManager, localeManager);
         new localeCommand(this, userManager, localeManager);
-        new groupCommand(this, userManager, permissionsManager, localeManager);
         new broadcastCommand(this, userManager, localeManager);
-        new permissionCommand(this, userManager, localeManager, permissionsManager);
         new spawnCommand(this, userManager, localeManager, locationManager);
         new setspawnCommand(this, userManager, localeManager, locationManager);
         new getspawnCommand(this, userManager, localeManager, locationManager);
@@ -57,9 +52,8 @@ public class Toolsies extends JavaPlugin {
     }
 
     private void initListeners() {
-        new PlayerJoinListener(this, userManager, permissionsManager);
-        new PlayerQuitListener(this, userManager, permissionsManager);
-        new AsyncPlayerChatListener(this, userManager, localeManager);
+        new PlayerJoinListener(this, userManager);
+        new PlayerQuitListener(this, userManager);
         new PlayerRespawnListener(this, locationManager);
     }
 

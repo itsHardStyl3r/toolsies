@@ -1,9 +1,9 @@
-package me.hardstyl3r.toolsies.listeners;
+package me.hardstyl3r.tperms.listeners;
 
-import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
-import me.hardstyl3r.toolsies.managers.UserManager;
-import me.hardstyl3r.toolsies.objects.User;
+import me.hardstyl3r.tperms.TPerms;
+import me.hardstyl3r.tperms.managers.PermissibleUserManager;
+import me.hardstyl3r.tperms.objects.PermissibleUser;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,18 +11,18 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class AsyncPlayerChatListener implements Listener {
 
-    private final UserManager userManager;
+    private final PermissibleUserManager permissibleUserManager;
     private final LocaleManager localeManager;
 
-    public AsyncPlayerChatListener(Toolsies plugin, UserManager userManager, LocaleManager localeManager) {
-        this.userManager = userManager;
+    public AsyncPlayerChatListener(TPerms plugin, PermissibleUserManager permissibleUserManager, LocaleManager localeManager) {
+        this.permissibleUserManager = permissibleUserManager;
         this.localeManager = localeManager;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
-        User u = userManager.getUser(e.getPlayer());
+        PermissibleUser u = permissibleUserManager.getUser(e.getPlayer());
         if (e.getPlayer().hasPermission("toolsies.chat.color")) {
             e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
         }

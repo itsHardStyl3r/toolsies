@@ -2,7 +2,6 @@ package me.hardstyl3r.toolsies.managers;
 
 import me.hardstyl3r.toolsies.Hikari;
 import me.hardstyl3r.toolsies.Toolsies;
-import me.hardstyl3r.toolsies.objects.Group;
 import me.hardstyl3r.toolsies.objects.User;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -12,17 +11,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class UserManager {
 
     private final LocaleManager localeManager;
-    private final PermissionsManager permissionsManager;
 
-    public UserManager(LocaleManager localeManager, PermissionsManager permissionsManager) {
+    public UserManager(LocaleManager localeManager) {
         this.localeManager = localeManager;
-        this.permissionsManager = permissionsManager;
         loadUsers();
     }
 
@@ -55,7 +52,7 @@ public class UserManager {
             PreparedStatement p = null;
             ResultSet rs = null;
 
-            String call = "SELECT `uuid`, `name`, `locale`, `groups`, `permissions` FROM `users`;";
+            String call = "SELECT `uuid`, `name`, `locale` FROM `users`;";
             try {
                 connection = Hikari.getHikari().getConnection();
                 p = connection.prepareCall(call);
@@ -69,31 +66,7 @@ public class UserManager {
                     } else {
                         user.setLocale(localeManager.getLocale(rs.getString("locale")));
                     }
-                    ArrayList<Group> groups = new ArrayList<>();
-                    for (String s : rs.getString("groups").split(",")) {
-                        if (permissionsManager.getGroup(s) != null) {
-                            groups.add(permissionsManager.getGroup(s));
-                        }
-                    }
-                    if (groups.isEmpty()) {
-                        System.out.println("loadUsers(): User " + user.getName() + " had no groups or they were incorrect.");
-                        user.setGroups(permissionsManager.getDefaultGroups());
-                    } else {
-                        user.setGroups(groups);
-                    }
-                    if (rs.getString("permissions") == null || rs.getString("permissions").equals("")) {
-                        user.setPermissions(Collections.emptyList());
-                    } else {
-                        user.setPermissions(Arrays.asList(rs.getString("permissions").split(",")));
-                    }
                     users.put(user.getUUID(), user);
-                    /*
-                    This should be fine.
-                     */
-                    Player player = Bukkit.getPlayer(user.getUUID());
-                    if (player != null) {
-                        permissionsManager.startPermissions(player, user);
-                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -107,8 +80,6 @@ public class UserManager {
     public void createUser(Player player) {
         User user = new User(player);
         user.setLocale(localeManager.getDefault());
-        user.setGroups(permissionsManager.getDefaultGroups());
-        user.setPermissions(Collections.emptyList());
         users.put(player.getUniqueId(), user);
         Bukkit.getScheduler().runTaskAsynchronously(Toolsies.getInstance(), () -> {
             Connection connection = null;
@@ -120,7 +91,11 @@ public class UserManager {
                 p.setString(1, player.getUniqueId().toString());
                 p.setString(2, player.getName());
                 p.setString(3, localeManager.getDefault().getId());
-                p.setString(4, permissionsManager.listGroups(permissionsManager.getDefaultGroups()));
+                /*
+                Values 4-5 will be taken care of later. I am assuming.
+                tPerms will take care of it if group is null.
+                 */
+                p.setString(4, null);
                 p.setString(5, null);
                 p.execute();
                 System.out.println("createUser(): Created new " + user.getName());
@@ -137,15 +112,13 @@ public class UserManager {
             Connection connection = null;
             PreparedStatement p = null;
 
-            String update = "UPDATE `users` SET `name`=?, `locale`=?, `groups`=?, `permissions`=? WHERE `uuid`=?";
+            String update = "UPDATE `users` SET `name`=?, `locale`=? WHERE `uuid`=?";
             try {
                 connection = Hikari.getHikari().getConnection();
                 p = connection.prepareStatement(update);
                 p.setString(1, u.getName());
                 p.setString(2, u.getLocale().getId());
-                p.setString(3, permissionsManager.listGroups(u.getGroups()));
-                p.setString(4, serialize(u.getPermissions()));
-                p.setString(5, u.getUUID().toString());
+                p.setString(3, u.getUUID().toString());
                 p.execute();
                 System.out.println("loadUsers(): Updated " + u.getName() + ".");
             } catch (SQLException e) {
@@ -154,17 +127,5 @@ public class UserManager {
                 Hikari.close(connection, p, null);
             }
         });
-    }
-
-    public String serialize(List<String> strings) {
-        if (strings == null) return null;
-        if (strings.isEmpty() || strings.size() == 0) return null;
-        for (String s : strings) {
-            if (s.contains(",")) s.replace(",", ".");
-        }
-        return strings.toString()
-                .replace("[", "")
-                .replace("]", "")
-                .replace(" ", "");
     }
 }

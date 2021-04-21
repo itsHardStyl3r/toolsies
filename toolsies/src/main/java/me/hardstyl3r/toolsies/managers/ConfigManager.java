@@ -3,6 +3,7 @@ package me.hardstyl3r.toolsies.managers;
 import me.hardstyl3r.toolsies.Toolsies;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,26 +13,41 @@ import java.io.OutputStream;
 public class ConfigManager {
 
     public ConfigManager() {
-        config = loadConfig("config");
+        config = loadConfig(null, "config");
     }
 
-    private String getPath() {
-        return "." + File.separator + "plugins" + File.separator + "toolsies" + File.separator;
+    private String getPath(JavaPlugin plugin) {
+        return "." + File.separator + "plugins" + File.separator + (plugin == null ? "toolsies" : plugin.getName()) + File.separator;
     }
 
-    private FileConfiguration config;
+    private final FileConfiguration config;
 
-    public YamlConfiguration loadConfig(String file) {
-        return loadConfig(file, "");
+    /**
+     * Shortened version of loadConfig(JavaPlugin, String, String);
+     *
+     * @param plugin instance of plugin that contains wanted file
+     * @param file   file you want to load
+     * @return loaded YamlConfiguration of the file
+     */
+    public YamlConfiguration loadConfig(JavaPlugin plugin, String file) {
+        return loadConfig(plugin, file, "");
     }
 
-    public YamlConfiguration loadConfig(String file, String to) {
+    /**
+     * This method is used to create .yml from plugin's resources if it doesn't exist and load it if it does.
+     *
+     * @param plugin instance of plugin that contains wanted file
+     * @param file   file you want to load
+     * @param to     directory where the file should be placed
+     * @return loaded YamlConfiguration of the file
+     */
+    public YamlConfiguration loadConfig(JavaPlugin plugin, String file, String to) {
         if (!to.equals("")) to = to + File.separator;
-        File configFile = new File(getPath() + to + file + ".yml");
+        File configFile = new File(getPath(plugin) + to + file + ".yml");
         if (!configFile.exists()) {
             try {
                 configFile.getParentFile().mkdirs();
-                copy(Toolsies.getInstance().getResource(file + ".yml"), configFile);
+                copy((plugin == null ? Toolsies.getInstance() : plugin).getResource(file + ".yml"), configFile);
                 System.out.println("Created " + file + ".yml.");
             } catch (Exception e) {
                 System.out.println("Failed to create " + file + ".yml.");
@@ -46,15 +62,15 @@ public class ConfigManager {
     }
 
 
-    public boolean saveConfig(FileConfiguration config, String file) {
-        return saveConfig(config, file, "");
+    public boolean saveConfig(JavaPlugin plugin, FileConfiguration config, String file) {
+        return saveConfig(plugin, config, file, "");
     }
 
-    public boolean saveConfig(FileConfiguration config, String file, String to) {
+    public boolean saveConfig(JavaPlugin plugin, FileConfiguration config, String file, String to) {
         if (!to.equals("")) {
             to = to + File.separator;
         }
-        File configFile = new File(getPath() + to + file + ".yml");
+        File configFile = new File(getPath(plugin) + to + file + ".yml");
         try {
             config.save(configFile);
             System.out.println("Saved " + file + ".yml.");

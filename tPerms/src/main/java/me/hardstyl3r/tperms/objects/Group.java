@@ -1,4 +1,4 @@
-package me.hardstyl3r.toolsies.objects;
+package me.hardstyl3r.tperms.objects;
 
 import java.util.List;
 

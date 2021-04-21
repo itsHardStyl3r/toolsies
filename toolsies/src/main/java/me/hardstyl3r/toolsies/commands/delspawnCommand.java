@@ -6,9 +6,7 @@ import me.hardstyl3r.toolsies.managers.LocationManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.objects.Spawn;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -49,9 +47,9 @@ public class delspawnCommand implements CommandExecutor, TabCompleter {
         }
         if (args.length <= 1) {
             Spawn s = null;
-            if(sender instanceof Player){
+            if (sender instanceof Player) {
                 Player p = (Player) sender;
-                if(args.length == 0) {
+                if (args.length == 0) {
                     s = locationManager.getSpawn(p.getLocation());
                     if (!locationManager.isLocationIdentical(s.getLocation(), p.getLocation())) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
@@ -67,7 +65,7 @@ public class delspawnCommand implements CommandExecutor, TabCompleter {
                         l.getConfig().getString("delspawn.unknown_spawn")).replace("<name>", args[0]));
                 return true;
             }
-            if(s.isDefault()){
+            if (s.isDefault()) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         l.getConfig().getString("delspawn.delspawn_default")).replace("<name>", s.getName()));
                 return true;

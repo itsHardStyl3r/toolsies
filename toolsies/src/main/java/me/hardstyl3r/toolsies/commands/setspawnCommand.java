@@ -73,7 +73,7 @@ public class setspawnCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 s.setDefault(true);
-                if(sold != null) {
+                if (sold != null) {
                     sold.setDefault(false);
                     locationManager.saveSpawn(sold);
                 }
@@ -97,7 +97,7 @@ public class setspawnCommand implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             ArrayList<String> worlds = locationManager.getSpawns();
             return (worlds.isEmpty() ? Collections.emptyList() : localeManager.formatTabArguments(args[0], worlds));
-        } else if(args.length == 2){
+        } else if (args.length == 2) {
             return localeManager.formatTabArguments(args[1], Arrays.asList("preferred", "default"));
         }
         return Collections.emptyList();
