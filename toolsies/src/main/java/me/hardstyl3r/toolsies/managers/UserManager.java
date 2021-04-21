@@ -2,6 +2,7 @@ package me.hardstyl3r.toolsies.managers;
 
 import me.hardstyl3r.toolsies.Hikari;
 import me.hardstyl3r.toolsies.Toolsies;
+import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.objects.User;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -127,5 +128,13 @@ public class UserManager {
                 Hikari.close(connection, p, null);
             }
         });
+    }
+
+    public Locale determineLocale(CommandSender sender) {
+        Locale l = localeManager.getDefault();
+        if ((sender instanceof Player) && getUser(sender) != null) {
+            l = getUser(sender).getLocale();
+        }
+        return l;
     }
 }

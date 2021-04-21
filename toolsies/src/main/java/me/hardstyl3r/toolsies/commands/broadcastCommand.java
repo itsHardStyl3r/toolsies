@@ -28,10 +28,8 @@ public class broadcastCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        Locale l = localeManager.getDefault();
-        if (sender instanceof Player) {
-            l = userManager.getUser(sender).getLocale();
-        } else {
+        Locale l = userManager.determineLocale(sender);
+        if (!(sender instanceof Player)) {
             if (args.length == 1) {
                 localeManager.sendUsage(sender, cmd, l);
                 return true;
