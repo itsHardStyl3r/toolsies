@@ -43,7 +43,7 @@ public class delspawnCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         if (args.length <= 1) {
-            Spawn s = null;
+            Spawn s = locationManager.getSpawn(args[0]);
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 if (args.length == 0) {
@@ -53,8 +53,6 @@ public class delspawnCommand implements CommandExecutor, TabCompleter {
                                 l.getConfig().getString("delspawn.no_spawn_specified")));
                         return true;
                     }
-                } else {
-                    s = locationManager.getSpawn(args[0]);
                 }
             }
             if (s == null) {
