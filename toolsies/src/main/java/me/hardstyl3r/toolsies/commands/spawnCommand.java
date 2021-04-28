@@ -14,7 +14,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -109,16 +108,10 @@ public class spawnCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!sender.hasPermission("toolsies.spawn")) {
-            return Collections.emptyList();
-        }
-        if (args.length == 1) {
-            ArrayList<String> worlds = locationManager.getAvailableSpawns(sender);
-            return (worlds.isEmpty() ? Collections.emptyList() : localeManager.formatTabArguments(args[0], worlds));
-        } else if (args.length == 2) {
-            if (sender.hasPermission("toolsies.spawn.others")) {
-                return null;
-            }
+        if (sender.hasPermission("toolsies.spawn")) {
+            if (args.length == 1)
+                return localeManager.formatTabArguments(args[0], locationManager.getAvailableSpawns(sender));
+            if (args.length == 2) if (sender.hasPermission("toolsies.spawn.others")) return null;
         }
         return Collections.emptyList();
     }

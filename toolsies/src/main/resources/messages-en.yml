@@ -8,20 +8,11 @@ usage:
 
 common:
   player: "player"
+  message: "message"
+  permission: "permission"
   boolean:
     true: "yes"
     false: "no"
-
-tab-completion:
-  player:
-    required: "<player>"
-    optional: "[player]"
-  message:
-    required: "<message>"
-    optional: "[message]"
-  permission:
-    required: "<permission>"
-    optional: "[permission]"
 
 locale:
   unknown_locale: "&c# &7Locale <name> does not exist."

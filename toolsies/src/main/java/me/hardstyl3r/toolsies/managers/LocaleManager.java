@@ -134,4 +134,8 @@ public class LocaleManager {
     public String translateBoolean(Locale l, boolean b) {
         return l.getConfig().getString("common.boolean." + b);
     }
+
+    public String formatArgument(String argument, boolean required) {
+        return (required ? "<" : "[") + argument + (required ? ">" : "]");
+    }
 }

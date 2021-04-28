@@ -60,13 +60,9 @@ public class localeCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!sender.hasPermission("toolsies.locale")) {
-            return Collections.emptyList();
-        }
-        List<String> allarguments = new ArrayList<>(localeManager.getLocales());
-        allarguments.remove(userManager.getUser(sender).getLocale().getName());
-        if (args.length == 1) {
-            return localeManager.formatTabArguments(args[0], allarguments);
+        if (sender.hasPermission("toolsies.locale") && sender instanceof Player) {
+            List<String> allarguments = new ArrayList<>(localeManager.getLocales());
+            if (args.length == 1) return localeManager.formatTabArguments(args[0], allarguments);
         }
         return Collections.emptyList();
     }

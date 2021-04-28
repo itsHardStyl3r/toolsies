@@ -96,17 +96,14 @@ public class kitCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!sender.hasPermission("toolsies.kit")) {
-            return Collections.emptyList();
-        }
-        List<String> allarguments = new ArrayList<>(kitManager.getKits(sender));
-        if (args.length == 1) {
-            return localeManager.formatTabArguments(args[0], allarguments);
-        }
-        if (sender.hasPermission("toolsies.kit.others")) {
-            if (args.length == 2) {
-                if (sender.hasPermission("toolsies.kit.others." + args[0]) || sender.hasPermission("toolsies.kit.others.bypass")) {
-                    return null;
+        if (sender.hasPermission("toolsies.kit")) {
+            List<String> allarguments = new ArrayList<>(kitManager.getKits(sender));
+            if (args.length == 1) return localeManager.formatTabArguments(args[0], allarguments);
+            if (sender.hasPermission("toolsies.kit.others")) {
+                if (args.length == 2) {
+                    if (sender.hasPermission("toolsies.kit.others." + args[0]) || sender.hasPermission("toolsies.kit.others.bypass")) {
+                        return null;
+                    }
                 }
             }
         }

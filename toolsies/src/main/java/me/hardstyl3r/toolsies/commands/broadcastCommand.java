@@ -49,11 +49,11 @@ public class broadcastCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!sender.hasPermission("toolsies.broadcast")) {
-            return Collections.emptyList();
-        }
-        if (args.length == 1) {
-            return localeManager.formatTabArguments(args[0], Collections.singletonList(userManager.getUser(sender).getLocale().getConfig().getString("tab-completion.message.required")));
+        if (sender.hasPermission("toolsies.broadcast")) {
+            if (args.length == 1) {
+                Locale l = userManager.determineLocale(sender);
+                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.message"), true));
+            }
         }
         return Collections.emptyList();
     }

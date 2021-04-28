@@ -8,20 +8,11 @@ usage:
 
 common:
   player: "gracz"
+  message: "wiadomość"
+  permission: "uprawnienie"
   boolean:
     true: "tak"
     false: "nie"
-
-tab-completion:
-  player:
-    required: "<gracz>"
-    optional: "[gracz]"
-  message:
-    required: "<wiadomość>"
-    optional: "[wiadomość]"
-  permission:
-    required: "<uprawnienie>"
-    optional: "[uprawnienie]"
 
 locale:
   unknown_locale: "&c# &7Język <name> nie istnieje."

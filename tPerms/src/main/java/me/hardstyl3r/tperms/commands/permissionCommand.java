@@ -214,8 +214,9 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
         }
         List<String> allarguments = new ArrayList<>(Arrays.asList("add", "remove", "clear"));
         allarguments.removeIf(s -> !sender.hasPermission("toolsies.permission." + s));
+        Locale l = userManager.determineLocale(sender);
         if (sender.hasPermission("toolsies.permission.others")) {
-            allarguments.add(userManager.getUser(sender).getLocale().getConfig().getString("tab-completion.player.optional"));
+            allarguments.add(localeManager.formatArgument(l.getConfig().getString("common.player"), false));
         }
         if (args.length == 1) {
             return localeManager.formatTabArguments(args[0], allarguments);
@@ -223,7 +224,7 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
             if (args[0].equalsIgnoreCase("clear")) {
                 return null;
             } else if (args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("remove")) {
-                return Collections.singletonList(userManager.getUser(sender).getLocale().getConfig().getString("tab-completion.permission.required"));
+                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.permission"), true));
             }
         } else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("remove")) {

@@ -101,15 +101,12 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!sender.hasPermission("toolsies.getspawn")) {
-            return Collections.emptyList();
-        }
-        if (args.length == 1) {
-            ArrayList<String> worlds = new ArrayList<>();
-            for (World w : Bukkit.getWorlds()) {
-                worlds.add(w.getName());
+        if (sender.hasPermission("toolsies.getspawn")) {
+            if (args.length == 1) {
+                ArrayList<String> worlds = new ArrayList<>();
+                for (World w : Bukkit.getWorlds()) worlds.add(w.getName());
+                return localeManager.formatTabArguments(args[0], worlds);
             }
-            return localeManager.formatTabArguments(args[0], worlds);
         }
         return Collections.emptyList();
     }

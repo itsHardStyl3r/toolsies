@@ -249,21 +249,17 @@ public class groupCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!sender.hasPermission("toolsies.group")) {
-            return Collections.emptyList();
-        }
-        List<String> allarguments = new ArrayList<String>(Arrays.asList("set", "add", "remove", "list"));
-        if (sender.hasPermission("toolsies.group.others")) {
-            allarguments.add(userManager.getUser(sender).getLocale().getConfig().getString("tab-completion.player.optional"));
-        }
-        if (args.length == 1) {
-            return localeManager.formatTabArguments(args[0], allarguments);
-        }
-        if (sender.hasPermission("toolsies.group.set") || sender.hasPermission("toolsies.group.add") || sender.hasPermission("toolsies.group.remove")) {
-            if (args.length == 2) {
-                return localeManager.formatTabArguments(args[1], permissionManager.getGroups());
-            } else if (args.length == 3) {
-                return null;
+        if (sender.hasPermission("toolsies.group")) {
+            ArrayList<String> allarguments = new ArrayList<>(Arrays.asList("set", "add", "remove", "list"));
+            allarguments.removeIf(s -> !sender.hasPermission("toolsies.group." + s));
+            Locale l = userManager.determineLocale(sender);
+            if (sender.hasPermission("toolsies.group.others")) {
+                allarguments.add(localeManager.formatArgument(l.getConfig().getString("common.player"), false));
+            }
+            if (args.length == 1) return localeManager.formatTabArguments(args[0], allarguments);
+            if (sender.hasPermission("toolsies.group.set") || sender.hasPermission("toolsies.group.add") || sender.hasPermission("toolsies.group.remove")) {
+                if (args.length == 2) return localeManager.formatTabArguments(args[1], permissionManager.getGroups());
+                if (args.length == 3) return null;
             }
         }
         return Collections.emptyList();
