@@ -61,7 +61,7 @@ public class PermissibleUserManager {
                 while (rs.next()) {
                     PermissibleUser user = new PermissibleUser(rs.getString("name"), UUID.fromString(rs.getString("uuid")));
                     ArrayList<Group> groups = new ArrayList<>();
-                    if(rs.getString("groups") != null) {
+                    if (rs.getString("groups") != null) {
                         for (String s : rs.getString("groups").split(",")) {
                             if (permissionsManager.getGroup(s) != null) {
                                 groups.add(permissionsManager.getGroup(s));
