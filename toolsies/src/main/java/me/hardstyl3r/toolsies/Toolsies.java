@@ -7,6 +7,9 @@ import me.hardstyl3r.toolsies.listeners.PlayerRespawnListener;
 import me.hardstyl3r.toolsies.managers.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Toolsies extends JavaPlugin {
 
     private static Toolsies instance;
@@ -15,13 +18,16 @@ public class Toolsies extends JavaPlugin {
     public KitManager kitManager;
     public LocaleManager localeManager;
     public LocationManager locationManager;
+    public static Logger logger = Logger.getLogger("Minecraft");
 
     @Override
     public void onEnable() {
+        long current = System.currentTimeMillis();
         instance = this;
         initManagers();
         initCommands();
         initListeners();
+        logger.log(Level.INFO, "[toolsies] Enabled toolsies. (took " + (System.currentTimeMillis() - current) + "ms)");
     }
 
     @Override

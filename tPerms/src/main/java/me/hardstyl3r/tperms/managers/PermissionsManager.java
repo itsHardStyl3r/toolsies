@@ -1,6 +1,7 @@
 package me.hardstyl3r.tperms.managers;
 
 import me.hardstyl3r.toolsies.managers.ConfigManager;
+import me.hardstyl3r.toolsies.utils.LogUtil;
 import me.hardstyl3r.tperms.TPerms;
 import me.hardstyl3r.tperms.objects.Group;
 import me.hardstyl3r.tperms.objects.PermissibleUser;
@@ -27,7 +28,7 @@ public class PermissionsManager {
 
     private void loadGroups() {
         if (config.getConfigurationSection("groups").getKeys(false) == null) {
-            System.out.println("Could not find any groups.");
+            LogUtil.info("loadGroups(): Could not find any groups.");
             return;
         }
         for (String name : config.getConfigurationSection("groups").getKeys(false)) {
@@ -46,7 +47,7 @@ public class PermissionsManager {
             }
             group.setInherits(inherits);
         }
-        System.out.println("loadGroups(): Found " + groups.size() + " groups.");
+        LogUtil.info("loadGroups(): Found " + groups.size() + " groups.");
     }
 
     public Group getGroup(String name) {
@@ -74,7 +75,7 @@ public class PermissionsManager {
         PermissionAttachment attachment = p.addAttachment(TPerms.getInstance());
         ArrayList<String> permsToAdd = new ArrayList<>();
         ArrayList<Group> toConsider;
-        System.out.println("startPermissions(): Setup player " + p.getName() + " with" + (u == null ? "out" : "") + " user.");
+        LogUtil.info("startPermissions(): Setup player " + p.getName() + " with" + (u == null ? "out" : "") + " user.");
         if (u == null) {
             toConsider = getDefaultGroups();
         } else {
@@ -107,7 +108,7 @@ public class PermissionsManager {
 
     public void stopPermissions(Player p) {
         if (permissions.get(p.getUniqueId()) != null) {
-            System.out.println("stopPermissions(): Removed attachment for " + p.getName());
+            LogUtil.info("stopPermissions(): Removed attachment for " + p.getName());
             p.removeAttachment(permissions.get(p.getUniqueId()));
             permissions.remove(p.getUniqueId());
         }

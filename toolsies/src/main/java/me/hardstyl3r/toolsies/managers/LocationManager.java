@@ -1,6 +1,7 @@
 package me.hardstyl3r.toolsies.managers;
 
 import me.hardstyl3r.toolsies.objects.Spawn;
+import me.hardstyl3r.toolsies.utils.LogUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -36,12 +37,12 @@ public class LocationManager {
 
     private void loadSpawns() {
         if (config.getConfigurationSection("spawn") == null) {
-            System.out.println("Could not find any spawns.");
+            LogUtil.info("loadSpawns(): Could not find any spawns.");
             return;
         }
         for (String s : config.getConfigurationSection("spawn").getKeys(false)) {
             if (Bukkit.getWorld(s) == null) {
-                System.out.println("Could not find world " + s + ".");
+                LogUtil.info("loadSpawns(): Could not find world " + s + ".");
                 continue;
             }
             Spawn spawn = new Spawn(getLocation(s, "spawn." + s));
@@ -50,8 +51,8 @@ public class LocationManager {
             spawn.setDefault(config.getBoolean("spawn." + s + ".default"));
             spawn.setAdded(config.getLong("spawn." + s + ".added"));
             spawns.put(s, spawn);
-            System.out.println("Found Spawn for world " + s + ".");
         }
+        LogUtil.info("loadSpawns(): Loaded " + spawns.size() + " spawns.");
     }
 
     public Spawn setSpawn(Player p) {
@@ -62,10 +63,10 @@ public class LocationManager {
         spawn.setPreferred(b);
         spawn.setDefault(b);
         if (spawns.get(l.getWorld().getName()) != null) {
-            System.out.println("Replaced previous " + l.getWorld().getName() + " spawn.");
+            LogUtil.info("setSpawn(): Replaced previous " + l.getWorld().getName() + " spawn.");
             spawn.setLocation(l);
         } else {
-            System.out.println("Created new spawn for " + l.getWorld().getName() + ".");
+            LogUtil.info("setSpawn(): Created new spawn for " + l.getWorld().getName() + ".");
             spawns.put(l.getWorld().getName(), spawn);
         }
         saveSpawn(spawn);

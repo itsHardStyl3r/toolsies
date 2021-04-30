@@ -1,6 +1,7 @@
 package me.hardstyl3r.toolsies.managers;
 
 import me.hardstyl3r.toolsies.Toolsies;
+import me.hardstyl3r.toolsies.utils.LogUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -48,9 +49,9 @@ public class ConfigManager {
             try {
                 configFile.getParentFile().mkdirs();
                 copy((plugin == null ? Toolsies.getInstance() : plugin).getResource(file + ".yml"), configFile);
-                System.out.println("Created " + file + ".yml.");
+                LogUtil.info("Created " + file + ".yml.");
             } catch (Exception e) {
-                System.out.println("Failed to create " + file + ".yml.");
+                LogUtil.error("loadConfig(): " + e + ".");
                 return null;
             }
         }
@@ -73,10 +74,10 @@ public class ConfigManager {
         File configFile = new File(getPath(plugin) + to + file + ".yml");
         try {
             config.save(configFile);
-            System.out.println("Saved " + file + ".yml.");
+            LogUtil.info("saveConfig(): Saved " + file + ".yml.");
             return true;
         } catch (Exception e) {
-            System.out.println("Failed to save " + file + ".yml.");
+            LogUtil.error("saveConfig(): " + e + ".");
         }
         return false;
     }
@@ -93,7 +94,7 @@ public class ConfigManager {
             source.close();
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error("copy(" + file + ".yml): " + e + ".");
             return false;
         }
     }

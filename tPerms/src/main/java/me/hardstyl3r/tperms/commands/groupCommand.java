@@ -229,7 +229,6 @@ public class groupCommand implements CommandExecutor, TabCompleter {
                 groups.remove(group);
                 if (groups.size() == 0) {
                     puTarget.setGroups(permissionManager.getDefaultGroups());
-                    System.out.println("Restored defaults.");
                 } else {
                     puTarget.setGroups(groups);
                 }

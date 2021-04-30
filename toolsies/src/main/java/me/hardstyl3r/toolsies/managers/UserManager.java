@@ -4,6 +4,7 @@ import me.hardstyl3r.toolsies.Hikari;
 import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.objects.User;
+import me.hardstyl3r.toolsies.utils.LogUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -47,35 +48,33 @@ public class UserManager {
     }
 
     public void loadUsers() {
-        Bukkit.getScheduler().runTaskAsynchronously(Toolsies.getInstance(), () -> {
-            users.clear();
-            Connection connection = null;
-            PreparedStatement p = null;
-            ResultSet rs = null;
+        users.clear();
+        Connection connection = null;
+        PreparedStatement p = null;
+        ResultSet rs = null;
 
-            String call = "SELECT `uuid`, `name`, `locale` FROM `users`;";
-            try {
-                connection = Hikari.getHikari().getConnection();
-                p = connection.prepareCall(call);
-                p.execute();
-                rs = p.getResultSet();
-                while (rs.next()) {
-                    User user = new User(rs.getString("name"), UUID.fromString(rs.getString("uuid")));
-                    if (localeManager.getLocale(rs.getString("locale")) == null) {
-                        System.out.println("loadUsers(): User " + user.getName() + " had unknown locale.");
-                        user.setLocale(localeManager.getDefault());
-                    } else {
-                        user.setLocale(localeManager.getLocale(rs.getString("locale")));
-                    }
-                    users.put(user.getUUID(), user);
+        String call = "SELECT `uuid`, `name`, `locale` FROM `users`;";
+        try {
+            connection = Hikari.getHikari().getConnection();
+            p = connection.prepareCall(call);
+            p.execute();
+            rs = p.getResultSet();
+            while (rs.next()) {
+                User user = new User(rs.getString("name"), UUID.fromString(rs.getString("uuid")));
+                if (localeManager.getLocale(rs.getString("locale")) == null) {
+                    LogUtil.warn("loadUsers(): User " + user.getName() + " had unknown locale.");
+                    user.setLocale(localeManager.getDefault());
+                } else {
+                    user.setLocale(localeManager.getLocale(rs.getString("locale")));
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                System.out.println("loadUsers(): Loaded " + users.size() + " users.");
-                Hikari.close(connection, p, rs);
+                users.put(user.getUUID(), user);
             }
-        });
+        } catch (SQLException e) {
+            LogUtil.error("loadUsers(): " + e + ".");
+        } finally {
+            LogUtil.info("loadUsers(): Loaded " + users.size() + " users.");
+            Hikari.close(connection, p, rs);
+        }
     }
 
     public void createUser(Player player) {
@@ -85,23 +84,17 @@ public class UserManager {
         Bukkit.getScheduler().runTaskAsynchronously(Toolsies.getInstance(), () -> {
             Connection connection = null;
             PreparedStatement p = null;
-            String update = "INSERT INTO `users` VALUES(?, ?, ?, ?, ?)";
+            String update = "INSERT INTO `users` (`uuid`, `name`, `locale`) VALUES(?, ?, ?)";
             try {
                 connection = Hikari.getHikari().getConnection();
                 p = connection.prepareStatement(update);
                 p.setString(1, player.getUniqueId().toString());
                 p.setString(2, player.getName());
                 p.setString(3, localeManager.getDefault().getId());
-                /*
-                Values 4-5 will be taken care of later. I am assuming.
-                tPerms will take care of it if group is null.
-                 */
-                p.setString(4, null);
-                p.setString(5, null);
                 p.execute();
-                System.out.println("createUser(): Created new " + user.getName());
+                LogUtil.info("createUser(): Created new " + user.getName() + ".");
             } catch (SQLException e) {
-                e.printStackTrace();
+                LogUtil.error("createUser(): " + e + ".");
             } finally {
                 Hikari.close(connection, p, null);
             }
@@ -121,9 +114,9 @@ public class UserManager {
                 p.setString(2, u.getLocale().getId());
                 p.setString(3, u.getUUID().toString());
                 p.execute();
-                System.out.println("loadUsers(): Updated " + u.getName() + ".");
+                LogUtil.info("updateUser(): Updated " + u.getName() + ".");
             } catch (SQLException e) {
-                e.printStackTrace();
+                LogUtil.error("updateUsers(): " + e + ".");
             } finally {
                 Hikari.close(connection, p, null);
             }

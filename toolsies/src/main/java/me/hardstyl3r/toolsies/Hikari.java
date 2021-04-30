@@ -2,13 +2,10 @@ package me.hardstyl3r.toolsies;
 
 import com.zaxxer.hikari.HikariDataSource;
 import me.hardstyl3r.toolsies.managers.ConfigManager;
-import org.bukkit.Bukkit;
+import me.hardstyl3r.toolsies.utils.LogUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Hikari {
 
@@ -38,21 +35,33 @@ public class Hikari {
     }
 
     private void createTables() {
-        Bukkit.getScheduler().runTaskAsynchronously(Toolsies.getInstance(), () -> {
-            Connection connection = null;
-            PreparedStatement p = null;
-
-            String users = "CREATE TABLE IF NOT EXISTS `users` (`uuid` VARCHAR(36) NOT NULL, `name` VARCHAR(16) NOT NULL, `locale` VARCHAR(5), `groups` TEXT, `permissions` TEXT)";
-            try {
-                connection = hikari.getConnection();
-                p = connection.prepareStatement(users);
-                p.execute();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                close(connection, p, null);
+        Connection connection = null;
+        Statement p = null;
+        try {
+            connection = hikari.getConnection();
+            p = connection.createStatement();
+            p.executeUpdate("CREATE TABLE IF NOT EXISTS `users` (`id` MEDIUMINT(8) UNSIGNED AUTO_INCREMENT, PRIMARY KEY (`id`)) CHARACTER SET = utf8;");
+            DatabaseMetaData metaData = connection.getMetaData();
+            if (isColumnMissing(metaData, "uuid")) {
+                p.executeUpdate("ALTER TABLE `users` ADD COLUMN `uuid` VARCHAR(36) NOT NULL AFTER `id`;");
             }
-        });
+            if (isColumnMissing(metaData, "name")) {
+                p.executeUpdate("ALTER TABLE `users` ADD COLUMN `name` VARCHAR(16) NOT NULL AFTER `uuid`;");
+            }
+            if (isColumnMissing(metaData, "locale")) {
+                p.executeUpdate("ALTER TABLE `users` ADD COLUMN `locale` VARCHAR(5);");
+            }
+        } catch (SQLException e) {
+            LogUtil.error("createTables(): " + e + ".");
+        } finally {
+            close(connection, p, null);
+        }
+    }
+
+    public static boolean isColumnMissing(DatabaseMetaData metaData, String columnName) throws SQLException {
+        try (ResultSet rs = metaData.getColumns(null, null, "users", columnName)) {
+            return !rs.next();
+        }
     }
 
     public static void close(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) {
@@ -60,22 +69,33 @@ public class Hikari {
             try {
                 connection.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LogUtil.error("close(Connection): " + e + ".");
             }
         }
         if (preparedStatement != null) {
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LogUtil.error("close(PreparedStatement): " + e + ".");
             }
         }
         if (resultSet != null) {
             try {
                 resultSet.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LogUtil.error("close(ResultSet): " + e + ".");
             }
         }
+    }
+
+    public static void close(Connection connection, Statement statement, ResultSet resultSet) {
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                LogUtil.error("close(Statement): " + e + ".");
+            }
+        }
+        close(connection, null, resultSet);
     }
 }

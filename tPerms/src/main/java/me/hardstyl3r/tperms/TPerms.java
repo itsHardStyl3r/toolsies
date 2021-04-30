@@ -1,6 +1,8 @@
 package me.hardstyl3r.tperms;
 
+import me.hardstyl3r.toolsies.Hikari;
 import me.hardstyl3r.toolsies.Toolsies;
+import me.hardstyl3r.toolsies.utils.LogUtil;
 import me.hardstyl3r.tperms.commands.groupCommand;
 import me.hardstyl3r.tperms.commands.permissionCommand;
 import me.hardstyl3r.tperms.listeners.AsyncPlayerChatListener;
@@ -10,6 +12,11 @@ import me.hardstyl3r.tperms.managers.PermissibleUserManager;
 import me.hardstyl3r.tperms.managers.PermissionsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class TPerms extends JavaPlugin {
 
@@ -23,20 +30,15 @@ public class TPerms extends JavaPlugin {
         instance = this;
         toolsies = (Toolsies) Bukkit.getServer().getPluginManager().getPlugin("toolsies");
         if (!toolsies.isEnabled() || toolsies == null) {
-            System.out.println("Could not hook into toolsies.");
+            LogUtil.warn("Could not hook into toolsies.");
             this.setEnabled(false);
         }
-
-        /*
-        The expected versioning of toolsies is:
-        0.00-ALPHA/BETA/RC-00 and what we're interested in is 0.00.
-         */
         double version = Double.parseDouble(toolsies.getDescription().getVersion().split("-")[0]);
-        double SUPPORTED_TOOLSIES = 0.6;
-        if (version < SUPPORTED_TOOLSIES) {
-            System.out.println("Unsupported toolsies version.");
+        if (version < 0.9) {
+            LogUtil.error("Unsupported toolsies version.");
             this.setEnabled(false);
         }
+        addTables();
         initManagers();
         initCommands();
         initListeners();
@@ -64,5 +66,25 @@ public class TPerms extends JavaPlugin {
     private void initCommands() {
         new groupCommand(this, toolsies.userManager, permissionsManager, toolsies.localeManager, permissibleUserManager);
         new permissionCommand(this, toolsies.userManager, toolsies.localeManager, permissionsManager, permissibleUserManager);
+    }
+
+    private void addTables() {
+        Connection connection = null;
+        Statement p = null;
+        try {
+            connection = Hikari.getHikari().getConnection();
+            p = connection.createStatement();
+            DatabaseMetaData metaData = connection.getMetaData();
+            if (Hikari.isColumnMissing(metaData, "groups")) {
+                p.executeUpdate("ALTER TABLE `users` ADD COLUMN `groups` TEXT;");
+            }
+            if (Hikari.isColumnMissing(metaData, "permissions")) {
+                p.executeUpdate("ALTER TABLE `users` ADD COLUMN `permissions` TEXT;");
+            }
+        } catch (SQLException e) {
+            LogUtil.error("addTables(): " + e + ".");
+        } finally {
+            Hikari.close(connection, p, null);
+        }
     }
 }

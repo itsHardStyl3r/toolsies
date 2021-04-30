@@ -2,6 +2,7 @@ package me.hardstyl3r.toolsies.managers;
 
 import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.objects.Locale;
+import me.hardstyl3r.toolsies.utils.LogUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -34,11 +35,11 @@ public class LocaleManager {
                 l.setAliases(config.getStringList("config.aliases"));
                 l.setName(config.getString("config.name"));
                 locales.put(s, l);
-                System.out.println("Loaded locale " + l.getName() + " (" + l.getId() + ").");
             } else {
-                System.out.println("Could not find messages-" + s + ".");
+                LogUtil.info("loadLocales(): Could not find messages-" + s + ".");
             }
         }
+        LogUtil.info("loadLocales(): Loaded " + locales.size() + " locales.");
     }
 
     public FileConfiguration getConfig() {
@@ -86,7 +87,7 @@ public class LocaleManager {
                 if (!s.startsWith("arg")) {
                     String permission = "toolsies." + s.replace("-", ".").replaceAll("\\d", "");
                     if (sender.hasPermission(permission)) {
-                        System.out.println("Command: Checking for permission: toolsies." + s.replace("-", "."));
+                        LogUtil.info("Command: Checking for permission: toolsies." + s.replace("-", "."));
                         String usage = config.getString(command + ".usage." + s);
                         if (sender.hasPermission(permission + ".others")) {
                             usage = usage.replace("arg-player", config.getString("common.player"));
@@ -98,7 +99,7 @@ public class LocaleManager {
                 } else {
                     String val = s.replace("-", ".").replace("arg", "").replaceAll("\\d", "");
                     if (sender.hasPermission("toolsies." + (val.isEmpty() ? command : val))) {
-                        System.out.println("Command: Checking for permission: toolsies." + (val.isEmpty() ? command : val));
+                        LogUtil.info("Command: Checking for permission: toolsies." + (val.isEmpty() ? command : val));
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', arg.replace("<args>", config.getString(command + ".usage." + s))));
                     }
                 }

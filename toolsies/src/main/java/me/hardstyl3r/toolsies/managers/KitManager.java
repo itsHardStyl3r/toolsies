@@ -1,5 +1,6 @@
 package me.hardstyl3r.toolsies.managers;
 
+import me.hardstyl3r.toolsies.utils.LogUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -52,12 +53,12 @@ public class KitManager {
         for (String kitMaterial : config.getConfigurationSection("kits." + kit + ".items").getKeys(false)) {
             Material material = Material.matchMaterial((kitMaterial.contains("-") ? kitMaterial.split("-")[0] : kitMaterial));
             if (material == null) {
-                System.out.println("Kit " + kit + ": " + kitMaterial + " is not correct Material.");
+                LogUtil.warn("Kit " + kit + ": " + kitMaterial + " is not correct Material.");
                 continue;
             }
             String amount = config.getString("kits." + kit + ".items." + kitMaterial + ".amount");
             if (Integer.valueOf(amount) == null || Integer.parseInt(amount) <= 0) {
-                System.out.println("Kit " + kit + ": Amount (" + amount + ") of " + kitMaterial + " is wrong.");
+                LogUtil.warn("Kit " + kit + ": Amount (" + amount + ") of " + kitMaterial + " is wrong.");
                 continue;
             }
             ItemStack item = new ItemStack(material, Integer.parseInt(amount));
