@@ -1,0 +1,7 @@
+name: tBans
+version: ${project.version}
+main: me.hardstyl3r.tbans.TBans
+api-version: 1.16
+authors: [ hardStyl3r ]
+description: Toolsies addon to support punishments
+depend: [ toolsies ]

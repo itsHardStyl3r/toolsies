@@ -11,6 +11,7 @@
     <modules>
         <module>toolsies</module>
         <module>tPerms</module>
+        <module>tBans</module>
     </modules>
 
     <properties>
