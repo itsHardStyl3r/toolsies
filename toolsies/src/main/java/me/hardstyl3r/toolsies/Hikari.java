@@ -42,13 +42,13 @@ public class Hikari {
             p = connection.createStatement();
             p.executeUpdate("CREATE TABLE IF NOT EXISTS `users` (`id` MEDIUMINT(8) UNSIGNED AUTO_INCREMENT, PRIMARY KEY (`id`)) CHARACTER SET = utf8;");
             DatabaseMetaData metaData = connection.getMetaData();
-            if (isColumnMissing(metaData, "uuid")) {
+            if (isColumnMissing(metaData, "users", "uuid")) {
                 p.executeUpdate("ALTER TABLE `users` ADD COLUMN `uuid` VARCHAR(36) NOT NULL AFTER `id`;");
             }
-            if (isColumnMissing(metaData, "name")) {
+            if (isColumnMissing(metaData, "users", "name")) {
                 p.executeUpdate("ALTER TABLE `users` ADD COLUMN `name` VARCHAR(16) NOT NULL AFTER `uuid`;");
             }
-            if (isColumnMissing(metaData, "locale")) {
+            if (isColumnMissing(metaData, "users", "locale")) {
                 p.executeUpdate("ALTER TABLE `users` ADD COLUMN `locale` VARCHAR(5);");
             }
         } catch (SQLException e) {
@@ -58,8 +58,8 @@ public class Hikari {
         }
     }
 
-    public static boolean isColumnMissing(DatabaseMetaData metaData, String columnName) throws SQLException {
-        try (ResultSet rs = metaData.getColumns(null, null, "users", columnName)) {
+    public static boolean isColumnMissing(DatabaseMetaData metaData, String tableName, String columnName) throws SQLException {
+        try (ResultSet rs = metaData.getColumns(null, null, tableName, columnName)) {
             return !rs.next();
         }
     }
