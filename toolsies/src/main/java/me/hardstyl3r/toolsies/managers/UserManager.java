@@ -43,6 +43,10 @@ public class UserManager {
         return getUser(sender.getName());
     }
 
+    public User getUserIgnoreCase(String name) {
+        return users.values().stream().filter(u -> u.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
+    }
+
     public boolean hasPlayedBefore(Player p) {
         return getUser(p.getUniqueId()) != null;
     }
