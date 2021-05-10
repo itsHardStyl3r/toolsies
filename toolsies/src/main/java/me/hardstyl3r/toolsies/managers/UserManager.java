@@ -127,10 +127,25 @@ public class UserManager {
         });
     }
 
-    public Locale determineLocale(CommandSender sender) {
+    public Locale determineLocale(String sender) {
         Locale l = localeManager.getDefault();
-        if ((sender instanceof Player) && getUser(sender) != null) {
+        if (getUser(sender) != null) {
             l = getUser(sender).getLocale();
+        }
+        return l;
+    }
+
+    public Locale determineLocale(CommandSender sender) {
+        if (!(sender instanceof Player)) {
+            return localeManager.getDefault();
+        }
+        return determineLocale(sender.getName());
+    }
+
+    public Locale determineLocale(UUID uuid) {
+        Locale l = localeManager.getDefault();
+        if (getUser(uuid) != null) {
+            l = getUser(uuid).getLocale();
         }
         return l;
     }
