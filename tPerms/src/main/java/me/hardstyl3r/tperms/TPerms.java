@@ -17,6 +17,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
 
 public class TPerms extends JavaPlugin {
 
@@ -27,6 +28,7 @@ public class TPerms extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        long current = System.currentTimeMillis();
         instance = this;
         toolsies = (Toolsies) Bukkit.getServer().getPluginManager().getPlugin("toolsies");
         if (!toolsies.isEnabled() || toolsies == null) {
@@ -42,6 +44,7 @@ public class TPerms extends JavaPlugin {
         initManagers();
         initCommands();
         initListeners();
+        LogUtil.info("[tPerms] Enabled tPerms. (took " + (System.currentTimeMillis() - current) + "ms)");
     }
 
     @Override
@@ -75,10 +78,10 @@ public class TPerms extends JavaPlugin {
             connection = Hikari.getHikari().getConnection();
             p = connection.createStatement();
             DatabaseMetaData metaData = connection.getMetaData();
-            if (Hikari.isColumnMissing(metaData, "groups")) {
+            if (Hikari.isColumnMissing(metaData, "users", "groups")) {
                 p.executeUpdate("ALTER TABLE `users` ADD COLUMN `groups` TEXT;");
             }
-            if (Hikari.isColumnMissing(metaData, "permissions")) {
+            if (Hikari.isColumnMissing(metaData, "users", "permissions")) {
                 p.executeUpdate("ALTER TABLE `users` ADD COLUMN `permissions` TEXT;");
             }
         } catch (SQLException e) {
