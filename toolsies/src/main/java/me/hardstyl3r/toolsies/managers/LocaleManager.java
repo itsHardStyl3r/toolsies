@@ -17,6 +17,7 @@ public class LocaleManager {
 
     private final ConfigManager configManager;
     private final FileConfiguration config;
+    private final StringBuilder sb = new StringBuilder();
 
     public LocaleManager(ConfigManager configManager) {
         this.configManager = configManager;
@@ -108,14 +109,14 @@ public class LocaleManager {
     }
 
     public String createMessage(String[] args, int startFrom) {
-        StringBuilder msg = new StringBuilder();
+        reuseStringBuilder();
         for (int i = startFrom; i < args.length; i++) {
-            msg.append(args[i]);
+            sb.append(args[i]);
             if (i <= args.length - 2) {
-                msg.append(" ");
+                sb.append(" ");
             }
         }
-        return msg.toString();
+        return sb.toString();
     }
 
     public List<String> formatTabArguments(String argsStart, List<String> allarguments) {
@@ -138,5 +139,14 @@ public class LocaleManager {
 
     public String formatArgument(String argument, boolean required) {
         return (required ? "<" : "[") + argument + (required ? ">" : "]");
+    }
+
+    public StringBuilder getStringBuilder(boolean clean){
+        if(clean) reuseStringBuilder();
+        return sb;
+    }
+
+    private void reuseStringBuilder(){
+        sb.setLength(0);
     }
 }
