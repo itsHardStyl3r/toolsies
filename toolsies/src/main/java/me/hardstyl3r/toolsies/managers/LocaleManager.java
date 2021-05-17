@@ -9,9 +9,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LocaleManager {
 
@@ -148,5 +153,131 @@ public class LocaleManager {
 
     private void reuseStringBuilder(){
         sb.setLength(0);
+    }
+
+    public String getFullDate(long czas) {
+        return new SimpleDateFormat("dd.MM.yyyy - HH:mm:ss").format(new Date(czas));
+    }
+
+    public String getDate(long czas) {
+        return new SimpleDateFormat("dd.MM.yyyy").format(new Date(czas));
+    }
+
+    public String getFullTime(long czas) {
+        return new SimpleDateFormat("HH:mm:ss").format(new Date(czas));
+    }
+
+    public String getTime(long czas) {
+        return new SimpleDateFormat("HH:mm").format(new Date(czas));
+    }
+
+    public String parseTimeWithTranslate(long millis, Locale l) {
+        reuseStringBuilder();
+        if (millis == 0L) {
+            return "0";
+        }
+        sb.setLength(0);
+
+        long days = TimeUnit.MILLISECONDS.toDays(millis);
+        if (days > 0L) {
+            millis -= TimeUnit.DAYS.toMillis(days);
+            if (l.getConfig().getString("common.time.days." + plural((int) days)) == null) {
+                sb.append(days).append(" ").append(l.getConfig().getString("common.time.days." + (plural((int) days) - 1)));
+            } else {
+                sb.append(days).append(" ").append(l.getConfig().getString("common.time.days." + plural((int) days)));
+            }
+        }
+        long hours = TimeUnit.MILLISECONDS.toHours(millis);
+        if (hours > 0L) {
+            if (days > 0L) {
+                sb.append(" ");
+            }
+            millis -= TimeUnit.HOURS.toMillis(hours);
+            if (l.getConfig().getString("common.time.hours." + plural((int) hours)) == null) {
+                sb.append(hours).append(" ").append(l.getConfig().getString("common.time.hours." + (plural((int) hours) - 1)));
+            } else {
+                sb.append(hours).append(" ").append(l.getConfig().getString("common.time.hours." + plural((int) hours)));
+            }
+        }
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
+        if (minutes > 0L) {
+            if (hours > 0L) {
+                sb.append(" ");
+            }
+            millis -= TimeUnit.MINUTES.toMillis(minutes);
+            if (l.getConfig().getString("common.time.minutes." + plural((int) minutes)) == null) {
+                sb.append(minutes).append(" ").append(l.getConfig().getString("common.time.minutes." + (plural((int) minutes) - 1)));
+            } else {
+                sb.append(minutes).append(" ").append(l.getConfig().getString("common.time.minutes." + plural((int) minutes)));
+            }
+        }
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
+        if (seconds > 0L) {
+            if (minutes > 0L) {
+                sb.append(" ");
+            }
+            //millis -= TimeUnit.SECONDS.toMillis(seconds);
+            if (l.getConfig().getString("common.time.seconds." + plural((int) seconds)) == null) {
+                sb.append(seconds).append(" ").append(l.getConfig().getString("common.time.seconds." + (plural((int) seconds) - 1)));
+            } else {
+                sb.append(seconds).append(" ").append(l.getConfig().getString("common.time.seconds." + plural((int) seconds)));
+            }
+        }
+        return sb.toString();
+    }
+
+    public long parseTimeFromString(String s) {
+        Pattern pattern = Pattern.compile("(?:([0-9]+)\\s*y[a-z]*[, \\s]*)?(?:([0-9]+)\\s*mo[a-z]*[, \\s]*)?(?:([0-9]+)\\s*d[a-z]*[, \\s]*)?(?:([0-9]+)\\s*h[a-z]*[, \\s]*)?(?:([0-9]+)\\s*m[a-z]*[, \\s]*)?(?:([0-9]+)\\s*(?:s[a-z]*)?)?");
+        Matcher matcher = pattern.matcher(s);
+        long czas = 0L;
+        boolean found = false;
+        while (matcher.find()) {
+            if ((matcher.group() != null) && (!matcher.group().isEmpty())) {
+                for (int i = 0; i < matcher.groupCount(); i++) {
+                    if ((matcher.group(i) != null) && (!matcher.group(i).isEmpty())) {
+                        found = true;
+                        break;
+                    }
+                }
+                if ((matcher.group(1) != null) && (!matcher.group(1).isEmpty())) {
+                    czas += 31536000L * Integer.parseInt(matcher.group(1));
+                }
+                if ((matcher.group(2) != null) && (!matcher.group(2).isEmpty())) {
+                    czas += 2592000L * Integer.parseInt(matcher.group(2));
+                }
+                if ((matcher.group(3) != null) && (!matcher.group(3).isEmpty())) {
+                    czas += 86400L * Integer.parseInt(matcher.group(3));
+                }
+                if ((matcher.group(4) != null) && (!matcher.group(4).isEmpty())) {
+                    czas += 3600L * Integer.parseInt(matcher.group(4));
+                }
+                if ((matcher.group(5) != null) && (!matcher.group(5).isEmpty())) {
+                    czas += 60L * Integer.parseInt(matcher.group(5));
+                }
+                if ((matcher.group(6) != null) && (!matcher.group(6).isEmpty())) {
+                    czas += Integer.parseInt(matcher.group(6));
+                }
+            }
+        }
+        if (!found) {
+            return -1L;
+        }
+        return czas * 1000L;
+    }
+
+    public boolean isValidStringTime(String s) {
+        Pattern pattern = Pattern.compile("(?:([0-9]+)\\s*y[a-z]*[, \\s]*)?(?:([0-9]+)\\s*mo[a-z]*[, \\s]*)?(?:([0-9]+)\\s*d[a-z]*[, \\s]*)?(?:([0-9]+)\\s*h[a-z]*[, \\s]*)?(?:([0-9]+)\\s*m[a-z]*[, \\s]*)?(?:([0-9]+)\\s*(?:s[a-z]*)?)?");
+        Matcher matcher = pattern.matcher(s);
+        return matcher.find();
+    }
+
+    private int plural(Integer value) {
+        if (value == 1) {
+            return 1;
+        } else if (value % 10 >= 2 && value % 10 <= 4 && (value % 100 < 10 || value % 100 >= 20)) {
+            return 2;
+        } else {
+            return 3;
+        }
     }
 }
