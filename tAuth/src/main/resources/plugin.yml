@@ -1,0 +1,7 @@
+name: tAuth
+version: ${project.version}
+main: me.hardstyl3r.tauth.TAuth
+api-version: 1.16
+authors: [ hardStyl3r ]
+description: Toolsies addon to support authentication
+depend: [ toolsies ]
