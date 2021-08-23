@@ -13,6 +13,26 @@ common:
   boolean:
     true: "tak"
     false: "nie"
+  time:
+    seconds:
+      1: "sekunda"
+      2: "sekundy"
+      3: "sekund"
+    minutes:
+      1: "minuta"
+      2: "minuty"
+      3: "minut"
+    hours:
+      1: "godzina"
+      2: "godziny"
+      3: "godzin"
+    days:
+      1: "dzień"
+      2: "dni"
+    months:
+      1: "miesiąc"
+      2: "miesiące"
+      3: "miesięcy"
 
 locale:
   unknown_locale: "&c# &7Język <name> nie istnieje."
@@ -147,6 +167,165 @@ delspawn:
   delspawn: "&a# &7Usunięto spawn <name>."
   delspawn_default: "&c# &7Nie możesz usunąć domyślnego spawnu <name>."
   no_spawn_specified: "&e# &7Musisz znajdować się na spawnie lub określić świat."
+
+ban:
+  usage:
+    ban: "/ban <gracz> [powód] - banuje gracza"
+    console-ban: "/ban <gracz> [powód] - banuje gracza"
+  ban: "&a# &7Zbanowano gracza <name>."
+  messages:
+    kick:
+      header: "&cZostałeś permanentnie zbanowany.\n"
+      footer: "&fOdwołaj się w: somewhere"
+    join:
+      header: "&cJesteś permanentnie zbanowany.\n"
+      footer: "&fOdwołaj się w: somewhere"
+    date: "&fZbanowany w: <date>"
+    admin: "&fZbanowany przez: <admin>"
+    reason: "&fPowód: <reason>"
+    duration: "&fPrzedawniony po: <duration>"
+  ban_broadcast: "&a# &7Gracz <name> został permanentnie zbanowany przez <admin>."
+  is_banned: "&e# &7<name> jest już zbanowany."
+  unresolved_hostname: "&cNie udało się potwierdzić adresu IP."
+  name_too_long: "&e# &7Nick nie może być dłuższy niż <length>."
+
+unban:
+  usage:
+    unban: "/unban <gracz> - odbanowuje gracza"
+    console-unban: "/unban <gracz> - odbanowuje gracza"
+  unban: "&a# &7Odbanowano <name>."
+  unban_broadcast: "&a# &7Gracz <name> został odbanowany przez <admin>."
+  is_not_banned: "&e# &7<name> nie jest zbanowany."
+
+banlist:
+  usage:
+    banlist: "/banlist [strona] - wyświetla listę banów"
+    console-banlist: "/banlist [strona] - wyświetla listę banów"
+  banlist_header: "&e# &7Lista banów (<page>/<maxpages>). Łącznie: <total>"
+  banlist_ban_entry: "&e> &7<name> zbanowany w <date>"
+  banlist_tempban_entry: "&e> &7<name> zbanowany w <date>"
+  banlist_footer: "&e# &7Po szczegóły, wpisz /getban <name>."
+  unknown_page: "&e# &7Nieznana strona."
+  failed: "&c# &7Nie udało się pobrać listy banów."
+
+tempban:
+  usage:
+    tempban: "/tempban <gracz> <czas> [powód] - tymczasowo banuje gracza"
+    console-tempban: "/tempban <gracz> <czas> [powód] - tymczasowo banuje gracza"
+  tempban: "&a# &7Tymczasowo zbanowano gracza <name> na <duration>."
+  tempban_broadcast: "&a# &7Gracz <name> został tymczasowo zbanowany <admin> na <duration>."
+  incorrect_time: "&c# &7Niepoprawny czas długości bana."
+  duration_too_short: "&c# &7Okres musi mieć co najmniej <duration>."
+
+getban:
+  usage:
+    getban: "/getban <nick> - wyświetla informacje o banie"
+    console-getban: "/getban <nick> - wyświetla informacje o banie"
+  getban_header: "&e# &7Informacje o banie <name> (#<id>)."
+  entries:
+    type: "&e> &7Typ: <type>"
+    admin: "&e> &7Admin: <admin>"
+    reason: "&e> &7Powód: <reason>"
+    date: "&e> &7Data nadania: <date>"
+    duration: "&e> &7Data wygaśnięcia: <duration>"
+    remaining: "&e> &7Pozostało: <remaining>"
+    uuid: "&e> &7UUID: <uuid>"
+
+ban-ip:
+  usage:
+    ban-ip: "/ban-ip <adres/gracz> [powód] - banuje ip"
+    console-ban-ip: "/ban-ip <adres/gracz> [powód] - banuje ip"
+  ban-ip: "&a# &7Zbanowano adres <address>"
+  is_banned: "&e# &7Adres <address> jest już zbanowany."
+  incorrect_address: "&c# &7Nie odnaleziono gracza lub podano błędne ip."
+  ipv6_address: "&e# &7Adresy IPv6 nie są włączone."
+
+warn:
+  usage:
+    warn: "/warn <player> <reason> - nadaje ostrzeżenie"
+    console-warn: "/warn <player> <reason> - nadaje ostrzeżenie"
+  warn_sender: "&a# &7Ostrzeżono <name>."
+  warn_target: "&e# &7Otrzymano ostrzeżenie od <admin>. \n&e> &7Powód: <reason>"
+
+unwarn:
+  usage:
+    unwarn: "/unwarn <id> - usuwa ostrzeżenie"
+    console-unwarn: "/unwarn <id> - usuwa ostrzeżenie"
+  unwarn: "&a# &7Usunięto ostrzeżenie #<id>."
+  no_such_warn: "&e# &7Ostrzeżenie #<id> nie istnieje."
+  wrong_id: "&c# &7ID musi być liczbą."
+  unwarn_target: "&e# &7Twoje ostrzeżenie #<id> zostało usunięte przez <admin>."
+
+getwarn:
+  usage:
+    getwarn: "/getwarn <id> - informacje o ostrzeżeniu"
+    console-getwarn: "/getwarn <id> - informacje o ostrzeżeniu"
+  getwarn_header: "&e# &7Ostrzeżenie #<id> gracza <name>"
+  entries:
+    admin: "&e> &7Admin: <admin>"
+    reason: "&e> &7Powód: <reason>"
+    date: "&e> &7Nadano w: <date>"
+    duration: "&e> &7Data przedawnienie: <duration>"
+    remaining: "&e> &7Pozostało: <remaining>"
+  no_such_warn: "&e# &7Ostrzeżenie #<id> nie istnieje."
+  wrong_id: "&c# &7ID musi być cyfrą."
+
+warns:
+  usage:
+    warns: "/warns [arg-player] - wyświetla listę ostrzeżeń"
+    console-warns: "/warns [arg-player] - wyświetla listę ostrzeżeń"
+  warns: "&e# &7Twoje ostrzeżenia: <warns>.\n&e# &7Łącznie: <total>\n&e# &7Po więcej informacji, wpisz /getwarn <id>"
+  warns_sender: "&e# &7Ostrzeżenia <name>: <warns>.\n&e# &7Łącznie: <total>\n&e# &7Po więcej informacji, wpisz /getwarn <id>"
+  no_warns: "&e# &7Nie masz żadnych ostrzeżeń."
+  no_warns_sender: "&e# &7<name> nie ma żadnych ostrzeżeń."
+
+mute:
+  usage:
+    mute: "/mute <gracz> [powód] - wycisza gracza"
+    console-mute: "/mute <gracz> [powód] - wycisza gracza"
+  mute: "&a# &7Wyciszono <name>."
+  is_muted: "&e# &7<name> jest już wyciszony."
+  mute_target: "&e# &7Zostałeś wyciszony przez <admin>. \n&e> &7Powód: <reason>"
+  chat_muted: "&e# &7Jesteś wyciszony."
+
+tempmute:
+  usage:
+    tempmute: "/tempmute <gracz> <czas> [powód] - wycisza gracza"
+    console-tempmute: "/tempmute <gracz> <czas> [powód] - wycisza gracza"
+  tempmute: "&a# &7Wyciszono <name> na <duration>."
+  tempmute_target: "&e# &7Zostałeś wyciszony przez <admin> na <duration>."
+  chat_muted: "&e# &7Jesteś wyciszony przez <duration>."
+
+tempwarn:
+  usage:
+    tempwarn: "/tempwarn <gracz> <czas> [powód] - nadaje ostrzeżenie"
+    console-tempwarn: "/tempwarn <gracz> <czas> [powód] - nadaje ostrzeżenie"
+  tempwarn_sender: "&a# &7Ostrzeżono <name> na <duration>."
+  tempwarn_target: "&e# &7Otrzymano ostrzeżenie od <admin> na <duration>. \n&e> &7Powód: <reason>"
+
+unmute:
+  usage:
+    unmute: "/unmute <gracz> - odcisza gracza"
+    console-unmute: "/unmute <gracz> - odcisza gracza"
+  is_not_muted: "&e# &7<name> nie jest wyciszony."
+  unmute: "&a# &7Odciszono <name>."
+  unmute_target: "&e# &7Zostałeś odciszony przez <admin>."
+
+kick:
+  usage:
+    kick: "/kick <gracz> - wyrzuca gracza"
+    console-kick: "/kick <gracz> - wyrzuca gracza"
+  kick: "&a# &7Wyrzucono <name>."
+  kickmessage:
+    header: "&cZostałeś wyrzucony.\n"
+    admin: "&fWyrzucony przez: <admin>"
+    reason: "&fPowód: <reason>"
+
+tempban-ip:
+  usage:
+    tempban-ip: "/tempban <adres/gracz> <czas> [powód] - tymczasowo banuje ip"
+    console-tempban-ip: "/tempban <adres/gracz> <czas> [powód] - tymczasowo banuje ip"
+  tempban-ip: "&a# &7Tymczasowo zbanowano gracza <name> na <duration>."
 
 players:
   unknown: "&c# &7Gracz <name> nie istnieje."

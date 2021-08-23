@@ -13,6 +13,22 @@ common:
   boolean:
     true: "yes"
     false: "no"
+  time:
+    seconds:
+      1: "second"
+      2: "seconds"
+    minutes:
+      1: "minute"
+      2: "minutes"
+    hours:
+      1: "hour"
+      2: "hours"
+    days:
+      1: "day"
+      2: "days"
+    months:
+      1: "month"
+      2: "months"
 
 locale:
   unknown_locale: "&c# &7Locale <name> does not exist."
@@ -148,8 +164,168 @@ delspawn:
   delspawn_default: "&c# &7You can't delete default spawn <name>."
   no_spawn_specified: "&e# &7You have to be on spawn or specify it."
 
+ban:
+  usage:
+    ban: "/ban <player> [reason] - bans a player"
+    console-ban: "/ban <player> [reason] - bans a player"
+  ban: "&a# &7Banned <name>."
+  messages:
+    kick:
+      header: "&cYou've been permanently banned.\n"
+      footer: "&fAppeal at: somewhere"
+    join:
+      header: "&cYou are permanently banned.\n"
+      footer: "&fAppeal at: somewhere"
+    date: "&fBanned on: <date>"
+    admin: "&fBanned by: <admin>"
+    reason: "&fReason: <reason>"
+    duration: "&fExpires on: <duration>"
+  ban_broadcast: "&a# &7Player <name> has been permanently banned by <admin>."
+  is_banned: "&e# &7<name> is already banned."
+  unresolved_hostname: "&cYour IP address could not be resolved."
+  name_too_long: "&e# &7Nickname can't be longer than <length>."
+
+unban:
+  usage:
+    unban: "/unban <player> - unbans a player"
+    console-unban: "/unban <player> - unbans a player"
+  unban: "&a# &7Unbanned <name>."
+  unban_broadcast: "&a# &7Player <name> has been unbanned by <admin>."
+  is_not_banned: "&e# &7<name> is not banned."
+
+banlist:
+  usage:
+    banlist: "/banlist [page] - displays ban list"
+    console-banlist: "/banlist [page] - displays ban list"
+  banlist_header: "&e# &7Ban list (<page>/<maxpages>). Total: <total>"
+  banlist_ban_entry: "&e> &7<name> banned on <date>"
+  banlist_tempban_entry: "&e> &7<name> banned for <duration>"
+  banlist_footer: "&e# &7For details, type /getban <name>."
+  unknown_page: "&e# &7Unknown page."
+  failed: "&c# &7Failed to retrieve banlist."
+
+tempban:
+  usage:
+    tempban: "/tempban <player> <time> [reason] - temporarily bans player"
+    console-tempban: "/tempban <player> <time> [reason] - temporarily bans player"
+  tempban: "&a# &7Temporarily banned <name> for <duration>."
+  tempban_broadcast: "&a# &7Player <name> has been temporarily banned by <admin> for <duration>."
+  incorrect_time: "&c# &7Incorrect duration entered."
+  duration_too_short: "&c# &7Duration must be at least <duration>."
+
+getban:
+  usage:
+    getban: "/getban <nick> - displays ban information"
+    console-getban: "/getban <nick> - displays ban information"
+  getban_header: "&e# &7Ban information of <name> (#<id>)."
+  entries:
+    type: "&e> &7Type: <type>"
+    admin: "&e> &7Admin: <admin>"
+    reason: "&e> &7Reason: <reason>"
+    date: "&e> &7Banned on: <date>"
+    duration: "&e> &7Expiration date: <duration>"
+    remaining: "&e> &7Remaining: <remaining>"
+    uuid: "&e> &7UUID: <uuid>"
+
+ban-ip:
+  usage:
+    ban-ip: "/ban-ip <address/player> [reason] - bans ip"
+    console-ban-ip: "/ban-ip <address/player> [reason] - bans ip"
+  ban-ip: "&a# &7Banned address <address>"
+  is_banned: "&e# &7Address <address> is already banned."
+  incorrect_address: "&c# &7Player could not be found or wrong ip was entered."
+  ipv6_address: "&e# &7IPv6 addresses are not enabled."
+
+warn:
+  usage:
+    warn: "/warn <player> <reason> - warns a player"
+    console-warn: "/warn <player> <reason> - warns a player"
+  warn_sender: "&a# &7Warned <name>."
+  warn_target: "&e# &7You've been warned by <admin>. \n&e> &7Reason: <reason>"
+
+unwarn:
+  usage:
+    unwarn: "/unwarn <id> - deletes a warn"
+    console-unwarn: "/unwarn <id> - deletes a warn"
+  unwarn: "&a# &7Deleted warn #<id>."
+  no_such_warn: "&e# &7Warn #<id> does not exist."
+  wrong_id: "&c# &7ID must be a number."
+  unwarn_target: "&e# &7Your warn #<id> has been removed by <admin>."
+
+getwarn:
+  usage:
+    getwarn: "/getwarn <id> - warn information"
+    console-getwarn: "/getwarn <id> - warn information"
+  getwarn_header: "&e# &7<name>'s #<id> warn information"
+  entries:
+    admin: "&e> &7Admin: <admin>"
+    reason: "&e> &7Reason: <reason>"
+    date: "&e> &7Warned on: <date>"
+    duration: "&e> &7Expiration date: <duration>"
+    remaining: "&e> &7Remaining: <remaining>"
+  no_such_warn: "&e# &7Warn #<id> does not exist."
+  wrong_id: "&c# &7ID must be a number."
+
+warns:
+  usage:
+    warns: "/warns [arg-player] - retrieves a list of warns"
+    console-warns: "/warns [arg-player] - retrieves a list of warns"
+  warns: "&e# &7Your warns: <warns>.\n&e# &7Total: <total>\n&e# &7For more information, type /getwarn <id>"
+  warns_sender: "&e# &7<name>'s warns: <warns>.\n&e# &7Total: <total>\n&e# &7For more information, type /getwarn <id>"
+  no_warns: "&e# &7You don't have any warns."
+  no_warns_sender: "&e# &7<name> does not have any warns."
+
+mute:
+  usage:
+    mute: "/mute <player> [reason] - mutes a player"
+    console-mute: "/mute <player> [reason] - mutes a player"
+  mute: "&a# &7Muted <name>."
+  is_muted: "&e# &7<name> is already muted."
+  mute_target: "&e# &7You've been muted by <admin>. \n&e> &7Reason: <reason>"
+  chat_muted: "&e# &7You are muted."
+
+tempmute:
+  usage:
+    tempmute: "/tempmute <player> <time> [reason] - temporarily mutes a player"
+    console-tempmute: "/tempmute <gracz> <time> [reason] - temporarily mutes a player"
+  tempmute: "&a# &7Muted <name> for <duration>."
+  tempmute_target: "&e# &7You've been muted by <admin> for <duration>."
+  chat_muted: "&e# &7You are muted for <duration>."
+
+tempwarn:
+  usage:
+    tempwarn: "/tempwarn <player> <time> [reason] - warns a player"
+    console-tempwarn: "/tempwarn <gracz> <time> [reason] - warns a player"
+  tempwarn_sender: "&a# &7Warned <name> for <duration>."
+  tempwarn_target: "&e# &7You've been warned by <admin> for <duration>. \n&e> &7Reason: <reason>"
+
+unmute:
+  usage:
+    unmute: "/unmute <player> - unmutes a player"
+    console-unmute: "/unmute <player> - unmutes a player"
+  is_not_muted: "&e# &7<name> is not muted."
+  unmute: "&a# &7Unmuted <name>."
+  unmute_target: "&e# &7You've been muted by <admin>."
+
+kick:
+  usage:
+    kick: "/kick <player> - kicks a player"
+    console-kick: "/kick <player> - kicks a player"
+  kick: "&a# &7Kicked <name>."
+  kickmessage:
+    header: "&cYou've been kicked.\n"
+    admin: "&fKicked by: <admin>"
+    reason: "&fReason: <reason>"
+
+tempban-ip:
+  usage:
+    tempban-ip: "/tempban <address/player> <time> [reason] - temporarily bans address"
+    console-tempban-ip: "/tempban <address> <time> [reason] - temporarily bans address"
+  tempban-ip: "&a# &7Temporarily banned <address> for <duration>."
+
 players:
   unknown: "&c# &7Player <name> does not exist."
+  offline: "&c# &7Player <name> is offline."
   join:
     broadcast: "&e<name> joined the game"
     motd:

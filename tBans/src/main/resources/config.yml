@@ -1,0 +1,26 @@
+#                                            #
+#             PUNISHMENTS SECTION            #
+#                                            #
+#
+# Should clean up task be enabled?
+# Clean up task clears expired punishments.
+# The task is running asynchronously. It calls deleteIfExpired with null sender.
+cleanupTaskEnabled: true
+# This specifies the duration in seconds between next cleanup task.
+cleanupTaskTimer: 1800
+
+# Currently disabled but the implementation should be ready though.
+ipv6BansEnabled: false
+
+# Minimum duration of temporary punishments.
+# Value 0 corresponds to minimum duration of 5 seconds.
+#
+# It is highly unrecommended to set values less than 5 seconds.
+# There's no particular reason, it just doesn't make sense.
+minimumDuration:
+  ban: 15s
+  warn: 5m
+  mute: 30s
+
+# Maximum length of username. Used in /ban, /warn, etc.
+maximumNameLength: 16
