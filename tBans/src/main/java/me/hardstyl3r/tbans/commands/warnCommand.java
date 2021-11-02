@@ -12,11 +12,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
-public class warnCommand implements CommandExecutor {
+public class warnCommand implements CommandExecutor, TabCompleter {
 
     private final UserManager userManager;
     private final PunishmentManager punishmentManager;
@@ -66,5 +69,18 @@ public class warnCommand implements CommandExecutor {
             localeManager.sendUsage(sender, cmd, l);
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if (sender.hasPermission("toolsies.warn")) {
+            if (args.length == 1) {
+                return null;
+            } else {
+                Locale l = userManager.determineLocale(sender);
+                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.reason"), false));
+            }
+        }
+        return Collections.emptyList();
     }
 }

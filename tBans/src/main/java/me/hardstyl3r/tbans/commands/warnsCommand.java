@@ -11,11 +11,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class warnsCommand implements CommandExecutor {
+public class warnsCommand implements CommandExecutor, TabCompleter {
 
     private final UserManager userManager;
     private final PunishmentManager punishmentManager;
@@ -61,12 +64,12 @@ public class warnsCommand implements CommandExecutor {
             warns.removeIf(punishmentManager::deleteIfExpired);
             if (warns.isEmpty()) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("warns.no_warns" + ((sender.getName().equalsIgnoreCase(target)) ? "" : "_sender")))
+                                l.getConfig().getString("warns.no_warns" + ((sender.getName().equalsIgnoreCase(target)) ? "" : "_sender")))
                         .replace("<name>", target));
                 return true;
             }
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("warns.warns" + ((sender.getName().equalsIgnoreCase(target)) ? "" : "_sender")))
+                            l.getConfig().getString("warns.warns" + ((sender.getName().equalsIgnoreCase(target)) ? "" : "_sender")))
                     .replace("<warns>", printWarns(warns))
                     .replace("<total>", String.valueOf(warns.size()))
                     .replace("<name>", target));
@@ -85,5 +88,18 @@ public class warnsCommand implements CommandExecutor {
             }
         }
         return sb.toString();
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if (sender.hasPermission("toolsies.warns")) {
+            if (args.length == 1) {
+                Locale l = userManager.determineLocale(sender);
+                if (sender.hasPermission("toolsies.warns.others")) {
+                    return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.player"), false));
+                }
+            }
+        }
+        return Collections.emptyList();
     }
 }

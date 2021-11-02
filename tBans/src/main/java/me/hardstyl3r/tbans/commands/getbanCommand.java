@@ -11,8 +11,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 
-public class getbanCommand implements CommandExecutor {
+import java.util.Collections;
+import java.util.List;
+
+public class getbanCommand implements CommandExecutor, TabCompleter {
 
     private final UserManager userManager;
     private final PunishmentManager punishmentManager;
@@ -68,5 +72,16 @@ public class getbanCommand implements CommandExecutor {
             localeManager.sendUsage(sender, cmd, l);
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if (sender.hasPermission("toolsies.getban")) {
+            if (args.length == 1) {
+                Locale l = userManager.determineLocale(sender);
+                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.player"), true));
+            }
+        }
+        return Collections.emptyList();
     }
 }

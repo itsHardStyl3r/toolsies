@@ -11,13 +11,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.net.Inet6Address;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class banipCommand implements CommandExecutor {
+public class banipCommand implements CommandExecutor, TabCompleter {
 
     private final UserManager userManager;
     private final PunishmentManager punishmentManager;
@@ -81,5 +85,22 @@ public class banipCommand implements CommandExecutor {
             localeManager.sendUsage(sender, cmd, l);
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if (sender.hasPermission("toolsies.ban-ip")) {
+            if (args.length == 1) {
+                ArrayList<String> ips = new ArrayList<>();
+                for(Player p : Bukkit.getOnlinePlayers()){
+                    ips.add(p.getAddress().getAddress().getHostAddress());
+                }
+                return localeManager.formatTabArguments(args[0], ips);
+            } else {
+                Locale l = userManager.determineLocale(sender);
+                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.reason"), false));
+            }
+        }
+        return Collections.emptyList();
     }
 }

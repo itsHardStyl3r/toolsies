@@ -9,9 +9,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public class kickCommand implements CommandExecutor {
+import java.util.Collections;
+import java.util.List;
+
+public class kickCommand implements CommandExecutor, TabCompleter {
 
     private final UserManager userManager;
     private final LocaleManager localeManager;
@@ -62,5 +66,18 @@ public class kickCommand implements CommandExecutor {
             message += "\n" + l.getConfig().getString("kick.kickmessage.reason").replace("<reason>", reason);
         }
         return message;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if (sender.hasPermission("toolsies.kick")) {
+            if (args.length == 1) {
+                return null;
+            } else {
+                Locale l = userManager.determineLocale(sender);
+                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.reason"), false));
+            }
+        }
+        return Collections.emptyList();
     }
 }
