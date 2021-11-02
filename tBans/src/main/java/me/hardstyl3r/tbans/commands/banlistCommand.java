@@ -6,6 +6,7 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.utils.LogUtil;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -37,12 +38,21 @@ public class banlistCommand implements CommandExecutor {
             return true;
         }
         if (args.length <= 1) {
-            int arg = (args.length == 0 ? 0 : Integer.parseInt(args[0]));
+            int arg = 0;
+            if(args.length == 1){
+                if (!StringUtils.isNumeric(args[0])) {
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                            l.getConfig().getString("banlist.unknown_page")));
+                    return true;
+                }
+                arg = Integer.parseInt(args[0]);
+            }
+            int finalArg = arg;
             Bukkit.getScheduler().runTaskAsynchronously(TBans.getInstance(), () -> {
                 Connection connection = null;
                 PreparedStatement p = null;
                 String pages = "SELECT COUNT(*) AS 'pages' FROM `punishments` WHERE `type`='BAN' AND (`duration` IS NULL OR `duration`>=UNIX_TIMESTAMP()*1000);";
-                String page = "SELECT `name`, `date`, `duration` FROM `punishments` WHERE `type`='BAN' AND (`duration` IS NULL OR `duration`>=UNIX_TIMESTAMP()*1000) ORDER BY `date` DESC, `duration` DESC LIMIT 5 OFFSET " + arg * 5 + ";";
+                String page = "SELECT `name`, `date`, `duration` FROM `punishments` WHERE `type`='BAN' AND (`duration` IS NULL OR `duration`>=UNIX_TIMESTAMP()*1000) ORDER BY `date` DESC, `duration` DESC LIMIT 5 OFFSET " + finalArg * 5 + ";";
                 ResultSet rs = null;
                 try {
                     connection = Hikari.getHikari().getConnection();
@@ -55,7 +65,7 @@ public class banlistCommand implements CommandExecutor {
                     }
                     rs.close();
                     int maxpages = total / 5;
-                    if (maxpages < arg) {
+                    if (maxpages < finalArg) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                                 l.getConfig().getString("banlist.unknown_page")));
                         return;
@@ -65,7 +75,7 @@ public class banlistCommand implements CommandExecutor {
                     rs = p.getResultSet();
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             l.getConfig().getString("banlist.banlist_header"))
-                            .replace("<page>", String.valueOf(arg))
+                            .replace("<page>", String.valueOf(finalArg))
                             .replace("<maxpages>", String.valueOf(maxpages))
                             .replace("<total>", String.valueOf(total)));
                     long current = System.currentTimeMillis();
