@@ -13,6 +13,7 @@
         <module>tPerms</module>
         <module>tBans</module>
         <module>tAuth</module>
+        <module>tChat</module>
     </modules>
 
     <properties>

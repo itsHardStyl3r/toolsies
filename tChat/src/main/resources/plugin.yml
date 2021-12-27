@@ -1,0 +1,7 @@
+name: tChat
+version: ${project.version}
+main: me.hardstyl3r.tchat.TChat
+api-version: 1.18
+authors: [ hardStyl3r ]
+description: Toolsies addon to manage the chat
+depend: [ toolsies ]
