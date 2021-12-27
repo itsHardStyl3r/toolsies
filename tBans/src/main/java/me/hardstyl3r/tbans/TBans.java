@@ -35,7 +35,7 @@ public class TBans extends JavaPlugin {
             this.setEnabled(false);
         }
         double version = Double.parseDouble(toolsies.getDescription().getVersion().split("-")[0]);
-        if (version < 0.9) {
+        if (version < 0.10) {
             LogUtil.error("Unsupported toolsies version.");
             this.setEnabled(false);
         }
