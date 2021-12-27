@@ -4,4 +4,13 @@ main: me.hardstyl3r.tauth.TAuth
 api-version: 1.17
 authors: [ hardStyl3r ]
 description: Toolsies addon to support authentication
-depend: [ toolsies ]
+depend: [ toolsies, tPerms ]
+
+commands:
+  login:
+  register:
+  logout:
+  auth:
+  changepassword:
+  playtime:
+  email:

@@ -29,6 +29,16 @@ common:
     months:
       1: "month"
       2: "months"
+  reason: "reason"
+  page: "page"
+  ip: "ip address"
+  id: "id"
+  duration: "duration"
+  password: "password"
+  confirmPassword: "confirmPassword"
+  currentPassword: "currentPassword"
+  newPassword: "newPassword"
+  email: "emailAddress"
 
 locale:
   unknown_locale: "&c# &7Locale <name> does not exist."
@@ -322,6 +332,100 @@ tempban-ip:
     tempban-ip: "/tempban <address/player> <time> [reason] - temporarily bans address"
     console-tempban-ip: "/tempban <address> <time> [reason] - temporarily bans address"
   tempban-ip: "&a# &7Temporarily banned <address> for <duration>."
+
+login:
+  usage: "&e# &7Correct usage: /login <password>"
+  incorrect_password: "&c# &7Incorrect password."
+  logged_in: "&a# &7Successfully logged in."
+  already_logged_in: "&e# &7You're already logged in."
+  login: "&e# &7Log in using /login <password>."
+  timeout: "&aLogin time exceeded."
+  online_kick: "&aAnother player with this nickname is already on the server."
+  command_kick: "&aYou can't use any other commands during logging in."
+  nick_too_short: "&aYour nickname is too short."
+  nick_too_long: "&aYour nickname is too long."
+  wrong_nick: "&aYour nickname contains disallowed characters."
+  full_server_join: "&e# &7You've joined the server when it's full."
+  reload_login: "&e# &7You need to log in."
+  wrong_nick_casing: "&aYour name casing is incorrect."
+
+register:
+  usage: "&e# &7Correct usage: /register <password> <confirmPassword>"
+  password_too_short: "&e# &7Password should be at least <length> chars long."
+  password_too_long: "&e# &7Password can't be longer than <length> chars."
+  passwords_do_not_match: "&e# &7Passwords do not match."
+  registered: "&a# &7Successfully registered."
+  already_registered: "&e# &7You're already registered."
+  register_failed: "&c# &7Register failed."
+  register: "&e# &7Register using /register <password> <confirmPassword>"
+  illegal_password: "&e# &7Incorrect password."
+  timeout: "&aRegister time exceeded."
+  command_kick: "&aYou can't use any other commands during register."
+
+logout:
+  usage: "&e# &7Correct usage: /logout"
+  not_logged_in: "&e# &7You're not logged in."
+  logged_out: "&a# &7Successfully logged out."
+  timeout: "&aLogin time exceeded."
+
+changepassword:
+  usage: "&e# &7Correct usage: /changepassword <oldPassword> <newPassword>"
+  incorrect_password: "&c# &7Incorrect password."
+  changed: "&a# &7Successfully changed password."
+  change_failed: "&c# &7Failed to change password."
+
+auth:
+  usage:
+    auth-logout: "/auth logout <player> - forcefully logout a player"
+    auth-login: "/auth login <player> - forcefully login a player"
+    auth-reload: "/auth reload <player> - reload player's auth data from database"
+    arg-auth-silent: "<player>-silent - does not add comments to the history"
+    auth-info: "/auth info <player> - player information"
+  logout_sender: "&a# &7Logged out <name>."
+  logout_target: "&e# &7You've been logged out."
+  logout_not_logged_in: "&e# &7<name> is not logged in."
+  reload_sender: "&a# &7Reloaded <name>."
+  reload_target: "&a# &7Your auth data have been updated."
+  info:
+    header: "&e# &7<name> details."
+    uuid: "&e> &7UUID: <uuid>"
+    ip: "&e> &7IP addresses: <ip> i <regip>"
+    regdate: "&e> &7Registration date: <regdate>"
+    email: "&e> &7Email: <email>"
+    lastlocation: "&e> &7Last location: X<x>, Y<y>, Z<z>, <world>"
+    lastlogin: "&e> &7Last login: <lastlogin>"
+    multis: "&e> &7Multiaccounts (any IP address): <multi>"
+  login_sender: "&a# &7Logged in <name>."
+  login_logged_in: "&e# &7<name> is already logged in."
+  login_target: "&a# &7You've been logged in."
+  playtime_chat: "&e# &7You need to wait <time> before you can chat."
+
+email:
+  usage:
+    email: "/email - checks current email address"
+    email-set: "/email set <email> - sets email address"
+    email-clear: "/email clear - clears email address"
+  email_too_short: "&c# &7Email address is too short."
+  email_too_long: "&c# &7Email address is too long."
+  email_disallowed_domain: "&c# &7Domain of entered email address is disallowed."
+  email_disallowed: "&c# &7Disallowed email address."
+  email_incorrect: "&c# &7Email address is incorrect."
+  email_set: "&a# &7Email address set."
+  email_set_current: "&e# &7This is your current email address."
+  email_clear: "&a# &7Email address cleared."
+  email_no_email: "&e# &7You don't have any email address set."
+  email: "&a# &7Your email address: <email>."
+
+playtime:
+  usage:
+    console-playtime: "/playtime <player> - check play time"
+    playtime: "/playtime - checks play time"
+    arg-playtime-others: "[gracz] - play time of another player"
+  header: "&e# &7<name>'s play time."
+  session: "&e> &7Logged in for: <session>"
+  regdate: "&e> &7Registration date: <regdate>"
+  total: "&e> &7Total play time: <playtime>"
+  footer: "&e# &7Authentication history: /auth history."
 
 players:
   unknown: "&c# &7Player <name> does not exist."

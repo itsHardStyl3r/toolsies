@@ -1,0 +1,67 @@
+#                                            #
+#               EMAIL SECTION                #
+#                                            #
+#
+# min/maxEmailLength: length of the entire email
+# disallowedEmails: list of disallowed email addresses that are checked before black and whitelist
+# priority: disallowedEmails, min/maxLength, blacklistDomains, whitelistDomains
+email:
+  regexEnable: true
+  regex: "^\S+@\S+\.\S+$"
+  minEmailLength: 8
+  maxEmailLength: 64
+  disallowedEmails:
+    - 'emailtest@o2.pl'
+  blacklistDomainsEnable: true
+  blacklistDomains:
+    - '10minutemail.net'
+  whitelistDomainsEnable: true
+  whitelistDomains:
+    - 'aol.com'
+    - 'aol.pl'
+    - 'buziaczek.pl'
+    - 'darkw.pl'
+    - 'gazeta.pl'
+    - 'gmail.com'
+    - 'google.com'
+    - 'google.pl'
+    - 'googlemail.com'
+    - 'googlemail.pl'
+    - 'hekko.pl'
+    - 'home.pl'
+    - 'hotmail.com'
+    - 'icloud.com'
+    - 'int.pl'
+    - 'interia.eu'
+    - 'interia.pl'
+    - 'live.com'
+    - 'mail.com'
+    - 'mail.live.com'
+    - 'mail.ru'
+    - 'mail.yahoo.com'
+    - 'msn.com'
+    - 'nazwa.pl'
+    - 'neostrada.pl'
+    - 'o2.pl'
+    - 'onet.pl'
+    - 'op.pl'
+    - 'opoczta.pl'
+    - 'outlook.com'
+    - 'ovh.pl'
+    - 'passport.com'
+    - 'passport.net'
+    - 'pm.me'
+    - 'poczta.fm'
+    - 'poczta.interia.pl'
+    - 'poczta.onet.pl'
+    - 'poczta.pl'
+    - 'poczta.wp.pl'
+    - 'protonmail.ch'
+    - 'protonmail.com'
+    - 'spoko.pl'
+    - 'tlen.pl'
+    - 'vp.pl'
+    - 'windowslive.com'
+    - 'wp.pl'
+    - 'yahoo.com'
+    - 'yandex.ru'

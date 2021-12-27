@@ -33,6 +33,16 @@ common:
       1: "miesiąc"
       2: "miesiące"
       3: "miesięcy"
+  reason: "powód"
+  page: "strona"
+  ip: "adres ip"
+  id: "id"
+  duration: "czas trwania"
+  password: "hasło"
+  confirmPassword: "potwierdźHasło"
+  currentPassword: "obecneHasło"
+  newPassword: "noweHasło"
+  email: "adresEmail"
 
 locale:
   unknown_locale: "&c# &7Język <name> nie istnieje."
@@ -327,8 +337,104 @@ tempban-ip:
     console-tempban-ip: "/tempban <adres/gracz> <czas> [powód] - tymczasowo banuje ip"
   tempban-ip: "&a# &7Tymczasowo zbanowano gracza <name> na <duration>."
 
+login:
+  usage: "&e# &7Poprawne zastosowanie: /login <hasło>"
+  incorrect_password: "&c# &7Niepoprawne hasło."
+  logged_in: "&a# &7Pomyślnie zalogowano."
+  already_logged_in: "&e# &7Już jesteś zalogowany."
+  login: "&e# &7Zaloguj się używając /login <hasło>."
+  timeout: "&aCzas na logowanie minął."
+  online_kick: "&aGracz z takim nickiem znajduje się już na serwerze."
+  command_kick: "&aNie możesz korzystać z innych komend podczas logowania."
+  nick_too_short: "&aTwój nick jest zbyt krótki."
+  nick_too_long: "&aTwój nick jest zbyt długi"
+  wrong_nick: "&aTwój nick składa się z niedozwolonych znaków."
+  full_server_join: "&e# &7Dołączyłeś na serwer gdy jest pełen."
+  reload_login: "&e# &7Zaloguj się ponownie."
+  wrong_nick_casing: "&aTwój nick jest niepoprawnie sformatowany."
+
+register:
+  usage: "&e# &7Poprawne zastosowanie: /register <hasło> <potwierdźHasło>"
+  password_too_short: "&e# &7Hasło powinno składać się z co najmniej <length> znaków."
+  password_too_long: "&e# &7Hasło może składać się z maksymalnie <length> znaków."
+  passwords_do_not_match: "&e# &7Podane hasła nie zgadzają się."
+  registered: "&a# &7Pomyślnie zarejestrowano."
+  already_registered: "&e# &7Już jesteś zarejestrowany."
+  register_failed: "&c# &7Nie udało się zarejestrować."
+  register: "&e# &7Zarejestruj się używając /register <hasło> <potwierdźHasło>"
+  illegal_password: "&e# &7Podane hasło jest nieprawidłowe."
+  timeout: "&aCzas na rejestrację minął."
+  command_kick: "&aNie możesz korzystać z innych komend podczas rejestracji."
+
+logout:
+  usage: "&e# &7Poprawne zastosowanie: /logout"
+  not_logged_in: "&e# &7Nie jesteś zalogowany."
+  logged_out: "&a# &7Pomyślnie wylogowano."
+  timeout: "&aCzas na ponowne logowanie minął."
+
+changepassword:
+  usage: "&e# &7Poprawne zastosowanie: /changepassword <stareHasło> <noweHasło>"
+  incorrect_password: "&c# &7Niepoprawne hasło."
+  changed: "&a# &7Pomyślnie zmieniono hasło."
+  change_failed: "&c# &7Nie udało się zmienić hasła."
+
+auth:
+  usage:
+    auth-logout: "/auth logout <gracz> - wylogowuje gracza"
+    auth-login: "/auth login <gracz> - loguje gracza"
+    auth-reload: "/auth reload <gracz> - przeładowuje dane gracza"
+    arg-auth-silent: "<gracz>-silent - nie dodaje komentarza do historii"
+    auth-info: "/auth info <gracz> - informacje o graczu"
+  logout_sender: "&a# &7Wylogowano <name>."
+  logout_target: "&e# &7Zostałeś wylogowany."
+  logout_not_logged_in: "&e# &7<name> nie jest zalogowany."
+  reload_sender: "&a# &7Przeładowano <name>."
+  reload_target: "&a# &7Twoje dane logowania zostały zaktualizowane."
+  info:
+    header: "&e# &7Szczegóły o <name>."
+    uuid: "&e> &7UUID: <uuid>"
+    ip: "&e> &7Adresy IP: <ip> i <regip>"
+    regdate: "&e> &7Data rejestracji: <regdate>"
+    email: "&e> &7Email: <email>"
+    lastlocation: "&e> &7Ostatnia lokalizacja: X<x>, Y<y>, Z<z>, <world>"
+    lastlogin: "&e> &7Ostatnio widziany: <lastlogin>"
+    multis: "&e> &7Multikonta (każdy adres IP): <multi>"
+  login_sender: "&a# &7Zalogowano <name>."
+  login_logged_in: "&e# &7<name> jest już zalogowany."
+  login_target: "&a# &7Zostałeś zalogowany."
+  playtime_chat: "&e# &7Musisz odczekać <time> zanim będziesz mógł pisać."
+
+email:
+  usage:
+    email: "/email - sprawdza obecny adres email"
+    email-set: "/email set <email> - ustawia adres email"
+    email-clear: "/email clear - usuwa adres email"
+  email_too_short: "&c# &7Zbyt krótki adres email."
+  email_too_long: "&c# &7Zbyt długi adres email."
+  email_disallowed_domain: "&c# &7Domena adresu email jest niedozwolona."
+  email_disallowed: "&c# &7Niedozwolony adres email."
+  email_incorrect: "&c# &7Niepoprawny adres email."
+  email_set: "&a# &7Ustawiono adres email."
+  email_set_current: "&e# &7To jest twój aktualny adres email."
+  email_clear: "&a# &7Zresetowano adres email."
+  email_no_email: "&e# &7Nie masz ustawionego adresu email."
+  email: "&a# &7Twój adres email to: <email>."
+
+playtime:
+  usage:
+    console-playtime: "/playtime <gracz> - sprawdza czas gry"
+    playtime: "/playtime - sprawdza czas gry"
+    arg-playtime-others: "[gracz] - czas gry innego gracza"
+  header: "&e# &7Czas gry <name>."
+  session: "&e> &7Zalogowany przez: <session>"
+  regdate: "&e> &7Data rejestracji: <regdate>"
+  total: "&e> &7Łączny czas gry: <playtime>"
+  footer: "&e# &7Historia bezpieczeństwa: /auth history."
+
+
 players:
   unknown: "&c# &7Gracz <name> nie istnieje."
+  offline: "&c# &7Gracz <name> jest offline."
   join:
     broadcast: "&e<name> dołączył do gry"
     motd:

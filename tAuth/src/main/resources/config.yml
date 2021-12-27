@@ -1,0 +1,53 @@
+#                                            #
+#               LOGIN SECTION                #
+#                                            #
+#
+# loginTimeout, registerTimeout, logoutTimeout in seconds
+# chat.minimumPlaytimeToChat in combined time format, e.g. 10s, 1m, 5m10s, 1h20m10s
+login:
+  algorithm: "SHA-256"
+  saltLength: 16
+  minPasswordLength: 5
+  maxPasswordLength: 32
+  minNicknameLength: 3
+  maxNicknameLength: 16
+  loginTimeout: 15
+  registerTimeout: 20
+  logoutTimeout: 300
+  allowJoinWhenOnline: false
+  allowOperatorsOnFullServer: true
+  allowGroupsOnFullServer: true
+  allowedGroupsOnFullServer:
+    - 'svip'
+    - 'moderator'
+    - 'admin'
+  illegalPasswords:
+    - 'password'
+    - 'haslo'
+    - 'hasło'
+    - '12345'
+    - '54321'
+    - 'passw0rd'
+    - '<password>'
+    - '<confirmPassword>'
+    - '<currentPassword>'
+    - '<newPassword>'
+    - '<hasło>'
+    - '<potwierdźHasło>'
+    - '<obecneHasło>'
+    - '<noweHasło>'
+  commands:
+    kickOnDisallowedCommand: false
+    registerAllowedCommands:
+      - 'register'
+    loginAllowedCommands:
+      - 'login'
+  applyBlindnessToUnauthorised: true
+  teleportUnauthorisedToSpawn: true
+  useWalkSpeedFlySpeed: true
+  chat:
+    allowUnauthorisedToChat: false
+    notifyUnauthorisedOnChat: true
+    allowUnauthorisedToReceiveChat: false
+    isPlaytimeNeededToChat: true
+    minimumPlaytimeToChat: 15s
