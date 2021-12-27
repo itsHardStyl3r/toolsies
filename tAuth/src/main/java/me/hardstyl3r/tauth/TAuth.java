@@ -50,6 +50,9 @@ public class TAuth extends JavaPlugin {
         initManagers();
         initCommands();
         initListeners();
+        if (Bukkit.spigot().getPaperConfig().getBoolean("settings.enable-player-collisions")) {
+            LogUtil.warn("[tAuth] Please disable player collisions in paper.yml config! (settings.enable-player-collisions)");
+        }
         LogUtil.info("[tAuth] Enabled tAuth. (took " + (System.currentTimeMillis() - current) + "ms)");
     }
 
