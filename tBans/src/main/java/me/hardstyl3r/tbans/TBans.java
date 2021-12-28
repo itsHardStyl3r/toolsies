@@ -29,15 +29,17 @@ public class TBans extends JavaPlugin {
     public void onEnable() {
         long current = System.currentTimeMillis();
         instance = this;
-        toolsies = (Toolsies) Bukkit.getServer().getPluginManager().getPlugin("toolsies");
-        if (!toolsies.isEnabled() || toolsies == null) {
-            LogUtil.warn("[tBans] Could not hook into toolsies.");
+        try {
+            toolsies = (Toolsies) Bukkit.getServer().getPluginManager().getPlugin("toolsies");
+            if (!toolsies.isEnabled() || toolsies == null)
+                throw new Exception("toolsies is null or not enabled");
+            double version = Double.parseDouble(toolsies.getDescription().getVersion().split("-")[0]);
+            if (version < 0.10)
+                throw new Exception("unsupported toolsies version (<0.10)");
+        } catch (Exception e) {
+            LogUtil.error("[tBans] Could not hook into toolsies: " + e + ". Disabling.");
             this.setEnabled(false);
-        }
-        double version = Double.parseDouble(toolsies.getDescription().getVersion().split("-")[0]);
-        if (version < 0.10) {
-            LogUtil.error("[tBans] Unsupported toolsies version.");
-            this.setEnabled(false);
+            return;
         }
         createTables();
         initManagers();

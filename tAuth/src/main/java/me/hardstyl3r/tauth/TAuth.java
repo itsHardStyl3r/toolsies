@@ -27,6 +27,7 @@ public class TAuth extends JavaPlugin {
     private FileConfiguration config;
     private FileConfiguration emailConfig;
     private LoginManagement loginManagement;
+    private boolean crash = false;
 
     public static TAuth getInstance() {
         return instance;
@@ -36,15 +37,18 @@ public class TAuth extends JavaPlugin {
     public void onEnable() {
         long current = System.currentTimeMillis();
         instance = this;
-        toolsies = (Toolsies) Bukkit.getServer().getPluginManager().getPlugin("toolsies");
-        if (!toolsies.isEnabled() || toolsies == null) {
-            LogUtil.warn("[tAuth] Could not hook into toolsies.");
+        try {
+            toolsies = (Toolsies) Bukkit.getServer().getPluginManager().getPlugin("toolsies");
+            if (!toolsies.isEnabled() || toolsies == null)
+                throw new Exception("toolsies is null or not enabled");
+            double version = Double.parseDouble(toolsies.getDescription().getVersion().split("-")[0]);
+            if (version < 0.10)
+                throw new Exception("unsupported toolsies version (<0.10)");
+        } catch (Exception e) {
+            LogUtil.error("[tAuth] Could not hook into toolsies: " + e + ". Disabling.");
+            crash = true;
             this.setEnabled(false);
-        }
-        double version = Double.parseDouble(toolsies.getDescription().getVersion().split("-")[0]);
-        if (version < 0.10) {
-            LogUtil.error("[tAuth] Unsupported toolsies version.");
-            this.setEnabled(false);
+            return;
         }
         createTables();
         initManagers();
@@ -59,6 +63,7 @@ public class TAuth extends JavaPlugin {
     @Override
     public void onDisable() {
         //to-do: I doubt it can be asynchronous, but maybe it could
+        if (crash) return;
         LogUtil.info("[tAuth] Stopping! Starting synchronous task to save data.");
         loginManager.savePlayers();
     }
