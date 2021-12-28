@@ -39,7 +39,7 @@ public class banlistCommand implements CommandExecutor, TabCompleter {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.banlist")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.banlist"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.banlist"));
             return true;
         }
         if (args.length <= 1) {
@@ -47,7 +47,7 @@ public class banlistCommand implements CommandExecutor, TabCompleter {
             if(args.length == 1){
                 if (!StringUtils.isNumeric(args[0])) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("banlist.unknown_page")));
+                            l.getString("banlist.unknown_page")));
                     return true;
                 }
                 arg = Integer.parseInt(args[0]);
@@ -72,30 +72,30 @@ public class banlistCommand implements CommandExecutor, TabCompleter {
                     int maxpages = total / 5;
                     if (maxpages < finalArg) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getConfig().getString("banlist.unknown_page")));
+                                l.getString("banlist.unknown_page")));
                         return;
                     }
                     p = connection.prepareCall(page);
                     p.execute();
                     rs = p.getResultSet();
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("banlist.banlist_header"))
+                            l.getString("banlist.banlist_header"))
                             .replace("<page>", String.valueOf(finalArg))
                             .replace("<maxpages>", String.valueOf(maxpages))
                             .replace("<total>", String.valueOf(total)));
                     long current = System.currentTimeMillis();
                     while (rs.next()) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getConfig().getString("banlist.banlist_" + (rs.getLong("duration") != 0L ? "tempban" : "ban") + "_entry"))
+                                l.getString("banlist.banlist_" + (rs.getLong("duration") != 0L ? "tempban" : "ban") + "_entry"))
                                 .replace("<name>", rs.getString("name"))
                                 .replace("<date>", localeManager.getFullDate(rs.getLong("date")))
                                 .replace("<duration>", localeManager.parseTimeWithTranslate((rs.getLong("duration") - current), l)));
                     }
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("banlist.banlist_footer")));
+                            l.getString("banlist.banlist_footer")));
                 } catch (SQLException e) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("banlist.failed")));
+                            l.getString("banlist.failed")));
                     LogUtil.error("banlistCommand(): " + e + ".");
                     e.printStackTrace();
                 } finally {
@@ -113,7 +113,7 @@ public class banlistCommand implements CommandExecutor, TabCompleter {
         if (sender.hasPermission("toolsies.banlist")) {
             if (args.length == 1) {
                 Locale l = userManager.determineLocale(sender);
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.page"), false));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.page"), false));
             }
         }
         return Collections.emptyList();

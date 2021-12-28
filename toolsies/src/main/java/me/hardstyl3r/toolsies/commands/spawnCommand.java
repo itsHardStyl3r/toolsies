@@ -40,7 +40,7 @@ public class spawnCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (!sender.hasPermission("toolsies.spawn")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.spawn"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("no_permission")).replace("<permission>", "toolsies.spawn"));
             return true;
         }
         if (args.length <= 2) {
@@ -56,7 +56,7 @@ public class spawnCommand implements CommandExecutor, TabCompleter {
                 target = Bukkit.getPlayerExact(args[1]);
                 if (target == null) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("players.unknown")).replace("<name>", args[1]));
+                            l.getString("players.unknown")).replace("<name>", args[1]));
                     return true;
                 }
             }
@@ -70,7 +70,7 @@ public class spawnCommand implements CommandExecutor, TabCompleter {
                 }
                 if (Bukkit.getWorld(args[0]) == null) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("getspawn.unknown_world"))
+                            l.getString("getspawn.unknown_world"))
                             .replace("<name>", args[0]));
                     return true;
                 }
@@ -78,26 +78,26 @@ public class spawnCommand implements CommandExecutor, TabCompleter {
             }
             if (s == null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("spawn.unknown_spawn"))
+                        l.getString("spawn.unknown_spawn"))
                         .replace("<name>", args[0]));
                 return true;
             }
             if (locationManager.isLocationIdenticalExact(s.getLocation(), target.getLocation())) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("spawn.spawn_is_current_location" + (target == sender ? "" : "_sender"))
+                        l.getString("spawn.spawn_is_current_location" + (target == sender ? "" : "_sender"))
                                 .replace("<name>", target.getName())));
                 return true;
             }
             target.teleport(s.getLocation());
             if (target == sender) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("spawn.teleported_to_spawn")));
+                        l.getString("spawn.teleported_to_spawn")));
             } else {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("spawn.teleported_to_spawn_sender"))
+                        l.getString("spawn.teleported_to_spawn_sender"))
                         .replace("<name>", target.getName()));
                 target.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        userManager.getUser(target).getLocale().getConfig().getString("spawn.teleported_to_spawn_target"))
+                        userManager.getUser(target).getLocale().getString("spawn.teleported_to_spawn_target"))
                         .replace("<admin>", sender.getName()));
             }
         } else {

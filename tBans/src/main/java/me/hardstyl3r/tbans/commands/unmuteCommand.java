@@ -36,7 +36,7 @@ public class unmuteCommand implements CommandExecutor, TabCompleter {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.unmute")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.unmute"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.unmute"));
             return true;
         }
         if (args.length == 1) {
@@ -44,17 +44,17 @@ public class unmuteCommand implements CommandExecutor, TabCompleter {
             punishmentManager.deleteIfExpired(PunishmentType.MUTE, target);
             if (!punishmentManager.isPunished(PunishmentType.MUTE, target)) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("unmute.is_not_muted")).replace("<name>", target));
+                        l.getString("unmute.is_not_muted")).replace("<name>", target));
                 return true;
             }
             Punishment mute = punishmentManager.getPunishment(PunishmentType.MUTE, target);
             punishmentManager.deletePunishment(mute, sender.getName());
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("unmute.unmute")).replace("<name>", mute.getName()));
+                    l.getString("unmute.unmute")).replace("<name>", mute.getName()));
             Player p = Bukkit.getPlayer(mute.getUUID());
             if (Bukkit.getPlayer(mute.getUUID()) != null) {
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        userManager.determineLocale(p).getConfig().getString("unmute.unmute_target"))
+                        userManager.determineLocale(p).getString("unmute.unmute_target"))
                         .replace("<admin>", sender.getName()));
             }
         } else {
@@ -68,7 +68,7 @@ public class unmuteCommand implements CommandExecutor, TabCompleter {
         if (sender.hasPermission("toolsies.unmute")) {
             if (args.length == 1) {
                 Locale l = userManager.determineLocale(sender);
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.player"), true));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.player"), true));
             }
         }
         return Collections.emptyList();

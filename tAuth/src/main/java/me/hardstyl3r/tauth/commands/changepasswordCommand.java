@@ -36,12 +36,12 @@ public class changepasswordCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            sender.sendMessage(l.getConfig().getString("console_sender"));
+            sender.sendMessage(l.getString("console_sender"));
             return true;
         }
         if (!sender.hasPermission("toolsies.changepassword")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.changepassword"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.changepassword"));
             return true;
         }
         if (args.length == 2) {
@@ -51,25 +51,25 @@ public class changepasswordCommand implements CommandExecutor, TabCompleter {
             String newPassword = args[1];
             if (!loginManager.passwordMatches(authUser, oldPassword)) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("changepassword.incorrect_password")));
+                        l.getString("changepassword.incorrect_password")));
                 loginManager.pushAuthHistory(authUser, AuthType.CHANGEPW, false, null);
                 return true;
             }
             if (loginManager.validatePassword(sender, newPassword, l)) return true;
             if (loginManager.changePassword(authUser, newPassword)) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("changepassword.changed")));
+                        l.getString("changepassword.changed")));
                 Bukkit.getPluginManager().callEvent(
                         new PlayerAuthSuccessfulEvent(p, authUser, AuthType.CHANGEPW));
                 loginManager.pushAuthHistory(authUser, AuthType.CHANGEPW, true, null);
             } else {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("changepassword.change_failed")));
+                        l.getString("changepassword.change_failed")));
                 loginManager.pushAuthHistory(authUser, AuthType.CHANGEPW, false, null);
             }
         } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("changepassword.usage")));
+                    l.getString("changepassword.usage")));
         }
         return true;
     }
@@ -78,9 +78,9 @@ public class changepasswordCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (args.length == 1) {
-            return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.currentPassword"), true));
+            return Collections.singletonList(localeManager.formatArgument(l.getString("common.currentPassword"), true));
         } else if (args.length == 2) {
-            return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.newPassword"), true));
+            return Collections.singletonList(localeManager.formatArgument(l.getString("common.newPassword"), true));
         }
         return Collections.emptyList();
     }

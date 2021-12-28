@@ -37,7 +37,7 @@ public class banCommand implements CommandExecutor, TabCompleter {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.ban")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.ban"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.ban"));
             return true;
         }
         if (args.length > 0) {
@@ -45,12 +45,12 @@ public class banCommand implements CommandExecutor, TabCompleter {
             punishmentManager.deleteIfExpired(PunishmentType.BAN, target);
             if (punishmentManager.isPunished(PunishmentType.BAN, target)) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("ban.is_banned")).replace("<name>", target));
+                        l.getString("ban.is_banned")).replace("<name>", target));
                 return true;
             }
             if (target.length() > punishmentManager.getMaximumNickLength()) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("ban.name_too_long")).replace("<length>", String.valueOf(punishmentManager.getMaximumNickLength())));
+                        l.getString("ban.name_too_long")).replace("<length>", String.valueOf(punishmentManager.getMaximumNickLength())));
                 return true;
             }
             String admin = sender.getName();
@@ -58,7 +58,7 @@ public class banCommand implements CommandExecutor, TabCompleter {
             UUID uuid = (userManager.getUserIgnoreCase(target) == null ? null : userManager.getUserIgnoreCase(target).getUUID());
             Punishment punishment = punishmentManager.createPunishment(PunishmentType.BAN, uuid, target, admin, reason, null);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("ban.ban")).replace("<name>", target));
+                    l.getString("ban.ban")).replace("<name>", target));
             Player p = Bukkit.getPlayerExact(target);
             if (Bukkit.getPlayerExact(target) != null) {
                 p.kickPlayer(punishmentManager.formatMessage(punishment, userManager.determineLocale(p), "kick"));
@@ -76,7 +76,7 @@ public class banCommand implements CommandExecutor, TabCompleter {
                 return null;
             } else {
                 Locale l = userManager.determineLocale(sender);
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.reason"), false));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.reason"), false));
             }
         }
         return Collections.emptyList();

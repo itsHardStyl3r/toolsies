@@ -37,7 +37,7 @@ public class muteCommand implements CommandExecutor, TabCompleter {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.mute")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.mute"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.mute"));
             return true;
         }
         if (args.length > 0) {
@@ -45,17 +45,17 @@ public class muteCommand implements CommandExecutor, TabCompleter {
             punishmentManager.deleteIfExpired(PunishmentType.MUTE, target);
             if (punishmentManager.isPunished(PunishmentType.MUTE, target)) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("mute.is_muted")).replace("<name>", target));
+                        l.getString("mute.is_muted")).replace("<name>", target));
                 return true;
             }
             if (target.length() > punishmentManager.getMaximumNickLength()) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("ban.name_too_long")).replace("<length>", String.valueOf(punishmentManager.getMaximumNickLength())));
+                        l.getString("ban.name_too_long")).replace("<length>", String.valueOf(punishmentManager.getMaximumNickLength())));
                 return true;
             }
             if (userManager.getUser(target) == null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("players.unknown")).replace("<name>", args[0]));
+                        l.getString("players.unknown")).replace("<name>", args[0]));
                 return true;
             }
             String admin = sender.getName();
@@ -63,11 +63,11 @@ public class muteCommand implements CommandExecutor, TabCompleter {
             UUID uuid = userManager.getUserIgnoreCase(target).getUUID();
             Punishment punishment = punishmentManager.createPunishment(PunishmentType.MUTE, uuid, target, admin, reason, null);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("mute.mute")).replace("<name>", target));
+                    l.getString("mute.mute")).replace("<name>", target));
             Player p = Bukkit.getPlayerExact(target);
             if (Bukkit.getPlayerExact(target) != null) {
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        userManager.determineLocale(p).getConfig().getString("mute.mute_target"))
+                        userManager.determineLocale(p).getString("mute.mute_target"))
                         .replace("<admin>", punishment.getAdmin())
                         .replace("<reason>", (punishment.getReason() == null ? "brak" : punishment.getReason())));
             }
@@ -84,7 +84,7 @@ public class muteCommand implements CommandExecutor, TabCompleter {
                 return null;
             } else {
                 Locale l = userManager.determineLocale(sender);
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.reason"), false));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.reason"), false));
             }
         }
         return Collections.emptyList();

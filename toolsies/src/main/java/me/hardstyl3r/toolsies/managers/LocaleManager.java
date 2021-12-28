@@ -76,27 +76,26 @@ public class LocaleManager {
 
     public void sendUsage(CommandSender sender, Command cmd, Locale locale) {
         String command = cmd.getName();
-        FileConfiguration config = locale.getConfig();
         if (!(sender instanceof Player)) {
-            for (String s : config.getConfigurationSection(command + ".usage").getKeys(false)) {
+            for (String s : locale.getConfigurationSection(command + ".usage")) {
                 if (s.startsWith("console-")) {
-                    sender.sendMessage(config.getString(command + ".usage." + s));
+                    sender.sendMessage(locale.getString(command + ".usage." + s));
                 }
             }
             return;
         }
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString(command + ".usage.header") == null ? config.getString("usage.header") : config.getString(command + ".usage.header")));
-        String style = (config.getString(command + ".usage.style") == null ? config.getString("usage.format") : config.getString(command + ".usage.style"));
-        String arg = (config.getString(command + ".usage.argument") == null ? config.getString("usage.argument") : config.getString(command + ".usage.argument"));
-        for (String s : config.getConfigurationSection(command + ".usage").getKeys(false)) {
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', locale.getString(command + ".usage.header") == null ? locale.getString("usage.header") : locale.getString(command + ".usage.header")));
+        String style = (locale.getString(command + ".usage.style") == null ? locale.getString("usage.format") : locale.getString(command + ".usage.style"));
+        String arg = (locale.getString(command + ".usage.argument") == null ? locale.getString("usage.argument") : locale.getString(command + ".usage.argument"));
+        for (String s : locale.getConfigurationSection(command + ".usage")) {
             if (!s.startsWith("console-") && !s.equals("header") && !s.equals("style")) {
                 if (!s.startsWith("arg")) {
                     String permission = "toolsies." + s.replace("-", ".").replaceAll("\\d", "");
                     if (sender.hasPermission(permission)) {
                         LogUtil.info("Command: Checking for permission: toolsies." + s.replace("-", "."));
-                        String usage = config.getString(command + ".usage." + s);
+                        String usage = locale.getString(command + ".usage." + s);
                         if (sender.hasPermission(permission + ".others")) {
-                            usage = usage.replace("arg-player", config.getString("common.player"));
+                            usage = usage.replace("arg-player", locale.getString("common.player"));
                         } else {
                             usage = usage.replace("[arg-player] ", "").replace("<arg-player> ", "");
                         }
@@ -106,7 +105,7 @@ public class LocaleManager {
                     String val = s.replace("-", ".").replace("arg", "").replaceAll("\\d", "");
                     if (sender.hasPermission("toolsies." + (val.isEmpty() ? command : val))) {
                         LogUtil.info("Command: Checking for permission: toolsies." + (val.isEmpty() ? command : val));
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', arg.replace("<args>", config.getString(command + ".usage." + s))));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', arg.replace("<args>", locale.getString(command + ".usage." + s))));
                     }
                 }
             }
@@ -139,7 +138,7 @@ public class LocaleManager {
     }
 
     public String translateBoolean(Locale l, boolean b) {
-        return l.getConfig().getString("common.boolean." + b);
+        return l.getString("common.boolean." + b);
     }
 
     public String formatArgument(String argument, boolean required) {
@@ -181,10 +180,10 @@ public class LocaleManager {
         long days = TimeUnit.MILLISECONDS.toDays(millis);
         if (days > 0L) {
             millis -= TimeUnit.DAYS.toMillis(days);
-            if (l.getConfig().getString("common.time.days." + plural((int) days)) == null) {
-                sb.append(days).append(" ").append(l.getConfig().getString("common.time.days." + (plural((int) days) - 1)));
+            if (l.getString("common.time.days." + plural((int) days)) == null) {
+                sb.append(days).append(" ").append(l.getString("common.time.days." + (plural((int) days) - 1)));
             } else {
-                sb.append(days).append(" ").append(l.getConfig().getString("common.time.days." + plural((int) days)));
+                sb.append(days).append(" ").append(l.getString("common.time.days." + plural((int) days)));
             }
         }
         long hours = TimeUnit.MILLISECONDS.toHours(millis);
@@ -193,10 +192,10 @@ public class LocaleManager {
                 sb.append(" ");
             }
             millis -= TimeUnit.HOURS.toMillis(hours);
-            if (l.getConfig().getString("common.time.hours." + plural((int) hours)) == null) {
-                sb.append(hours).append(" ").append(l.getConfig().getString("common.time.hours." + (plural((int) hours) - 1)));
+            if (l.getString("common.time.hours." + plural((int) hours)) == null) {
+                sb.append(hours).append(" ").append(l.getString("common.time.hours." + (plural((int) hours) - 1)));
             } else {
-                sb.append(hours).append(" ").append(l.getConfig().getString("common.time.hours." + plural((int) hours)));
+                sb.append(hours).append(" ").append(l.getString("common.time.hours." + plural((int) hours)));
             }
         }
         long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
@@ -205,10 +204,10 @@ public class LocaleManager {
                 sb.append(" ");
             }
             millis -= TimeUnit.MINUTES.toMillis(minutes);
-            if (l.getConfig().getString("common.time.minutes." + plural((int) minutes)) == null) {
-                sb.append(minutes).append(" ").append(l.getConfig().getString("common.time.minutes." + (plural((int) minutes) - 1)));
+            if (l.getString("common.time.minutes." + plural((int) minutes)) == null) {
+                sb.append(minutes).append(" ").append(l.getString("common.time.minutes." + (plural((int) minutes) - 1)));
             } else {
-                sb.append(minutes).append(" ").append(l.getConfig().getString("common.time.minutes." + plural((int) minutes)));
+                sb.append(minutes).append(" ").append(l.getString("common.time.minutes." + plural((int) minutes)));
             }
         }
         long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
@@ -217,10 +216,10 @@ public class LocaleManager {
                 sb.append(" ");
             }
             //millis -= TimeUnit.SECONDS.toMillis(seconds);
-            if (l.getConfig().getString("common.time.seconds." + plural((int) seconds)) == null) {
-                sb.append(seconds).append(" ").append(l.getConfig().getString("common.time.seconds." + (plural((int) seconds) - 1)));
+            if (l.getString("common.time.seconds." + plural((int) seconds)) == null) {
+                sb.append(seconds).append(" ").append(l.getString("common.time.seconds." + (plural((int) seconds) - 1)));
             } else {
-                sb.append(seconds).append(" ").append(l.getConfig().getString("common.time.seconds." + plural((int) seconds)));
+                sb.append(seconds).append(" ").append(l.getString("common.time.seconds." + plural((int) seconds)));
             }
         }
         return sb.toString();

@@ -43,7 +43,7 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (!sender.hasPermission("toolsies.getspawn")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.getspawn"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("no_permission")).replace("<permission>", "toolsies.getspawn"));
             return true;
         }
         if (args.length <= 1) {
@@ -54,12 +54,12 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 if (Bukkit.getWorld(args[0]) == null) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("getspawn.unknown_world"))
+                            l.getString("getspawn.unknown_world"))
                             .replace("<name>", args[0]));
                     return true;
                 } else if (locationManager.getSpawn(args[0]) == null) {
                     Location loc = Bukkit.getWorld(args[0]).getSpawnLocation();
-                    for (String m : l.getConfig().getStringList("getspawn.small")) {
+                    for (String m : l.getStringList("getspawn.small")) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', m)
                                 .replace("<name>", loc.getWorld().getName())
                                 .replace("<x>", String.valueOf(loc.getBlockX()))
@@ -74,12 +74,12 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
             }
             if (locationManager.getSpawn(w) == null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("getspawn.unknown_spawn"))
+                        l.getString("getspawn.unknown_spawn"))
                         .replace("<name>", args[0]));
                 return true;
             }
             Spawn s = locationManager.getSpawn(w);
-            for (String m : l.getConfig().getStringList("getspawn.details")) {
+            for (String m : l.getStringList("getspawn.details")) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', m)
                         .replace("<name>", s.getLocation().getWorld().getName())
                         .replace("<x>", String.valueOf(s.getLocation().getBlockX()))

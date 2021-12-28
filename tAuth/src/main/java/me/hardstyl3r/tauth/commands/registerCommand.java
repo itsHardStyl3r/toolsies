@@ -36,11 +36,11 @@ public class registerCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("console_sender")));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("console_sender")));
             return true;
         }
         if (!sender.hasPermission("toolsies.register")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.register"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("no_permission")).replace("<permission>", "toolsies.register"));
             return true;
         }
         if (args.length == 2) {
@@ -49,23 +49,23 @@ public class registerCommand implements CommandExecutor, TabCompleter {
             if (user != null) {
                 if (user.isRegistered()) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("register.already_registered")));
+                            l.getString("register.already_registered")));
                     return true;
                 }
             }
             if (loginManager.validatePassword(sender, args[0], args[1], l)) return true;
             if (loginManager.register(p, args[0])) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("register.registered")));
+                        l.getString("register.registered")));
                 Bukkit.getPluginManager().callEvent(new PlayerAuthSuccessfulEvent(p, user, AuthType.REGISTER));
                 loginManager.stopKickTask(p);
             } else {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("register.register_failed")));
+                        l.getString("register.register_failed")));
             }
         } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("register.usage")));
+                    l.getString("register.usage")));
         }
         return true;
     }
@@ -74,13 +74,13 @@ public class registerCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            sender.sendMessage(l.getConfig().getString("console_sender"));
+            sender.sendMessage(l.getString("console_sender"));
             return Collections.emptyList();
         }
         if (args.length == 1) {
-            return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.password"), true));
+            return Collections.singletonList(localeManager.formatArgument(l.getString("common.password"), true));
         } else if (args.length == 2) {
-            return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.confirmPassword"), true));
+            return Collections.singletonList(localeManager.formatArgument(l.getString("common.confirmPassword"), true));
         }
         return Collections.emptyList();
     }

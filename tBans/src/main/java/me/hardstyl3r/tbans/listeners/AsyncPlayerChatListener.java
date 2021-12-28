@@ -38,7 +38,7 @@ public class AsyncPlayerChatListener implements Listener {
             if (!punishmentManager.deleteIfExpired(mute)) {
                 Locale l = userManager.determineLocale(target);
                 target.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString(mute.getDuration() != null ? "tempmute.chat_muted" : "mute.chat_muted"))
+                        l.getString(mute.getDuration() != null ? "tempmute.chat_muted" : "mute.chat_muted"))
                         .replace("<duration>", localeManager.parseTimeWithTranslate(mute.getRemaining(), l)));
                 e.setCancelled(true);
             }

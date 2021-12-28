@@ -31,29 +31,29 @@ public class localeCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("console_sender")));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("console_sender")));
             return true;
         }
         if (!sender.hasPermission("toolsies.locale")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.locale"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("no_permission")).replace("<permission>", "toolsies.locale"));
             return true;
         }
         if (args.length == 1) {
             if (localeManager.getLocale(args[0]) == null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("locale.unknown_locale")).replace("<name>", args[0]));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("locale.unknown_locale")).replace("<name>", args[0]));
                 return true;
             }
             Locale locale = localeManager.getLocale(args[0]);
             if (l.equals(locale)) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("locale.current_locale")).replace("<name>", locale.getName()));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("locale.current_locale")).replace("<name>", locale.getName()));
                 return true;
             }
             User u = userManager.getUser(sender);
             u.setLocale(locale);
             userManager.updateUser(u);
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', locale.getConfig().getString("locale.changed_own")).replace("<name>", locale.getName()));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', locale.getString("locale.changed_own")).replace("<name>", locale.getName()));
         } else {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("locale.available_locales")).replace("<locales>", localeManager.getLocales().toString()));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("locale.available_locales")).replace("<locales>", localeManager.getLocales().toString()));
         }
         return true;
     }

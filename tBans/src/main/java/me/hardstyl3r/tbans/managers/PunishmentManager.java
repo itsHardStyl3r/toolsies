@@ -337,16 +337,16 @@ public class PunishmentManager {
     }
 
     public String formatMessage(Punishment punishment, Locale l, String action) {
-        String message = l.getConfig().getString("ban.messages." + action + ".header");
-        message += "\n" + l.getConfig().getString("ban.messages.date").replace("<date>", localeManager.getFullDate(punishment.getDate()));
-        message += "\n" + l.getConfig().getString("ban.messages.admin").replace("<admin>", punishment.getAdmin());
+        String message = l.getString("ban.messages." + action + ".header");
+        message += "\n" + l.getString("ban.messages.date").replace("<date>", localeManager.getFullDate(punishment.getDate()));
+        message += "\n" + l.getString("ban.messages.admin").replace("<admin>", punishment.getAdmin());
         if (punishment.getReason() != null) {
-            message += "\n" + l.getConfig().getString("ban.messages.reason").replace("<reason>", punishment.getReason());
+            message += "\n" + l.getString("ban.messages.reason").replace("<reason>", punishment.getReason());
         }
         if (punishment.getDuration() != null) {
-            message += "\n" + l.getConfig().getString("ban.messages.duration").replace("<duration>", localeManager.parseTimeWithTranslate(punishment.getRemaining(), l));
+            message += "\n" + l.getString("ban.messages.duration").replace("<duration>", localeManager.parseTimeWithTranslate(punishment.getRemaining(), l));
         }
-        message += "\n" + l.getConfig().getString("ban.messages." + action + ".footer");
+        message += "\n" + l.getString("ban.messages." + action + ".footer");
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 

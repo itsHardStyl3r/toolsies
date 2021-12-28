@@ -47,14 +47,14 @@ public class groupCommand implements CommandExecutor, TabCompleter {
         }
         if (!sender.hasPermission("toolsies.group")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission"))
+                    l.getString("no_permission"))
                     .replace("<permission>", "toolsies.group"));
             return true;
         }
         if (args.length == 0) {
             PermissibleUser u = permissibleUserManager.getUser(sender);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("group.current_group"))
+                    l.getString("group.current_group"))
                     .replace("<group>", u.getMainGroup().getName() + (sender.isOp() ? " (" + permissionManager.listGroups(u.getGroups()) + ")" : "")));
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("list")) {
@@ -64,7 +64,7 @@ public class groupCommand implements CommandExecutor, TabCompleter {
                 }
                 List<String> groups = permissionManager.getGroups();
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("group.list" + (groups.size() == 0 ? "_none" : "")))
+                        l.getString("group.list" + (groups.size() == 0 ? "_none" : "")))
                         .replace("<group>", groups.toString()));
             } else if (permissibleUserManager.getUser(args[0]) != null) {
                 if (!sender.hasPermission("toolsies.group.others")) {
@@ -73,7 +73,7 @@ public class groupCommand implements CommandExecutor, TabCompleter {
                 }
                 PermissibleUser u = permissibleUserManager.getUser(args[0]);
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("group.current_group_sender"))
+                        l.getString("group.current_group_sender"))
                         .replace("<player>", u.getName())
                         .replace("<group>", u.getMainGroup().getName() + (sender.isOp() ? " (" + permissionManager.listGroups(u.getGroups()) + ")" : "")));
             } else {
@@ -88,14 +88,14 @@ public class groupCommand implements CommandExecutor, TabCompleter {
             for (String s : arguments) {
                 if (args[0].equalsIgnoreCase(s) && !sender.hasPermission("toolsies.group." + s)) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("no_permission"))
+                            l.getString("no_permission"))
                             .replace("<permission>", "toolsies.group." + s));
                     return true;
                 }
             }
             if (permissionManager.getGroup(args[1]) == null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("group.unknown_group"))
+                        l.getString("group.unknown_group"))
                         .replace("<name>", args[1]));
                 return true;
             }
@@ -112,7 +112,7 @@ public class groupCommand implements CommandExecutor, TabCompleter {
                     puTarget = permissibleUserManager.getUser(args[2]);
                 } else {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("players.unknown"))
+                            l.getString("players.unknown"))
                             .replace("<name>", args[2]));
                     return true;
                 }
@@ -122,11 +122,11 @@ public class groupCommand implements CommandExecutor, TabCompleter {
                 if (groups.size() == 1 && groups.contains(group)) {
                     if (target == sender) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getConfig().getString("group.current_group_already"))
+                                l.getString("group.current_group_already"))
                                 .replace("<name>", group.getName()));
                     } else {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getConfig().getString("group.current_group_already_sender"))
+                                l.getString("group.current_group_already_sender"))
                                 .replace("<name>", group.getName())
                                 .replace("<player>", puTarget.getName()));
                     }
@@ -134,16 +134,16 @@ public class groupCommand implements CommandExecutor, TabCompleter {
                 }
                 if (target == sender) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("group.set_group"))
+                            l.getString("group.set_group"))
                             .replace("<name>", group.getName()));
                 } else {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("group.set_group_sender"))
+                            l.getString("group.set_group_sender"))
                             .replace("<name>", group.getName())
                             .replace("<player>", puTarget.getName()));
                     if (target != null) {
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getConfig().getString("group.set_group_target"))
+                                l.getString("group.set_group_target"))
                                 .replace("<name>", group.getName())
                                 .replace("<admin>", sender.getName()));
                     }
@@ -153,11 +153,11 @@ public class groupCommand implements CommandExecutor, TabCompleter {
                 if (groups.contains(group)) {
                     if (target == sender) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getConfig().getString("group.current_group_already"))
+                                l.getString("group.current_group_already"))
                                 .replace("<name>", group.getName()));
                     } else {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getConfig().getString("group.current_group_already_sender"))
+                                l.getString("group.current_group_already_sender"))
                                 .replace("<name>", group.getName())
                                 .replace("<player>", puTarget.getName()));
                     }
@@ -165,16 +165,16 @@ public class groupCommand implements CommandExecutor, TabCompleter {
                 }
                 if (target == sender) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("group.add_group"))
+                            l.getString("group.add_group"))
                             .replace("<name>", group.getName()));
                 } else {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("group.add_group_sender"))
+                            l.getString("group.add_group_sender"))
                             .replace("<name>", group.getName())
                             .replace("<player>", puTarget.getName()));
                     if (target != null) {
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getConfig().getString("group.add_group_target"))
+                                l.getString("group.add_group_target"))
                                 .replace("<name>", group.getName())
                                 .replace("<admin>", sender.getName()));
                     }
@@ -185,11 +185,11 @@ public class groupCommand implements CommandExecutor, TabCompleter {
                 if (!groups.contains(group)) {
                     if (target == sender) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getConfig().getString("group.not_in_the_group"))
+                                l.getString("group.not_in_the_group"))
                                 .replace("<name>", group.getName()));
                     } else {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getConfig().getString("group.not_in_the_group_sender"))
+                                l.getString("group.not_in_the_group_sender"))
                                 .replace("<name>", group.getName())
                                 .replace("<player>", puTarget.getName()));
                     }
@@ -199,11 +199,11 @@ public class groupCommand implements CommandExecutor, TabCompleter {
                     if (permissionManager.getDefaultGroups().contains(puTarget.getMainGroup())) {
                         if (target == sender) {
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                    l.getConfig().getString("group.remove_will_remove_last_group"))
+                                    l.getString("group.remove_will_remove_last_group"))
                                     .replace("<name>", group.getName()));
                         } else {
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                    l.getConfig().getString("group.remove_will_remove_last_group_sender"))
+                                    l.getString("group.remove_will_remove_last_group_sender"))
                                     .replace("<name>", group.getName())
                                     .replace("<player>", puTarget.getName()));
                         }
@@ -212,16 +212,16 @@ public class groupCommand implements CommandExecutor, TabCompleter {
                 }
                 if (target == sender) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("group.remove_group"))
+                            l.getString("group.remove_group"))
                             .replace("<name>", group.getName()));
                 } else {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("group.remove_group_sender"))
+                            l.getString("group.remove_group_sender"))
                             .replace("<name>", group.getName())
                             .replace("<player>", puTarget.getName()));
                     if (target != null) {
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getConfig().getString("group.remove_group_target"))
+                                l.getString("group.remove_group_target"))
                                 .replace("<name>", group.getName())
                                 .replace("<admin>", sender.getName()));
                     }
@@ -253,7 +253,7 @@ public class groupCommand implements CommandExecutor, TabCompleter {
             allarguments.removeIf(s -> !sender.hasPermission("toolsies.group." + s));
             Locale l = userManager.determineLocale(sender);
             if (sender.hasPermission("toolsies.group.others")) {
-                allarguments.add(localeManager.formatArgument(l.getConfig().getString("common.player"), false));
+                allarguments.add(localeManager.formatArgument(l.getString("common.player"), false));
             }
             if (args.length == 1) return localeManager.formatTabArguments(args[0], allarguments);
             if (sender.hasPermission("toolsies.group.set") || sender.hasPermission("toolsies.group.add") || sender.hasPermission("toolsies.group.remove")) {

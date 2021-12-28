@@ -34,7 +34,7 @@ public class playtimeCommand implements CommandExecutor, TabCompleter {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.playtime")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.playtime"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.playtime"));
             return true;
         }
         if (!(sender instanceof Player)) {
@@ -54,23 +54,23 @@ public class playtimeCommand implements CommandExecutor, TabCompleter {
                     authUser = loginManager.getAuth(args[0]);
                 } else {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("players.unknown")).replace("<name>", args[0]));
+                            l.getString("players.unknown")).replace("<name>", args[0]));
                     return true;
                 }
             } else {
                 authUser = loginManager.getAuth((Player) sender);
             }
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("playtime.header")).replace("<name>", authUser.getName()));
+                    l.getString("playtime.header")).replace("<name>", authUser.getName()));
             if (authUser.isLoggedIn()) sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("playtime.session")).replace("<session>", localeManager.parseTimeWithTranslate(authUser.getSessionDuration(), l)));
+                    l.getString("playtime.session")).replace("<session>", localeManager.parseTimeWithTranslate(authUser.getSessionDuration(), l)));
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("playtime.total")).replace("<playtime>", localeManager.parseTimeWithTranslate(authUser.getPlaytime(), l)));
+                    l.getString("playtime.total")).replace("<playtime>", localeManager.parseTimeWithTranslate(authUser.getPlaytime(), l)));
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("playtime.regdate")).replace("<regdate>", localeManager.getFullDate(authUser.getRegisterDate())));
+                    l.getString("playtime.regdate")).replace("<regdate>", localeManager.getFullDate(authUser.getRegisterDate())));
             if (authUser.getName().equals(sender.getName()))
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("playtime.footer")));
+                        l.getString("playtime.footer")));
         } else {
             localeManager.sendUsage(sender, cmd, l);
         }

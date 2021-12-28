@@ -41,7 +41,7 @@ public class banipCommand implements CommandExecutor, TabCompleter {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.ban-ip")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.ban-ip"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.ban-ip"));
             return true;
         }
         if (args.length > 0) {
@@ -52,7 +52,7 @@ public class banipCommand implements CommandExecutor, TabCompleter {
                     target = InetAddress.getByName(args[0]);
                 } catch (Exception e) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("ban-ip.incorrect_address")));
+                            l.getString("ban-ip.incorrect_address")));
                     return true;
                 }
             } else {
@@ -61,21 +61,21 @@ public class banipCommand implements CommandExecutor, TabCompleter {
             if (target instanceof Inet6Address) {
                 if (!config.getBoolean("ipv6BansEnabled")) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("ban-ip.ipv6_address")));
+                            l.getString("ban-ip.ipv6_address")));
                     return true;
                 }
             }
             punishmentManager.deleteIfExpired(target);
             if (punishmentManager.isBanned(target)) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("ban-ip.is_banned")).replace("<address>", target.getHostAddress()));
+                        l.getString("ban-ip.is_banned")).replace("<address>", target.getHostAddress()));
                 return true;
             }
             String admin = sender.getName();
             String reason = (args.length > 1 ? localeManager.createMessage(args, 1) : null);
             Punishment punishment = punishmentManager.createPunishment(target, admin, reason, null);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("ban-ip.ban-ip")).replace("<address>", target.getHostAddress()));
+                    l.getString("ban-ip.ban-ip")).replace("<address>", target.getHostAddress()));
             for (Player kick : Bukkit.getOnlinePlayers()) {
                 if (kick.getAddress().getAddress().equals(target)) {
                     kick.kickPlayer(punishmentManager.formatMessage(punishment, userManager.determineLocale(kick), "kick"));
@@ -98,7 +98,7 @@ public class banipCommand implements CommandExecutor, TabCompleter {
                 return localeManager.formatTabArguments(args[0], ips);
             } else {
                 Locale l = userManager.determineLocale(sender);
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.reason"), false));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.reason"), false));
             }
         }
         return Collections.emptyList();

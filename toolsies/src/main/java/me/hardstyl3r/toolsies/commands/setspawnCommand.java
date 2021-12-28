@@ -40,20 +40,20 @@ public class setspawnCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (!sender.hasPermission("toolsies.setspawn")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.setspawn"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("no_permission")).replace("<permission>", "toolsies.setspawn"));
             return true;
         }
         if (args.length == 0) {
             Player p = (Player) sender;
             if (locationManager.getSpawn(p.getLocation()) != null && locationManager.isLocationIdenticalExact(locationManager.getSpawn(p.getLocation()).getLocation(), p.getLocation())) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("setspawn.spawn_is_current_location")));
+                        l.getString("setspawn.spawn_is_current_location")));
                 return true;
             }
             boolean def = locationManager.getDefaultSpawn() == null;
             Spawn s = locationManager.setSpawn(p);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("setspawn.setspawn" + (def ? "_default" : ""))).replace("<name>", s.getName()));
+                    l.getString("setspawn.setspawn" + (def ? "_default" : ""))).replace("<name>", s.getName()));
         } else if (args.length == 2) {
             Spawn s = locationManager.getSpawn(args[0]);
             if (args[1].equalsIgnoreCase("preferred")) {
@@ -61,12 +61,12 @@ public class setspawnCommand implements CommandExecutor, TabCompleter {
                 s.setPreferred(b);
                 locationManager.saveSpawn(s);
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("setspawn.set_preferred_" + b)).replace("<name>", s.getName()));
+                        l.getString("setspawn.set_preferred_" + b)).replace("<name>", s.getName()));
             } else if (args[1].equalsIgnoreCase("default")) {
                 Spawn sold = locationManager.getDefaultSpawn();
                 if (s.isDefault()) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("setspawn.set_default_already")).replace("<name>", s.getName()));
+                            l.getString("setspawn.set_default_already")).replace("<name>", s.getName()));
                     return true;
                 }
                 s.setDefault(true);
@@ -76,7 +76,7 @@ public class setspawnCommand implements CommandExecutor, TabCompleter {
                 }
                 locationManager.saveSpawn(s);
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("setspawn.set_default")).replace("<name>", s.getName()));
+                        l.getString("setspawn.set_default")).replace("<name>", s.getName()));
             } else {
                 localeManager.sendUsage(sender, cmd, l);
             }

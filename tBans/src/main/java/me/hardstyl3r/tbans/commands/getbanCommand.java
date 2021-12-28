@@ -34,7 +34,7 @@ public class getbanCommand implements CommandExecutor, TabCompleter {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.getban")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.getban"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.getban"));
             return true;
         }
         if (args.length == 1) {
@@ -42,31 +42,31 @@ public class getbanCommand implements CommandExecutor, TabCompleter {
             punishmentManager.deleteIfExpired(PunishmentType.BAN, target);
             if (!punishmentManager.isPunished(PunishmentType.BAN, target)) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("unban.is_not_banned")).replace("<name>", target));
+                        l.getString("unban.is_not_banned")).replace("<name>", target));
                 return true;
             }
             Punishment ban = punishmentManager.getPunishment(PunishmentType.BAN, target);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("getban.getban_header")).replace("<name>", target).replace("<id>", String.valueOf(ban.getId())));
+                    l.getString("getban.getban_header")).replace("<name>", target).replace("<id>", String.valueOf(ban.getId())));
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("getban.entries.type")).replace("<type>", ban.getType().name()));
+                    l.getString("getban.entries.type")).replace("<type>", ban.getType().name()));
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("getban.entries.admin")).replace("<admin>", ban.getAdmin()));
+                    l.getString("getban.entries.admin")).replace("<admin>", ban.getAdmin()));
             if (ban.getReason() != null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("getban.entries.reason")).replace("<reason>", ban.getReason()));
+                        l.getString("getban.entries.reason")).replace("<reason>", ban.getReason()));
             }
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("getban.entries.date")).replace("<date>", localeManager.getFullDate(ban.getDate())));
+                    l.getString("getban.entries.date")).replace("<date>", localeManager.getFullDate(ban.getDate())));
             if (ban.getDuration() != null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("getban.entries.duration")).replace("<duration>", localeManager.getFullDate(ban.getDuration())));
+                        l.getString("getban.entries.duration")).replace("<duration>", localeManager.getFullDate(ban.getDuration())));
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("getban.entries.remaining")).replace("<remaining>", localeManager.parseTimeWithTranslate(ban.getRemaining(), l)));
+                        l.getString("getban.entries.remaining")).replace("<remaining>", localeManager.parseTimeWithTranslate(ban.getRemaining(), l)));
             }
             if (ban.getUUID() != null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("getban.entries.uuid")).replace("<uuid>", ban.getUUID().toString()));
+                        l.getString("getban.entries.uuid")).replace("<uuid>", ban.getUUID().toString()));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);
@@ -79,7 +79,7 @@ public class getbanCommand implements CommandExecutor, TabCompleter {
         if (sender.hasPermission("toolsies.getban")) {
             if (args.length == 1) {
                 Locale l = userManager.determineLocale(sender);
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.player"), true));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.player"), true));
             }
         }
         return Collections.emptyList();

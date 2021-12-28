@@ -40,17 +40,17 @@ public class AuthPlayerListeners implements Listener {
         if (!name.matches("^[\\w.]+$")) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
                     ChatColor.translateAlternateColorCodes('&',
-                            userManager.determineLocale(e.getUniqueId()).getConfig().getString("login.wrong_nick")));
+                            userManager.determineLocale(e.getUniqueId()).getString("login.wrong_nick")));
         }
         if (name.length() < config.getInt("login.minNicknameLength")) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
                     ChatColor.translateAlternateColorCodes('&',
-                            userManager.determineLocale(e.getUniqueId()).getConfig().getString("login.nick_too_short")));
+                            userManager.determineLocale(e.getUniqueId()).getString("login.nick_too_short")));
         }
         if (name.length() > config.getInt("login.maxNicknameLength")) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
                     ChatColor.translateAlternateColorCodes('&',
-                            userManager.determineLocale(e.getUniqueId()).getConfig().getString("login.nick_too_long")));
+                            userManager.determineLocale(e.getUniqueId()).getString("login.nick_too_long")));
         }
     }
 
@@ -59,7 +59,7 @@ public class AuthPlayerListeners implements Listener {
         if ((Bukkit.getPlayer(e.getName()) != null || Bukkit.getPlayer(e.getUniqueId()) != null) && !config.getBoolean("login.allowJoinWhenOnline")) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
                     ChatColor.translateAlternateColorCodes('&',
-                            userManager.determineLocale(e.getUniqueId()).getConfig().getString("login.online_kick")));
+                            userManager.determineLocale(e.getUniqueId()).getString("login.online_kick")));
             return;
         }
         //See: LoginManager.getAuth();
@@ -67,7 +67,7 @@ public class AuthPlayerListeners implements Listener {
         if (!authUser.getName().equals(e.getName())) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
                     ChatColor.translateAlternateColorCodes('&',
-                            userManager.determineLocale(e.getUniqueId()).getConfig().getString("login.wrong_nick_casing")));
+                            userManager.determineLocale(e.getUniqueId()).getString("login.wrong_nick_casing")));
         }
     }
 
@@ -78,7 +78,7 @@ public class AuthPlayerListeners implements Listener {
             if (userManager.getUser(p) != null) {
                 if ((config.getBoolean("login.allowOperatorsOnFullServer") && p.isOp())) {
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            userManager.determineLocale(p).getConfig().getString("login.full_server_join")));
+                            userManager.determineLocale(p).getString("login.full_server_join")));
                     e.allow();
                 }
             }
@@ -94,7 +94,7 @@ public class AuthPlayerListeners implements Listener {
             if (chatDifference >= 0) {
                 Locale l = userManager.determineLocale(p);
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("auth.playtime_chat")).replace("<time>", localeManager.parseTimeWithTranslate(chatDifference, l)));
+                        l.getString("auth.playtime_chat")).replace("<time>", localeManager.parseTimeWithTranslate(chatDifference, l)));
                 e.setCancelled(true);
             }
         } else {
@@ -102,7 +102,7 @@ public class AuthPlayerListeners implements Listener {
                 for (Player rec : loginManager.getOnlineUnauthed()) e.getRecipients().remove(rec);
             if (config.getBoolean("login.chat.notifyUnauthorisedOnChat"))
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        userManager.determineLocale(p).getConfig().getString(authUser.isRegistered() ? "login.login" : "register.register")));
+                        userManager.determineLocale(p).getString(authUser.isRegistered() ? "login.login" : "register.register")));
             if (!config.getBoolean("login.chat.allowUnauthorisedToChat")) e.setCancelled(true);
         }
     }
@@ -116,10 +116,10 @@ public class AuthPlayerListeners implements Listener {
             if (!loginManager.getAllowedCommands(AuthType.REGISTER).contains(command)) {
                 if (config.getBoolean("login.commands.kickOnDisallowedCommand")) {
                     p.kickPlayer(ChatColor.translateAlternateColorCodes('&',
-                            userManager.determineLocale(p).getConfig().getString("register.command_kick")));
+                            userManager.determineLocale(p).getString("register.command_kick")));
                 } else {
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            userManager.determineLocale(p).getConfig().getString("register.register")));
+                            userManager.determineLocale(p).getString("register.register")));
                 }
                 e.setCancelled(true);
             }
@@ -127,10 +127,10 @@ public class AuthPlayerListeners implements Listener {
             if (!loginManager.getAllowedCommands(AuthType.LOGIN).contains(command)) {
                 if (config.getBoolean("login.commands.kickOnDisallowedCommand")) {
                     p.kickPlayer(ChatColor.translateAlternateColorCodes('&',
-                            userManager.determineLocale(p).getConfig().getString("login.command_kick")));
+                            userManager.determineLocale(p).getString("login.command_kick")));
                 } else {
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            userManager.determineLocale(p).getConfig().getString("login.login")));
+                            userManager.determineLocale(p).getString("login.login")));
                 }
                 e.setCancelled(true);
             }

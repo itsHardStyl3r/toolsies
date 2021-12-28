@@ -37,7 +37,7 @@ public class tempmuteCommand implements CommandExecutor, TabCompleter {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.tempmute")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.tempmute"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.tempmute"));
             return true;
         }
         if (args.length > 1) {
@@ -45,29 +45,29 @@ public class tempmuteCommand implements CommandExecutor, TabCompleter {
             punishmentManager.deleteIfExpired(PunishmentType.MUTE, target);
             if (punishmentManager.isPunished(PunishmentType.MUTE, target)) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("mute.is_muted")).replace("<name>", target));
+                        l.getString("mute.is_muted")).replace("<name>", target));
                 return true;
             }
             if (target.length() > punishmentManager.getMaximumNickLength()) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("ban.name_too_long")).replace("<length>", String.valueOf(punishmentManager.getMaximumNickLength())));
+                        l.getString("ban.name_too_long")).replace("<length>", String.valueOf(punishmentManager.getMaximumNickLength())));
                 return true;
             }
             if (userManager.getUser(target) == null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("players.unknown")).replace("<name>", args[0]));
+                        l.getString("players.unknown")).replace("<name>", args[0]));
                 return true;
             }
             if (!localeManager.isValidStringTime(args[1])) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("tempban.incorrect_time")));
+                        l.getString("tempban.incorrect_time")));
                 return true;
             }
             long duration = localeManager.parseTimeFromString(args[1]);
             long minimumDuration = punishmentManager.getMinimumDuration(PunishmentType.MUTE);
             if (duration < minimumDuration) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("tempban.duration_too_short")).replace("<duration>", localeManager.parseTimeWithTranslate(minimumDuration, l)));
+                        l.getString("tempban.duration_too_short")).replace("<duration>", localeManager.parseTimeWithTranslate(minimumDuration, l)));
                 return true;
             }
             String admin = sender.getName();
@@ -75,14 +75,14 @@ public class tempmuteCommand implements CommandExecutor, TabCompleter {
             UUID uuid = userManager.getUserIgnoreCase(target).getUUID();
             Punishment punishment = punishmentManager.createPunishment(PunishmentType.MUTE, uuid, target, admin, reason, duration);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("tempmute.tempmute"))
+                    l.getString("tempmute.tempmute"))
                     .replace("<name>", target)
                     .replace("<duration>", localeManager.parseTimeWithTranslate(duration, l)));
             Player p = Bukkit.getPlayerExact(target);
             if (Bukkit.getPlayerExact(target) != null) {
                 Locale pl = userManager.determineLocale(p);
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        pl.getConfig().getString("tempmute.tempmute_target"))
+                        pl.getString("tempmute.tempmute_target"))
                         .replace("<admin>", punishment.getAdmin())
                         .replace("<reason>", (punishment.getReason() == null ? "brak" : punishment.getReason()))
                         .replace("<duration>", localeManager.parseTimeWithTranslate(duration, pl)));
@@ -100,11 +100,11 @@ public class tempmuteCommand implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 return null;
             } else if(args.length == 2) {
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.duration"), true));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.duration"), true));
             } else if(args.length == 3) {
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.player"), true));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.player"), true));
             } else {
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.reason"), false));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.reason"), false));
             }
         }
         return Collections.emptyList();

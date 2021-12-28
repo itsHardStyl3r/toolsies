@@ -35,13 +35,13 @@ public class getwarnCommand implements CommandExecutor, TabCompleter {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.getwarn")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.getwarn"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.getwarn"));
             return true;
         }
         if (args.length == 1) {
             if (!StringUtils.isNumeric(args[0])) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("getwarn.wrong_id")));
+                        l.getString("getwarn.wrong_id")));
                 return true;
             }
             int i = Integer.parseInt(args[0]);
@@ -49,22 +49,22 @@ public class getwarnCommand implements CommandExecutor, TabCompleter {
             punishmentManager.deleteIfExpired(warn);
             if (warn == null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("getwarn.no_such_warn")).replace("<id>", args[0]));
+                        l.getString("getwarn.no_such_warn")).replace("<id>", args[0]));
                 return true;
             }
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("getwarn.getwarn_header")).replace("<id>", args[0]).replace("<name>", warn.getName()));
+                    l.getString("getwarn.getwarn_header")).replace("<id>", args[0]).replace("<name>", warn.getName()));
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("getwarn.entries.admin")).replace("<admin>", warn.getAdmin()));
+                    l.getString("getwarn.entries.admin")).replace("<admin>", warn.getAdmin()));
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("getwarn.entries.reason")).replace("<reason>", warn.getReason()));
+                    l.getString("getwarn.entries.reason")).replace("<reason>", warn.getReason()));
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("getwarn.entries.date")).replace("<date>", localeManager.getFullDate(warn.getDate())));
+                    l.getString("getwarn.entries.date")).replace("<date>", localeManager.getFullDate(warn.getDate())));
             if (warn.getDuration() != null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("getwarn.entries.duration")).replace("<duration>", localeManager.getFullDate(warn.getDuration())));
+                        l.getString("getwarn.entries.duration")).replace("<duration>", localeManager.getFullDate(warn.getDuration())));
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("getwarn.entries.remaining")).replace("<remaining>", localeManager.parseTimeWithTranslate(warn.getRemaining(), l)));
+                        l.getString("getwarn.entries.remaining")).replace("<remaining>", localeManager.parseTimeWithTranslate(warn.getRemaining(), l)));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);
@@ -77,7 +77,7 @@ public class getwarnCommand implements CommandExecutor, TabCompleter {
         if (sender.hasPermission("toolsies.getwarn")) {
             if (args.length == 1) {
                 Locale l = userManager.determineLocale(sender);
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.id"), true));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.id"), true));
             }
         }
         return Collections.emptyList();

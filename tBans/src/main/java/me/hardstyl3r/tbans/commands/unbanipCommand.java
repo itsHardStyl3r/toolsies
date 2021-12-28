@@ -36,7 +36,7 @@ public class unbanipCommand implements CommandExecutor, TabCompleter {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.unban-ip")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.unban-ip"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.unban-ip"));
             return true;
         }
         if (args.length == 1) {
@@ -47,7 +47,7 @@ public class unbanipCommand implements CommandExecutor, TabCompleter {
                     target = InetAddress.getByName(args[0]);
                 } catch (Exception e) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("ban-ip.incorrect_address")));
+                            l.getString("ban-ip.incorrect_address")));
                     return true;
                 }
             } else {
@@ -56,13 +56,13 @@ public class unbanipCommand implements CommandExecutor, TabCompleter {
             punishmentManager.deleteIfExpired(target);
             if (!punishmentManager.isBanned(target)) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("unban.is_not_banned")).replace("<name>", target.getHostAddress()));
+                        l.getString("unban.is_not_banned")).replace("<name>", target.getHostAddress()));
                 return true;
             }
             Punishment ban = punishmentManager.getBan(target);
             punishmentManager.deletePunishment(ban, sender.getName());
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("unban.unban")).replace("<name>", ban.getName()));
+                    l.getString("unban.unban")).replace("<name>", ban.getName()));
         } else {
             localeManager.sendUsage(sender, cmd, l);
         }
@@ -74,7 +74,7 @@ public class unbanipCommand implements CommandExecutor, TabCompleter {
         if (sender.hasPermission("toolsies.unban-ip")) {
             if (args.length == 1) {
                 Locale l = userManager.determineLocale(sender);
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.ip"), true));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.ip"), true));
             }
         }
         return Collections.emptyList();

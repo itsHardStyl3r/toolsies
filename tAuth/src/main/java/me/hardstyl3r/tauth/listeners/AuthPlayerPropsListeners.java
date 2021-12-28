@@ -34,11 +34,11 @@ public class AuthPlayerPropsListeners implements Listener {
         AuthUser authUser = loginManager.getAuth(p);
         if (!authUser.isRegistered()) {
             p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    userManager.determineLocale(p).getConfig().getString("register.register")));
+                    userManager.determineLocale(p).getString("register.register")));
             loginManager.setKickTask(p, AuthType.REGISTER);
         } else if (!authUser.isLoggedIn()) {
             p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    userManager.determineLocale(p).getConfig().getString("login.login")));
+                    userManager.determineLocale(p).getString("login.login")));
             loginManager.setKickTask(p, AuthType.LOGIN);
         }
         loginManagement.initAuth(p);

@@ -37,11 +37,11 @@ public class loginCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("console_sender")));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("console_sender")));
             return true;
         }
         if (!sender.hasPermission("toolsies.login")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.login"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("no_permission")).replace("<permission>", "toolsies.login"));
             return true;
         }
         if (args.length == 1) {
@@ -50,7 +50,7 @@ public class loginCommand implements CommandExecutor, TabCompleter {
             if (authUser != null) {
                 if (authUser.isLoggedIn()) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("login.already_logged_in")));
+                            l.getString("login.already_logged_in")));
                     return true;
                 }
             }
@@ -58,15 +58,15 @@ public class loginCommand implements CommandExecutor, TabCompleter {
             if (loginManager.passwordMatches(authUser, password)) {
                 loginManagement.performLogin(p);
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("login.logged_in")));
+                        l.getString("login.logged_in")));
             } else {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("login.incorrect_password")));
+                        l.getString("login.incorrect_password")));
                 loginManager.pushAuthHistory(authUser, AuthType.LOGIN, false, null);
             }
         } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("login.usage")));
+                    l.getString("login.usage")));
         }
         return true;
     }
@@ -74,7 +74,7 @@ public class loginCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 1) {
-            return Collections.singletonList(localeManager.formatArgument(userManager.determineLocale(sender).getConfig().getString("common.password"), true));
+            return Collections.singletonList(localeManager.formatArgument(userManager.determineLocale(sender).getString("common.password"), true));
         }
         return Collections.emptyList();
     }

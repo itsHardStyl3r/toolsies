@@ -31,24 +31,24 @@ public class kickCommand implements CommandExecutor, TabCompleter {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.kick")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.kick"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.kick"));
             return true;
         }
         if (args.length > 0) {
             String target = args[0];
             if (userManager.getUser(target) == null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("players.unknown")).replace("<name>", args[0]));
+                        l.getString("players.unknown")).replace("<name>", args[0]));
                 return true;
             }
             if (Bukkit.getPlayerExact(target) == null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("players.offline")).replace("<name>", args[0]));
+                        l.getString("players.offline")).replace("<name>", args[0]));
                 return true;
             }
             String reason = (args.length > 1 ? localeManager.createMessage(args, 1) : null);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("kick.kick")).replace("<name>", target));
+                    l.getString("kick.kick")).replace("<name>", target));
             Player p = Bukkit.getPlayerExact(target);
             if (Bukkit.getPlayerExact(target) != null) {
                 p.kickPlayer(ChatColor.translateAlternateColorCodes('&', constructMessage(userManager.determineLocale(p), sender.getName(), reason)));
@@ -60,10 +60,10 @@ public class kickCommand implements CommandExecutor, TabCompleter {
     }
 
     private String constructMessage(Locale l, String admin, String reason) {
-        String message = l.getConfig().getString("kick.kickmessage.header");
-        message += "\n" + l.getConfig().getString("kick.kickmessage.admin").replace("<admin>", admin);
+        String message = l.getString("kick.kickmessage.header");
+        message += "\n" + l.getString("kick.kickmessage.admin").replace("<admin>", admin);
         if (reason != null) {
-            message += "\n" + l.getConfig().getString("kick.kickmessage.reason").replace("<reason>", reason);
+            message += "\n" + l.getString("kick.kickmessage.reason").replace("<reason>", reason);
         }
         return message;
     }
@@ -75,7 +75,7 @@ public class kickCommand implements CommandExecutor, TabCompleter {
                 return null;
             } else {
                 Locale l = userManager.determineLocale(sender);
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.reason"), false));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.reason"), false));
             }
         }
         return Collections.emptyList();

@@ -44,7 +44,7 @@ public class authCommand implements CommandExecutor, TabCompleter {
         }
         if (!sender.hasPermission("toolsies.auth")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.auth"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.auth"));
             return true;
         }
         if (args.length >= 2) {
@@ -60,13 +60,13 @@ public class authCommand implements CommandExecutor, TabCompleter {
             AuthUser authUser = loginManager.getAuth(p);
             if (authUser == null || !authUser.isRegistered()) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("players.unknown")).replace("<name>", target));
+                        l.getString("players.unknown")).replace("<name>", target));
                 return true;
             }
             if (args[0].equalsIgnoreCase("logout")) {
                 if (!authUser.isLoggedIn()) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("auth.logout_not_logged_in")).replace("<name>", p.getName()));
+                            l.getString("auth.logout_not_logged_in")).replace("<name>", p.getName()));
                     return true;
                 }
                 if (p == sender) {
@@ -74,51 +74,51 @@ public class authCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("auth.logout_sender")).replace("<name>", p.getName()));
+                        l.getString("auth.logout_sender")).replace("<name>", p.getName()));
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("auth.logout_target")));
+                        l.getString("auth.logout_target")));
                 loginManagement.performLogout(p, comment);
             } else if (args[0].equalsIgnoreCase("reload")) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("auth.reload_sender")).replace("<name>", target));
+                        l.getString("auth.reload_sender")).replace("<name>", target));
                 if (p != null && !silent) {
                     Bukkit.getPlayerExact(target).sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("auth.reload_target")));
+                            l.getString("auth.reload_target")));
                 }
                 loginManager.refreshAuth(authUser);
             } else if (args[0].equalsIgnoreCase("info")) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("auth.info.header")).replace("<name>", authUser.getName()));
+                        l.getString("auth.info.header")).replace("<name>", authUser.getName()));
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("auth.info.uuid")).replace("<uuid>", authUser.getUUID().toString()));
+                        l.getString("auth.info.uuid")).replace("<uuid>", authUser.getUUID().toString()));
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("auth.info.ip")).replace("<ip>", authUser.getIp()).replace("<regip>", authUser.getRegisterIp()));
+                        l.getString("auth.info.ip")).replace("<ip>", authUser.getIp()).replace("<regip>", authUser.getRegisterIp()));
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("auth.info.regdate")).replace("<regdate>", localeManager.getFullDate(authUser.getRegisterDate())));
+                        l.getString("auth.info.regdate")).replace("<regdate>", localeManager.getFullDate(authUser.getRegisterDate())));
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("auth.info.email")).replace("<email>", (authUser.getEmail() == null ? "N/A" : authUser.getEmail())));
+                        l.getString("auth.info.email")).replace("<email>", (authUser.getEmail() == null ? "N/A" : authUser.getEmail())));
                 Location loc = authUser.getLastLocation();
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getConfig().getString("auth.info.lastlocation"))
+                                l.getString("auth.info.lastlocation"))
                         .replace("<x>", String.valueOf(loc.getBlockX()))
                         .replace("<y>", String.valueOf(loc.getBlockY()))
                         .replace("<z>", String.valueOf(loc.getBlockZ()))
                         .replace("<world>", loc.getWorld().getName()));
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("auth.info.lastlogin")).replace("<lastlogin>", localeManager.getFullDate(authUser.getLastLoginDate())));
+                        l.getString("auth.info.lastlogin")).replace("<lastlogin>", localeManager.getFullDate(authUser.getLastLoginDate())));
                 ArrayList<AuthUser> multis = loginManager.getMultiAccounts(authUser);
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("auth.info.multis")).replace("<multi>", (multis.isEmpty() ? "0" : getNames(multis).toString())));
+                        l.getString("auth.info.multis")).replace("<multi>", (multis.isEmpty() ? "0" : getNames(multis).toString())));
             } else if (args[0].equalsIgnoreCase("login")) {
                 if (authUser.isLoggedIn()) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("auth.login_logged_in")).replace("<name>", target));
+                            l.getString("auth.login_logged_in")).replace("<name>", target));
                     return true;
                 }
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("auth.login_sender")).replace("<name>", p.getName()));
+                        l.getString("auth.login_sender")).replace("<name>", p.getName()));
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("auth.login_target")));
+                        l.getString("auth.login_target")));
                 loginManagement.performLogin(p, comment);
             } else {
                 localeManager.sendUsage(sender, cmd, l);
@@ -144,7 +144,7 @@ public class authCommand implements CommandExecutor, TabCompleter {
             Locale l = userManager.determineLocale(sender);
             if (args.length == 1) return localeManager.formatTabArguments(args[0], allarguments);
             if (args.length == 2)
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.player"), true));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.player"), true));
         }
         return Collections.emptyList();
     }

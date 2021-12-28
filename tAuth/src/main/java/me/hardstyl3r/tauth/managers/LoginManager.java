@@ -181,7 +181,7 @@ public class LoginManager {
                 if (notify != null && rs.getBoolean("loggedin")) {
                     Locale l = userManager.determineLocale(UUID.fromString(rs.getString("uuid")));
                     notify.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("login.reload_login")));
+                            l.getString("login.reload_login")));
                 }
                 auths.put(authUser.getUUID(), authUser);
             }
@@ -392,7 +392,7 @@ public class LoginManager {
         Locale l = userManager.determineLocale(p);
         int task = getServer().getScheduler().scheduleSyncDelayedTask(plugin, () ->
                 p.kickPlayer(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString(type.name().toLowerCase() + ".timeout"))), config.getInt("login." + type.name().toLowerCase() + "Timeout") * 20L);
+                        l.getString(type.name().toLowerCase() + ".timeout"))), config.getInt("login." + type.name().toLowerCase() + "Timeout") * 20L);
         kickTasks.put(p.getUniqueId(), task);
     }
 
@@ -405,15 +405,15 @@ public class LoginManager {
         int minLength = config.getInt("login.minPasswordLength");
         int maxLength = config.getInt("login.maxPasswordLength");
         if (isIllegalPassword(password)) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("register.illegal_password")));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("register.illegal_password")));
             return true;
         }
         if (password.length() <= minLength) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("register.password_too_short")).replace("<length>", String.valueOf(minLength)));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("register.password_too_short")).replace("<length>", String.valueOf(minLength)));
             return true;
         }
         if (password.length() >= maxLength) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("register.password_too_long")).replace("<length>", String.valueOf(maxLength)));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("register.password_too_long")).replace("<length>", String.valueOf(maxLength)));
             return true;
         }
         return false;
@@ -422,7 +422,7 @@ public class LoginManager {
     public boolean validatePassword(CommandSender sender, String password, String passwordConfirm, Locale l) {
         if (validatePassword(sender, password, l)) {
             if (!password.equals(passwordConfirm)) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("register.passwords_do_not_match")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("register.passwords_do_not_match")));
                 return true;
             }
         }

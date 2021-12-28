@@ -37,7 +37,7 @@ public class tempbanCommand implements CommandExecutor, TabCompleter {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.tempban")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.tempban"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.tempban"));
             return true;
         }
         if (args.length > 1) {
@@ -45,24 +45,24 @@ public class tempbanCommand implements CommandExecutor, TabCompleter {
             punishmentManager.deleteIfExpired(PunishmentType.BAN, target);
             if (punishmentManager.isPunished(PunishmentType.BAN, target)) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("ban.is_banned")).replace("<name>", target));
+                        l.getString("ban.is_banned")).replace("<name>", target));
                 return true;
             }
             if (target.length() > punishmentManager.getMaximumNickLength()) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("ban.name_too_long")).replace("<length>", String.valueOf(punishmentManager.getMaximumNickLength())));
+                        l.getString("ban.name_too_long")).replace("<length>", String.valueOf(punishmentManager.getMaximumNickLength())));
                 return true;
             }
             if (!localeManager.isValidStringTime(args[1])) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("tempban.incorrect_time")));
+                        l.getString("tempban.incorrect_time")));
                 return true;
             }
             long duration = localeManager.parseTimeFromString(args[1]);
             long minimumDuration = punishmentManager.getMinimumDuration(PunishmentType.BAN);
             if (duration < minimumDuration) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("tempban.duration_too_short")).replace("<duration>", localeManager.parseTimeWithTranslate(minimumDuration, l)));
+                        l.getString("tempban.duration_too_short")).replace("<duration>", localeManager.parseTimeWithTranslate(minimumDuration, l)));
                 return true;
             }
             String admin = sender.getName();
@@ -70,7 +70,7 @@ public class tempbanCommand implements CommandExecutor, TabCompleter {
             UUID uuid = (userManager.getUserIgnoreCase(target) == null ? null : userManager.getUserIgnoreCase(target).getUUID());
             Punishment punishment = punishmentManager.createPunishment(PunishmentType.BAN, uuid, target, admin, reason, duration);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("tempban.tempban"))
+                    l.getString("tempban.tempban"))
                     .replace("<name>", target)
                     .replace("<duration>", localeManager.parseTimeWithTranslate(duration, l)));
             Player p = Bukkit.getPlayerExact(target);
@@ -90,11 +90,11 @@ public class tempbanCommand implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 return null;
             } else if(args.length == 2) {
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.duration"), true));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.duration"), true));
             } else if(args.length == 3) {
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.player"), true));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.player"), true));
             } else {
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.reason"), false));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.reason"), false));
             }
         }
         return Collections.emptyList();

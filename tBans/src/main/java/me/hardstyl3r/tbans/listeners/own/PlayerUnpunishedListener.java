@@ -27,7 +27,7 @@ public class PlayerUnpunishedListener implements Listener {
                 Punishment ban = e.getPunishment();
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            userManager.determineLocale(p).getConfig().getString("unban.unban_broadcast"))
+                            userManager.determineLocale(p).getString("unban.unban_broadcast"))
                             .replace("<name>", ban.getName())
                             .replace("<admin>", e.getSender()));
                 }

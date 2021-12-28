@@ -36,12 +36,12 @@ public class logoutCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("console_sender")));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("console_sender")));
             return true;
         }
         if (!sender.hasPermission("toolsies.logout")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.logout"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.logout"));
             return true;
         }
         if (args.length == 0) {
@@ -50,16 +50,16 @@ public class logoutCommand implements CommandExecutor, TabCompleter {
             if (user != null) {
                 if (!user.isLoggedIn()) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("logout.not_logged_in")));
+                            l.getString("logout.not_logged_in")));
                     return true;
                 }
             }
             loginManagement.performLogout(p);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("logout.logged_out")));
+                    l.getString("logout.logged_out")));
         } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("logout.usage")));
+                    l.getString("logout.usage")));
         }
         return true;
     }

@@ -34,7 +34,7 @@ public class unbanCommand implements CommandExecutor, TabCompleter {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.unban")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.unban"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.unban"));
             return true;
         }
         if (args.length == 1) {
@@ -42,13 +42,13 @@ public class unbanCommand implements CommandExecutor, TabCompleter {
             punishmentManager.deleteIfExpired(PunishmentType.BAN, target);
             if (!punishmentManager.isPunished(PunishmentType.BAN, target)) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("unban.is_not_banned")).replace("<name>", target));
+                        l.getString("unban.is_not_banned")).replace("<name>", target));
                 return true;
             }
             Punishment ban = punishmentManager.getPunishment(PunishmentType.BAN, target);
             punishmentManager.deletePunishment(ban, sender.getName());
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("unban.unban")).replace("<name>", ban.getName()));
+                    l.getString("unban.unban")).replace("<name>", ban.getName()));
         } else {
             localeManager.sendUsage(sender, cmd, l);
         }
@@ -60,7 +60,7 @@ public class unbanCommand implements CommandExecutor, TabCompleter {
         if (sender.hasPermission("toolsies.unban")) {
             if (args.length == 1) {
                 Locale l = userManager.determineLocale(sender);
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.player"), true));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.player"), true));
             }
         }
         return Collections.emptyList();

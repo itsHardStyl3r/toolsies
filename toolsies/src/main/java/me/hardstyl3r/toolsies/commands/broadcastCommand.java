@@ -36,7 +36,7 @@ public class broadcastCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (!sender.hasPermission("toolsies.broadcast")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.broadcast"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("no_permission")).replace("<permission>", "toolsies.broadcast"));
             return true;
         }
         if (args.length > 0) {
@@ -52,7 +52,7 @@ public class broadcastCommand implements CommandExecutor, TabCompleter {
         if (sender.hasPermission("toolsies.broadcast")) {
             if (args.length == 1) {
                 Locale l = userManager.determineLocale(sender);
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.message"), true));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.message"), true));
             }
         }
         return Collections.emptyList();

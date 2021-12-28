@@ -37,7 +37,7 @@ public class AsyncPlayerPreLoginListener implements Listener {
                 return;
             }
         } else {
-            e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, l.getConfig().getString("ban.unresolved_hostname"));
+            e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, l.getString("ban.unresolved_hostname"));
             return;
         }
         punishmentManager.deleteIfExpired(PunishmentType.BAN, e.getName());

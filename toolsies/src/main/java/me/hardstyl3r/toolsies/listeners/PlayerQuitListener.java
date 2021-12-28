@@ -26,7 +26,7 @@ public class PlayerQuitListener implements Listener {
         for (Player p : Bukkit.getOnlinePlayers()) {
             User users = userManager.getUser(p);
             p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    users.getLocale().getConfig().getString("players.quit.broadcast")).replace("<name>", target.getName()));
+                    users.getLocale().getString("players.quit.broadcast")).replace("<name>", target.getName()));
         }
     }
 }

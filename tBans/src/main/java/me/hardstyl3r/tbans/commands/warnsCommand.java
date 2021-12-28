@@ -36,7 +36,7 @@ public class warnsCommand implements CommandExecutor, TabCompleter {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.warns")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.warns"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.warns"));
             return true;
         }
         if (!(sender instanceof Player)) {
@@ -56,7 +56,7 @@ public class warnsCommand implements CommandExecutor, TabCompleter {
                 }
                 if (userManager.getUser(target) == null) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("players.unknown")).replace("<name>", args[0]));
+                            l.getString("players.unknown")).replace("<name>", args[0]));
                     return true;
                 }
                 warns = punishmentManager.getPunishments(PunishmentType.WARN, target);
@@ -64,12 +64,12 @@ public class warnsCommand implements CommandExecutor, TabCompleter {
             warns.removeIf(punishmentManager::deleteIfExpired);
             if (warns.isEmpty()) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getConfig().getString("warns.no_warns" + ((sender.getName().equalsIgnoreCase(target)) ? "" : "_sender")))
+                                l.getString("warns.no_warns" + ((sender.getName().equalsIgnoreCase(target)) ? "" : "_sender")))
                         .replace("<name>", target));
                 return true;
             }
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getConfig().getString("warns.warns" + ((sender.getName().equalsIgnoreCase(target)) ? "" : "_sender")))
+                            l.getString("warns.warns" + ((sender.getName().equalsIgnoreCase(target)) ? "" : "_sender")))
                     .replace("<warns>", printWarns(warns))
                     .replace("<total>", String.valueOf(warns.size()))
                     .replace("<name>", target));
@@ -96,7 +96,7 @@ public class warnsCommand implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 Locale l = userManager.determineLocale(sender);
                 if (sender.hasPermission("toolsies.warns.others")) {
-                    return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.player"), false));
+                    return Collections.singletonList(localeManager.formatArgument(l.getString("common.player"), false));
                 }
             }
         }

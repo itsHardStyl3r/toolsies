@@ -39,7 +39,7 @@ public class delspawnCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (!sender.hasPermission("toolsies.delspawn")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.delspawn"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("no_permission")).replace("<permission>", "toolsies.delspawn"));
             return true;
         }
         if (args.length <= 1) {
@@ -50,23 +50,23 @@ public class delspawnCommand implements CommandExecutor, TabCompleter {
                     s = locationManager.getSpawn(p.getLocation());
                     if (!locationManager.isLocationIdentical(s.getLocation(), p.getLocation())) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getConfig().getString("delspawn.no_spawn_specified")));
+                                l.getString("delspawn.no_spawn_specified")));
                         return true;
                     }
                 }
             }
             if (s == null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("delspawn.unknown_spawn")).replace("<name>", args[0]));
+                        l.getString("delspawn.unknown_spawn")).replace("<name>", args[0]));
                 return true;
             }
             if (s.isDefault()) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("delspawn.delspawn_default")).replace("<name>", s.getName()));
+                        l.getString("delspawn.delspawn_default")).replace("<name>", s.getName()));
                 return true;
             }
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("delspawn.delspawn")).replace("<name>", s.getName()));
+                    l.getString("delspawn.delspawn")).replace("<name>", s.getName()));
             locationManager.deleteSpawn(s);
         } else {
             localeManager.sendUsage(sender, cmd, l);

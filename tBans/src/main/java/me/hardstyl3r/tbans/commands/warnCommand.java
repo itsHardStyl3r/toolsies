@@ -37,19 +37,19 @@ public class warnCommand implements CommandExecutor, TabCompleter {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.warn")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.warn"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.warn"));
             return true;
         }
         if (args.length > 1) {
             String target = args[0];
             if (target.length() > punishmentManager.getMaximumNickLength()) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("ban.name_too_long")).replace("<length>", String.valueOf(punishmentManager.getMaximumNickLength())));
+                        l.getString("ban.name_too_long")).replace("<length>", String.valueOf(punishmentManager.getMaximumNickLength())));
                 return true;
             }
             if (userManager.getUser(target) == null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("players.unknown")).replace("<name>", args[0]));
+                        l.getString("players.unknown")).replace("<name>", args[0]));
                 return true;
             }
             String admin = sender.getName();
@@ -57,11 +57,11 @@ public class warnCommand implements CommandExecutor, TabCompleter {
             UUID uuid = userManager.getUserIgnoreCase(target).getUUID();
             Punishment punishment = punishmentManager.createPunishment(PunishmentType.WARN, uuid, target, admin, reason, null);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("warn.warn_sender")).replace("<name>", target));
+                    l.getString("warn.warn_sender")).replace("<name>", target));
             Player p = Bukkit.getPlayerExact(target);
             if (Bukkit.getPlayerExact(target) != null) {
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        userManager.determineLocale(p).getConfig().getString("warn.warn_target"))
+                        userManager.determineLocale(p).getString("warn.warn_target"))
                         .replace("<admin>", punishment.getAdmin())
                         .replace("<reason>", punishment.getReason()));
             }
@@ -78,7 +78,7 @@ public class warnCommand implements CommandExecutor, TabCompleter {
                 return null;
             } else {
                 Locale l = userManager.determineLocale(sender);
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.reason"), false));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.reason"), false));
             }
         }
         return Collections.emptyList();

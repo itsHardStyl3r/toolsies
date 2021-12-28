@@ -37,13 +37,13 @@ public class unwarnCommand implements CommandExecutor, TabCompleter {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.unwarn")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("no_permission")).replace("<permission>", "toolsies.unwarn"));
+                    l.getString("no_permission")).replace("<permission>", "toolsies.unwarn"));
             return true;
         }
         if (args.length == 1) {
             if (!StringUtils.isNumeric(args[0])) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("unwarn.wrong_id")));
+                        l.getString("unwarn.wrong_id")));
                 return true;
             }
             int i = Integer.parseInt(args[0]);
@@ -51,16 +51,16 @@ public class unwarnCommand implements CommandExecutor, TabCompleter {
             punishmentManager.deleteIfExpired(warn);
             if (warn == null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getConfig().getString("unwarn.no_such_warn")).replace("<id>", args[0]));
+                        l.getString("unwarn.no_such_warn")).replace("<id>", args[0]));
                 return true;
             }
             punishmentManager.deletePunishment(warn, sender.getName());
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getConfig().getString("unwarn.unwarn")).replace("<id>", args[0]));
+                    l.getString("unwarn.unwarn")).replace("<id>", args[0]));
             Player p = Bukkit.getPlayer(warn.getUUID());
             if (Bukkit.getPlayer(warn.getUUID()) != null) {
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        userManager.determineLocale(p).getConfig().getString("unwarn.unwarn_target"))
+                        userManager.determineLocale(p).getString("unwarn.unwarn_target"))
                         .replace("<admin>", sender.getName()));
             }
         } else {
@@ -74,7 +74,7 @@ public class unwarnCommand implements CommandExecutor, TabCompleter {
         if (sender.hasPermission("toolsies.unwarn")) {
             if (args.length == 1) {
                 Locale l = userManager.determineLocale(sender);
-                return Collections.singletonList(localeManager.formatArgument(l.getConfig().getString("common.id"), true));
+                return Collections.singletonList(localeManager.formatArgument(l.getString("common.id"), true));
             }
         }
         return Collections.emptyList();
