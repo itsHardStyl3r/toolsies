@@ -31,12 +31,12 @@ public class TBans extends JavaPlugin {
         instance = this;
         toolsies = (Toolsies) Bukkit.getServer().getPluginManager().getPlugin("toolsies");
         if (!toolsies.isEnabled() || toolsies == null) {
-            LogUtil.warn("Could not hook into toolsies.");
+            LogUtil.warn("[tBans] Could not hook into toolsies.");
             this.setEnabled(false);
         }
         double version = Double.parseDouble(toolsies.getDescription().getVersion().split("-")[0]);
         if (version < 0.10) {
-            LogUtil.error("Unsupported toolsies version.");
+            LogUtil.error("[tBans] Unsupported toolsies version.");
             this.setEnabled(false);
         }
         createTables();
