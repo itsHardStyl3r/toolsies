@@ -427,6 +427,25 @@ playtime:
   total: "&e> &7Total play time: <playtime>"
   footer: "&e# &7Authentication history: /auth history."
 
+chat:
+  usage:
+    clear: "/chat clear - clears chat"
+    lock: "/chat lock - lock and unlock chat"
+  clear:
+    broadcast:
+      - ''
+      - '&e&l> &7Chat has been cleared by &e<nick>&7.'
+      - ''
+  toggle:
+    broadcast:
+      - ''
+      - '&e&l> &7Chat has been <type>&7 by &e<nick>&7.'
+      - ''
+    chat_locked: "&e# &7Chat is currently locked."
+    types:
+      true: "&clocked"
+      false: "&aunlocked"
+
 players:
   unknown: "&c# &7Player <name> does not exist."
   offline: "&c# &7Player <name> is offline."

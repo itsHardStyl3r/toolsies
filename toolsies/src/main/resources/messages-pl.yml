@@ -431,6 +431,24 @@ playtime:
   total: "&e> &7Łączny czas gry: <playtime>"
   footer: "&e# &7Historia bezpieczeństwa: /auth history."
 
+chat:
+  usage:
+    clear: "/chat clear - czyści chat"
+    lock: "/chat lock - blokuje lub odblokowuje chat"
+  clear:
+    broadcast:
+      - ''
+      - '&e&l> &7Chat zostal wyczyszczony przez &e<nick>&7.'
+      - ''
+  toggle:
+    broadcast:
+      - ''
+      - '&e&l> &7Chat zostal <type>&7 przez &e<nick>&7.'
+      - ''
+    chat_locked: "&e# &7Chat jest obecnie zablokowany."
+    types:
+      true: "&czablokowany"
+      false: "&aodblokowany"
 
 players:
   unknown: "&c# &7Gracz <name> nie istnieje."
