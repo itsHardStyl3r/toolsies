@@ -2,7 +2,9 @@ package me.hardstyl3r.toolsies.objects;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class Locale {
 
@@ -42,5 +44,17 @@ public class Locale {
 
     public String toString() {
         return getName();
+    }
+
+    public String getString(String path) {
+        return config.getString(path, path);
+    }
+
+    public List<String> getStringList(String path) {
+        return (config.getStringList(path) == null ? Collections.singletonList(path) : config.getStringList(path));
+    }
+
+    public Set<String> getConfigurationSection(String path) {
+        return (config.getConfigurationSection(path) == null ? Collections.emptySet() : config.getConfigurationSection(path).getKeys(false));
     }
 }
