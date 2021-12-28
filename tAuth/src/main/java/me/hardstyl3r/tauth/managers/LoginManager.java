@@ -179,7 +179,7 @@ public class LoginManager {
                 authUser.setPlaytime(rs.getLong("playtime"));
                 Player notify = Bukkit.getPlayer(UUID.fromString(rs.getString("uuid")));
                 if (notify != null && rs.getBoolean("loggedin")) {
-                    Locale l = userManager.determineLocale(rs.getString("uuid"));
+                    Locale l = userManager.determineLocale(UUID.fromString(rs.getString("uuid")));
                     notify.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             l.getConfig().getString("login.reload_login")));
                 }
