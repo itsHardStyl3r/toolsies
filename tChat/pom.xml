@@ -56,6 +56,12 @@
             <version>${project.parent.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>me.hardstyl3r</groupId>
+            <artifactId>tPerms</artifactId>
+            <version>0.6-BETA</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 </project>

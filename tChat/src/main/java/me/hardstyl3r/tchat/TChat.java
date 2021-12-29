@@ -5,6 +5,7 @@ import me.hardstyl3r.tchat.listeners.AsyncChatListener;
 import me.hardstyl3r.tchat.managers.ChatManager;
 import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.utils.LogUtil;
+import me.hardstyl3r.tperms.TPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,6 +13,7 @@ public class TChat extends JavaPlugin {
 
     private static TChat instance;
     private Toolsies toolsies;
+    private TPerms tPerms;
     private ChatManager chatManager;
 
     public static TChat getInstance() {
@@ -33,6 +35,16 @@ public class TChat extends JavaPlugin {
             LogUtil.error("[tChat] Could not hook into toolsies: " + e + ". Disabling.");
             this.setEnabled(false);
         }
+        try {
+            tPerms = (TPerms) Bukkit.getServer().getPluginManager().getPlugin("tPerms");
+            double version = Double.parseDouble(tPerms.getDescription().getVersion().split("-")[0]);
+            if (version < 0.6)
+                throw new Exception("unsupported tPerms version (<0.6)");
+            LogUtil.info("[tChat] Found tPerms!");
+        } catch (Exception e) {
+            tPerms = null;
+            LogUtil.info("[tChat] Could not hook into tPerms: " + e + ".");
+        }
         initManagers();
         initListeners();
         initCommands();
@@ -43,7 +55,11 @@ public class TChat extends JavaPlugin {
     public void onDisable() {
     }
 
-    private void initManagers(){
+    public boolean isTPermsAvailable() {
+        return (tPerms != null);
+    }
+
+    private void initManagers() {
         chatManager = new ChatManager();
     }
 
