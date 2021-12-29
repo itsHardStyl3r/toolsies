@@ -62,7 +62,7 @@ public class TPerms extends JavaPlugin {
     }
 
     private void initListeners() {
-        new AsyncPlayerChatListener(this, permissibleUserManager, toolsies.localeManager);
+        new AsyncPlayerChatListener(this, permissibleUserManager);
         new PlayerJoinListener(this, permissibleUserManager, permissionsManager);
         new PlayerQuitListener(this, permissionsManager);
     }
