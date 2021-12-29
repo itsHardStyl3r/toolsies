@@ -2,6 +2,7 @@ package me.hardstyl3r.tchat;
 
 import me.hardstyl3r.tchat.commands.chatCommand;
 import me.hardstyl3r.tchat.listeners.AsyncChatListener;
+import me.hardstyl3r.tchat.listeners.TPermsAsyncPlayerChatListener;
 import me.hardstyl3r.tchat.managers.ChatManager;
 import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.utils.LogUtil;
@@ -63,8 +64,10 @@ public class TChat extends JavaPlugin {
         chatManager = new ChatManager();
     }
 
-    private void initListeners(){
+    private void initListeners() {
         new AsyncChatListener(this, chatManager, toolsies.userManager);
+        if (isTPermsAvailable())
+            new TPermsAsyncPlayerChatListener(this, tPerms.permissibleUserManager, toolsies.localeManager);
     }
 
     private void initCommands() {
