@@ -445,6 +445,18 @@ chat:
     types:
       true: "&clocked"
       false: "&aunlocked"
+  cooldown:
+    chat:
+      onChat: "&e# &7Wait <time> before chatting again."
+
+tchat:
+  usage:
+    tchat: "/tchat <chat> [toggle/clear]"
+  cooldown:
+    chat:
+      status: "&e# &7Chat cooldown status: <status> (default: <default>)"
+      clear: "&a# &7All chat cooldowns have been cleared."
+      toggle: "&a# &7Chat cooldown is now <status>."
 
 players:
   unknown: "&c# &7Player <name> does not exist."

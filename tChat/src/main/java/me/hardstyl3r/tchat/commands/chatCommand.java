@@ -57,22 +57,18 @@ public class chatCommand implements CommandExecutor, TabCompleter {
                                         .replace("<type>", l.getString("chat.toggle.types." + chatManager.isLocked())))
                                 .replace("<nick>", sender.getName()));
                 }
-            } else {
+            } else
                 localeManager.sendUsage(sender, cmd, l);
-            }
-        } else {
+        } else
             localeManager.sendUsage(sender, cmd, l);
-        }
         return true;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        if (sender.hasPermission("toolsies.chat") && args.length == 1) {
-            ArrayList<String> allarguments = new ArrayList<>(Arrays.asList("clear", "toggle"));
-            allarguments.removeIf(s -> !sender.hasPermission("toolsies.chat." + s));
-            return allarguments;
-        }
-        return Collections.emptyList();
+        if (!(sender.hasPermission("toolsies.chat") && args.length == 1)) return Collections.emptyList();
+        ArrayList<String> allarguments = new ArrayList<>(Arrays.asList("clear", "toggle"));
+        allarguments.removeIf(s -> !sender.hasPermission("toolsies.chat." + s));
+        return allarguments;
     }
 }

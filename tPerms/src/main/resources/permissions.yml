@@ -44,7 +44,6 @@ groups:
   moderator:
     permissions:
       - 'toolsies.kits.admin'
-      - 'toolsies.chat.color'
       - 'toolsies.broadcast'
       - 'toolsies.permission'
       - 'toolsies.permission.others'
@@ -52,6 +51,11 @@ groups:
       - 'toolsies.spawn.world'
       - 'toolsies.spawn.others'
       - 'toolsies.getspawn'
+      - 'toolsies.chat'
+      - 'toolsies.chat.color'
+      - 'toolsies.chat.clear'
+      - 'toolsies.chat.toggle'
+      - 'toolsies.chat.cooldown.bypass'
     inherits:
       - 'player'
     priority: 4
@@ -72,3 +76,8 @@ groups:
       - 'player'
       - 'moderator'
     priority: 5
+  owner:
+    permissions:
+    inherits:
+      - 'admin'
+    priority: 6

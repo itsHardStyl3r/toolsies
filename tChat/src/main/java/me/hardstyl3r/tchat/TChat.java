@@ -1,6 +1,7 @@
 package me.hardstyl3r.tchat;
 
 import me.hardstyl3r.tchat.commands.chatCommand;
+import me.hardstyl3r.tchat.commands.tchatCommand;
 import me.hardstyl3r.tchat.listeners.AsyncChatListener;
 import me.hardstyl3r.tchat.listeners.AsyncPlayerChatListener;
 import me.hardstyl3r.tchat.listeners.TPermsAsyncPlayerChatListener;
@@ -8,6 +9,7 @@ import me.hardstyl3r.tchat.managers.ChatManager;
 import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.utils.LogUtil;
 import me.hardstyl3r.tperms.TPerms;
+import me.hardstyl3r.tperms.managers.PermissibleUserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,6 +19,7 @@ public class TChat extends JavaPlugin {
     private Toolsies toolsies;
     private TPerms tPerms;
     private ChatManager chatManager;
+    private PermissibleUserManager permissibleUserManager;
 
     public static TChat getInstance() {
         return instance;
@@ -43,6 +46,7 @@ public class TChat extends JavaPlugin {
             if (version < 0.6)
                 throw new Exception("unsupported tPerms version (<0.6)");
             LogUtil.info("[tChat] Found tPerms!");
+            permissibleUserManager = tPerms.permissibleUserManager;
         } catch (Exception e) {
             tPerms = null;
             LogUtil.info("[tChat] Could not hook into tPerms: " + e + ".");
@@ -62,11 +66,11 @@ public class TChat extends JavaPlugin {
     }
 
     private void initManagers() {
-        chatManager = new ChatManager();
+        chatManager = new ChatManager(this, toolsies.configManager, toolsies.localeManager, permissibleUserManager);
     }
 
     private void initListeners() {
-        new AsyncChatListener(this, chatManager, toolsies.userManager);
+        new AsyncChatListener(this, chatManager, toolsies.userManager, toolsies.localeManager);
         new AsyncPlayerChatListener(this);
         if (isTPermsAvailable())
             new TPermsAsyncPlayerChatListener(this, tPerms.permissibleUserManager, toolsies.localeManager);
@@ -74,5 +78,6 @@ public class TChat extends JavaPlugin {
 
     private void initCommands() {
         new chatCommand(this, toolsies.userManager, toolsies.localeManager, chatManager);
+        new tchatCommand(this, toolsies.userManager, toolsies.localeManager, chatManager);
     }
 }

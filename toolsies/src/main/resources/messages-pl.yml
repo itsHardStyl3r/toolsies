@@ -449,6 +449,18 @@ chat:
     types:
       true: "&czablokowany"
       false: "&aodblokowany"
+  cooldown:
+    chat:
+      onChat: "&e# &7Musisz odczekać <time> zanim będziesz mógł ponownie pisać."
+
+tchat:
+  usage:
+    tchat: "/tchat <chat> [toggle/clear]"
+  cooldown:
+    chat:
+      status: "&e# &7Status cooldownu chatu: <status> (domyślnie: <default>)"
+      clear: "&a# &7Wszystkie cooldowny chatu zostały wyczyszczone."
+      toggle: "&a# &7Cooldown chatu jest teraz <status>."
 
 players:
   unknown: "&c# &7Gracz <name> nie istnieje."

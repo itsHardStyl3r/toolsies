@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>tChat</artifactId>
-    <version>0.1-ALPHA</version>
+    <version>0.1-BETA</version>
 
     <build>
         <plugins>

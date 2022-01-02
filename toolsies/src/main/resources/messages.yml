@@ -7,10 +7,11 @@ groups:
   # op-prefix is used instead of <name> from the group format.
   op-prefix: "&c<name>&f"
   format:
-    player: "&f<name>: <message>"
+    player: "&7GRACZ&f <name>: <message>"
     vip: "&bVIP&f <name>: <message>"
-    svip: "&dSVIP&f: <name>: <message>"
-    moderator: "&2MOD&f: <name>: <message>"
-    admin: "&aADMIN&f <name>: <message>"
+    svip: "&dSVIP&f <name>: <message>"
+    moderator: "&aMOD&f <name>: <message>"
+    admin: "&2&lADMIN&f <name>: <message>"
+    owner: "&4&lOWNER&7 <name>&7: &6<message>"
 
 broadcast: " &6&l>> &f&l<message>"

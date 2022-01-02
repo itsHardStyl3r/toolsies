@@ -1,0 +1,10 @@
+#                                     #
+#            CHAT SECTION             #
+#                                     #
+#
+chat:
+  cooldown:
+    enabled: true
+    duration: 5s
+    group-duration:
+      vip: 2s
