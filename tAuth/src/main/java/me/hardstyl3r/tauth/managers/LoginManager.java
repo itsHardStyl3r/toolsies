@@ -1,5 +1,6 @@
 package me.hardstyl3r.tauth.managers;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import me.hardstyl3r.tauth.TAuth;
 import me.hardstyl3r.tauth.enums.AuthSource;
 import me.hardstyl3r.tauth.enums.AuthType;
@@ -17,21 +18,18 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 import static org.bukkit.Bukkit.getServer;
 
 public class LoginManager {
-
-    private static final char[] CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-    private static final Random RANDOM = new SecureRandom();
 
     private final FileConfiguration config;
     private final HashMap<UUID, AuthUser> auths = new HashMap<>();
@@ -49,18 +47,10 @@ public class LoginManager {
     public boolean register(Player player, String password) {
         AuthUser user = getAuth(player);
         long current = System.currentTimeMillis();
-        String salt = generateString(config.getInt("login.saltLength"));
-        String hashed, total;
-        try {
-            hashed = hash(password, salt);
-            total = salt + "$" + hashed;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        byte[] bcryptPassword = BCrypt.withDefaults().hash(12, password.getBytes(StandardCharsets.UTF_8));
         String ip = player.getAddress().getAddress().getHostAddress();
         user.setName(player.getName());
-        user.setPassword(total);
+        user.setPassword(bcryptPassword);
         user.setIp(ip);
         user.setRegisterIp(ip);
         user.setRegisterDate(current);
@@ -81,7 +71,7 @@ public class LoginManager {
                 p = connection.prepareStatement(update);
                 p.setString(1, user.getUUID().toString());
                 p.setString(2, user.getName());
-                p.setString(3, user.getPassword());
+                p.setBytes(3, user.getPassword());
                 p.setString(4, user.getIp());
                 p.setString(5, user.getRegisterIp());
                 p.setLong(6, user.getRegisterDate());
@@ -103,21 +93,6 @@ public class LoginManager {
                 Hikari.close(connection, p, null);
             }
         });
-        return true;
-    }
-
-    public boolean changePassword(AuthUser user, String password) {
-        String salt = generateString(config.getInt("login.saltLength"));
-        try {
-            String hashed = hash(password, salt);
-            String combined = salt + "$" + hashed;
-            user.setPassword(combined);
-            LogUtil.info("changePassword(): Password change for " + user.getUUID() + " (" + user.getName() + ").");
-            updateAuth(user);
-        } catch (Exception e) {
-            LogUtil.error("changePassword(): " + e + ".");
-            return false;
-        }
         return true;
     }
 
@@ -161,7 +136,7 @@ public class LoginManager {
                 AuthUser authUser = new AuthUser(UUID.fromString(rs.getString("uuid")));
                 authUser.setRegistered(true);
                 authUser.setName(rs.getString("name"));
-                authUser.setPassword(rs.getString("password"));
+                authUser.setPassword(rs.getBytes("password"));
                 authUser.setIp(rs.getString("ip"));
                 authUser.setRegisterIp(rs.getString("regip"));
                 authUser.setRegisterDate(rs.getLong("regdate"));
@@ -249,7 +224,7 @@ public class LoginManager {
                 connection = Hikari.getHikari().getConnection();
                 p = connection.prepareStatement(update);
                 p.setString(1, user.getName());
-                p.setString(2, user.getPassword());
+                p.setBytes(2, user.getPassword());
                 p.setString(3, user.getIp());
                 p.setString(4, user.getRegisterIp());
                 p.setLong(5, user.getRegisterDate());
@@ -316,7 +291,7 @@ public class LoginManager {
                 p.execute();
                 rs = p.getResultSet();
                 while (rs.next()) {
-                    authUser.setPassword(rs.getString("password"));
+                    authUser.setPassword(rs.getBytes("password"));
                     authUser.setEmail(rs.getString("email"));
                 }
                 LogUtil.info("refreshAuth(): Refreshed " + authUser.getUUID() + " (" + authUser.getName() + ").");
@@ -328,53 +303,49 @@ public class LoginManager {
         });
     }
 
-    /*
-    https://github.com/eugenp/tutorials/tree/master/core-java-modules/core-java-security-2
-     */
-    public String hash(String passwordToHash, String salt) {
-        String generatedPassword = null;
-        try {
-            MessageDigest md = MessageDigest.getInstance(config.getString("login.algorithm"));
-            md.update(salt.getBytes());
-            byte[] bytes = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
-            StringBuilder sb = new StringBuilder();
-            for (byte aByte : bytes) {
-                sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
-            }
-            generatedPassword = sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return generatedPassword;
+    private byte[] hashPassword(String password) {
+        return BCrypt.withDefaults().hash(12, password.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public boolean changePassword(AuthUser user, String password) {
+        if (passwordMatches(user, password))
+            return true;
+        user.setPassword(hashPassword(password));
+        LogUtil.info("changePassword(): Password change for " + user.getUUID() + " (" + user.getName() + ").");
+        updateAuth(user);
+        return true;
     }
 
     public boolean passwordMatches(AuthUser user, String password) {
-        return checkPassword(user.getPassword(), password);
+        return (BCrypt.verifyer().verify(password.getBytes(StandardCharsets.UTF_8), user.getPassword()).verified);
     }
 
-    private boolean checkPassword(String hash, String attempt) {
-        String[] split = hash.split("\\$");
-        String password = split[1];
-        String salt = split[0];
-        String generatedHash = hash(attempt, salt);
-        return password.equals(generatedHash);
-    }
-
-    private static String generateString(int length) {
-        if (length < 0) return null;
-        StringBuilder sb = new StringBuilder(length);
-        for (int i = 0; i < length; ++i) {
-            sb.append(CHARS[RANDOM.nextInt(16)]);
+    public boolean validatePassword(CommandSender sender, String password, Locale l) {
+        int minLength = config.getInt("login.minPasswordLength");
+        int maxLength = config.getInt("login.maxPasswordLength");
+        if (config.getStringList("login.illegalPasswords").contains(password.toLowerCase())) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("register.illegal_password")));
+            return true;
         }
-        return sb.toString();
+        if (password.length() <= minLength) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("register.password_too_short")).replace("<length>", String.valueOf(minLength)));
+            return true;
+        }
+        if (password.length() >= maxLength) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("register.password_too_long")).replace("<length>", String.valueOf(maxLength)));
+            return true;
+        }
+        return false;
     }
 
-    public List<String> getAllowedCommands(AuthType type) {
-        return config.getStringList("login.commands." + type.name().toLowerCase() + "AllowedCommands");
-    }
-
-    public boolean isIllegalPassword(String s) {
-        return config.getStringList("login.illegalPasswords").contains(s.toLowerCase());
+    public boolean validatePassword(CommandSender sender, String password, String passwordConfirm, Locale l) {
+        if (validatePassword(sender, password, l)) {
+            if (!password.equals(passwordConfirm)) {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("register.passwords_do_not_match")));
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<Player> getOnlineUnauthed() {
@@ -401,34 +372,6 @@ public class LoginManager {
             getServer().getScheduler().cancelTask(kickTasks.get(p.getUniqueId()));
     }
 
-    public boolean validatePassword(CommandSender sender, String password, Locale l) {
-        int minLength = config.getInt("login.minPasswordLength");
-        int maxLength = config.getInt("login.maxPasswordLength");
-        if (isIllegalPassword(password)) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("register.illegal_password")));
-            return true;
-        }
-        if (password.length() <= minLength) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("register.password_too_short")).replace("<length>", String.valueOf(minLength)));
-            return true;
-        }
-        if (password.length() >= maxLength) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("register.password_too_long")).replace("<length>", String.valueOf(maxLength)));
-            return true;
-        }
-        return false;
-    }
-
-    public boolean validatePassword(CommandSender sender, String password, String passwordConfirm, Locale l) {
-        if (validatePassword(sender, password, l)) {
-            if (!password.equals(passwordConfirm)) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("register.passwords_do_not_match")));
-                return true;
-            }
-        }
-        return false;
-    }
-
     public boolean isUUID(String toCheck) {
         return toCheck.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
     }
@@ -441,5 +384,9 @@ public class LoginManager {
             }
         }
         return multiacc;
+    }
+
+    public List<String> getAllowedCommands(AuthType type) {
+        return config.getStringList("login.commands." + type.name().toLowerCase() + "AllowedCommands");
     }
 }

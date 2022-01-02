@@ -1,12 +1,10 @@
 #                                            #
 #               LOGIN SECTION                #
 #                                            #
-#
+# Supported algorithms: BCrypt
 # loginTimeout, registerTimeout, logoutTimeout in seconds
 # chat.minimumPlaytimeToChat in combined time format, e.g. 10s, 1m, 5m10s, 1h20m10s
 login:
-  algorithm: "SHA-256"
-  saltLength: 16
   minPasswordLength: 5
   maxPasswordLength: 32
   minNicknameLength: 3

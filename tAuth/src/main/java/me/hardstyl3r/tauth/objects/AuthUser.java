@@ -8,7 +8,7 @@ public class AuthUser {
 
     private final UUID uuid;
     private String name;
-    private String password;
+    private byte[] password;
     private String ip;
     private String regIp;
     private Long regdate;
@@ -53,11 +53,11 @@ public class AuthUser {
         this.name = name;
     }
 
-    public String getPassword() {
+    public byte[] getPassword() {
         return this.password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(byte[] password) {
         this.password = password;
     }
 
