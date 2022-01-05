@@ -71,7 +71,7 @@ public class TAuth extends JavaPlugin {
 
     private void initCommands() {
         new loginCommand(this, toolsies.userManager, toolsies.localeManager, loginManager, loginManagement);
-        new registerCommand(this, toolsies.userManager, toolsies.localeManager, loginManager);
+        new registerCommand(this, toolsies.userManager, toolsies.localeManager, loginManager, loginManagement);
         new logoutCommand(this, toolsies.userManager, toolsies.localeManager, loginManager, loginManagement);
         new authCommand(this, toolsies.userManager, toolsies.localeManager, loginManager, loginManagement);
         new changepasswordCommand(this, toolsies.userManager, loginManager, toolsies.localeManager);

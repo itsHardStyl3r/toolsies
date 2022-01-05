@@ -89,6 +89,25 @@ public class LoginManagement {
         p.setCollidable(false);
     }
 
+    // Temporary solution
+    public void performRegistration(Player p){
+        AuthUser authUser = loginManager.getAuth(p);
+        Bukkit.getPluginManager().callEvent(new PlayerAuthSuccessfulEvent(p, authUser, AuthType.REGISTER));
+
+        if (config.getBoolean("login.applyBlindnessToUnauthorised")) {
+            p.removePotionEffect(PotionEffectType.BLINDNESS);
+        }
+
+        if (config.getBoolean("login.useWalkSpeedFlySpeed")) {
+            p.setWalkSpeed(0.2F); //0
+            p.setFlySpeed(0.1F); //0
+        }
+        p.setCollidable(true);
+        p.teleport(authUser.getLastLocation());
+
+        loginManager.stopKickTask(p);
+    }
+
     /*public void performRegistration(String name, String password){
 
     }

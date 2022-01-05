@@ -3,6 +3,7 @@ package me.hardstyl3r.tauth.commands;
 import me.hardstyl3r.tauth.TAuth;
 import me.hardstyl3r.tauth.enums.AuthType;
 import me.hardstyl3r.tauth.events.PlayerAuthSuccessfulEvent;
+import me.hardstyl3r.tauth.managers.LoginManagement;
 import me.hardstyl3r.tauth.managers.LoginManager;
 import me.hardstyl3r.tauth.objects.AuthUser;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
@@ -24,12 +25,14 @@ public class registerCommand implements CommandExecutor, TabCompleter {
     private final UserManager userManager;
     private final LocaleManager localeManager;
     private final LoginManager loginManager;
+    private final LoginManagement loginManagement;
 
-    public registerCommand(TAuth plugin, UserManager userManager, LocaleManager localeManager, LoginManager loginManager) {
+    public registerCommand(TAuth plugin, UserManager userManager, LocaleManager localeManager, LoginManager loginManager, LoginManagement loginManagement) {
         plugin.getCommand("register").setExecutor(this);
         this.userManager = userManager;
         this.localeManager = localeManager;
         this.loginManager = loginManager;
+        this.loginManagement = loginManagement;
     }
 
     @Override
@@ -55,10 +58,10 @@ public class registerCommand implements CommandExecutor, TabCompleter {
             }
             if (loginManager.validatePassword(sender, args[0], args[1], l)) return true;
             if (loginManager.register(p, args[0])) {
+                //temp
+                loginManagement.performRegistration(p);
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         l.getString("register.registered")));
-                Bukkit.getPluginManager().callEvent(new PlayerAuthSuccessfulEvent(p, user, AuthType.REGISTER));
-                loginManager.stopKickTask(p);
             } else {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         l.getString("register.register_failed")));
