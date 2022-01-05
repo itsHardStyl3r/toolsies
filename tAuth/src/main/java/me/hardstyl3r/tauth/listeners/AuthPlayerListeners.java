@@ -64,7 +64,7 @@ public class AuthPlayerListeners implements Listener {
         }
         //See: LoginManager.getAuth();
         AuthUser authUser = loginManager.getAuth(e.getName());
-        if (!authUser.getName().equals(e.getName())) {
+        if (authUser != null && !authUser.getName().equals(e.getName())) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
                     ChatColor.translateAlternateColorCodes('&',
                             userManager.determineLocale(e.getUniqueId()).getString("login.wrong_nick_casing")));
