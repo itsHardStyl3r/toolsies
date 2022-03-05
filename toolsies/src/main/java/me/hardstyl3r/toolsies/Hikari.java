@@ -32,7 +32,7 @@ public class Hikari {
         //hikari.addDataSourceProperty("port", config.getString("database.port"));
         //hikari.addDataSourceProperty("databaseName", "toolsies");
         hikari.addDataSourceProperty("user", config.getString("database.user"));
-        hikari.addDataSourceProperty("password", config.getString("database.password"));
+        hikari.addDataSourceProperty("password", config.getString("database.password", ""));
     }
 
     private void createTables() {
