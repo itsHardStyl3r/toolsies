@@ -70,7 +70,7 @@ public class PermissibleUserManager {
                     }
                 }
                 if (groups.isEmpty()) {
-                    LogUtil.warn("loadPermissibleUsers(): User " + user.getName() + " has no groups. Falling back to default and updating.");
+                    LogUtil.warn("[tPerms] loadPermissibleUsers(): User " + user.getName() + " has no groups. Falling back to default and updating.");
                     user.setGroups(permissionsManager.getDefaultGroups());
                     String update = "UPDATE `users` SET `groups`=? WHERE `uuid`=?";
                     PreparedStatement p1 = connection.prepareStatement(update);
@@ -96,9 +96,9 @@ public class PermissibleUserManager {
                 }
             }
         } catch (SQLException e) {
-            LogUtil.error("loadPermissibleUsers(): " + e + ".");
+            LogUtil.error("[tPerms] loadPermissibleUsers(): " + e + ".");
         } finally {
-            LogUtil.info("loadPermissibleUsers(): Loaded " + users.size() + " users.");
+            LogUtil.info("[tPerms] loadPermissibleUsers(): Loaded " + users.size() + " users.");
             Hikari.close(connection, p, rs);
         }
     }
@@ -124,9 +124,9 @@ public class PermissibleUserManager {
                 p.setString(2, serialize(user.getPermissions()));
                 p.setString(3, user.getUUID().toString());
                 p.execute();
-                LogUtil.info("updatePermissibleUser(): Updated " + user.getName() + ".");
+                LogUtil.info("[tPerms] updatePermissibleUser(): Updated " + user.getName() + ".");
             } catch (SQLException e) {
-                LogUtil.error("updatePermissibleUser(): " + e + ".");
+                LogUtil.error("[tPerms] updatePermissibleUser(): " + e + ".");
             } finally {
                 Hikari.close(connection, p, null);
             }

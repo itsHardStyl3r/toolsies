@@ -176,7 +176,7 @@ public class TAuth extends JavaPlugin {
                 p.executeUpdate("ALTER TABLE `logins_history` ADD COLUMN `silent` BOOL;");
             }
         } catch (SQLException e) {
-            LogUtil.error("createTables(): " + e + ".");
+            LogUtil.error("[tAuth] createTables(): " + e + ".");
         } finally {
             Hikari.close(connection, p, null);
         }

@@ -53,12 +53,12 @@ public class KitManager {
         for (String kitMaterial : config.getConfigurationSection("kits." + kit + ".items").getKeys(false)) {
             Material material = Material.matchMaterial((kitMaterial.contains("-") ? kitMaterial.split("-")[0] : kitMaterial));
             if (material == null) {
-                LogUtil.warn("Kit " + kit + ": " + kitMaterial + " is not correct Material.");
+                LogUtil.warn("[toolsies] Kit " + kit + ": " + kitMaterial + " is not correct Material.");
                 continue;
             }
             String amount = config.getString("kits." + kit + ".items." + kitMaterial + ".amount");
             if (Integer.valueOf(amount) == null || Integer.parseInt(amount) <= 0) {
-                LogUtil.warn("Kit " + kit + ": Amount (" + amount + ") of " + kitMaterial + " is wrong.");
+                LogUtil.warn("[toolsies] Kit " + kit + ": Amount (" + amount + ") of " + kitMaterial + " is wrong.");
                 continue;
             }
             ItemStack item = new ItemStack(material, Integer.parseInt(amount));

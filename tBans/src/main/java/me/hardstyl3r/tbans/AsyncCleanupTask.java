@@ -24,7 +24,7 @@ public class AsyncCleanupTask implements Runnable {
         for (Punishment punishment : punishmentManager.getPunishments()) {
             if (punishment != null) {
                 if (punishmentManager.deleteIfExpired(punishment)) {
-                    LogUtil.info("AsyncCleanupTask(): " + punishment.getType() + "(" + punishment.getName() + ") expired.");
+                    LogUtil.info("[tBans] AsyncCleanupTask(): " + punishment.getType() + "(" + punishment.getName() + ") expired.");
                 }
             }
         }

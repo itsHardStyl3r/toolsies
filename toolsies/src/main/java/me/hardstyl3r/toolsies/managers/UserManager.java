@@ -66,7 +66,7 @@ public class UserManager {
             while (rs.next()) {
                 User user = new User(rs.getString("name"), UUID.fromString(rs.getString("uuid")));
                 if (localeManager.getLocale(rs.getString("locale")) == null) {
-                    LogUtil.warn("loadUsers(): User " + user.getName() + " had unknown locale.");
+                    LogUtil.warn("[toolsies] loadUsers(): User " + user.getName() + " had unknown locale.");
                     user.setLocale(localeManager.getDefault());
                 } else {
                     user.setLocale(localeManager.getLocale(rs.getString("locale")));
@@ -74,9 +74,9 @@ public class UserManager {
                 users.put(user.getUUID(), user);
             }
         } catch (SQLException e) {
-            LogUtil.error("loadUsers(): " + e + ".");
+            LogUtil.error("[toolsies] loadUsers(): " + e + ".");
         } finally {
-            LogUtil.info("loadUsers(): Loaded " + users.size() + " users.");
+            LogUtil.info("[toolsies] loadUsers(): Loaded " + users.size() + " users.");
             Hikari.close(connection, p, rs);
         }
     }
@@ -96,9 +96,9 @@ public class UserManager {
                 p.setString(2, player.getName());
                 p.setString(3, localeManager.getDefault().getId());
                 p.execute();
-                LogUtil.info("createUser(): Created new " + user.getName() + ".");
+                LogUtil.info("[toolsies] createUser(): Created new " + user.getName() + ".");
             } catch (SQLException e) {
-                LogUtil.error("createUser(): " + e + ".");
+                LogUtil.error("[toolsies] createUser(): " + e + ".");
             } finally {
                 Hikari.close(connection, p, null);
             }
@@ -118,9 +118,9 @@ public class UserManager {
                 p.setString(2, u.getLocale().getId());
                 p.setString(3, u.getUUID().toString());
                 p.execute();
-                LogUtil.info("updateUser(): Updated " + u.getName() + ".");
+                LogUtil.info("[toolsies] updateUser(): Updated " + u.getName() + ".");
             } catch (SQLException e) {
-                LogUtil.error("updateUsers(): " + e + ".");
+                LogUtil.error("[toolsies] updateUsers(): " + e + ".");
             } finally {
                 Hikari.close(connection, p, null);
             }

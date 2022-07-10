@@ -92,7 +92,7 @@ public class LocaleManager {
                 if (!s.startsWith("arg")) {
                     String permission = "toolsies." + s.replace("-", ".").replaceAll("\\d", "");
                     if (sender.hasPermission(permission)) {
-                        LogUtil.info("Command: Checking for permission: toolsies." + s.replace("-", "."));
+                        LogUtil.info("[toolsies] Command: Checking for permission: toolsies." + s.replace("-", "."));
                         String usage = locale.getString(command + ".usage." + s);
                         if (sender.hasPermission(permission + ".others")) {
                             usage = usage.replace("arg-player", locale.getString("common.player"));
@@ -104,7 +104,7 @@ public class LocaleManager {
                 } else {
                     String val = s.replace("-", ".").replace("arg", "").replaceAll("\\d", "");
                     if (sender.hasPermission("toolsies." + (val.isEmpty() ? command : val))) {
-                        LogUtil.info("Command: Checking for permission: toolsies." + (val.isEmpty() ? command : val));
+                        LogUtil.info("[toolsies] Command: Checking for permission: toolsies." + (val.isEmpty() ? command : val));
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', arg.replace("<args>", locale.getString(command + ".usage." + s))));
                     }
                 }

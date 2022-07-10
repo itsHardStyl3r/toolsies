@@ -28,7 +28,7 @@ public class PermissionsManager {
 
     private void loadGroups() {
         if (config.getConfigurationSection("groups").getKeys(false) == null) {
-            LogUtil.info("loadGroups(): Could not find any groups.");
+            LogUtil.info("[tPerms] loadGroups(): Could not find any groups.");
             return;
         }
         for (String name : config.getConfigurationSection("groups").getKeys(false)) {
@@ -47,7 +47,7 @@ public class PermissionsManager {
             }
             group.setInherits(inherits);
         }
-        LogUtil.info("loadGroups(): Found " + groups.size() + " groups.");
+        LogUtil.info("[tPerms] loadGroups(): Found " + groups.size() + " groups.");
     }
 
     public Group getGroup(String name) {
@@ -75,7 +75,7 @@ public class PermissionsManager {
         PermissionAttachment attachment = p.addAttachment(TPerms.getInstance());
         ArrayList<String> permsToAdd = new ArrayList<>();
         ArrayList<Group> toConsider;
-        LogUtil.info("startPermissions(): Setup player " + p.getName() + " with" + (u == null ? "out" : "") + " user.");
+        LogUtil.info("[tPerms] startPermissions(): Setup player " + p.getName() + " with" + (u == null ? "out" : "") + " user.");
         if (u == null) {
             toConsider = getDefaultGroups();
         } else {
@@ -108,7 +108,7 @@ public class PermissionsManager {
 
     public void stopPermissions(Player p) {
         if (permissions.get(p.getUniqueId()) != null) {
-            LogUtil.info("stopPermissions(): Removed attachment for " + p.getName());
+            LogUtil.info("[tPerms] stopPermissions(): Removed attachment for " + p.getName());
             p.removeAttachment(permissions.get(p.getUniqueId()));
             permissions.remove(p.getUniqueId());
         }

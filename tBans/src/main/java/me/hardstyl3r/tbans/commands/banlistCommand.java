@@ -96,7 +96,7 @@ public class banlistCommand implements CommandExecutor, TabCompleter {
                 } catch (SQLException e) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             l.getString("banlist.failed")));
-                    LogUtil.error("banlistCommand(): " + e + ".");
+                    LogUtil.error("[tBans] banlistCommand(): " + e + ".");
                     e.printStackTrace();
                 } finally {
                     Hikari.close(connection, p, rs);

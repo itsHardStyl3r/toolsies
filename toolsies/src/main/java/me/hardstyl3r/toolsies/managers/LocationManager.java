@@ -37,12 +37,12 @@ public class LocationManager {
 
     private void loadSpawns() {
         if (config.getConfigurationSection("spawn") == null) {
-            LogUtil.info("loadSpawns(): Could not find any spawns.");
+            LogUtil.info("[toolsies] loadSpawns(): Could not find any spawns.");
             return;
         }
         for (String s : config.getConfigurationSection("spawn").getKeys(false)) {
             if (Bukkit.getWorld(s) == null) {
-                LogUtil.info("loadSpawns(): Could not find world " + s + ".");
+                LogUtil.info("[toolsies] loadSpawns(): Could not find world " + s + ".");
                 continue;
             }
             Spawn spawn = new Spawn(getLocation(s, "spawn." + s));
@@ -52,7 +52,7 @@ public class LocationManager {
             spawn.setAdded(config.getLong("spawn." + s + ".added"));
             spawns.put(s, spawn);
         }
-        LogUtil.info("loadSpawns(): Loaded " + spawns.size() + " spawns.");
+        LogUtil.info("[toolsies] loadSpawns(): Loaded " + spawns.size() + " spawns.");
     }
 
     public Spawn setSpawn(Player p) {
@@ -63,10 +63,10 @@ public class LocationManager {
         spawn.setPreferred(b);
         spawn.setDefault(b);
         if (spawns.get(l.getWorld().getName()) != null) {
-            LogUtil.info("setSpawn(): Replaced previous " + l.getWorld().getName() + " spawn.");
+            LogUtil.info("[toolsies] setSpawn(): Replaced previous " + l.getWorld().getName() + " spawn.");
             spawn.setLocation(l);
         } else {
-            LogUtil.info("setSpawn(): Created new spawn for " + l.getWorld().getName() + ".");
+            LogUtil.info("[toolsies] setSpawn(): Created new spawn for " + l.getWorld().getName() + ".");
             spawns.put(l.getWorld().getName(), spawn);
         }
         saveSpawn(spawn);

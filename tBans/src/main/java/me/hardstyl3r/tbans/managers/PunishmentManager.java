@@ -53,7 +53,7 @@ public class PunishmentManager {
                 } else if (PunishmentType.valueOf(rs.getString("type")) != null) {
                     punishment = new Punishment(rs.getString("name"), PunishmentType.valueOf(rs.getString("type")));
                 } else {
-                    LogUtil.warn("loadPunishments(): Unknown type " + rs.getString("type") + " for " + rs.getString("name") + ". Skipping.");
+                    LogUtil.warn("[tBans] loadPunishments(): Unknown type " + rs.getString("type") + " for " + rs.getString("name") + ". Skipping.");
                     continue;
                 }
                 punishment.setId(rs.getInt("id"));
@@ -67,9 +67,9 @@ public class PunishmentManager {
                 punishments.add(punishment);
             }
         } catch (SQLException e) {
-            LogUtil.error("loadPunishments(): " + e + ".");
+            LogUtil.error("[tBans] loadPunishments(): " + e + ".");
         } finally {
-            LogUtil.info("loadPunishments(): Loaded " + punishments.size() + " punishments.");
+            LogUtil.info("[tBans] loadPunishments(): Loaded " + punishments.size() + " punishments.");
             Hikari.close(connection, p, rs);
         }
     }
@@ -265,9 +265,9 @@ public class PunishmentManager {
                 key = p.getGeneratedKeys();
                 key.next();
                 punishment.setId(key.getInt(1));
-                LogUtil.info("pushPunishment(): Created new " + punishment.getType().toString() + " " + punishment.getName() + ".");
+                LogUtil.info("[tBans] pushPunishment(): Created new " + punishment.getType().toString() + " " + punishment.getName() + ".");
             } catch (SQLException e) {
-                LogUtil.error("pushPunishment(): " + e + ".");
+                LogUtil.error("[tBans] pushPunishment(): " + e + ".");
             } finally {
                 Hikari.close(connection, p, key);
             }
@@ -308,9 +308,9 @@ public class PunishmentManager {
                     }
                 }
                 p.execute();
-                LogUtil.info("pushPunishmentHistory(): Created new " + punishment.getType().toString() + " " + punishment.getName() + ".");
+                LogUtil.info("[tBans] pushPunishmentHistory(): Created new " + punishment.getType().toString() + " " + punishment.getName() + ".");
             } catch (SQLException e) {
-                LogUtil.error("pushPunishmentHistory(): " + e + ".");
+                LogUtil.error("[tBans] pushPunishmentHistory(): " + e + ".");
             } finally {
                 Hikari.close(connection, p, null);
             }
@@ -327,9 +327,9 @@ public class PunishmentManager {
                 p = connection.prepareStatement(update);
                 p.setInt(1, punishment.getId());
                 p.execute();
-                LogUtil.info("deletePunishment(): Removed " + punishment.getType().toString() + " " + punishment.getName() + ".");
+                LogUtil.info("[tBans] deletePunishment(): Removed " + punishment.getType().toString() + " " + punishment.getName() + ".");
             } catch (SQLException e) {
-                LogUtil.error("deletePunishment(): " + e + ".");
+                LogUtil.error("[tBans] deletePunishment(): " + e + ".");
             } finally {
                 Hikari.close(connection, p, null);
             }

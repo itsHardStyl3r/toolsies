@@ -95,9 +95,9 @@ public class TBans extends JavaPlugin {
         Bukkit.getScheduler().cancelTasks(this);
         if (config.getBoolean("cleanupTaskEnabled")) {
             new AsyncCleanupTask(this, punishmentManager, config);
-            LogUtil.info("initTasks(): Cleanup task enabled.");
+            LogUtil.info("[tBans] initTasks(): Cleanup task enabled.");
         } else {
-            LogUtil.info("initTasks(): Cleanup task disabled.");
+            LogUtil.info("[tBans] initTasks(): Cleanup task disabled.");
         }
     }
 
@@ -132,7 +132,7 @@ public class TBans extends JavaPlugin {
             }
             p.executeUpdate("CREATE TABLE IF NOT EXISTS `punishments_history` LIKE `punishments`;");
         } catch (SQLException e) {
-            LogUtil.error("createTables(): " + e + ".");
+            LogUtil.error("[tBans] createTables(): " + e + ".");
         } finally {
             Hikari.close(connection, p, null);
         }

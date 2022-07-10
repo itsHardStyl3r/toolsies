@@ -86,7 +86,7 @@ public class TPerms extends JavaPlugin {
                 p.executeUpdate("ALTER TABLE `users` ADD COLUMN `permissions` TEXT;");
             }
         } catch (SQLException e) {
-            LogUtil.error("addTables(): " + e + ".");
+            LogUtil.error("[tPerms] addTables(): " + e + ".");
         } finally {
             Hikari.close(connection, p, null);
         }

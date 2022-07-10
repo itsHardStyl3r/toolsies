@@ -58,7 +58,7 @@ public class Hikari {
                 p.executeUpdate("ALTER TABLE `users` ADD COLUMN `locale` VARCHAR(5);");
             }
         } catch (SQLException e) {
-            LogUtil.error("createTables(): " + e + ".");
+            LogUtil.error("[toolsies] createTables(): " + e + ".");
         } finally {
             close(connection, p, null);
         }
@@ -75,21 +75,21 @@ public class Hikari {
             try {
                 connection.close();
             } catch (SQLException e) {
-                LogUtil.error("close(Connection): " + e + ".");
+                LogUtil.error("[toolsies] close(Connection): " + e + ".");
             }
         }
         if (preparedStatement != null) {
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
-                LogUtil.error("close(PreparedStatement): " + e + ".");
+                LogUtil.error("[toolsies] close(PreparedStatement): " + e + ".");
             }
         }
         if (resultSet != null) {
             try {
                 resultSet.close();
             } catch (SQLException e) {
-                LogUtil.error("close(ResultSet): " + e + ".");
+                LogUtil.error("[toolsies] close(ResultSet): " + e + ".");
             }
         }
     }
@@ -99,7 +99,7 @@ public class Hikari {
             try {
                 statement.close();
             } catch (SQLException e) {
-                LogUtil.error("close(Statement): " + e + ".");
+                LogUtil.error("[toolsies] close(Statement): " + e + ".");
             }
         }
         close(connection, null, resultSet);

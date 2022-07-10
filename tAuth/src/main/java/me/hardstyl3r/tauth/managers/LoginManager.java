@@ -86,9 +86,9 @@ public class LoginManager {
                 p.setString(15, user.getLastLocation().getWorld().getName());
                 p.setLong(16, user.getPlaytime());
                 p.execute();
-                LogUtil.info("register(): Registered " + user.getUUID() + " (" + user.getName() + ").");
+                LogUtil.info("[tAuth] register(): Registered " + user.getUUID() + " (" + user.getName() + ").");
             } catch (SQLException e) {
-                LogUtil.error("register(): " + e + ".");
+                LogUtil.error("[tAuth] register(): " + e + ".");
             } finally {
                 Hikari.close(connection, p, null);
             }
@@ -160,9 +160,9 @@ public class LoginManager {
                 }
                 auths.put(authUser.getUUID(), authUser);
             }
-            LogUtil.info("loadAuths(): Loaded " + auths.size() + " users.");
+            LogUtil.info("[tAuth] loadAuths(): Loaded " + auths.size() + " users.");
         } catch (SQLException e) {
-            LogUtil.error("loadAuths(): " + e + ".");
+            LogUtil.error("[tAuth] loadAuths(): " + e + ".");
         } finally {
             if (connection != null) {
                 try {
@@ -205,11 +205,11 @@ public class LoginManager {
                     player.setWalkSpeed(0F); //0.2
                     player.setFlySpeed(0F); //0.1
                 }
-                //LogUtil.info("savePlayers(): Saved " + player.getName() + " players."); <- nope
+                //LogUtil.info("[tAuth] savePlayers(): Saved " + player.getName() + " players."); <- nope
             }
-            LogUtil.info("savePlayers(): Saved " + Bukkit.getOnlinePlayers().size() + " players.");
+            LogUtil.info("[tAuth] savePlayers(): Saved " + Bukkit.getOnlinePlayers().size() + " players.");
         } catch (SQLException e) {
-            LogUtil.error("savePlayers(): " + e + ".");
+            LogUtil.error("[tAuth] savePlayers(): " + e + ".");
         } finally {
             Hikari.close(connection, p, null);
         }
@@ -242,9 +242,9 @@ public class LoginManager {
 
                 p.setString(17, user.getUUID().toString());
                 p.execute();
-                LogUtil.info("updateAuth(): Updated " + user.getUUID() + " (" + user.getName() + ").");
+                LogUtil.info("[tAuth] updateAuth(): Updated " + user.getUUID() + " (" + user.getName() + ").");
             } catch (SQLException e) {
-                LogUtil.error("updateAuth(): " + e + ".");
+                LogUtil.error("[tAuth] updateAuth(): " + e + ".");
             } finally {
                 Hikari.close(connection, p, null);
             }
@@ -268,9 +268,9 @@ public class LoginManager {
                 p.setString(5, type.name().toLowerCase() + "_" + AuthSource.SERVER.getName());
                 p.setString(6, comment);
                 p.execute();
-                LogUtil.info("pushAuthHistory(): New " + type.name() + "(" + success + ") for " + authUser.getUUID() + " (" + authUser.getName() + "). Comment: " + comment + ".");
+                LogUtil.info("[tAuth] pushAuthHistory(): New " + type.name() + "(" + success + ") for " + authUser.getUUID() + " (" + authUser.getName() + "). Comment: " + comment + ".");
             } catch (SQLException e) {
-                LogUtil.error("pushAuthHistory(): " + e + ".");
+                LogUtil.error("[tAuth] pushAuthHistory(): " + e + ".");
             } finally {
                 Hikari.close(connection, p, null);
             }
@@ -294,9 +294,9 @@ public class LoginManager {
                     authUser.setPassword(rs.getBytes("password"));
                     authUser.setEmail(rs.getString("email"));
                 }
-                LogUtil.info("refreshAuth(): Refreshed " + authUser.getUUID() + " (" + authUser.getName() + ").");
+                LogUtil.info("[tAuth] refreshAuth(): Refreshed " + authUser.getUUID() + " (" + authUser.getName() + ").");
             } catch (SQLException e) {
-                LogUtil.error("refreshAuth(): " + e + ".");
+                LogUtil.error("[tAuth] refreshAuth(): " + e + ".");
             } finally {
                 Hikari.close(connection, p, rs);
             }
@@ -311,7 +311,7 @@ public class LoginManager {
         if (passwordMatches(user, password))
             return true;
         user.setPassword(hashPassword(password));
-        LogUtil.info("changePassword(): Password change for " + user.getUUID() + " (" + user.getName() + ").");
+        LogUtil.info("[tAuth] changePassword(): Password change for " + user.getUUID() + " (" + user.getName() + ").");
         updateAuth(user);
         return true;
     }
