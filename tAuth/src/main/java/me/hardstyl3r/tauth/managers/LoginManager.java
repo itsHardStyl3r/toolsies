@@ -205,7 +205,6 @@ public class LoginManager {
                     player.setWalkSpeed(0F); //0.2
                     player.setFlySpeed(0F); //0.1
                 }
-                //LogUtil.info("[tAuth] savePlayers(): Saved " + player.getName() + " players."); <- nope
             }
             LogUtil.info("[tAuth] savePlayers(): Saved " + Bukkit.getOnlinePlayers().size() + " players.");
         } catch (SQLException e) {

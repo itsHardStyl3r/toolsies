@@ -215,7 +215,6 @@ public class LocaleManager {
             if (minutes > 0L) {
                 sb.append(" ");
             }
-            //millis -= TimeUnit.SECONDS.toMillis(seconds);
             if (l.getString("common.time.seconds." + plural((int) seconds)) == null) {
                 sb.append(seconds).append(" ").append(l.getString("common.time.seconds." + (plural((int) seconds) - 1)));
             } else {

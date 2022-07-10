@@ -31,11 +31,7 @@ public class Hikari {
         hikari = new HikariDataSource();
 
         hikari.setMaximumPoolSize(10);
-        //hikari.setDataSourceClassName(config.getString("database.class"));
         hikari.setJdbcUrl("jdbc:mysql://" + config.getString("database.host") + ":" + config.getString("database.port") + "/toolsies");
-        //hikari.addDataSourceProperty("serverName", config.getString("database.host"));
-        //hikari.addDataSourceProperty("port", config.getString("database.port"));
-        //hikari.addDataSourceProperty("databaseName", "toolsies");
         hikari.addDataSourceProperty("user", config.getString("database.user"));
         hikari.addDataSourceProperty("password", config.getString("database.password", ""));
     }
