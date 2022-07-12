@@ -4,6 +4,7 @@ import me.hardstyl3r.tauth.enums.AuthType;
 import me.hardstyl3r.tauth.events.PlayerAuthSuccessfulEvent;
 import me.hardstyl3r.tauth.objects.AuthUser;
 import me.hardstyl3r.toolsies.managers.LocationManager;
+import me.hardstyl3r.toolsies.utils.LogUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -80,7 +81,11 @@ public class LoginManagement {
             p.addPotionEffect(blindness);
         }
         if (config.getBoolean("login.teleportUnauthorisedToSpawn")) {
-            p.teleport(locationManager.getDefaultSpawn().getLocation());
+            if (locationManager.getDefaultSpawn() == null) {
+                LogUtil.warn("[tAuth] initAuth(): Configuration expects unauthorised player to be teleported to spawn, but the location is undefined.");
+            } else {
+                p.teleport(locationManager.getDefaultSpawn().getLocation());
+            }
         }
         if (config.getBoolean("login.useWalkSpeedFlySpeed")) {
             p.setWalkSpeed(0F); //0.2
