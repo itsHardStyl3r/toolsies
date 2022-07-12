@@ -7,7 +7,7 @@
 # priority: disallowedEmails, min/maxLength, blacklistDomains, whitelistDomains
 email:
   regexEnable: true
-  regex: "^\S+@\S+\.\S+$"
+  regex: '^\S+@\S+\.\S+$'
   minEmailLength: 8
   maxEmailLength: 64
   disallowedEmails:
