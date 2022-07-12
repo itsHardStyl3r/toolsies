@@ -1,15 +1,12 @@
 package me.hardstyl3r.tauth.commands;
 
 import me.hardstyl3r.tauth.TAuth;
-import me.hardstyl3r.tauth.enums.AuthType;
-import me.hardstyl3r.tauth.events.PlayerAuthSuccessfulEvent;
 import me.hardstyl3r.tauth.managers.LoginManagement;
 import me.hardstyl3r.tauth.managers.LoginManager;
 import me.hardstyl3r.tauth.objects.AuthUser;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

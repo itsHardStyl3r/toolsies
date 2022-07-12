@@ -1,6 +1,5 @@
 package me.hardstyl3r.tauth;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import me.hardstyl3r.tauth.commands.*;
 import me.hardstyl3r.tauth.listeners.AuthPlayerListeners;
 import me.hardstyl3r.tauth.listeners.AuthPlayerPropsListeners;
