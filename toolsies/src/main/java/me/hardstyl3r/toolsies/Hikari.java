@@ -12,7 +12,7 @@ public class Hikari {
     public static HikariDataSource hikari;
     private final FileConfiguration config;
 
-    public Hikari(ConfigManager configManager) {
+    public Hikari(ConfigManager configManager) throws SQLException {
         this.config = configManager.getConfig();
         if (config.getString("database.user") == null || config.getString("database.password") == null ||
                 config.getString("database.user").isBlank() || config.getString("database.password").isBlank()) {
@@ -27,13 +27,19 @@ public class Hikari {
         return hikari;
     }
 
-    private void initializeDataSource() {
-        hikari = new HikariDataSource();
-
-        hikari.setMaximumPoolSize(10);
-        hikari.setJdbcUrl("jdbc:mysql://" + config.getString("database.host") + ":" + config.getString("database.port") + "/toolsies");
-        hikari.addDataSourceProperty("user", config.getString("database.user"));
-        hikari.addDataSourceProperty("password", config.getString("database.password", ""));
+    private void initializeDataSource() throws SQLException {
+        try {
+            hikari = new HikariDataSource();
+            hikari.setMaximumPoolSize(10);
+            hikari.setJdbcUrl("jdbc:mysql://" + config.getString("database.host") + ":" + config.getString("database.port") + "/toolsies");
+            hikari.addDataSourceProperty("user", config.getString("database.user"));
+            hikari.addDataSourceProperty("password", config.getString("database.password", ""));
+            hikari.getConnection();
+        } catch (SQLException e) {
+            LogUtil.error("[toolsies] initializeDataSource(): Failed to establish MySQL connection: " + e + ".");
+            hikari.close();
+            throw new SQLException();
+        }
     }
 
     private void createTables() {

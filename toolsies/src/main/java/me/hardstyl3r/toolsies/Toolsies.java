@@ -5,8 +5,10 @@ import me.hardstyl3r.toolsies.listeners.PlayerJoinListener;
 import me.hardstyl3r.toolsies.listeners.PlayerQuitListener;
 import me.hardstyl3r.toolsies.listeners.PlayerRespawnListener;
 import me.hardstyl3r.toolsies.managers.*;
+import me.hardstyl3r.toolsies.utils.LogUtil;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,7 +26,13 @@ public class Toolsies extends JavaPlugin {
     public void onEnable() {
         long current = System.currentTimeMillis();
         instance = this;
-        initManagers();
+        try {
+            initManagers();
+        } catch (SQLException e) {
+            LogUtil.error("[toolsies] Could not initialize managers: " + e + ". Disabling. (took " + (System.currentTimeMillis() - current) + "ms)");
+            this.setEnabled(false);
+            return;
+        }
         initCommands();
         initListeners();
         logger.log(Level.INFO, "[toolsies] Enabled toolsies. (took " + (System.currentTimeMillis() - current) + "ms)");
@@ -37,7 +45,7 @@ public class Toolsies extends JavaPlugin {
         }
     }
 
-    private void initManagers() {
+    private void initManagers() throws SQLException {
         configManager = new ConfigManager();
         new Hikari(configManager);
         localeManager = new LocaleManager(configManager);
