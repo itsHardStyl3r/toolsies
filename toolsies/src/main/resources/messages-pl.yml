@@ -383,7 +383,7 @@ auth:
     auth-logout: "/auth logout <gracz> - wylogowuje gracza"
     auth-login: "/auth login <gracz> - loguje gracza"
     auth-reload: "/auth reload <gracz> - przeładowuje dane gracza"
-    arg-auth-silent: "<gracz>-silent - nie dodaje komentarza do historii"
+    argauth-silent: "<gracz>-silent - nie dodaje komentarza do historii"
     auth-info: "/auth info <gracz> - informacje o graczu"
   logout_sender: "&a# &7Wylogowano <name>."
   logout_target: "&e# &7Zostałeś wylogowany."
@@ -424,7 +424,7 @@ playtime:
   usage:
     console-playtime: "/playtime <gracz> - sprawdza czas gry"
     playtime: "/playtime - sprawdza czas gry"
-    arg-playtime-others: "[gracz] - czas gry innego gracza"
+    argplaytime-others: "[gracz] - czas gry innego gracza"
   header: "&e# &7Czas gry <name>."
   session: "&e> &7Zalogowany przez: <session>"
   regdate: "&e> &7Data rejestracji: <regdate>"

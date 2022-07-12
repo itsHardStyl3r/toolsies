@@ -74,6 +74,7 @@ public class LocaleManager {
         return getLocale(configManager.getConfig().getString("default.locale"));
     }
 
+    //to-do: Rewrite
     public void sendUsage(CommandSender sender, Command cmd, Locale locale) {
         String command = cmd.getName();
         if (!(sender instanceof Player)) {
@@ -84,28 +85,24 @@ public class LocaleManager {
             }
             return;
         }
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', locale.getString(command + ".usage.header") == null ? locale.getString("usage.header") : locale.getString(command + ".usage.header")));
-        String style = (locale.getString(command + ".usage.style") == null ? locale.getString("usage.format") : locale.getString(command + ".usage.style"));
-        String arg = (locale.getString(command + ".usage.argument") == null ? locale.getString("usage.argument") : locale.getString(command + ".usage.argument"));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', locale.getString("usage.header")));
         for (String s : locale.getConfigurationSection(command + ".usage")) {
             if (!s.startsWith("console-") && !s.equals("header") && !s.equals("style")) {
                 if (!s.startsWith("arg")) {
                     String permission = "toolsies." + s.replace("-", ".").replaceAll("\\d", "");
                     if (sender.hasPermission(permission)) {
-                        LogUtil.info("[toolsies] Command: Checking for permission: toolsies." + s.replace("-", "."));
                         String usage = locale.getString(command + ".usage." + s);
                         if (sender.hasPermission(permission + ".others")) {
                             usage = usage.replace("arg-player", locale.getString("common.player"));
                         } else {
                             usage = usage.replace("[arg-player] ", "").replace("<arg-player> ", "");
                         }
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', style.replace("<usages>", usage)));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', locale.getString("usage.format").replace("<usages>", usage)));
                     }
                 } else {
                     String val = s.replace("-", ".").replace("arg", "").replaceAll("\\d", "");
                     if (sender.hasPermission("toolsies." + (val.isEmpty() ? command : val))) {
-                        LogUtil.info("[toolsies] Command: Checking for permission: toolsies." + (val.isEmpty() ? command : val));
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', arg.replace("<args>", locale.getString(command + ".usage." + s))));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', locale.getString("usage.argument").replace("<args>", locale.getString(command + ".usage." + s))));
                     }
                 }
             }

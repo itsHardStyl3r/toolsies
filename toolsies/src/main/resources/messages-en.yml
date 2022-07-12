@@ -379,7 +379,7 @@ auth:
     auth-logout: "/auth logout <player> - forcefully logout a player"
     auth-login: "/auth login <player> - forcefully login a player"
     auth-reload: "/auth reload <player> - reload player's auth data from database"
-    arg-auth-silent: "<player>-silent - does not add comments to the history"
+    argauth-silent: "<player>-silent - does not add comments to the history"
     auth-info: "/auth info <player> - player information"
   logout_sender: "&a# &7Logged out <name>."
   logout_target: "&e# &7You've been logged out."
@@ -420,7 +420,7 @@ playtime:
   usage:
     console-playtime: "/playtime <player> - check play time"
     playtime: "/playtime - checks play time"
-    arg-playtime-others: "[gracz] - play time of another player"
+    argplaytime-others: "[gracz] - play time of another player"
   header: "&e# &7<name>'s play time."
   session: "&e> &7Logged in for: <session>"
   regdate: "&e> &7Registration date: <regdate>"
