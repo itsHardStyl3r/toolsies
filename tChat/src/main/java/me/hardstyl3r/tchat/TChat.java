@@ -39,6 +39,7 @@ public class TChat extends JavaPlugin {
         } catch (Exception e) {
             LogUtil.error("[tChat] Could not hook into toolsies: " + e + ". Disabling.");
             this.setEnabled(false);
+            return;
         }
         try {
             tPerms = (TPerms) Bukkit.getServer().getPluginManager().getPlugin("tPerms");
@@ -50,6 +51,7 @@ public class TChat extends JavaPlugin {
         } catch (Exception e) {
             tPerms = null;
             LogUtil.info("[tChat] Could not hook into tPerms: " + e + ".");
+            return;
         }
         initManagers();
         initListeners();
