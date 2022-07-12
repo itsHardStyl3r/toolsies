@@ -60,7 +60,7 @@ public class unwarnCommand implements CommandExecutor, TabCompleter {
             Player p = Bukkit.getPlayer(warn.getUUID());
             if (Bukkit.getPlayer(warn.getUUID()) != null) {
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        userManager.determineLocale(p).getString("unwarn.unwarn_target"))
+                                userManager.determineLocale(p).getString("unwarn.unwarn_target"))
                         .replace("<admin>", sender.getName()));
             }
         } else {

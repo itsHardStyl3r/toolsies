@@ -67,7 +67,7 @@ public class muteCommand implements CommandExecutor, TabCompleter {
             Player p = Bukkit.getPlayerExact(target);
             if (Bukkit.getPlayerExact(target) != null) {
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        userManager.determineLocale(p).getString("mute.mute_target"))
+                                userManager.determineLocale(p).getString("mute.mute_target"))
                         .replace("<admin>", punishment.getAdmin())
                         .replace("<reason>", (punishment.getReason() == null ? "brak" : punishment.getReason())));
             }

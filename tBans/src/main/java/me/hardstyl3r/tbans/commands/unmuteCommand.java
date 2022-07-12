@@ -54,7 +54,7 @@ public class unmuteCommand implements CommandExecutor, TabCompleter {
             Player p = Bukkit.getPlayer(mute.getUUID());
             if (Bukkit.getPlayer(mute.getUUID()) != null) {
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        userManager.determineLocale(p).getString("unmute.unmute_target"))
+                                userManager.determineLocale(p).getString("unmute.unmute_target"))
                         .replace("<admin>", sender.getName()));
             }
         } else {

@@ -32,7 +32,7 @@ public class PlayerPunishedListener implements Listener {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     Locale l = userManager.determineLocale(p);
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString(ban.getDuration() != null ? "tempban.tempban_broadcast" : "ban.ban_broadcast"))
+                                    l.getString(ban.getDuration() != null ? "tempban.tempban_broadcast" : "ban.ban_broadcast"))
                             .replace("<name>", ban.getName())
                             .replace("<admin>", e.getSender())
                             .replace("<duration>", localeManager.parseTimeWithTranslate(ban.getRemaining(), l)));

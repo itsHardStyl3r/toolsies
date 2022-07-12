@@ -75,14 +75,14 @@ public class tempmuteCommand implements CommandExecutor, TabCompleter {
             UUID uuid = userManager.getUserIgnoreCase(target).getUUID();
             Punishment punishment = punishmentManager.createPunishment(PunishmentType.MUTE, uuid, target, admin, reason, duration);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("tempmute.tempmute"))
+                            l.getString("tempmute.tempmute"))
                     .replace("<name>", target)
                     .replace("<duration>", localeManager.parseTimeWithTranslate(duration, l)));
             Player p = Bukkit.getPlayerExact(target);
             if (Bukkit.getPlayerExact(target) != null) {
                 Locale pl = userManager.determineLocale(p);
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        pl.getString("tempmute.tempmute_target"))
+                                pl.getString("tempmute.tempmute_target"))
                         .replace("<admin>", punishment.getAdmin())
                         .replace("<reason>", (punishment.getReason() == null ? "brak" : punishment.getReason()))
                         .replace("<duration>", localeManager.parseTimeWithTranslate(duration, pl)));
@@ -99,9 +99,9 @@ public class tempmuteCommand implements CommandExecutor, TabCompleter {
             Locale l = userManager.determineLocale(sender);
             if (args.length == 1) {
                 return null;
-            } else if(args.length == 2) {
+            } else if (args.length == 2) {
                 return Collections.singletonList(localeManager.formatArgument(l.getString("common.duration"), true));
-            } else if(args.length == 3) {
+            } else if (args.length == 3) {
                 return Collections.singletonList(localeManager.formatArgument(l.getString("common.player"), true));
             } else {
                 return Collections.singletonList(localeManager.formatArgument(l.getString("common.reason"), false));

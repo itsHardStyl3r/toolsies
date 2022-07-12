@@ -42,7 +42,7 @@ public class banlistCommand implements CommandExecutor, TabCompleter {
         }
         if (args.length <= 1) {
             int arg = 0;
-            if(args.length == 1){
+            if (args.length == 1) {
                 if (!StringUtils.isNumeric(args[0])) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             l.getString("banlist.unknown_page")));
@@ -77,14 +77,14 @@ public class banlistCommand implements CommandExecutor, TabCompleter {
                     p.execute();
                     rs = p.getResultSet();
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("banlist.banlist_header"))
+                                    l.getString("banlist.banlist_header"))
                             .replace("<page>", String.valueOf(finalArg))
                             .replace("<maxpages>", String.valueOf(maxpages))
                             .replace("<total>", String.valueOf(total)));
                     long current = System.currentTimeMillis();
                     while (rs.next()) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getString("banlist.banlist_" + (rs.getLong("duration") != 0L ? "tempban" : "ban") + "_entry"))
+                                        l.getString("banlist.banlist_" + (rs.getLong("duration") != 0L ? "tempban" : "ban") + "_entry"))
                                 .replace("<name>", rs.getString("name"))
                                 .replace("<date>", localeManager.getFullDate(rs.getLong("date")))
                                 .replace("<duration>", localeManager.parseTimeWithTranslate((rs.getLong("duration") - current), l)));

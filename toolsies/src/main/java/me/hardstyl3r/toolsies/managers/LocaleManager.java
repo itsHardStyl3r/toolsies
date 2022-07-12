@@ -145,12 +145,12 @@ public class LocaleManager {
         return (required ? "<" : "[") + argument + (required ? ">" : "]");
     }
 
-    public StringBuilder getStringBuilder(boolean clean){
-        if(clean) reuseStringBuilder();
+    public StringBuilder getStringBuilder(boolean clean) {
+        if (clean) reuseStringBuilder();
         return sb;
     }
 
-    private void reuseStringBuilder(){
+    private void reuseStringBuilder() {
         sb.setLength(0);
     }
 

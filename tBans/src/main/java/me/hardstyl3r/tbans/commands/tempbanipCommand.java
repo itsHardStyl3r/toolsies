@@ -110,9 +110,9 @@ public class tempbanipCommand implements CommandExecutor, TabCompleter {
                     ips.add(p.getAddress().getAddress().getHostAddress());
                 }
                 return localeManager.formatTabArguments(args[0], ips);
-            } else if(args.length == 2) {
+            } else if (args.length == 2) {
                 return Collections.singletonList(localeManager.formatArgument(l.getString("common.duration"), true));
-            } else if(args.length == 3) {
+            } else if (args.length == 3) {
                 return Collections.singletonList(localeManager.formatArgument(l.getString("common.player"), true));
             } else {
                 return Collections.singletonList(localeManager.formatArgument(l.getString("common.reason"), false));

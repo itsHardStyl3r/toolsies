@@ -5,6 +5,7 @@ public class StringUtils {
     /**
      * A function to determine whether a given string is a number.
      * This is pretty much inspired by Apache Commons Lang 2.6.
+     *
      * @param s A string to be checked.
      * @return True if numeric, false if not.
      */

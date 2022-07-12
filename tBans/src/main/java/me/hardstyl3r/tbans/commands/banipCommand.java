@@ -92,7 +92,7 @@ public class banipCommand implements CommandExecutor, TabCompleter {
         if (sender.hasPermission("toolsies.ban-ip")) {
             if (args.length == 1) {
                 ArrayList<String> ips = new ArrayList<>();
-                for(Player p : Bukkit.getOnlinePlayers()){
+                for (Player p : Bukkit.getOnlinePlayers()) {
                     ips.add(p.getAddress().getAddress().getHostAddress());
                 }
                 return localeManager.formatTabArguments(args[0], ips);

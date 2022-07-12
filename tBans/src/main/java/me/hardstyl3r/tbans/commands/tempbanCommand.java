@@ -70,7 +70,7 @@ public class tempbanCommand implements CommandExecutor, TabCompleter {
             UUID uuid = (userManager.getUserIgnoreCase(target) == null ? null : userManager.getUserIgnoreCase(target).getUUID());
             Punishment punishment = punishmentManager.createPunishment(PunishmentType.BAN, uuid, target, admin, reason, duration);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("tempban.tempban"))
+                            l.getString("tempban.tempban"))
                     .replace("<name>", target)
                     .replace("<duration>", localeManager.parseTimeWithTranslate(duration, l)));
             Player p = Bukkit.getPlayerExact(target);
@@ -89,9 +89,9 @@ public class tempbanCommand implements CommandExecutor, TabCompleter {
             Locale l = userManager.determineLocale(sender);
             if (args.length == 1) {
                 return null;
-            } else if(args.length == 2) {
+            } else if (args.length == 2) {
                 return Collections.singletonList(localeManager.formatArgument(l.getString("common.duration"), true));
-            } else if(args.length == 3) {
+            } else if (args.length == 3) {
                 return Collections.singletonList(localeManager.formatArgument(l.getString("common.player"), true));
             } else {
                 return Collections.singletonList(localeManager.formatArgument(l.getString("common.reason"), false));

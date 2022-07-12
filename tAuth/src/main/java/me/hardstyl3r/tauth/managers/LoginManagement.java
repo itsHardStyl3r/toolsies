@@ -90,7 +90,7 @@ public class LoginManagement {
     }
 
     // Temporary solution
-    public void performRegistration(Player p){
+    public void performRegistration(Player p) {
         AuthUser authUser = loginManager.getAuth(p);
         Bukkit.getPluginManager().callEvent(new PlayerAuthSuccessfulEvent(p, authUser, AuthType.REGISTER));
 

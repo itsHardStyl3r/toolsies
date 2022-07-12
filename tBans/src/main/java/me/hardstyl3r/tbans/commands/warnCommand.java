@@ -61,7 +61,7 @@ public class warnCommand implements CommandExecutor, TabCompleter {
             Player p = Bukkit.getPlayerExact(target);
             if (Bukkit.getPlayerExact(target) != null) {
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        userManager.determineLocale(p).getString("warn.warn_target"))
+                                userManager.determineLocale(p).getString("warn.warn_target"))
                         .replace("<admin>", punishment.getAdmin())
                         .replace("<reason>", punishment.getReason()));
             }

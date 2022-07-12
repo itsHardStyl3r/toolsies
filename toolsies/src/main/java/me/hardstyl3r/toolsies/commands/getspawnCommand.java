@@ -54,7 +54,7 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 if (Bukkit.getWorld(args[0]) == null) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("getspawn.unknown_world"))
+                                    l.getString("getspawn.unknown_world"))
                             .replace("<name>", args[0]));
                     return true;
                 } else if (locationManager.getSpawn(args[0]) == null) {
@@ -74,7 +74,7 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
             }
             if (locationManager.getSpawn(w) == null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("getspawn.unknown_spawn"))
+                                l.getString("getspawn.unknown_spawn"))
                         .replace("<name>", args[0]));
                 return true;
             }

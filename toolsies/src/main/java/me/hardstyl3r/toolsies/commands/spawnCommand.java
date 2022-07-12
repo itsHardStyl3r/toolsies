@@ -70,7 +70,7 @@ public class spawnCommand implements CommandExecutor, TabCompleter {
                 }
                 if (Bukkit.getWorld(args[0]) == null) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("getspawn.unknown_world"))
+                                    l.getString("getspawn.unknown_world"))
                             .replace("<name>", args[0]));
                     return true;
                 }
@@ -78,7 +78,7 @@ public class spawnCommand implements CommandExecutor, TabCompleter {
             }
             if (s == null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("spawn.unknown_spawn"))
+                                l.getString("spawn.unknown_spawn"))
                         .replace("<name>", args[0]));
                 return true;
             }
@@ -94,10 +94,10 @@ public class spawnCommand implements CommandExecutor, TabCompleter {
                         l.getString("spawn.teleported_to_spawn")));
             } else {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("spawn.teleported_to_spawn_sender"))
+                                l.getString("spawn.teleported_to_spawn_sender"))
                         .replace("<name>", target.getName()));
                 target.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        userManager.getUser(target).getLocale().getString("spawn.teleported_to_spawn_target"))
+                                userManager.getUser(target).getLocale().getString("spawn.teleported_to_spawn_target"))
                         .replace("<admin>", sender.getName()));
             }
         } else {
