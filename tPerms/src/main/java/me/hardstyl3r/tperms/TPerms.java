@@ -31,7 +31,7 @@ public class TPerms extends JavaPlugin {
         instance = this;
         try {
             toolsies = (Toolsies) Bukkit.getServer().getPluginManager().getPlugin("toolsies");
-            if (!toolsies.isEnabled() || toolsies == null)
+            if (toolsies == null || !toolsies.isEnabled())
                 throw new Exception("toolsies is null or not enabled");
             double version = Double.parseDouble(toolsies.getDescription().getVersion().split("-")[0]);
             if (version < 0.10)
