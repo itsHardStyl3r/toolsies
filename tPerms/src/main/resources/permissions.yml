@@ -30,6 +30,15 @@ groups:
       - 'toolsies.login'
       - 'toolsies.logout'
       - 'toolsies.register'
+      - '-minecraft.command.trigger'
+      - '-bukkit.broadcast.user'
+      - '-bukkit.command.version'
+      - '-minecraft.command.teammsg'
+      - '-minecraft.command.help'
+      - '-bukkit.command.help'
+      - '-bukkit.command.plugins'
+      - '-minecraft.nbt.copy'
+      - '-minecraft.command.me'
     priority: 1
     default: true
   vip:
