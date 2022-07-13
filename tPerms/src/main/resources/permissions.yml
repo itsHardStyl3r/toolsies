@@ -24,6 +24,10 @@ groups:
       - 'toolsies.kits.start'
       - 'toolsies.locale'
       - 'toolsies.spawn'
+      - 'toolsies.changepassword'
+      - 'toolsies.login'
+      - 'toolsies.logout'
+      - 'toolsies.register'
     priority: 1
     default: true
   vip:
