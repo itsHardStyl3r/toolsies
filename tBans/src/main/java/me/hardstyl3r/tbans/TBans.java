@@ -9,6 +9,8 @@ import me.hardstyl3r.tbans.managers.PunishmentManager;
 import me.hardstyl3r.toolsies.Hikari;
 import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.utils.LogUtil;
+import me.hardstyl3r.tperms.TPerms;
+import me.hardstyl3r.tperms.managers.PermissibleUserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,8 +24,10 @@ public class TBans extends JavaPlugin {
 
     private static TBans instance;
     private Toolsies toolsies;
+    private TPerms tPerms;
     private PunishmentManager punishmentManager;
     private FileConfiguration config;
+    private PermissibleUserManager permissibleUserManager;
 
     @Override
     public void onEnable() {
@@ -40,6 +44,17 @@ public class TBans extends JavaPlugin {
             LogUtil.error("[tBans] Could not hook into toolsies: " + e + ". Disabling.");
             this.setEnabled(false);
             return;
+        }
+        try {
+            tPerms = (TPerms) Bukkit.getServer().getPluginManager().getPlugin("tPerms");
+            double version = Double.parseDouble(tPerms.getDescription().getVersion().split("-")[0]);
+            if (version < 0.6)
+                throw new Exception("unsupported tPerms version (<0.6)");
+            LogUtil.info("[tBans] Found tPerms!");
+            permissibleUserManager = tPerms.permissibleUserManager;
+        } catch (Exception e) {
+            tPerms = null;
+            LogUtil.info("[tBans] Could not hook into tPerms: " + e + ".");
         }
         createTables();
         initManagers();

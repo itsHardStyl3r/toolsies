@@ -5,6 +5,7 @@ api-version: 1.18
 authors: [ hardStyl3r ]
 description: Toolsies addon to support punishments
 depend: [ toolsies ]
+softdepend: [ tPerms ]
 commands:
   ban:
   banlist:
