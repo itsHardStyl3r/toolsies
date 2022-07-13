@@ -9,9 +9,12 @@ import me.hardstyl3r.toolsies.Hikari;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.utils.LogUtil;
+import me.hardstyl3r.tperms.managers.PermissibleUserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 import java.net.InetAddress;
 import java.sql.*;
@@ -25,11 +28,13 @@ public class PunishmentManager {
 
     private final LocaleManager localeManager;
     private final FileConfiguration config;
+    private final PermissibleUserManager permissibleUserManager;
 
-    public PunishmentManager(LocaleManager localeManager, FileConfiguration config) {
+    public PunishmentManager(LocaleManager localeManager, FileConfiguration config, PermissibleUserManager permissibleUserManager) {
         this.localeManager = localeManager;
         this.config = config;
         loadPunishments();
+        this.permissibleUserManager = permissibleUserManager;
     }
 
     private final Set<Punishment> punishments = Collections.newSetFromMap(new ConcurrentHashMap<>());
@@ -360,5 +365,14 @@ public class PunishmentManager {
 
     public Integer getMaximumNickLength() {
         return config.getInt("maximumNameLength");
+    }
+
+    public boolean canSenderPunishTarget(CommandSender sender, String target, PunishmentType type) {
+        if (sender.getName().equalsIgnoreCase(target)) return true;
+        if (!(sender instanceof Player) || sender.isOp() || sender.hasPermission("toolsies." + type + ".bypasspriority"))
+            return true;
+        if (permissibleUserManager == null) return true;
+        if (!config.getBoolean("higherPriorityPunishment." + type)) return true;
+        return permissibleUserManager.getUser(sender).getMainGroup().getPriority() < permissibleUserManager.getUser(target).getMainGroup().getPriority();
     }
 }

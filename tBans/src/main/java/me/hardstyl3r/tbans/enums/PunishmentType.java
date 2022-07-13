@@ -5,6 +5,7 @@ public enum PunishmentType {
     WARN,
     IP,
     MUTE,
+    KICK,
     ANY;
 
     @Override

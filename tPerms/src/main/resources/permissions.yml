@@ -82,6 +82,10 @@ groups:
     priority: 5
   owner:
     permissions:
+      - 'toolsies.ban.bypasspriority'
+      - 'toolsies.kick.bypasspriority'
+      - 'toolsies.warn.bypasspriority'
+      - 'toolsies.mute.bypasspriority'
     inherits:
       - 'admin'
     priority: 6

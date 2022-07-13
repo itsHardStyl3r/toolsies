@@ -74,7 +74,7 @@ public class TBans extends JavaPlugin {
 
     private void initManagers() {
         config = toolsies.configManager.loadConfig(this, "config");
-        punishmentManager = new PunishmentManager(toolsies.localeManager, config);
+        punishmentManager = new PunishmentManager(toolsies.localeManager, config, permissibleUserManager);
     }
 
     private void initCommands() {
@@ -93,7 +93,7 @@ public class TBans extends JavaPlugin {
         new tempmuteCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
         new unmuteCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
         new tempwarnCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
-        new kickCommand(this, toolsies.userManager, toolsies.localeManager);
+        new kickCommand(this, toolsies.userManager, toolsies.localeManager, punishmentManager);
         new tempbanipCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager, config);
         new getbanipCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
     }

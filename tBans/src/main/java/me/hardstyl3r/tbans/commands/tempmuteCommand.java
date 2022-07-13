@@ -24,6 +24,7 @@ public class tempmuteCommand implements CommandExecutor, TabCompleter {
     private final UserManager userManager;
     private final PunishmentManager punishmentManager;
     private final LocaleManager localeManager;
+    private final PunishmentType type = PunishmentType.MUTE;
 
     public tempmuteCommand(TBans plugin, UserManager userManager, PunishmentManager punishmentManager, LocaleManager localeManager) {
         plugin.getCommand("tempmute").setExecutor(this);
@@ -42,8 +43,12 @@ public class tempmuteCommand implements CommandExecutor, TabCompleter {
         }
         if (args.length > 1) {
             String target = args[0];
-            punishmentManager.deleteIfExpired(PunishmentType.MUTE, target);
-            if (punishmentManager.isPunished(PunishmentType.MUTE, target)) {
+            punishmentManager.deleteIfExpired(type, target);
+            if (!punishmentManager.canSenderPunishTarget(sender, target, type)) {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("mute.priority_too_high")));
+                return true;
+            }
+            if (punishmentManager.isPunished(type, target)) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         l.getString("mute.is_muted")).replace("<name>", target));
                 return true;
@@ -64,7 +69,7 @@ public class tempmuteCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
             long duration = localeManager.parseTimeFromString(args[1]);
-            long minimumDuration = punishmentManager.getMinimumDuration(PunishmentType.MUTE);
+            long minimumDuration = punishmentManager.getMinimumDuration(type);
             if (duration < minimumDuration) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         l.getString("tempban.duration_too_short")).replace("<duration>", localeManager.parseTimeWithTranslate(minimumDuration, l)));
@@ -73,7 +78,7 @@ public class tempmuteCommand implements CommandExecutor, TabCompleter {
             String admin = sender.getName();
             String reason = (args.length > 2 ? localeManager.createMessage(args, 2) : null);
             UUID uuid = userManager.getUserIgnoreCase(target).getUUID();
-            Punishment punishment = punishmentManager.createPunishment(PunishmentType.MUTE, uuid, target, admin, reason, duration);
+            Punishment punishment = punishmentManager.createPunishment(type, uuid, target, admin, reason, duration);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             l.getString("tempmute.tempmute"))
                     .replace("<name>", target)

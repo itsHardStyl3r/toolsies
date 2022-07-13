@@ -24,6 +24,7 @@ public class tempwarnCommand implements CommandExecutor, TabCompleter {
     private final UserManager userManager;
     private final PunishmentManager punishmentManager;
     private final LocaleManager localeManager;
+    private final PunishmentType type = PunishmentType.WARN;
 
     public tempwarnCommand(TBans plugin, UserManager userManager, PunishmentManager punishmentManager, LocaleManager localeManager) {
         plugin.getCommand("tempwarn").setExecutor(this);
@@ -42,6 +43,10 @@ public class tempwarnCommand implements CommandExecutor, TabCompleter {
         }
         if (args.length > 1) {
             String target = args[0];
+            if (!punishmentManager.canSenderPunishTarget(sender, target, type)) {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("warn.priority_too_high")));
+                return true;
+            }
             if (target.length() > punishmentManager.getMaximumNickLength()) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         l.getString("ban.name_too_long")).replace("<length>", String.valueOf(punishmentManager.getMaximumNickLength())));
@@ -67,7 +72,7 @@ public class tempwarnCommand implements CommandExecutor, TabCompleter {
             String admin = sender.getName();
             String reason = (args.length > 2 ? localeManager.createMessage(args, 2) : null);
             UUID uuid = userManager.getUserIgnoreCase(target).getUUID();
-            Punishment punishment = punishmentManager.createPunishment(PunishmentType.WARN, uuid, target, admin, reason, duration);
+            Punishment punishment = punishmentManager.createPunishment(type, uuid, target, admin, reason, duration);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             l.getString("tempwarn.tempwarn_sender"))
                     .replace("<name>", target)

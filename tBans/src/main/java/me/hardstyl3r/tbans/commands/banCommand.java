@@ -24,6 +24,7 @@ public class banCommand implements CommandExecutor, TabCompleter {
     private final UserManager userManager;
     private final PunishmentManager punishmentManager;
     private final LocaleManager localeManager;
+    private final PunishmentType type = PunishmentType.BAN;
 
     public banCommand(TBans plugin, UserManager userManager, PunishmentManager punishmentManager, LocaleManager localeManager) {
         plugin.getCommand("ban").setExecutor(this);
@@ -42,8 +43,12 @@ public class banCommand implements CommandExecutor, TabCompleter {
         }
         if (args.length > 0) {
             String target = args[0];
-            punishmentManager.deleteIfExpired(PunishmentType.BAN, target);
-            if (punishmentManager.isPunished(PunishmentType.BAN, target)) {
+            punishmentManager.deleteIfExpired(type, target);
+            if (!punishmentManager.canSenderPunishTarget(sender, target, type)) {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("ban.priority_too_high")));
+                return true;
+            }
+            if (punishmentManager.isPunished(type, target)) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         l.getString("ban.is_banned")).replace("<name>", target));
                 return true;
@@ -56,7 +61,7 @@ public class banCommand implements CommandExecutor, TabCompleter {
             String admin = sender.getName();
             String reason = (args.length > 1 ? localeManager.createMessage(args, 1) : null);
             UUID uuid = (userManager.getUserIgnoreCase(target) == null ? null : userManager.getUserIgnoreCase(target).getUUID());
-            Punishment punishment = punishmentManager.createPunishment(PunishmentType.BAN, uuid, target, admin, reason, null);
+            Punishment punishment = punishmentManager.createPunishment(type, uuid, target, admin, reason, null);
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     l.getString("ban.ban")).replace("<name>", target));
             Player p = Bukkit.getPlayerExact(target);

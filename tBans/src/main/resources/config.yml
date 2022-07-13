@@ -24,3 +24,21 @@ minimumDuration:
 
 # Maximum length of username. Used in /ban, /warn, etc.
 maximumNameLength: 16
+
+# Priority-aware punishments require tPerms (!)
+#
+# This section determines whether priorities should matter
+# when it comes to punishments.
+# If enabled, a player (or an admin) with lower or equal group priority
+# can't make a certain punishment to some other player with higher one.
+# E.g.
+#  moderator (4) can't ban other moderator (4)
+#  moderator (4) can be banned by admin (5)
+#  admin (5) can't be banned by moderator (4)
+# The priorities are bypassed by operators, console and players that have
+# toolsies.<ban/kick/warn/mute>.bypasspriority permission.
+higherPriorityPunishment:
+  ban: true
+  kick: true
+  warn: true
+  mute: true

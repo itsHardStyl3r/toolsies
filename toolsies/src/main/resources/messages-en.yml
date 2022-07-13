@@ -194,6 +194,7 @@ ban:
   is_banned: "&e# &7<name> is already banned."
   unresolved_hostname: "&cYour IP address could not be resolved."
   name_too_long: "&e# &7Nickname can't be longer than <length>."
+  priority_too_high: "&c# &7You can't ban this player."
 
 unban:
   usage:
@@ -222,6 +223,7 @@ tempban:
   tempban_broadcast: "&a# &7Player <name> has been temporarily banned by <admin> for <duration>."
   incorrect_time: "&c# &7Incorrect duration entered."
   duration_too_short: "&c# &7Duration must be at least <duration>."
+  priority_too_high: "&c# &7You can't temporarily ban this player."
 
 getban:
   usage:
@@ -245,6 +247,7 @@ ban-ip:
   is_banned: "&e# &7Address <address> is already banned."
   incorrect_address: "&c# &7Player could not be found or wrong ip was entered."
   ipv6_address: "&e# &7IPv6 addresses are not enabled."
+  priority_too_high: "&c# &7You can't ban this player."
 
 warn:
   usage:
@@ -252,6 +255,7 @@ warn:
     console-warn: "/warn <player> <reason> - warns a player"
   warn_sender: "&a# &7Warned <name>."
   warn_target: "&e# &7You've been warned by <admin>. \n&e> &7Reason: <reason>"
+  priority_too_high: "&c# &7You can't warn this player."
 
 unwarn:
   usage:
@@ -293,6 +297,7 @@ mute:
   is_muted: "&e# &7<name> is already muted."
   mute_target: "&e# &7You've been muted by <admin>. \n&e> &7Reason: <reason>"
   chat_muted: "&e# &7You are muted."
+  priority_too_high: "&c# &7You can't mute this player."
 
 tempmute:
   usage:
@@ -301,6 +306,7 @@ tempmute:
   tempmute: "&a# &7Muted <name> for <duration>."
   tempmute_target: "&e# &7You've been muted by <admin> for <duration>."
   chat_muted: "&e# &7You are muted for <duration>."
+  priority_too_high: "&c# &7You can't temporarily mute this player."
 
 tempwarn:
   usage:
@@ -308,6 +314,7 @@ tempwarn:
     console-tempwarn: "/tempwarn <gracz> <time> [reason] - warns a player"
   tempwarn_sender: "&a# &7Warned <name> for <duration>."
   tempwarn_target: "&e# &7You've been warned by <admin> for <duration>. \n&e> &7Reason: <reason>"
+  priority_too_high: "&c# &7You can't temporarily warn this player."
 
 unmute:
   usage:
@@ -326,12 +333,14 @@ kick:
     header: "&cYou've been kicked.\n"
     admin: "&fKicked by: <admin>"
     reason: "&fReason: <reason>"
+  priority_too_high: "&c# &7You can't kick this player."
 
 tempban-ip:
   usage:
     tempban-ip: "/tempban <address/player> <time> [reason] - temporarily bans address"
     console-tempban-ip: "/tempban <address> <time> [reason] - temporarily bans address"
   tempban-ip: "&a# &7Temporarily banned <address> for <duration>."
+  priority_too_high: "&c# &7You can't ban this player."
 
 login:
   usage: "&e# &7Correct usage: /login <password>"

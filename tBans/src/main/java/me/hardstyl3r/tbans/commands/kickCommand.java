@@ -1,6 +1,8 @@
 package me.hardstyl3r.tbans.commands;
 
 import me.hardstyl3r.tbans.TBans;
+import me.hardstyl3r.tbans.enums.PunishmentType;
+import me.hardstyl3r.tbans.managers.PunishmentManager;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
@@ -19,11 +21,14 @@ public class kickCommand implements CommandExecutor, TabCompleter {
 
     private final UserManager userManager;
     private final LocaleManager localeManager;
+    private final PunishmentManager punishmentManager;
+    private final PunishmentType type = PunishmentType.KICK;
 
-    public kickCommand(TBans plugin, UserManager userManager, LocaleManager localeManager) {
+    public kickCommand(TBans plugin, UserManager userManager, LocaleManager localeManager, PunishmentManager punishmentManager) {
         plugin.getCommand("kick").setExecutor(this);
         this.userManager = userManager;
         this.localeManager = localeManager;
+        this.punishmentManager = punishmentManager;
     }
 
     @Override
@@ -39,6 +44,10 @@ public class kickCommand implements CommandExecutor, TabCompleter {
             if (userManager.getUser(target) == null) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         l.getString("players.unknown")).replace("<name>", args[0]));
+                return true;
+            }
+            if (!punishmentManager.canSenderPunishTarget(sender, target, type)) {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("kick.priority_too_high")));
                 return true;
             }
             if (Bukkit.getPlayerExact(target) == null) {

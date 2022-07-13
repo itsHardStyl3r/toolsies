@@ -24,6 +24,7 @@ public class muteCommand implements CommandExecutor, TabCompleter {
     private final UserManager userManager;
     private final PunishmentManager punishmentManager;
     private final LocaleManager localeManager;
+    private final PunishmentType type = PunishmentType.MUTE;
 
     public muteCommand(TBans plugin, UserManager userManager, PunishmentManager punishmentManager, LocaleManager localeManager) {
         plugin.getCommand("mute").setExecutor(this);
@@ -43,6 +44,10 @@ public class muteCommand implements CommandExecutor, TabCompleter {
         if (args.length > 0) {
             String target = args[0];
             punishmentManager.deleteIfExpired(PunishmentType.MUTE, target);
+            if (!punishmentManager.canSenderPunishTarget(sender, target, type)) {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("mute.priority_too_high")));
+                return true;
+            }
             if (punishmentManager.isPunished(PunishmentType.MUTE, target)) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         l.getString("mute.is_muted")).replace("<name>", target));

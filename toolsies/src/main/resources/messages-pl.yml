@@ -198,6 +198,7 @@ ban:
   is_banned: "&e# &7<name> jest już zbanowany."
   unresolved_hostname: "&cNie udało się potwierdzić adresu IP."
   name_too_long: "&e# &7Nick nie może być dłuższy niż <length>."
+  priority_too_high: "&c# &7Nie możesz zbanować tego gracza."
 
 unban:
   usage:
@@ -226,6 +227,7 @@ tempban:
   tempban_broadcast: "&a# &7Gracz <name> został tymczasowo zbanowany <admin> na <duration>."
   incorrect_time: "&c# &7Niepoprawny czas długości bana."
   duration_too_short: "&c# &7Okres musi mieć co najmniej <duration>."
+  priority_too_high: "&c# &7Nie możesz tymczasowo zbanować tego gracza."
 
 getban:
   usage:
@@ -249,6 +251,7 @@ ban-ip:
   is_banned: "&e# &7Adres <address> jest już zbanowany."
   incorrect_address: "&c# &7Nie odnaleziono gracza lub podano błędne ip."
   ipv6_address: "&e# &7Adresy IPv6 nie są włączone."
+  priority_too_high: "&c# &7Nie możesz zbanować tego gracza."
 
 warn:
   usage:
@@ -256,6 +259,7 @@ warn:
     console-warn: "/warn <player> <reason> - nadaje ostrzeżenie"
   warn_sender: "&a# &7Ostrzeżono <name>."
   warn_target: "&e# &7Otrzymano ostrzeżenie od <admin>. \n&e> &7Powód: <reason>"
+  priority_too_high: "&c# &7Nie możesz nadać ostrzeżenia temu graczowi."
 
 unwarn:
   usage:
@@ -297,6 +301,7 @@ mute:
   is_muted: "&e# &7<name> jest już wyciszony."
   mute_target: "&e# &7Zostałeś wyciszony przez <admin>. \n&e> &7Powód: <reason>"
   chat_muted: "&e# &7Jesteś wyciszony."
+  priority_too_high: "&c# &7Nie możesz wyciszyć tego gracza."
 
 tempmute:
   usage:
@@ -305,6 +310,7 @@ tempmute:
   tempmute: "&a# &7Wyciszono <name> na <duration>."
   tempmute_target: "&e# &7Zostałeś wyciszony przez <admin> na <duration>."
   chat_muted: "&e# &7Jesteś wyciszony przez <duration>."
+  priority_too_high: "&c# &7Nie możesz tymczasowo wyciszyć tego gracza."
 
 tempwarn:
   usage:
@@ -312,6 +318,7 @@ tempwarn:
     console-tempwarn: "/tempwarn <gracz> <czas> [powód] - nadaje ostrzeżenie"
   tempwarn_sender: "&a# &7Ostrzeżono <name> na <duration>."
   tempwarn_target: "&e# &7Otrzymano ostrzeżenie od <admin> na <duration>. \n&e> &7Powód: <reason>"
+  priority_too_high: "&c# &7Nie możesz nadać tymczasowego ostrzeżenia temu graczowi."
 
 unmute:
   usage:
@@ -330,12 +337,14 @@ kick:
     header: "&cZostałeś wyrzucony.\n"
     admin: "&fWyrzucony przez: <admin>"
     reason: "&fPowód: <reason>"
+  priority_too_high: "&c# &7Nie możesz wyrzucić tego gracza."
 
 tempban-ip:
   usage:
     tempban-ip: "/tempban <adres/gracz> <czas> [powód] - tymczasowo banuje ip"
     console-tempban-ip: "/tempban <adres/gracz> <czas> [powód] - tymczasowo banuje ip"
   tempban-ip: "&a# &7Tymczasowo zbanowano gracza <name> na <duration>."
+  priority_too_high: "&c# &7Nie możesz zbanować tego gracza."
 
 login:
   usage: "&e# &7Poprawne zastosowanie: /login <hasło>"
