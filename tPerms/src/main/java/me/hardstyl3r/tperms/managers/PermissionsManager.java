@@ -97,11 +97,9 @@ public class PermissionsManager {
             }
         }
         for (String permission : permsToAdd) {
-            if (permission.startsWith("-")) {
-                attachment.unsetPermission(permission.replace("-", ""));
-            } else {
-                attachment.setPermission(permission, true);
-            }
+            if (permission.startsWith("-") && !p.isOp())
+                attachment.setPermission(permission.substring(1), false);
+            else attachment.setPermission(permission, true);
         }
         permissions.put(p.getUniqueId(), attachment);
     }

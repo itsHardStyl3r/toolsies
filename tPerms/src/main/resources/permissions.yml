@@ -5,15 +5,17 @@
 # Chat formatting is handled in messages.yml.
 #
 # Users can have multiple groups.
-#
 # There can be multiple default groups.
 #
 # Priorities of the groups are respected,
 # the group with the highest priority is considered main.
 # Non-specified priority is defaulted to 0.
 #
-# To unset a permission (e.g. when it's inherited),
+# To revoke a permission (e.g. when it's inherited),
 # append it with minus.
+# Operators cannot have a permission revoked, this means
+# that the plugin just ignores the "minus permissions"
+# and leaves it in the default state.
 #
 # Permissions from inherits are applied first.
 groups:
