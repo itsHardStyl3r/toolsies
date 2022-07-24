@@ -56,7 +56,7 @@ public class AuthPlayerListeners implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPreLoginHighest(AsyncPlayerPreLoginEvent e) {
-        if ((Bukkit.getPlayer(e.getName()) != null || Bukkit.getPlayer(e.getUniqueId()) != null) && !config.getBoolean("login.allowJoinWhenOnline")) {
+        if ((Bukkit.getPlayerExact(e.getName()) != null || Bukkit.getPlayer(e.getUniqueId()) != null) && !config.getBoolean("login.allowJoinWhenOnline")) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
                     ChatColor.translateAlternateColorCodes('&',
                             userManager.determineLocale(e.getUniqueId()).getString("login.online_kick")));
