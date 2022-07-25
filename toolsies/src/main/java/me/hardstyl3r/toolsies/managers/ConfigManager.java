@@ -6,10 +6,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 public class ConfigManager {
 
@@ -43,15 +40,19 @@ public class ConfigManager {
      * @return loaded YamlConfiguration of the file
      */
     public YamlConfiguration loadConfig(JavaPlugin plugin, String file, String to) {
+        String pluginName = (plugin != null ? plugin.getName() : "toolsies");
         if (!to.equals("")) to = to + File.separator;
         File configFile = new File(getPath(plugin) + to + file + ".yml");
         if (!configFile.exists()) {
             try {
                 configFile.getParentFile().mkdirs();
-                copy((plugin == null ? Toolsies.getInstance() : plugin).getResource(file + ".yml"), configFile);
-                LogUtil.info("[" + (plugin != null ? plugin.getName() : "unknown plugin") + "] loadConfig(): Created " + file + ".yml.");
+                if (!configFile.getParentFile().exists())
+                    throw new RuntimeException("Failed to create folder structure: " + to);
+                if (!copy((plugin == null ? Toolsies.getInstance() : plugin).getResource(file + ".yml"), configFile))
+                    throw new FileNotFoundException("Copying " + file + ".yml from jar failed");
+                LogUtil.info("[" + pluginName + "] loadConfig(): Created " + file + ".yml.");
             } catch (Exception e) {
-                LogUtil.error("[" + (plugin != null ? plugin.getName() : "unknown plugin") + "] loadConfig(): " + e + ".");
+                LogUtil.error("[" + pluginName + "] loadConfig(): " + e + ".");
                 return null;
             }
         }
@@ -94,7 +95,7 @@ public class ConfigManager {
             source.close();
             return true;
         } catch (Exception e) {
-            LogUtil.error("[toolsies] copy(" + file + ".yml): " + e + ".");
+            LogUtil.error("copy(" + file + ".yml): " + e + ".");
             return false;
         }
     }
