@@ -152,11 +152,15 @@ public class LoginManager {
                         rs.getFloat("yaw"),
                         rs.getFloat("pitch")));
                 authUser.setPlaytime(rs.getLong("playtime"));
-                Player notify = Bukkit.getPlayer(UUID.fromString(rs.getString("uuid")));
-                if (notify != null && rs.getBoolean("loggedin")) {
-                    Locale l = userManager.determineLocale(UUID.fromString(rs.getString("uuid")));
-                    notify.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("login.reload_login")));
+                Player online = Bukkit.getPlayer(UUID.fromString(rs.getString("uuid")));
+                if (online != null && rs.getBoolean("loggedin")) {
+                    if (config.getBoolean("login.logoutOnReload", true)) {
+                        Locale l = userManager.determineLocale(UUID.fromString(rs.getString("uuid")));
+                        online.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                                l.getString("login.reload_login")));
+                        online.setWalkSpeed(0F); //0.2
+                        online.setFlySpeed(0F); //0.1
+                    } else authUser.setLoggedIn(true);
                 }
                 auths.put(authUser.getUUID(), authUser);
             }
@@ -201,10 +205,6 @@ public class LoginManager {
                 p.setLong(9, authUser.getPlaytime());
                 p.setString(10, authUser.getUUID().toString());
                 p.execute();
-                if (config.getBoolean("login.useWalkSpeedFlySpeed")) {
-                    player.setWalkSpeed(0F); //0.2
-                    player.setFlySpeed(0F); //0.1
-                }
             }
             LogUtil.info("[tAuth] savePlayers(): Saved " + Bukkit.getOnlinePlayers().size() + " players.");
         } catch (SQLException e) {
