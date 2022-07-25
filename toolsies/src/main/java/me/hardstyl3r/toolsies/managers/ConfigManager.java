@@ -49,9 +49,9 @@ public class ConfigManager {
             try {
                 configFile.getParentFile().mkdirs();
                 copy((plugin == null ? Toolsies.getInstance() : plugin).getResource(file + ".yml"), configFile);
-                LogUtil.info("[toolsies] Created " + file + ".yml.");
+                LogUtil.info("[" + (plugin != null ? plugin.getName() : "unknown plugin") + "] loadConfig(): Created " + file + ".yml.");
             } catch (Exception e) {
-                LogUtil.error("[toolsies] loadConfig(): " + e + ".");
+                LogUtil.error("[" + (plugin != null ? plugin.getName() : "unknown plugin") + "] loadConfig(): " + e + ".");
                 return null;
             }
         }
@@ -74,10 +74,10 @@ public class ConfigManager {
         File configFile = new File(getPath(plugin) + to + file + ".yml");
         try {
             config.save(configFile);
-            LogUtil.info("[toolsies] saveConfig(): Saved " + file + ".yml.");
+            LogUtil.info("[" + (plugin != null ? plugin.getName() : "unknown plugin") + "] saveConfig(): Saved " + file + ".yml.");
             return true;
         } catch (Exception e) {
-            LogUtil.error("[toolsies] saveConfig(): " + e + ".");
+            LogUtil.error("[" + (plugin != null ? plugin.getName() : "unknown plugin") + "] saveConfig(): " + e + ".");
         }
         return false;
     }
