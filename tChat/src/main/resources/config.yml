@@ -8,3 +8,23 @@ chat:
     duration: 5s
     group-duration:
       vip: 2s
+
+msg:
+  # replyTimeout: time (in seconds) after recipient will no longer be chained
+  # with the sender via /reply.
+  # Default: 120 seconds (2 minutes)
+  replyTimeout: 120
+  # backAndForthConversation: when enabled, both sender and recipient
+  # are chained together, so that /reply will work just after one of the
+  # players texts the other. This is old messaging functionality and
+  # the default for most plugins. This could potentially make someone "steal"
+  # a reply, so this is disabled here.
+  # When disabled, each player has to send a message to one another using /msg
+  # before they will be chained.
+  # Default: false
+  backAndForthConversation: false
+
+# SaveToFilePeriod: Time (in seconds) after the msg toggles
+# and socialspies will be saved to file storage.yml.
+# Default: 1200 seconds (20 minutes)
+saveToFilePeriod: 1200

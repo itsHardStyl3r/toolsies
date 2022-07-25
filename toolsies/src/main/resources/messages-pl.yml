@@ -471,6 +471,31 @@ tchat:
       clear: "&a# &7Wszystkie cooldowny chatu zostały wyczyszczone."
       toggle: "&a# &7Cooldown chatu jest teraz <status>."
 
+msg:
+  usage:
+    msg: "/msg <gracz> <wiadomość> - wysyła prywatną wiadomość"
+    console-msg: "/msg <gracz> <wiadomość> - wysyła prywatną wiadomość"
+  text_self: "&7<time> &o<name>: <message>"
+  text_sender: "&7<time> &6Ty → <name>: <message>"
+  text_target: "&7<time> &6<name> → Ty: <message>"
+  reply_available: "&7Możecie teraz sobie odpowiadać używając komendy /reply."
+  toggle_false: "&a# &7Prywatne wiadomości zostały wyłączone."
+  toggle_true: "&a# &7Prywatne wiadomości zostały włączone."
+  target_toggled_info: "&7&o<name> ma wyłączone prywatne wiadomości."
+
+reply:
+  usage:
+    reply: "/reply <wiadomość> - odpowiada na prywatną wiadomość"
+  has_no_convo: "&e# &7Nie prowadzisz żadnej rozmowy w tym momencie."
+  recipient_offline: "&e# &7Osoba nie jest już online."
+
+socialspy:
+  usage:
+    socialspy: "/socialspy - przełącza podgląd wiadomości"
+  toggle_false: "&a# &7Podgląd prywatnych wiadomości został włączony."
+  toggle_true: "&a# &7Podgląd prywatnych wiadomości został wyłączony."
+  broadcast: "&4PW &7&o<attacker> do <victim>: <message>"
+
 players:
   unknown: "&c# &7Gracz <name> nie istnieje."
   offline: "&c# &7Gracz <name> jest offline."

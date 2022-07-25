@@ -1,16 +1,18 @@
 package me.hardstyl3r.tchat;
 
-import me.hardstyl3r.tchat.commands.chatCommand;
-import me.hardstyl3r.tchat.commands.tchatCommand;
+import me.hardstyl3r.tchat.commands.*;
 import me.hardstyl3r.tchat.listeners.AsyncChatListener;
 import me.hardstyl3r.tchat.listeners.AsyncPlayerChatListener;
 import me.hardstyl3r.tchat.listeners.TPermsAsyncPlayerChatListener;
 import me.hardstyl3r.tchat.managers.ChatManager;
+import me.hardstyl3r.tchat.managers.MessagingManagement;
+import me.hardstyl3r.tchat.managers.MessagingManager;
 import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.utils.LogUtil;
 import me.hardstyl3r.tperms.TPerms;
 import me.hardstyl3r.tperms.managers.PermissibleUserManager;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class TChat extends JavaPlugin {
@@ -20,6 +22,9 @@ public class TChat extends JavaPlugin {
     private TPerms tPerms;
     private ChatManager chatManager;
     private PermissibleUserManager permissibleUserManager;
+    private MessagingManager messagingManager;
+    private MessagingManagement messagingManagement;
+    private YamlConfiguration config;
 
     public static TChat getInstance() {
         return instance;
@@ -55,11 +60,14 @@ public class TChat extends JavaPlugin {
         initManagers();
         initListeners();
         initCommands();
+        initTasks();
         LogUtil.info("[tChat] Enabled tChat. (took " + (System.currentTimeMillis() - current) + "ms)");
     }
 
     @Override
     public void onDisable() {
+        LogUtil.info("[tChat] Stopping! Starting synchronous task to save data.");
+        messagingManager.saveData();
     }
 
     public boolean isTPermsAvailable() {
@@ -67,7 +75,10 @@ public class TChat extends JavaPlugin {
     }
 
     private void initManagers() {
+        config = toolsies.configManager.loadConfig(this, "config");
         chatManager = new ChatManager(this, toolsies.configManager, toolsies.localeManager, permissibleUserManager);
+        messagingManager = new MessagingManager(this, toolsies.configManager, toolsies.userManager);
+        messagingManagement = new MessagingManagement(messagingManager, toolsies.localeManager, toolsies.userManager);
     }
 
     private void initListeners() {
@@ -80,5 +91,15 @@ public class TChat extends JavaPlugin {
     private void initCommands() {
         new chatCommand(this, toolsies.userManager, toolsies.localeManager, chatManager);
         new tchatCommand(this, toolsies.userManager, toolsies.localeManager, chatManager);
+        new msgCommand(this, toolsies.userManager, toolsies.localeManager, messagingManagement);
+        new replyCommand(this, toolsies.userManager, toolsies.localeManager, messagingManager, messagingManagement);
+        new msgtoggleCommand(this, toolsies.userManager, messagingManager);
+        new socialspyCommand(this, toolsies.userManager, messagingManager);
+    }
+
+    private void initTasks() {
+        Bukkit.getScheduler().cancelTasks(this);
+        new AsyncStorageSaveTask(this, messagingManager, config);
+        LogUtil.info("[tChat] initTasks(): Save-to-file task enabled.");
     }
 }

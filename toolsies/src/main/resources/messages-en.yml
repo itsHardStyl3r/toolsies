@@ -467,6 +467,32 @@ tchat:
       clear: "&a# &7All chat cooldowns have been cleared."
       toggle: "&a# &7Chat cooldown is now <status>."
 
+msg:
+  usage:
+    msg: "/msg <player> <message> - sends a private message"
+    console-msg: "/msg <player> <message> - sends a private message"
+  text_self: "&7<time> &o* <message>"
+  text_sender: "&7<time> &6You → <name>: <message>"
+  text_target: "&7<time> &6<name> → You: <message>"
+  reply_available: "&7You can now reply to each other using /reply command."
+  toggle_false: "&a# &7Private messages turned off."
+  toggle_true: "&a# &7Private messages turned on."
+  target_toggled_info: "&7&o<name> has private messages turned off."
+
+reply:
+  usage:
+    reply: "/reply <message> - replies to a private message"
+    console-reply: "/reply <message> - replies to a private message"
+  has_no_convo: "&e# &7You do not lead any conversation right now."
+  recipient_offline: "&e# &7The player is no longer online."
+
+socialspy:
+  usage:
+    socialspy: "/socialspy - toggles private messages view"
+  toggle_false: "&a# &7Spying on private messages has been turned on."
+  toggle_true: "&a# &7Spying on private messages has been turned off."
+  broadcast: "&4PM &7&o<attacker> to <victim>: <message>"
+
 players:
   unknown: "&c# &7Player <name> does not exist."
   offline: "&c# &7Player <name> is offline."

@@ -30,6 +30,9 @@ groups:
       - 'toolsies.login'
       - 'toolsies.logout'
       - 'toolsies.register'
+      - 'toolsies.msg'
+      - 'toolsies.msgtoggle'
+      - 'toolsies.reply'
       - '-minecraft.command.trigger'
       - '-bukkit.broadcast.user'
       - '-bukkit.command.version'
@@ -45,6 +48,7 @@ groups:
     permissions:
       - 'toolsies.kits.vip'
       - 'toolsies.chat.color'
+      - 'toolsies.msg.colored'
     inherits:
       - 'player'
     priority: 2
@@ -71,6 +75,7 @@ groups:
       - 'toolsies.chat.clear'
       - 'toolsies.chat.toggle'
       - 'toolsies.chat.cooldown.bypass'
+      - 'toolsies.msg.bypasstoggle'
     inherits:
       - 'player'
     priority: 4
@@ -87,6 +92,7 @@ groups:
       - 'toolsies.delspawn'
       - 'toolsies.setspawn'
       - 'toolsies.spawn.bypass'
+      - 'toolsies.socialspy'
     inherits:
       - 'player'
       - 'moderator'
