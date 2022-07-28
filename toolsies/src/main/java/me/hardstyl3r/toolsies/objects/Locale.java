@@ -1,5 +1,6 @@
 package me.hardstyl3r.toolsies.objects;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Collections;
@@ -51,10 +52,11 @@ public class Locale {
     }
 
     public List<String> getStringList(String path) {
-        return (config.getStringList(path) == null ? Collections.singletonList(path) : config.getStringList(path));
+        return config.getStringList(path);
     }
 
     public Set<String> getConfigurationSection(String path) {
-        return (config.getConfigurationSection(path) == null ? Collections.emptySet() : config.getConfigurationSection(path).getKeys(false));
+        ConfigurationSection configurationSection = config.getConfigurationSection(path);
+        return configurationSection == null ? Collections.emptySet() : configurationSection.getKeys(false);
     }
 }
