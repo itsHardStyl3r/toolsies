@@ -8,7 +8,6 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -41,8 +40,7 @@ public class tempbanipCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.tempban-ip")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.tempban-ip"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.tempban-ip"));
             return true;
         }
         if (args.length > 1) {
@@ -52,8 +50,7 @@ public class tempbanipCommand implements CommandExecutor, TabCompleter {
                 try {
                     target = InetAddress.getByName(args[0]);
                 } catch (Exception e) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("ban-ip.incorrect_address")));
+                    sender.sendMessage(l.getColoredString("ban-ip.incorrect_address"));
                     return true;
                 }
             } else {
@@ -61,34 +58,29 @@ public class tempbanipCommand implements CommandExecutor, TabCompleter {
             }
             if (target instanceof Inet6Address) {
                 if (!config.getBoolean("ipv6BansEnabled")) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("ban-ip.ipv6_address")));
+                    sender.sendMessage(l.getColoredString("ban-ip.ipv6_address"));
                     return true;
                 }
             }
             punishmentManager.deleteIfExpired(target);
             if (punishmentManager.isBanned(target)) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("ban-ip.is_banned")).replace("<address>", target.getHostAddress()));
+                sender.sendMessage(l.getColoredString("ban-ip.is_banned").replace("<address>", target.getHostAddress()));
                 return true;
             }
             if (!localeManager.isValidStringTime(args[1])) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("tempban.incorrect_time")));
+                sender.sendMessage(l.getColoredString("tempban.incorrect_time"));
                 return true;
             }
             long duration = localeManager.parseTimeFromString(args[1]);
             long minimumDuration = punishmentManager.getMinimumDuration(PunishmentType.BAN);
             if (duration < minimumDuration) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("tempban.duration_too_short")).replace("<duration>", localeManager.parseTimeWithTranslate(minimumDuration, l)));
+                sender.sendMessage(l.getColoredString("tempban.duration_too_short").replace("<duration>", localeManager.parseTimeWithTranslate(minimumDuration, l)));
                 return true;
             }
             String admin = sender.getName();
             String reason = (args.length > 2 ? localeManager.createMessage(args, 2) : null);
             Punishment punishment = punishmentManager.createPunishment(target, admin, reason, duration);
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("tempban-ip.tempban-ip")).replace("<address>", target.getHostAddress()));
+            sender.sendMessage(l.getColoredString("tempban-ip.tempban-ip").replace("<address>", target.getHostAddress()));
             for (Player kick : Bukkit.getOnlinePlayers()) {
                 if (kick.getAddress().getAddress().equals(target)) {
                     kick.kickPlayer(punishmentManager.formatMessage(punishment, userManager.determineLocale(kick), "kick"));

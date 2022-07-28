@@ -6,7 +6,6 @@ import me.hardstyl3r.tauth.managers.LoginManagement;
 import me.hardstyl3r.tauth.managers.LoginManager;
 import me.hardstyl3r.tauth.objects.AuthUser;
 import me.hardstyl3r.toolsies.managers.UserManager;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -33,12 +32,10 @@ public class AuthPlayerPropsListeners implements Listener {
         Player p = e.getPlayer();
         AuthUser authUser = loginManager.getAuth(p);
         if (!authUser.isRegistered()) {
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    userManager.determineLocale(p).getString("register.register")));
+            p.sendMessage(userManager.determineLocale(p).getColoredString("register.register"));
             loginManager.setKickTask(p, AuthType.REGISTER);
         } else if (!authUser.isLoggedIn()) {
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    userManager.determineLocale(p).getString("login.login")));
+            p.sendMessage(userManager.determineLocale(p).getColoredString("login.login"));
             loginManager.setKickTask(p, AuthType.LOGIN);
         }
         loginManagement.initAuth(p);

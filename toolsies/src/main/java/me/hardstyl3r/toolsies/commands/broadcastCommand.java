@@ -5,7 +5,6 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,13 +35,13 @@ public class broadcastCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (!sender.hasPermission("toolsies.broadcast")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("no_permission")).replace("<permission>", "toolsies.broadcast"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.broadcast"));
             return true;
         }
         if (args.length > 0) {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 Locale broadcast = userManager.determineLocale(p);
-                p.sendMessage(ChatColor.translateAlternateColorCodes('&', broadcast.getString("broadcast.style").replace("<message>", localeManager.createMessage(args, 0))));
+                p.sendMessage(broadcast.getColoredString("broadcast.style").replace("<message>", localeManager.createMessage(args, 0)));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

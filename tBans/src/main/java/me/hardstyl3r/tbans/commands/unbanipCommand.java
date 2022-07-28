@@ -7,7 +7,6 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,8 +34,7 @@ public class unbanipCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.unban-ip")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.unban-ip"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.unban-ip"));
             return true;
         }
         if (args.length == 1) {
@@ -46,8 +44,7 @@ public class unbanipCommand implements CommandExecutor, TabCompleter {
                 try {
                     target = InetAddress.getByName(args[0]);
                 } catch (Exception e) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("ban-ip.incorrect_address")));
+                    sender.sendMessage(l.getColoredString("ban-ip.incorrect_address"));
                     return true;
                 }
             } else {
@@ -55,14 +52,12 @@ public class unbanipCommand implements CommandExecutor, TabCompleter {
             }
             punishmentManager.deleteIfExpired(target);
             if (!punishmentManager.isBanned(target)) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("unban.is_not_banned")).replace("<name>", target.getHostAddress()));
+                sender.sendMessage(l.getColoredString("unban.is_not_banned").replace("<name>", target.getHostAddress()));
                 return true;
             }
             Punishment ban = punishmentManager.getBan(target);
             punishmentManager.deletePunishment(ban, sender.getName());
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("unban.unban")).replace("<name>", ban.getName()));
+            sender.sendMessage(l.getColoredString("unban.unban").replace("<name>", ban.getName()));
         } else {
             localeManager.sendUsage(sender, cmd, l);
         }

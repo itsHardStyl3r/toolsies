@@ -29,7 +29,7 @@ public class MessagingManagement {
         Locale targetLocale = userManager.determineLocale(target);
         if (sender instanceof Player p) {
             if (p.getUniqueId().equals(target.getUniqueId())) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("msg.text_self"))
+                sender.sendMessage(l.getColoredString("msg.text_self")
                         .replace("<time>", localeManager.getTime(time))
                         .replace("<name>", sender.getName())
                         .replace("<message>", message));
@@ -37,17 +37,17 @@ public class MessagingManagement {
             }
             messagingManager.setConversation(p.getUniqueId(), target.getUniqueId());
         }
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("msg.text_sender"))
+        sender.sendMessage(l.getColoredString("msg.text_sender")
                 .replace("<time>", localeManager.getTime(time))
                 .replace("<name>", target.getName())
                 .replace("<message>", message));
         if (!hasTargetMsgToggled || canBypassToggle)
-            target.sendMessage(ChatColor.translateAlternateColorCodes('&', targetLocale.getString("msg.text_target"))
+            target.sendMessage(targetLocale.getColoredString("msg.text_target")
                     .replace("<time>", localeManager.getTime(time))
                     .replace("<name>", sender.getName())
                     .replace("<message>", message));
         if (hasTargetMsgToggled && canBypassToggle)
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("msg.target_toggled_info"))
+            sender.sendMessage(l.getColoredString("msg.target_toggled_info")
                     .replace("<name>", target.getName()));
         messagingManager.doSocialSpy(sender, target, message);
         target.playSound(target.getLocation(), Sound.BLOCK_LAVA_POP, 30F, 1.2F);

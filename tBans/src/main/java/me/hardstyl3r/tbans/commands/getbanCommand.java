@@ -7,7 +7,6 @@ import me.hardstyl3r.tbans.objects.Punishment;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,40 +32,30 @@ public class getbanCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.getban")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.getban"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.getban"));
             return true;
         }
         if (args.length == 1) {
             String target = args[0];
             punishmentManager.deleteIfExpired(PunishmentType.BAN, target);
             if (!punishmentManager.isPunished(PunishmentType.BAN, target)) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("unban.is_not_banned")).replace("<name>", target));
+                sender.sendMessage(l.getColoredString("unban.is_not_banned").replace("<name>", target));
                 return true;
             }
             Punishment ban = punishmentManager.getPunishment(PunishmentType.BAN, target);
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("getban.getban_header")).replace("<name>", target).replace("<id>", String.valueOf(ban.getId())));
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("getban.entries.type")).replace("<type>", ban.getType().name()));
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("getban.entries.admin")).replace("<admin>", ban.getAdmin()));
+            sender.sendMessage(l.getColoredString("getban.getban_header").replace("<name>", target).replace("<id>", String.valueOf(ban.getId())));
+            sender.sendMessage(l.getColoredString("getban.entries.type").replace("<type>", ban.getType().name()));
+            sender.sendMessage(l.getColoredString("getban.entries.admin").replace("<admin>", ban.getAdmin()));
             if (ban.getReason() != null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("getban.entries.reason")).replace("<reason>", ban.getReason()));
+                sender.sendMessage(l.getColoredString("getban.entries.reason").replace("<reason>", ban.getReason()));
             }
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("getban.entries.date")).replace("<date>", localeManager.getFullDate(ban.getDate())));
+            sender.sendMessage(l.getColoredString("getban.entries.date").replace("<date>", localeManager.getFullDate(ban.getDate())));
             if (ban.getDuration() != null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("getban.entries.duration")).replace("<duration>", localeManager.getFullDate(ban.getDuration())));
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("getban.entries.remaining")).replace("<remaining>", localeManager.parseTimeWithTranslate(ban.getRemaining(), l)));
+                sender.sendMessage(l.getColoredString("getban.entries.duration").replace("<duration>", localeManager.getFullDate(ban.getDuration())));
+                sender.sendMessage(l.getColoredString("getban.entries.remaining").replace("<remaining>", localeManager.parseTimeWithTranslate(ban.getRemaining(), l)));
             }
             if (ban.getUUID() != null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("getban.entries.uuid")).replace("<uuid>", ban.getUUID().toString()));
+                sender.sendMessage(l.getColoredString("getban.entries.uuid").replace("<uuid>", ban.getUUID().toString()));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

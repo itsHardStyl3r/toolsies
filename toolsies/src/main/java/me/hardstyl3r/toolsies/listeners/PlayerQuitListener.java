@@ -4,7 +4,6 @@ import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.User;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,8 +24,7 @@ public class PlayerQuitListener implements Listener {
         Player target = e.getPlayer();
         for (Player p : Bukkit.getOnlinePlayers()) {
             User users = userManager.getUser(p);
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    users.getLocale().getString("players.quit.broadcast")).replace("<name>", target.getName()));
+            p.sendMessage(users.getLocale().getColoredString("players.quit.broadcast").replace("<name>", target.getName()));
         }
     }
 }

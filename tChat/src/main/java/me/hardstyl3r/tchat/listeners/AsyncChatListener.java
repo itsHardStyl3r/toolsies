@@ -6,7 +6,6 @@ import me.hardstyl3r.tchat.managers.ChatManager;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -32,7 +31,7 @@ public class AsyncChatListener implements Listener {
             return;
         }
         Locale l = userManager.determineLocale(p);
-        p.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("chat.toggle.chat_locked")));
+        p.sendMessage(l.getColoredString("chat.toggle.chat_locked"));
         e.setCancelled(true);
     }
 
@@ -46,7 +45,7 @@ public class AsyncChatListener implements Listener {
         } else {
             Long chatCooldown = chatManager.getChatCooldown(p).getRemaining();
             Locale l = userManager.determineLocale(p.getUniqueId());
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("chat.cooldown.chat.onChat"))
+            p.sendMessage(l.getColoredString("chat.cooldown.chat.onChat")
                     .replace("<time>", localeManager.parseTimeWithTranslate(chatCooldown, l)));
 
             e.setCancelled(true);

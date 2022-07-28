@@ -7,7 +7,6 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,8 +34,7 @@ public class getbanipCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.getban-ip")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.getban-ip"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.getban-ip"));
             return true;
         }
         if (args.length == 1) {
@@ -46,8 +44,7 @@ public class getbanipCommand implements CommandExecutor, TabCompleter {
                 try {
                     target = InetAddress.getByName(args[0]);
                 } catch (Exception e) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("ban-ip.incorrect_address")));
+                    sender.sendMessage(l.getColoredString("ban-ip.incorrect_address"));
                     return true;
                 }
             } else {
@@ -55,28 +52,20 @@ public class getbanipCommand implements CommandExecutor, TabCompleter {
             }
             punishmentManager.deleteIfExpired(target);
             if (!punishmentManager.isBanned(target)) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("unban.is_not_banned")).replace("<name>", target.getHostAddress()));
+                sender.sendMessage(l.getColoredString("unban.is_not_banned").replace("<name>", target.getHostAddress()));
                 return true;
             }
             Punishment ban = punishmentManager.getBan(target);
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("getban.getban_header")).replace("<name>", target.getHostAddress()).replace("<id>", String.valueOf(ban.getId())));
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("getban.entries.type")).replace("<type>", ban.getType().name()));
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("getban.entries.admin")).replace("<admin>", ban.getAdmin()));
+            sender.sendMessage(l.getColoredString("getban.getban_header").replace("<name>", target.getHostAddress()).replace("<id>", String.valueOf(ban.getId())));
+            sender.sendMessage(l.getColoredString("getban.entries.type").replace("<type>", ban.getType().name()));
+            sender.sendMessage(l.getColoredString("getban.entries.admin").replace("<admin>", ban.getAdmin()));
             if (ban.getReason() != null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("getban.entries.reason")).replace("<reason>", ban.getReason()));
+                sender.sendMessage(l.getColoredString("getban.entries.reason").replace("<reason>", ban.getReason()));
             }
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("getban.entries.date")).replace("<date>", localeManager.getFullDate(ban.getDate())));
+            sender.sendMessage(l.getColoredString("getban.entries.date").replace("<date>", localeManager.getFullDate(ban.getDate())));
             if (ban.getDuration() != null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("getban.entries.duration")).replace("<duration>", localeManager.getFullDate(ban.getDuration())));
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("getban.entries.remaining")).replace("<remaining>", localeManager.parseTimeWithTranslate(ban.getRemaining(), l)));
+                sender.sendMessage(l.getColoredString("getban.entries.duration").replace("<duration>", localeManager.getFullDate(ban.getDuration())));
+                sender.sendMessage(l.getColoredString("getban.entries.remaining").replace("<remaining>", localeManager.parseTimeWithTranslate(ban.getRemaining(), l)));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

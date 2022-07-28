@@ -27,7 +27,7 @@ public class toolsiesCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player) {
             User u = userManager.getUser(sender);
             if (!sender.hasPermission("toolsies.toolsies")) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', u.getLocale().getString("no_permission")).replace("<permission>", "toolsies.locale"));
+                sender.sendMessage(u.getLocale().getColoredString("no_permission").replace("<permission>", "toolsies.locale"));
                 return true;
             }
         }

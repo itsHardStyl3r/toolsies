@@ -9,7 +9,6 @@ import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.utils.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,31 +35,26 @@ public class unwarnCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.unwarn")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.unwarn"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.unwarn"));
             return true;
         }
         if (args.length == 1) {
             if (!StringUtils.isNumeric(args[0])) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("unwarn.wrong_id")));
+                sender.sendMessage(l.getColoredString("unwarn.wrong_id"));
                 return true;
             }
             int i = Integer.parseInt(args[0]);
             Punishment warn = punishmentManager.getPunishmentById(PunishmentType.WARN, i);
             punishmentManager.deleteIfExpired(warn);
             if (warn == null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("unwarn.no_such_warn")).replace("<id>", args[0]));
+                sender.sendMessage(l.getColoredString("unwarn.no_such_warn").replace("<id>", args[0]));
                 return true;
             }
             punishmentManager.deletePunishment(warn, sender.getName());
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("unwarn.unwarn")).replace("<id>", args[0]));
+            sender.sendMessage(l.getColoredString("unwarn.unwarn").replace("<id>", args[0]));
             Player p = Bukkit.getPlayer(warn.getUUID());
             if (Bukkit.getPlayer(warn.getUUID()) != null) {
-                p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                userManager.determineLocale(p).getString("unwarn.unwarn_target"))
+                p.sendMessage(userManager.determineLocale(p).getColoredString("unwarn.unwarn_target")
                         .replace("<admin>", sender.getName()));
             }
         } else {

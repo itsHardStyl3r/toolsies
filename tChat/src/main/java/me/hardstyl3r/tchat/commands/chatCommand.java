@@ -36,8 +36,7 @@ public class chatCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.chat")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.chat"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.chat"));
             return true;
         }
         if (args.length == 1) {

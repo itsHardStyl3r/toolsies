@@ -8,7 +8,6 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.utils.StringUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,37 +33,28 @@ public class getwarnCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.getwarn")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.getwarn"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.getwarn"));
             return true;
         }
         if (args.length == 1) {
             if (!StringUtils.isNumeric(args[0])) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("getwarn.wrong_id")));
+                sender.sendMessage(l.getColoredString("getwarn.wrong_id"));
                 return true;
             }
             int i = Integer.parseInt(args[0]);
             Punishment warn = punishmentManager.getPunishmentById(PunishmentType.WARN, i);
             punishmentManager.deleteIfExpired(warn);
             if (warn == null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("getwarn.no_such_warn")).replace("<id>", args[0]));
+                sender.sendMessage(l.getColoredString("getwarn.no_such_warn").replace("<id>", args[0]));
                 return true;
             }
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("getwarn.getwarn_header")).replace("<id>", args[0]).replace("<name>", warn.getName()));
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("getwarn.entries.admin")).replace("<admin>", warn.getAdmin()));
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("getwarn.entries.reason")).replace("<reason>", warn.getReason()));
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("getwarn.entries.date")).replace("<date>", localeManager.getFullDate(warn.getDate())));
+            sender.sendMessage(l.getColoredString("getwarn.getwarn_header").replace("<id>", args[0]).replace("<name>", warn.getName()));
+            sender.sendMessage(l.getColoredString("getwarn.entries.admin").replace("<admin>", warn.getAdmin()));
+            sender.sendMessage(l.getColoredString("getwarn.entries.reason").replace("<reason>", warn.getReason()));
+            sender.sendMessage(l.getColoredString("getwarn.entries.date").replace("<date>", localeManager.getFullDate(warn.getDate())));
             if (warn.getDuration() != null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("getwarn.entries.duration")).replace("<duration>", localeManager.getFullDate(warn.getDuration())));
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("getwarn.entries.remaining")).replace("<remaining>", localeManager.parseTimeWithTranslate(warn.getRemaining(), l)));
+                sender.sendMessage(l.getColoredString("getwarn.entries.duration").replace("<duration>", localeManager.getFullDate(warn.getDuration())));
+                sender.sendMessage(l.getColoredString("getwarn.entries.remaining").replace("<remaining>", localeManager.parseTimeWithTranslate(warn.getRemaining(), l)));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

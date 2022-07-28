@@ -4,7 +4,6 @@ import me.hardstyl3r.tchat.TChat;
 import me.hardstyl3r.tchat.managers.MessagingManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,16 +29,15 @@ public class socialspyCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("console_sender")));
+            sender.sendMessage(l.getColoredString(l.getString("console_sender")));
             return true;
         }
         if (!sender.hasPermission("toolsies.socialspy")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.socialspy"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.socialspy"));
             return true;
         }
         UUID uuid = ((Player) sender).getUniqueId();
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("socialspy.toggle_" + messagingManager.hasSocialspyToggled(uuid))));
+        sender.sendMessage(l.getColoredString("socialspy.toggle_" + messagingManager.hasSocialspyToggled(uuid)));
         messagingManager.toggleSocialspy(uuid);
         return true;
     }

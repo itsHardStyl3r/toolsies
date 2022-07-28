@@ -32,8 +32,7 @@ public class PlayerJoinListener implements Listener {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (p != target) {
                     User users = userManager.getUser(p);
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            users.getLocale().getString("players.join.new_player")).replace("<name>", target.getName()));
+                    p.sendMessage(users.getLocale().getColoredString("players.join.new_player").replace("<name>", target.getName()));
                 }
             }
             userManager.createUser(target);
@@ -56,8 +55,7 @@ public class PlayerJoinListener implements Listener {
         User u = userManager.getUser(target);
         for (Player p : Bukkit.getOnlinePlayers()) {
             User users = userManager.getUser(p);
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    users.getLocale().getString("players.join.broadcast")).replace("<name>", target.getName()));
+            p.sendMessage(users.getLocale().getColoredString("players.join.broadcast").replace("<name>", target.getName()));
         }
 
         for (String s : u.getLocale().getStringList("players.join.motd")) {

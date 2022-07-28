@@ -7,7 +7,6 @@ import me.hardstyl3r.tbans.objects.Punishment;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,8 +34,7 @@ public class warnsCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.warns")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.warns"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.warns"));
             return true;
         }
         if (!(sender instanceof Player)) {
@@ -55,21 +53,18 @@ public class warnsCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 if (userManager.getUser(target) == null) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("players.unknown")).replace("<name>", args[0]));
+                    sender.sendMessage(l.getColoredString("players.unknown").replace("<name>", args[0]));
                     return true;
                 }
                 warns = punishmentManager.getPunishments(PunishmentType.WARN, target);
             }
             warns.removeIf(punishmentManager::deleteIfExpired);
             if (warns.isEmpty()) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getString("warns.no_warns" + ((sender.getName().equalsIgnoreCase(target)) ? "" : "_sender")))
+                sender.sendMessage(l.getColoredString("warns.no_warns" + ((sender.getName().equalsIgnoreCase(target)) ? "" : "_sender"))
                         .replace("<name>", target));
                 return true;
             }
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("warns.warns" + ((sender.getName().equalsIgnoreCase(target)) ? "" : "_sender")))
+            sender.sendMessage(l.getColoredString("warns.warns" + ((sender.getName().equalsIgnoreCase(target)) ? "" : "_sender"))
                     .replace("<warns>", printWarns(warns))
                     .replace("<total>", String.valueOf(warns.size()))
                     .replace("<name>", target));

@@ -8,7 +8,6 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,26 +34,22 @@ public class unmuteCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.unmute")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.unmute"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.unmute"));
             return true;
         }
         if (args.length == 1) {
             String target = args[0];
             punishmentManager.deleteIfExpired(PunishmentType.MUTE, target);
             if (!punishmentManager.isPunished(PunishmentType.MUTE, target)) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("unmute.is_not_muted")).replace("<name>", target));
+                sender.sendMessage(l.getColoredString("unmute.is_not_muted").replace("<name>", target));
                 return true;
             }
             Punishment mute = punishmentManager.getPunishment(PunishmentType.MUTE, target);
             punishmentManager.deletePunishment(mute, sender.getName());
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("unmute.unmute")).replace("<name>", mute.getName()));
+            sender.sendMessage(l.getColoredString("unmute.unmute").replace("<name>", mute.getName()));
             Player p = Bukkit.getPlayer(mute.getUUID());
             if (Bukkit.getPlayer(mute.getUUID()) != null) {
-                p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                userManager.determineLocale(p).getString("unmute.unmute_target"))
+                p.sendMessage(userManager.determineLocale(p).getColoredString("unmute.unmute_target")
                         .replace("<admin>", sender.getName()));
             }
         } else {

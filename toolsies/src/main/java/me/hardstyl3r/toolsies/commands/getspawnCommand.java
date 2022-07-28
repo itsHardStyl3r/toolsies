@@ -43,7 +43,7 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (!sender.hasPermission("toolsies.getspawn")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("no_permission")).replace("<permission>", "toolsies.getspawn"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.getspawn"));
             return true;
         }
         if (args.length <= 1) {
@@ -53,8 +53,7 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
             }
             if (args.length == 1) {
                 if (Bukkit.getWorld(args[0]) == null) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                    l.getString("getspawn.unknown_world"))
+                    sender.sendMessage(l.getColoredString("getspawn.unknown_world")
                             .replace("<name>", args[0]));
                     return true;
                 } else if (locationManager.getSpawn(args[0]) == null) {
@@ -73,8 +72,7 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
                 w = Bukkit.getWorld(args[0]);
             }
             if (locationManager.getSpawn(w) == null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getString("getspawn.unknown_spawn"))
+                sender.sendMessage(l.getColoredString("getspawn.unknown_spawn")
                         .replace("<name>", args[0]));
                 return true;
             }

@@ -6,7 +6,6 @@ import me.hardstyl3r.tauth.objects.AuthUser;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,8 +32,7 @@ public class playtimeCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.playtime")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.playtime"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.playtime"));
             return true;
         }
         if (!(sender instanceof Player)) {
@@ -53,24 +51,18 @@ public class playtimeCommand implements CommandExecutor, TabCompleter {
                 if (loginManager.getAuth(args[0]) != null) {
                     authUser = loginManager.getAuth(args[0]);
                 } else {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("players.unknown")).replace("<name>", args[0]));
+                    sender.sendMessage(l.getColoredString("players.unknown").replace("<name>", args[0]));
                     return true;
                 }
             } else {
                 authUser = loginManager.getAuth((Player) sender);
             }
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("playtime.header")).replace("<name>", authUser.getName()));
-            if (authUser.isLoggedIn()) sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("playtime.session")).replace("<session>", localeManager.parseTimeWithTranslate(authUser.getSessionDuration(), l)));
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("playtime.total")).replace("<playtime>", localeManager.parseTimeWithTranslate(authUser.getPlaytime(), l)));
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("playtime.regdate")).replace("<regdate>", localeManager.getFullDate(authUser.getRegisterDate())));
+            sender.sendMessage(l.getColoredString("playtime.header").replace("<name>", authUser.getName()));
+            if (authUser.isLoggedIn()) sender.sendMessage(l.getColoredString("playtime.session").replace("<session>", localeManager.parseTimeWithTranslate(authUser.getSessionDuration(), l)));
+            sender.sendMessage(l.getColoredString("playtime.total").replace("<playtime>", localeManager.parseTimeWithTranslate(authUser.getPlaytime(), l)));
+            sender.sendMessage(l.getColoredString("playtime.regdate").replace("<regdate>", localeManager.getFullDate(authUser.getRegisterDate())));
             if (authUser.getName().equals(sender.getName()))
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("playtime.footer")));
+                sender.sendMessage(l.getColoredString("playtime.footer"));
         } else {
             localeManager.sendUsage(sender, cmd, l);
         }

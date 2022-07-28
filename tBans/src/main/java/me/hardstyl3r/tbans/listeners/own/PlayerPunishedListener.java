@@ -8,7 +8,6 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,8 +30,7 @@ public class PlayerPunishedListener implements Listener {
                 Punishment ban = e.getPunishment();
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     Locale l = userManager.determineLocale(p);
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                    l.getString(ban.getDuration() != null ? "tempban.tempban_broadcast" : "ban.ban_broadcast"))
+                    p.sendMessage(l.getColoredString(ban.getDuration() != null ? "tempban.tempban_broadcast" : "ban.ban_broadcast")
                             .replace("<name>", ban.getName())
                             .replace("<admin>", e.getSender())
                             .replace("<duration>", localeManager.parseTimeWithTranslate(ban.getRemaining(), l)));

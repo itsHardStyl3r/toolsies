@@ -7,7 +7,6 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -40,8 +39,7 @@ public class banipCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.ban-ip")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.ban-ip"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.ban-ip"));
             return true;
         }
         if (args.length > 0) {
@@ -51,8 +49,7 @@ public class banipCommand implements CommandExecutor, TabCompleter {
                 try {
                     target = InetAddress.getByName(args[0]);
                 } catch (Exception e) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("ban-ip.incorrect_address")));
+                    sender.sendMessage(l.getColoredString("ban-ip.incorrect_address"));
                     return true;
                 }
             } else {
@@ -60,22 +57,19 @@ public class banipCommand implements CommandExecutor, TabCompleter {
             }
             if (target instanceof Inet6Address) {
                 if (!config.getBoolean("ipv6BansEnabled")) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("ban-ip.ipv6_address")));
+                    sender.sendMessage(l.getColoredString("ban-ip.ipv6_address"));
                     return true;
                 }
             }
             punishmentManager.deleteIfExpired(target);
             if (punishmentManager.isBanned(target)) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("ban-ip.is_banned")).replace("<address>", target.getHostAddress()));
+                sender.sendMessage(l.getColoredString("ban-ip.is_banned").replace("<address>", target.getHostAddress()));
                 return true;
             }
             String admin = sender.getName();
             String reason = (args.length > 1 ? localeManager.createMessage(args, 1) : null);
             Punishment punishment = punishmentManager.createPunishment(target, admin, reason, null);
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("ban-ip.ban-ip")).replace("<address>", target.getHostAddress()));
+            sender.sendMessage(l.getColoredString("ban-ip.ban-ip").replace("<address>", target.getHostAddress()));
             for (Player kick : Bukkit.getOnlinePlayers()) {
                 if (kick.getAddress().getAddress().equals(target)) {
                     kick.kickPlayer(punishmentManager.formatMessage(punishment, userManager.determineLocale(kick), "kick"));

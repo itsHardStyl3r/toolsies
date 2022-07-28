@@ -35,29 +35,25 @@ public class kickCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.kick")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.kick"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.kick"));
             return true;
         }
         if (args.length > 0) {
             String target = args[0];
             if (userManager.getUser(target) == null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("players.unknown")).replace("<name>", args[0]));
+                sender.sendMessage(l.getColoredString("players.unknown").replace("<name>", args[0]));
                 return true;
             }
             if (!punishmentManager.canSenderPunishTarget(sender, target, type)) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("kick.priority_too_high")));
+                sender.sendMessage(l.getColoredString("kick.priority_too_high"));
                 return true;
             }
             if (Bukkit.getPlayerExact(target) == null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("players.offline")).replace("<name>", args[0]));
+                sender.sendMessage(l.getColoredString("players.offline").replace("<name>", args[0]));
                 return true;
             }
             String reason = (args.length > 1 ? localeManager.createMessage(args, 1) : null);
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("kick.kick")).replace("<name>", target));
+            sender.sendMessage(l.getColoredString("kick.kick").replace("<name>", target));
             Player p = Bukkit.getPlayerExact(target);
             if (Bukkit.getPlayerExact(target) != null) {
                 p.kickPlayer(ChatColor.translateAlternateColorCodes('&', constructMessage(userManager.determineLocale(p), sender.getName(), reason)));

@@ -7,7 +7,6 @@ import me.hardstyl3r.tauth.objects.AuthUser;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,12 +35,11 @@ public class logoutCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("console_sender")));
+            sender.sendMessage(l.getColoredString("console_sender"));
             return true;
         }
         if (!sender.hasPermission("toolsies.logout")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.logout"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.logout"));
             return true;
         }
         if (args.length == 0) {
@@ -49,17 +47,14 @@ public class logoutCommand implements CommandExecutor, TabCompleter {
             AuthUser user = loginManager.getAuth(p);
             if (user != null) {
                 if (!user.isLoggedIn()) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("logout.not_logged_in")));
+                    sender.sendMessage(l.getColoredString("logout.not_logged_in"));
                     return true;
                 }
             }
             loginManagement.performLogout(p);
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("logout.logged_out")));
+            sender.sendMessage(l.getColoredString("logout.logged_out"));
         } else {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("logout.usage")));
+            sender.sendMessage(l.getColoredString("logout.usage"));
         }
         return true;
     }

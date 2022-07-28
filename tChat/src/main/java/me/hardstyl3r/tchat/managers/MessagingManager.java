@@ -120,7 +120,7 @@ public class MessagingManager {
                         hasSocialspyToggled(victim.getUniqueId()))
                     return;
                 Locale l = userManager.determineLocale(socialSpy);
-                socialSpy.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("socialspy.broadcast"))
+                socialSpy.sendMessage(l.getColoredString("socialspy.broadcast")
                         .replace("<attacker>", attacker.getName())
                         .replace("<victim>", victim.getName())
                         .replace("<message>", ChatColor.stripColor(message)));

@@ -7,7 +7,6 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -37,25 +36,22 @@ public class replyCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getString("console_sender")));
+            sender.sendMessage(l.getColoredString("console_sender"));
             return true;
         }
         if (!sender.hasPermission("toolsies.reply")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.reply"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.reply"));
             return true;
         }
         if (args.length > 0) {
             Player p = (Player) sender;
             UUID victim = messagingManager.getConversation(p);
             if (victim == null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("reply.has_no_convo")));
+                sender.sendMessage(l.getColoredString("reply.has_no_convo"));
                 return true;
             }
             if (Bukkit.getPlayer(victim) == null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("reply.recipient_offline")));
+                sender.sendMessage(l.getColoredString("reply.recipient_offline"));
                 return true;
             }
             Player target = Bukkit.getPlayer(messagingManager.getConversation(p));

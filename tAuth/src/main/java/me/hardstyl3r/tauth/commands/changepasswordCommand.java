@@ -9,7 +9,6 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -40,8 +39,7 @@ public class changepasswordCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         if (!sender.hasPermission("toolsies.changepassword")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.changepassword"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.changepassword"));
             return true;
         }
         if (args.length == 2) {
@@ -50,26 +48,22 @@ public class changepasswordCommand implements CommandExecutor, TabCompleter {
             String oldPassword = args[0];
             String newPassword = args[1];
             if (!loginManager.passwordMatches(authUser, oldPassword)) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("changepassword.incorrect_password")));
+                sender.sendMessage(l.getColoredString("changepassword.incorrect_password"));
                 loginManager.pushAuthHistory(authUser, AuthType.CHANGEPW, false, null);
                 return true;
             }
             if (loginManager.validatePassword(sender, newPassword, l)) return true;
             if (loginManager.changePassword(authUser, newPassword)) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("changepassword.changed")));
+                sender.sendMessage(l.getColoredString("changepassword.changed"));
                 Bukkit.getPluginManager().callEvent(
                         new PlayerAuthSuccessfulEvent(p, authUser, AuthType.CHANGEPW));
                 loginManager.pushAuthHistory(authUser, AuthType.CHANGEPW, true, null);
             } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        l.getString("changepassword.change_failed")));
+                sender.sendMessage(l.getColoredString("changepassword.change_failed"));
                 loginManager.pushAuthHistory(authUser, AuthType.CHANGEPW, false, null);
             }
         } else {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("changepassword.usage")));
+            sender.sendMessage(l.getColoredString("changepassword.usage"));
         }
         return true;
     }

@@ -8,7 +8,6 @@ import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.utils.LogUtil;
 import me.hardstyl3r.toolsies.utils.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,16 +35,14 @@ public class banlistCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.banlist")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    l.getString("no_permission")).replace("<permission>", "toolsies.banlist"));
+            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.banlist"));
             return true;
         }
         if (args.length <= 1) {
             int arg = 0;
             if (args.length == 1) {
                 if (!StringUtils.isNumeric(args[0])) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("banlist.unknown_page")));
+                    sender.sendMessage(l.getColoredString("banlist.unknown_page"));
                     return true;
                 }
                 arg = Integer.parseInt(args[0]);
@@ -69,31 +66,26 @@ public class banlistCommand implements CommandExecutor, TabCompleter {
                     rs.close();
                     int maxpages = total / 5;
                     if (maxpages < finalArg) {
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                l.getString("banlist.unknown_page")));
+                        sender.sendMessage(l.getColoredString("banlist.unknown_page"));
                         return;
                     }
                     p = connection.prepareCall(page);
                     p.execute();
                     rs = p.getResultSet();
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                    l.getString("banlist.banlist_header"))
+                    sender.sendMessage(l.getColoredString("banlist.banlist_header")
                             .replace("<page>", String.valueOf(finalArg))
                             .replace("<maxpages>", String.valueOf(maxpages))
                             .replace("<total>", String.valueOf(total)));
                     long current = System.currentTimeMillis();
                     while (rs.next()) {
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                        l.getString("banlist.banlist_" + (rs.getLong("duration") != 0L ? "tempban" : "ban") + "_entry"))
+                        sender.sendMessage(l.getColoredString("banlist.banlist_" + (rs.getLong("duration") != 0L ? "tempban" : "ban") + "_entry")
                                 .replace("<name>", rs.getString("name"))
                                 .replace("<date>", localeManager.getFullDate(rs.getLong("date")))
                                 .replace("<duration>", localeManager.parseTimeWithTranslate((rs.getLong("duration") - current), l)));
                     }
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("banlist.banlist_footer")));
+                    sender.sendMessage(l.getColoredString("banlist.banlist_footer"));
                 } catch (SQLException e) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            l.getString("banlist.failed")));
+                    sender.sendMessage(l.getColoredString("banlist.failed"));
                     LogUtil.error("[tBans] banlistCommand(): " + e + ".");
                     e.printStackTrace();
                 } finally {
