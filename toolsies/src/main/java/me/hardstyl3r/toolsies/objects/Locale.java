@@ -1,5 +1,6 @@
 package me.hardstyl3r.toolsies.objects;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -49,6 +50,10 @@ public class Locale {
 
     public String getString(String path) {
         return config.getString(path, path);
+    }
+
+    public String getColoredString(String path){
+        return ChatColor.translateAlternateColorCodes('&', getString(path));
     }
 
     public List<String> getStringList(String path) {
