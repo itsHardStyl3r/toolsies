@@ -98,6 +98,7 @@ broadcast:
   usage:
     broadcast: "/broadcast <message> - broadcasts a message"
     console-broadcast: "/broadcast <message> - broadcasts a message"
+  style: "&8[&bBroadcast&8] &7<message>"
 
 permission:
   usage:

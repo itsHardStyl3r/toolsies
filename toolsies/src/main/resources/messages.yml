@@ -13,5 +13,3 @@ groups:
     moderator: "&aMOD&f <name>: <message>"
     admin: "&2&lADMIN&f <name>: <message>"
     owner: "&4&lOWNER&7 <name>&7: &6<message>"
-
-broadcast: " &6&l>> &f&l<message>"

@@ -97,6 +97,7 @@ broadcast:
   usage:
     broadcast: "/broadcast <wiadomość> - ogłasza wiadomość"
     console-broadcast: "/broadcast <wiadomość> - ogłasza wiadomość"
+  style: "&8[&bOgłoszenie&8] &7<message>"
 
 permission:
   usage:

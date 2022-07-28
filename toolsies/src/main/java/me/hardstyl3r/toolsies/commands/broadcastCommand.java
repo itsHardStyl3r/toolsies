@@ -40,7 +40,10 @@ public class broadcastCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         if (args.length > 0) {
-            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', localeManager.getConfig().getString("broadcast").replace("<message>", localeManager.createMessage(args, 0))));
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                Locale broadcast = userManager.determineLocale(p);
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', broadcast.getString("broadcast.style").replace("<message>", localeManager.createMessage(args, 0))));
+            }
         } else {
             localeManager.sendUsage(sender, cmd, l);
         }
