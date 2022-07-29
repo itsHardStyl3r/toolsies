@@ -34,8 +34,8 @@ public class TPerms extends JavaPlugin {
             if (toolsies == null || !toolsies.isEnabled())
                 throw new Exception("toolsies is null or not enabled");
             double version = Double.parseDouble(toolsies.getDescription().getVersion().split("-")[0]);
-            if (version < 0.10)
-                throw new Exception("unsupported toolsies version (<0.10)");
+            if (version < 0.12)
+                throw new Exception("unsupported toolsies version (<0.12)");
         } catch (Exception e) {
             LogUtil.error("[tPerms] Could not hook into toolsies: " + e + ". Disabling.");
             this.setEnabled(false);
