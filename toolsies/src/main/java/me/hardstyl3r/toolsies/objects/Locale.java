@@ -1,5 +1,8 @@
 package me.hardstyl3r.toolsies.objects;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,6 +17,7 @@ public class Locale {
     private final FileConfiguration config;
     private List<String> aliases;
     private String name;
+    private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     public Locale(String id, FileConfiguration config) {
         this.id = id;
@@ -52,7 +56,7 @@ public class Locale {
         return config.getString(path, path);
     }
 
-    public String getColoredString(String path){
+    public String getColoredString(String path) {
         return ChatColor.translateAlternateColorCodes('&', getString(path));
     }
 
@@ -63,5 +67,26 @@ public class Locale {
     public Set<String> getConfigurationSection(String path) {
         ConfigurationSection configurationSection = config.getConfigurationSection(path);
         return configurationSection == null ? Collections.emptySet() : configurationSection.getKeys(false);
+    }
+
+    /**
+     * A function supporting MiniMessage API to return message Component.
+     *
+     * @param path A path in messages-*.yml
+     * @return A deserialized component from String.
+     */
+    public Component getStringComponent(String path) {
+        return miniMessage.deserialize(getString(path));
+    }
+
+    /**
+     * A function supporting MiniMessage API to return message Component.
+     *
+     * @param path A path in messages-*.yml
+     * @param tags Placeholders to be replaced in the message.
+     * @return A deserialized component from String with Placeholders.
+     */
+    public Component getStringComponent(String path, TagResolver... tags) {
+        return miniMessage.deserialize(getString(path), tags);
     }
 }
