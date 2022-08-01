@@ -14,8 +14,7 @@ public class Hikari {
 
     public Hikari(ConfigManager configManager) throws SQLException {
         this.config = configManager.getConfig();
-        if (config.getString("database.user") == null || config.getString("database.password") == null ||
-                config.getString("database.user").isBlank() || config.getString("database.password").isBlank()) {
+        if (config.getString("database.user") == null || config.getString("database.user").isBlank()) {
             LogUtil.error("[toolsies] MySQL connection credentials are not specified in config.yml.");
             throw new RuntimeException("Incorrect connection credentials.");
         }
