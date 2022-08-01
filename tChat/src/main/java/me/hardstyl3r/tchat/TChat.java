@@ -25,6 +25,7 @@ public class TChat extends JavaPlugin {
     private MessagingManager messagingManager;
     private MessagingManagement messagingManagement;
     private YamlConfiguration config;
+    private boolean crash = false;
 
     public static TChat getInstance() {
         return instance;
@@ -43,6 +44,7 @@ public class TChat extends JavaPlugin {
                 throw new Exception("unsupported toolsies version (<0.12)");
         } catch (Exception e) {
             LogUtil.error("[tChat] Could not hook into toolsies: " + e + ". Disabling.");
+            crash = true;
             this.setEnabled(false);
             return;
         }
@@ -66,6 +68,7 @@ public class TChat extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (crash) return;
         LogUtil.info("[tChat] Stopping! Starting synchronous task to save data.");
         messagingManager.saveData();
     }
