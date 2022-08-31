@@ -3,6 +3,7 @@ package me.hardstyl3r.tchat.managers;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
@@ -29,26 +30,16 @@ public class MessagingManagement {
         Locale targetLocale = userManager.determineLocale(target);
         if (sender instanceof Player p) {
             if (p.getUniqueId().equals(target.getUniqueId())) {
-                sender.sendMessage(l.getColoredString("msg.text_self")
-                        .replace("<time>", localeManager.getTime(time))
-                        .replace("<name>", sender.getName())
-                        .replace("<message>", message));
+                sender.sendMessage(l.getStringComponent("msg.text_self", Placeholder.unparsed("time", localeManager.getTime(time)), Placeholder.unparsed("name", sender.getName()), Placeholder.unparsed("message", message)));
                 return;
             }
             messagingManager.setConversation(p.getUniqueId(), target.getUniqueId());
         }
-        sender.sendMessage(l.getColoredString("msg.text_sender")
-                .replace("<time>", localeManager.getTime(time))
-                .replace("<name>", target.getName())
-                .replace("<message>", message));
+        sender.sendMessage(l.getStringComponent("msg.text_sender", Placeholder.unparsed("time", localeManager.getTime(time)), Placeholder.unparsed("name", target.getName()), Placeholder.unparsed("message", message)));
         if (!hasTargetMsgToggled || canBypassToggle)
-            target.sendMessage(targetLocale.getColoredString("msg.text_target")
-                    .replace("<time>", localeManager.getTime(time))
-                    .replace("<name>", sender.getName())
-                    .replace("<message>", message));
+            target.sendMessage(targetLocale.getStringComponent("msg.text_target", Placeholder.unparsed("time", localeManager.getTime(time)), Placeholder.unparsed("name", sender.getName()), Placeholder.unparsed("message", message)));
         if (hasTargetMsgToggled && canBypassToggle)
-            sender.sendMessage(l.getColoredString("msg.target_toggled_info")
-                    .replace("<name>", target.getName()));
+            sender.sendMessage(l.getStringComponent("msg.target_toggled_info", Placeholder.unparsed("name", target.getName())));
         messagingManager.doSocialSpy(sender, target, message);
         target.playSound(target.getLocation(), Sound.BLOCK_LAVA_POP, 30F, 1.2F);
     }

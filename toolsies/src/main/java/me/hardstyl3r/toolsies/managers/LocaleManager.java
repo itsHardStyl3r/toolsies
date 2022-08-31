@@ -3,6 +3,7 @@ package me.hardstyl3r.toolsies.managers;
 import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.utils.LogUtil;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -79,12 +80,12 @@ public class LocaleManager {
         if (!(sender instanceof Player)) {
             for (String s : locale.getConfigurationSection(command + ".usage")) {
                 if (s.startsWith("console-")) {
-                    sender.sendMessage(locale.getString(command + ".usage." + s));
+                    sender.sendMessage(locale.getStringComponent(command + ".usage." + s));
                 }
             }
             return;
         }
-        sender.sendMessage(locale.getColoredString("usage.header"));
+        sender.sendMessage(locale.getStringComponent("usage.header"));
         for (String s : locale.getConfigurationSection(command + ".usage")) {
             if (!s.startsWith("console-") && !s.equals("header") && !s.equals("style")) {
                 if (!s.startsWith("arg")) {
@@ -96,12 +97,12 @@ public class LocaleManager {
                         } else {
                             usage = usage.replace("[arg-player] ", "").replace("<arg-player> ", "");
                         }
-                        sender.sendMessage(locale.getColoredString("usage.format").replace("<usages>", usage));
+                        sender.sendMessage(locale.getStringComponent("usage.format", Placeholder.unparsed("<usages>", usage)));
                     }
                 } else {
                     String val = s.replace("-", ".").replace("arg", "").replaceAll("\\d", "");
                     if (sender.hasPermission("toolsies." + (val.isEmpty() ? command : val))) {
-                        sender.sendMessage(locale.getColoredString("usage.argument").replace("<args>", locale.getString(command + ".usage." + s)));
+                        sender.sendMessage(locale.getStringComponent("usage.argument", Placeholder.unparsed("<args>", locale.getString(command + ".usage." + s))));
                     }
                 }
             }

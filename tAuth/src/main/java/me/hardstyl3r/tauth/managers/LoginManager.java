@@ -10,6 +10,7 @@ import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.objects.User;
 import me.hardstyl3r.toolsies.utils.LogUtil;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -155,7 +156,7 @@ public class LoginManager {
                 if (online != null && rs.getBoolean("loggedin")) {
                     if (config.getBoolean("login.logoutOnReload", true)) {
                         Locale l = userManager.determineLocale(UUID.fromString(rs.getString("uuid")));
-                        online.sendMessage(l.getColoredString("login.reload_login"));
+                        online.sendMessage(l.getStringComponent("login.reload_login"));
                         online.setWalkSpeed(0F); //0.2
                         online.setFlySpeed(0F); //0.1
                     } else authUser.setLoggedIn(true);
@@ -321,15 +322,15 @@ public class LoginManager {
         int minLength = config.getInt("login.minPasswordLength");
         int maxLength = config.getInt("login.maxPasswordLength");
         if (config.getStringList("login.illegalPasswords").contains(password.toLowerCase())) {
-            sender.sendMessage(l.getColoredString("register.illegal_password"));
+            sender.sendMessage(l.getStringComponent("register.illegal_password"));
             return true;
         }
         if (password.length() <= minLength) {
-            sender.sendMessage(l.getColoredString("register.password_too_short").replace("<length>", String.valueOf(minLength)));
+            sender.sendMessage(l.getStringComponent("register.password_too_short", Placeholder.unparsed("length", String.valueOf(minLength))));
             return true;
         }
         if (password.length() >= maxLength) {
-            sender.sendMessage(l.getColoredString("register.password_too_long").replace("<length>", String.valueOf(maxLength)));
+            sender.sendMessage(l.getStringComponent("register.password_too_long", Placeholder.unparsed("length", String.valueOf(maxLength))));
             return true;
         }
         return false;
@@ -338,7 +339,7 @@ public class LoginManager {
     public boolean validatePassword(CommandSender sender, String password, String passwordConfirm, Locale l) {
         if (validatePassword(sender, password, l)) {
             if (!password.equals(passwordConfirm)) {
-                sender.sendMessage(l.getColoredString("register.passwords_do_not_match"));
+                sender.sendMessage(l.getStringComponent("register.passwords_do_not_match"));
                 return true;
             }
         }
@@ -359,7 +360,7 @@ public class LoginManager {
     public void setKickTask(Player p, AuthType type) {
         Locale l = userManager.determineLocale(p);
         int task = getServer().getScheduler().scheduleSyncDelayedTask(plugin, () ->
-                p.kickPlayer(l.getColoredString(type.name().toLowerCase() + ".timeout")), config.getInt("login." + type.name().toLowerCase() + "Timeout") * 20L);
+                p.kick(l.getStringComponent(type.name().toLowerCase() + ".timeout")), config.getInt("login." + type.name().toLowerCase() + "Timeout") * 20L);
         kickTasks.put(p.getUniqueId(), task);
     }
 

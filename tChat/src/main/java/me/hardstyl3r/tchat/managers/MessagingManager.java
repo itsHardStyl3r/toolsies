@@ -6,6 +6,7 @@ import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.utils.LogUtil;
 import me.hardstyl3r.toolsies.utils.StringUtils;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -120,10 +121,7 @@ public class MessagingManager {
                         hasSocialspyToggled(victim.getUniqueId()))
                     return;
                 Locale l = userManager.determineLocale(socialSpy);
-                socialSpy.sendMessage(l.getColoredString("socialspy.broadcast")
-                        .replace("<attacker>", attacker.getName())
-                        .replace("<victim>", victim.getName())
-                        .replace("<message>", ChatColor.stripColor(message)));
+                socialSpy.sendMessage(l.getStringComponent("socialspy.broadcast", Placeholder.unparsed("attacker", attacker.getName()), Placeholder.unparsed("victim", victim.getName()), Placeholder.unparsed("message", ChatColor.stripColor(message))));
             }
     }
 }
