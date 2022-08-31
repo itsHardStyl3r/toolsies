@@ -32,10 +32,10 @@ public class AuthPlayerPropsListeners implements Listener {
         Player p = e.getPlayer();
         AuthUser authUser = loginManager.getAuth(p);
         if (!authUser.isRegistered()) {
-            p.sendMessage(userManager.determineLocale(p).getColoredString("register.register"));
+            p.sendMessage(userManager.determineLocale(p).getStringComponent("register.register"));
             loginManager.setKickTask(p, AuthType.REGISTER);
         } else if (!authUser.isLoggedIn()) {
-            p.sendMessage(userManager.determineLocale(p).getColoredString("login.login"));
+            p.sendMessage(userManager.determineLocale(p).getStringComponent("login.login"));
             loginManager.setKickTask(p, AuthType.LOGIN);
         }
         loginManagement.initAuth(p);

@@ -3,6 +3,7 @@ package me.hardstyl3r.toolsies.listeners;
 import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.User;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +25,7 @@ public class PlayerQuitListener implements Listener {
         Player target = e.getPlayer();
         for (Player p : Bukkit.getOnlinePlayers()) {
             User users = userManager.getUser(p);
-            p.sendMessage(users.getLocale().getColoredString("players.quit.broadcast").replace("<name>", target.getName()));
+            p.sendMessage(users.getLocale().getStringComponent("players.quit.broadcast", Placeholder.unparsed("name", target.getName())));
         }
     }
 }

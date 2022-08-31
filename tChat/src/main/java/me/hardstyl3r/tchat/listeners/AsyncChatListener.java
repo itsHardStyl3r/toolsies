@@ -6,6 +6,7 @@ import me.hardstyl3r.tchat.managers.ChatManager;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,7 +32,7 @@ public class AsyncChatListener implements Listener {
             return;
         }
         Locale l = userManager.determineLocale(p);
-        p.sendMessage(l.getColoredString("chat.toggle.chat_locked"));
+        p.sendMessage(l.getStringComponent("chat.toggle.chat_locked"));
         e.setCancelled(true);
     }
 
@@ -45,9 +46,7 @@ public class AsyncChatListener implements Listener {
         } else {
             Long chatCooldown = chatManager.getChatCooldown(p).getRemaining();
             Locale l = userManager.determineLocale(p.getUniqueId());
-            p.sendMessage(l.getColoredString("chat.cooldown.chat.onChat")
-                    .replace("<time>", localeManager.parseTimeWithTranslate(chatCooldown, l)));
-
+            p.sendMessage(l.getStringComponent("chat.cooldown.chat.onChat", Placeholder.unparsed("time", localeManager.parseTimeWithTranslate(chatCooldown, l))));
             e.setCancelled(true);
         }
     }

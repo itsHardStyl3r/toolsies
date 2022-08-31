@@ -3,6 +3,7 @@ package me.hardstyl3r.toolsies.listeners;
 import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.User;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -32,7 +33,7 @@ public class PlayerJoinListener implements Listener {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (p != target) {
                     User users = userManager.getUser(p);
-                    p.sendMessage(users.getLocale().getColoredString("players.join.new_player").replace("<name>", target.getName()));
+                    p.sendMessage(users.getLocale().getStringComponent("players.join.new_player", Placeholder.unparsed("name", target.getName())));
                 }
             }
             userManager.createUser(target);
@@ -55,7 +56,7 @@ public class PlayerJoinListener implements Listener {
         User u = userManager.getUser(target);
         for (Player p : Bukkit.getOnlinePlayers()) {
             User users = userManager.getUser(p);
-            p.sendMessage(users.getLocale().getColoredString("players.join.broadcast").replace("<name>", target.getName()));
+            p.sendMessage(users.getLocale().getStringComponent("players.join.broadcast", Placeholder.unparsed("name", target.getName())));
         }
 
         for (String s : u.getLocale().getStringList("players.join.motd")) {

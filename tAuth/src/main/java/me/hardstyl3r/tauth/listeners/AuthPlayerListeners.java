@@ -7,6 +7,7 @@ import me.hardstyl3r.tauth.objects.AuthUser;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -38,15 +39,15 @@ public class AuthPlayerListeners implements Listener {
         String name = e.getName();
         if (!name.matches("^[\\w.]+$")) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
-                    userManager.determineLocale(e.getUniqueId()).getColoredString("login.wrong_nick"));
+                    userManager.determineLocale(e.getUniqueId()).getStringComponent("login.wrong_nick"));
         }
         if (name.length() < config.getInt("login.minNicknameLength")) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
-                    userManager.determineLocale(e.getUniqueId()).getColoredString("login.nick_too_short"));
+                    userManager.determineLocale(e.getUniqueId()).getStringComponent("login.nick_too_short"));
         }
         if (name.length() > config.getInt("login.maxNicknameLength")) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
-                    userManager.determineLocale(e.getUniqueId()).getColoredString("login.nick_too_long"));
+                    userManager.determineLocale(e.getUniqueId()).getStringComponent("login.nick_too_long"));
         }
     }
 
@@ -54,14 +55,14 @@ public class AuthPlayerListeners implements Listener {
     public void onPreLoginHighest(AsyncPlayerPreLoginEvent e) {
         if ((Bukkit.getPlayerExact(e.getName()) != null || Bukkit.getPlayer(e.getUniqueId()) != null) && !config.getBoolean("login.allowJoinWhenOnline")) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
-                    userManager.determineLocale(e.getUniqueId()).getColoredString("login.online_kick"));
+                    userManager.determineLocale(e.getUniqueId()).getStringComponent("login.online_kick"));
             return;
         }
         //See: LoginManager.getAuth();
         AuthUser authUser = loginManager.getAuth(e.getName());
         if (authUser != null && !authUser.getName().equals(e.getName())) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
-                    userManager.determineLocale(e.getUniqueId()).getColoredString("login.wrong_nick_casing"));
+                    userManager.determineLocale(e.getUniqueId()).getStringComponent("login.wrong_nick_casing"));
         }
     }
 
@@ -71,7 +72,7 @@ public class AuthPlayerListeners implements Listener {
             Player p = e.getPlayer();
             if (userManager.getUser(p) != null) {
                 if ((config.getBoolean("login.allowOperatorsOnFullServer") && p.isOp())) {
-                    p.sendMessage(userManager.determineLocale(p).getColoredString("login.full_server_join"));
+                    p.sendMessage(userManager.determineLocale(p).getStringComponent("login.full_server_join"));
                     e.allow();
                 }
             }
@@ -86,14 +87,14 @@ public class AuthPlayerListeners implements Listener {
             long chatDifference = localeManager.parseTimeFromString(config.getString("login.chat.minimumPlaytimeToChat")) - authUser.getPlaytime();
             if (chatDifference >= 0) {
                 Locale l = userManager.determineLocale(p);
-                p.sendMessage(l.getColoredString("auth.playtime_chat").replace("<time>", localeManager.parseTimeWithTranslate(chatDifference, l)));
+                p.sendMessage(l.getStringComponent("auth.playtime_chat", Placeholder.unparsed("time", localeManager.parseTimeWithTranslate(chatDifference, l))));
                 e.setCancelled(true);
             }
         } else {
             if (!config.getBoolean("login.chat.allowUnauthorisedToReceiveChat"))
                 for (Player rec : loginManager.getOnlineUnauthed()) e.getRecipients().remove(rec);
             if (config.getBoolean("login.chat.notifyUnauthorisedOnChat"))
-                p.sendMessage(userManager.determineLocale(p).getColoredString(authUser.isRegistered() ? "login.login" : "register.register"));
+                p.sendMessage(userManager.determineLocale(p).getStringComponent(authUser.isRegistered() ? "login.login" : "register.register"));
             if (!config.getBoolean("login.chat.allowUnauthorisedToChat")) e.setCancelled(true);
         }
     }
@@ -106,18 +107,18 @@ public class AuthPlayerListeners implements Listener {
         if (!login.isRegistered()) {
             if (!loginManager.getAllowedCommands(AuthType.REGISTER).contains(command)) {
                 if (config.getBoolean("login.commands.kickOnDisallowedCommand")) {
-                    p.kickPlayer(userManager.determineLocale(p).getColoredString("register.command_kick"));
+                    p.kick(userManager.determineLocale(p).getStringComponent("register.command_kick"));
                 } else {
-                    p.sendMessage(userManager.determineLocale(p).getColoredString("register.register"));
+                    p.sendMessage(userManager.determineLocale(p).getStringComponent("register.register"));
                 }
                 e.setCancelled(true);
             }
         } else if (!login.isLoggedIn()) {
             if (!loginManager.getAllowedCommands(AuthType.LOGIN).contains(command)) {
                 if (config.getBoolean("login.commands.kickOnDisallowedCommand")) {
-                    p.kickPlayer(userManager.determineLocale(p).getColoredString("login.command_kick"));
+                    p.kick(userManager.determineLocale(p).getStringComponent("login.command_kick"));
                 } else {
-                    p.sendMessage(userManager.determineLocale(p).getColoredString("login.login"));
+                    p.sendMessage(userManager.determineLocale(p).getStringComponent("login.login"));
                 }
                 e.setCancelled(true);
             }

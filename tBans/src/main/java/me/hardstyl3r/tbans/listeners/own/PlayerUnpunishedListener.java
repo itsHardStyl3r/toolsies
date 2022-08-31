@@ -5,6 +5,7 @@ import me.hardstyl3r.tbans.enums.PunishmentType;
 import me.hardstyl3r.tbans.events.PlayerUnpunishedEvent;
 import me.hardstyl3r.tbans.objects.Punishment;
 import me.hardstyl3r.toolsies.managers.UserManager;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,9 +26,7 @@ public class PlayerUnpunishedListener implements Listener {
             if (e.getPunishment().getType().equals(PunishmentType.BAN)) {
                 Punishment ban = e.getPunishment();
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    p.sendMessage(userManager.determineLocale(p).getColoredString("unban.unban_broadcast")
-                            .replace("<name>", ban.getName())
-                            .replace("<admin>", e.getSender()));
+                    p.sendMessage(userManager.determineLocale(p).getStringComponent("unban.unban_broadcast", Placeholder.unparsed("name", ban.getName()), Placeholder.unparsed("admin", e.getSender())));
                 }
             }
         }
