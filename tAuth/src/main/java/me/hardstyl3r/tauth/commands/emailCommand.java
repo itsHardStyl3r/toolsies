@@ -6,6 +6,7 @@ import me.hardstyl3r.tauth.objects.AuthUser;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -38,11 +39,11 @@ public class emailCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            sender.sendMessage(l.getColoredString("console_sender"));
+            sender.sendMessage(l.getStringComponent("console_sender"));
             return true;
         }
         if (!sender.hasPermission("toolsies.email")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.login"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.login")));
             return true;
         }
         Player p = (Player) sender;
@@ -50,52 +51,52 @@ public class emailCommand implements CommandExecutor, TabCompleter {
         String currentEmail = authUser.getEmail();
         if (args.length == 0) {
             if (currentEmail == null) {
-                sender.sendMessage(l.getColoredString("email.email_no_email"));
+                sender.sendMessage(l.getStringComponent("email.email_no_email"));
                 return true;
             }
-            sender.sendMessage(l.getColoredString("email.email").replace("<email>", currentEmail));
+            sender.sendMessage(l.getStringComponent("email.email", Placeholder.unparsed("email", currentEmail)));
         } else if (args.length >= 1) {
             if (args[0].equalsIgnoreCase("set") && args.length == 2) {
                 String email = args[1].toLowerCase();
                 String domain = (email.contains("@") ? (email.split("@").length >= 2 ? email.split("@")[1] : "") : "").toLowerCase();
                 if (email.equalsIgnoreCase(currentEmail)) {
-                    sender.sendMessage(l.getColoredString("email.email_set_current"));
+                    sender.sendMessage(l.getStringComponent("email.email_set_current"));
                     return true;
                 }
                 if (emailConfig.getBoolean("email.regexEnable") && !email.matches(emailConfig.getString("email.regex"))) {
-                    sender.sendMessage(l.getColoredString("email.email_incorrect"));
+                    sender.sendMessage(l.getStringComponent("email.email_incorrect"));
                     return true;
                 }
                 if (!sender.hasPermission("toolsies.email.set.bypass") && emailConfig.getStringList("email.disallowedEmails").contains(email)) {
-                    sender.sendMessage(l.getColoredString("email.email_disallowed"));
+                    sender.sendMessage(l.getStringComponent("email.email_disallowed"));
                     return true;
                 }
                 if (email.length() <= emailConfig.getInt("email.minEmailLength")) {
-                    sender.sendMessage(l.getColoredString("email.email_too_short"));
+                    sender.sendMessage(l.getStringComponent("email.email_too_short"));
                     return true;
                 }
                 if (email.length() >= emailConfig.getInt("email.maxEmailLength")) {
                     Bukkit.broadcastMessage(emailConfig.getInt("email.maxEmailLength") + "");
-                    sender.sendMessage(l.getColoredString("email.email_too_long"));
+                    sender.sendMessage(l.getStringComponent("email.email_too_long"));
                     return true;
                 }
                 if (emailConfig.getBoolean("email.blacklistDomainsEnable") && emailConfig.getStringList("email.blacklistDomains").contains(domain)) {
-                    sender.sendMessage(l.getColoredString("email.email_disallowed_domain"));
+                    sender.sendMessage(l.getStringComponent("email.email_disallowed_domain"));
                     return true;
                 }
                 if (emailConfig.getBoolean("email.whitelistDomainsEnable") && !emailConfig.getStringList("email.whitelistDomains").contains(domain)) {
-                    sender.sendMessage(l.getColoredString("email.email_disallowed_domain"));
+                    sender.sendMessage(l.getStringComponent("email.email_disallowed_domain"));
                     return true;
                 }
-                sender.sendMessage(l.getColoredString("email.email_set"));
+                sender.sendMessage(l.getStringComponent("email.email_set"));
                 authUser.setEmail(email);
                 loginManager.updateAuth(authUser);
             } else if (args[0].equalsIgnoreCase("clear")) {
                 if (currentEmail == null) {
-                    sender.sendMessage(l.getColoredString("email.email_no_email"));
+                    sender.sendMessage(l.getStringComponent("email.email_no_email"));
                     return true;
                 }
-                sender.sendMessage(l.getColoredString("email.email_clear"));
+                sender.sendMessage(l.getStringComponent("email.email_clear"));
                 authUser.setEmail(null);
                 loginManager.updateAuth(authUser);
             } else {

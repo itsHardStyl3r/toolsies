@@ -4,6 +4,7 @@ import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -35,13 +36,13 @@ public class broadcastCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (!sender.hasPermission("toolsies.broadcast")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.broadcast"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.broadcast")));
             return true;
         }
         if (args.length > 0) {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 Locale broadcast = userManager.determineLocale(p);
-                p.sendMessage(broadcast.getColoredString("broadcast.style").replace("<message>", localeManager.createMessage(args, 0)));
+                p.sendMessage(broadcast.getStringComponent("broadcast.style", Placeholder.parsed("message", localeManager.createMessage(args, 0))));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

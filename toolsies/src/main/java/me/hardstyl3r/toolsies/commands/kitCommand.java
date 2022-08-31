@@ -6,6 +6,7 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.objects.User;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -41,16 +42,16 @@ public class kitCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (!sender.hasPermission("toolsies.kit")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.kit"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.kit")));
             return true;
         }
         Set<String> kits = kitManager.getKits(sender);
         if (args.length == 0) {
-            sender.sendMessage(l.getColoredString("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits")).replace("<kits>", kits.toString()));
+            sender.sendMessage(l.getStringComponent("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits"), Placeholder.unparsed("kits", kits.toString())));
         } else if (args.length >= 1 && args.length <= 2) {
             String kit = args[0].toLowerCase();
             if (!kitManager.isKit(kit) || !sender.hasPermission("toolsies.kits." + kit)) {
-                sender.sendMessage(l.getColoredString("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits")).replace("<kits>", kits.toString()));
+                sender.sendMessage(l.getStringComponent("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits"), Placeholder.unparsed("kits", kits.toString())));
                 return true;
             }
             Player target = null;
@@ -58,12 +59,12 @@ public class kitCommand implements CommandExecutor, TabCompleter {
                 if (sender.hasPermission("toolsies.kit.others")) {
                     target = Bukkit.getPlayerExact(args[1]);
                     if (target == null) {
-                        sender.sendMessage(l.getColoredString("players.unknown").replace("<name>", args[1]));
+                        sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("name", args[1])));
                         return true;
                     }
                     if (!sender.hasPermission("toolsies.kit.others.bypass")) {
                         if (!target.hasPermission("toolsies.kits." + kit) || !sender.hasPermission("toolsies.kit.others." + kit)) {
-                            sender.sendMessage(l.getColoredString("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits")).replace("<kits>", kits.toString()));
+                            sender.sendMessage(l.getStringComponent("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits"), Placeholder.unparsed("kits", kits.toString())));
                             return true;
                         }
                     }
@@ -74,12 +75,10 @@ public class kitCommand implements CommandExecutor, TabCompleter {
             kitManager.giveKit(target, kit);
             User utarget = userManager.getUser(target);
             if (sender == target) {
-                sender.sendMessage(l.getColoredString("kit.kit_applied").replace("<name>", kit));
+                sender.sendMessage(l.getStringComponent("kit.kit_applied", Placeholder.unparsed("name", kit)));
             } else {
-                target.sendMessage(utarget.getLocale().getColoredString("kit.player_gifted")
-                        .replace("<name>", kit).replace("<admin>", sender.getName()));
-                sender.sendMessage(l.getColoredString("kit.gifted_kit_to_player")
-                        .replace("<name>", kit).replace("<player>", target.getName()));
+                target.sendMessage(utarget.getLocale().getStringComponent("kit.player_gifted", Placeholder.unparsed("name", kit), Placeholder.unparsed("admin", sender.getName())));
+                sender.sendMessage(utarget.getLocale().getStringComponent("kit.gifted_kit_to_player", Placeholder.unparsed("name", kit), Placeholder.unparsed("player", target.getName())));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

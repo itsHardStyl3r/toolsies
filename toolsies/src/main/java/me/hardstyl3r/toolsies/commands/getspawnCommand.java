@@ -6,6 +6,7 @@ import me.hardstyl3r.toolsies.managers.LocationManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.objects.Spawn;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -43,7 +44,7 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (!sender.hasPermission("toolsies.getspawn")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.getspawn"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.getspawn")));
             return true;
         }
         if (args.length <= 1) {
@@ -53,8 +54,7 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
             }
             if (args.length == 1) {
                 if (Bukkit.getWorld(args[0]) == null) {
-                    sender.sendMessage(l.getColoredString("getspawn.unknown_world")
-                            .replace("<name>", args[0]));
+                    sender.sendMessage(l.getStringComponent("getspawn.unknown_world", Placeholder.unparsed("name", args[0])));
                     return true;
                 } else if (locationManager.getSpawn(args[0]) == null) {
                     Location loc = Bukkit.getWorld(args[0]).getSpawnLocation();
@@ -72,8 +72,7 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
                 w = Bukkit.getWorld(args[0]);
             }
             if (locationManager.getSpawn(w) == null) {
-                sender.sendMessage(l.getColoredString("getspawn.unknown_spawn")
-                        .replace("<name>", args[0]));
+                sender.sendMessage(l.getStringComponent("getspawn.unknown_spawn", Placeholder.unparsed("name", args[0])));
                 return true;
             }
             Spawn s = locationManager.getSpawn(w);

@@ -6,6 +6,7 @@ import me.hardstyl3r.tbans.objects.Punishment;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,7 +35,7 @@ public class getbanipCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.getban-ip")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.getban-ip"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.getban-ip")));
             return true;
         }
         if (args.length == 1) {
@@ -44,7 +45,7 @@ public class getbanipCommand implements CommandExecutor, TabCompleter {
                 try {
                     target = InetAddress.getByName(args[0]);
                 } catch (Exception e) {
-                    sender.sendMessage(l.getColoredString("ban-ip.incorrect_address"));
+                    sender.sendMessage(l.getStringComponent("ban-ip.incorrect_address"));
                     return true;
                 }
             } else {
@@ -52,20 +53,20 @@ public class getbanipCommand implements CommandExecutor, TabCompleter {
             }
             punishmentManager.deleteIfExpired(target);
             if (!punishmentManager.isBanned(target)) {
-                sender.sendMessage(l.getColoredString("unban.is_not_banned").replace("<name>", target.getHostAddress()));
+                sender.sendMessage(l.getStringComponent("unban.is_not_banned", Placeholder.unparsed("name", target.getHostAddress())));
                 return true;
             }
             Punishment ban = punishmentManager.getBan(target);
-            sender.sendMessage(l.getColoredString("getban.getban_header").replace("<name>", target.getHostAddress()).replace("<id>", String.valueOf(ban.getId())));
-            sender.sendMessage(l.getColoredString("getban.entries.type").replace("<type>", ban.getType().name()));
-            sender.sendMessage(l.getColoredString("getban.entries.admin").replace("<admin>", ban.getAdmin()));
+            sender.sendMessage(l.getStringComponent("getban.getban_header", Placeholder.unparsed("name", target.getHostAddress()), Placeholder.unparsed("id", String.valueOf(ban.getId()))));
+            sender.sendMessage(l.getStringComponent("getban.entries.type", Placeholder.unparsed("type", ban.getType().name())));
+            sender.sendMessage(l.getStringComponent("getban.entries.admin", Placeholder.unparsed("admin", ban.getAdmin())));
             if (ban.getReason() != null) {
-                sender.sendMessage(l.getColoredString("getban.entries.reason").replace("<reason>", ban.getReason()));
+                sender.sendMessage(l.getStringComponent("getban.entries.reason", Placeholder.unparsed("reason", ban.getReason())));
             }
-            sender.sendMessage(l.getColoredString("getban.entries.date").replace("<date>", localeManager.getFullDate(ban.getDate())));
+            sender.sendMessage(l.getStringComponent("getban.entries.date", Placeholder.unparsed("date", localeManager.getFullDate(ban.getDate()))));
             if (ban.getDuration() != null) {
-                sender.sendMessage(l.getColoredString("getban.entries.duration").replace("<duration>", localeManager.getFullDate(ban.getDuration())));
-                sender.sendMessage(l.getColoredString("getban.entries.remaining").replace("<remaining>", localeManager.parseTimeWithTranslate(ban.getRemaining(), l)));
+                sender.sendMessage(l.getStringComponent("getban.entries.duration", Placeholder.unparsed("duration", localeManager.getFullDate(ban.getDuration()))));
+                sender.sendMessage(l.getStringComponent("getban.entries.remaining", Placeholder.unparsed("remaining", localeManager.parseTimeWithTranslate(ban.getRemaining(), l))));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

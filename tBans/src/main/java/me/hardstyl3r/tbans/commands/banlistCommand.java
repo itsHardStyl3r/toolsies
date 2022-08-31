@@ -7,6 +7,7 @@ import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.utils.LogUtil;
 import me.hardstyl3r.toolsies.utils.StringUtils;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -35,14 +36,14 @@ public class banlistCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.banlist")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.banlist"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.banlist")));
             return true;
         }
         if (args.length <= 1) {
             int arg = 0;
             if (args.length == 1) {
                 if (!StringUtils.isNumeric(args[0])) {
-                    sender.sendMessage(l.getColoredString("banlist.unknown_page"));
+                    sender.sendMessage(l.getStringComponent("banlist.unknown_page"));
                     return true;
                 }
                 arg = Integer.parseInt(args[0]);
@@ -66,26 +67,20 @@ public class banlistCommand implements CommandExecutor, TabCompleter {
                     rs.close();
                     int maxpages = total / 5;
                     if (maxpages < finalArg) {
-                        sender.sendMessage(l.getColoredString("banlist.unknown_page"));
+                        sender.sendMessage(l.getStringComponent("banlist.unknown_page"));
                         return;
                     }
                     p = connection.prepareCall(page);
                     p.execute();
                     rs = p.getResultSet();
-                    sender.sendMessage(l.getColoredString("banlist.banlist_header")
-                            .replace("<page>", String.valueOf(finalArg))
-                            .replace("<maxpages>", String.valueOf(maxpages))
-                            .replace("<total>", String.valueOf(total)));
+                    sender.sendMessage(l.getStringComponent("banlist.banlist_header", Placeholder.unparsed("page", String.valueOf(finalArg)), Placeholder.unparsed("maxpages", String.valueOf(maxpages)), Placeholder.unparsed("total", String.valueOf(total))));
                     long current = System.currentTimeMillis();
                     while (rs.next()) {
-                        sender.sendMessage(l.getColoredString("banlist.banlist_" + (rs.getLong("duration") != 0L ? "tempban" : "ban") + "_entry")
-                                .replace("<name>", rs.getString("name"))
-                                .replace("<date>", localeManager.getFullDate(rs.getLong("date")))
-                                .replace("<duration>", localeManager.parseTimeWithTranslate((rs.getLong("duration") - current), l)));
+                        sender.sendMessage(l.getStringComponent("banlist.banlist_" + (rs.getLong("duration") != 0L ? "tempban" : "ban") + "_entry", Placeholder.unparsed("name", rs.getString("name")), Placeholder.unparsed("date", localeManager.getFullDate(rs.getLong("date"))), Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate((rs.getLong("duration") - current), l))));
                     }
-                    sender.sendMessage(l.getColoredString("banlist.banlist_footer"));
+                    sender.sendMessage(l.getStringComponent("banlist.banlist_footer"));
                 } catch (SQLException e) {
-                    sender.sendMessage(l.getColoredString("banlist.failed"));
+                    sender.sendMessage(l.getStringComponent("banlist.failed"));
                     LogUtil.error("[tBans] banlistCommand(): " + e + ".");
                     e.printStackTrace();
                 } finally {

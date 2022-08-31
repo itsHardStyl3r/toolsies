@@ -6,6 +6,7 @@ import me.hardstyl3r.tbans.objects.Punishment;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,7 +35,7 @@ public class unbanipCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.unban-ip")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.unban-ip"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.unban-ip")));
             return true;
         }
         if (args.length == 1) {
@@ -44,7 +45,7 @@ public class unbanipCommand implements CommandExecutor, TabCompleter {
                 try {
                     target = InetAddress.getByName(args[0]);
                 } catch (Exception e) {
-                    sender.sendMessage(l.getColoredString("ban-ip.incorrect_address"));
+                    sender.sendMessage(l.getStringComponent("ban-ip.incorrect_address"));
                     return true;
                 }
             } else {
@@ -52,12 +53,12 @@ public class unbanipCommand implements CommandExecutor, TabCompleter {
             }
             punishmentManager.deleteIfExpired(target);
             if (!punishmentManager.isBanned(target)) {
-                sender.sendMessage(l.getColoredString("unban.is_not_banned").replace("<name>", target.getHostAddress()));
+                sender.sendMessage(l.getStringComponent("unban.is_not_banned", Placeholder.unparsed("name", target.getHostAddress())));
                 return true;
             }
             Punishment ban = punishmentManager.getBan(target);
             punishmentManager.deletePunishment(ban, sender.getName());
-            sender.sendMessage(l.getColoredString("unban.unban").replace("<name>", ban.getName()));
+            sender.sendMessage(l.getStringComponent("unban.unban", Placeholder.unparsed("name", ban.getName())));
         } else {
             localeManager.sendUsage(sender, cmd, l);
         }

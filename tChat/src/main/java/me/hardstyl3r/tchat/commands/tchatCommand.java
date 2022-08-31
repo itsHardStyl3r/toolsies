@@ -5,6 +5,7 @@ import me.hardstyl3r.tchat.managers.ChatManager;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,7 +34,7 @@ public class tchatCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.tchat")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.tchat"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.tchat")));
             return true;
         }
         if (args.length > 1) {
@@ -42,18 +43,15 @@ public class tchatCommand implements CommandExecutor, TabCompleter {
                     if (args.length == 3) {
                         if (args[2].equalsIgnoreCase("toggle")) {
                             chatManager.toggleChatCooldown();
-                            sender.sendMessage(l.getColoredString("tchat.cooldown.chat.toggle")
-                                    .replace("<status>", localeManager.translateBoolean(l, chatManager.isChatCooldownEnabled())));
+                            sender.sendMessage(l.getStringComponent("tchat.cooldown.chat.toggle", Placeholder.unparsed("status", localeManager.translateBoolean(l, chatManager.isChatCooldownEnabled()))));
                             return true;
                         } else if (args[2].equalsIgnoreCase("clear")) {
                             chatManager.resetChatCooldowns();
-                            sender.sendMessage(l.getColoredString("tchat.cooldown.chat.clear"));
+                            sender.sendMessage(l.getStringComponent("tchat.cooldown.chat.clear"));
                             return true;
                         }
                     }
-                    sender.sendMessage(l.getColoredString("tchat.cooldown.chat.status")
-                            .replace("<status>", localeManager.translateBoolean(l, chatManager.isChatCooldownEnabled()))
-                            .replace("<default>", localeManager.translateBoolean(l, chatManager.getChatCooldownDefaultState())));
+                    sender.sendMessage(l.getStringComponent("tchat.cooldown.chat.status", Placeholder.unparsed("status", localeManager.translateBoolean(l, chatManager.isChatCooldownEnabled())), Placeholder.unparsed("default", localeManager.translateBoolean(l, chatManager.getChatCooldownDefaultState()))));
                 } else
                     localeManager.sendUsage(sender, cmd, l);
             } else

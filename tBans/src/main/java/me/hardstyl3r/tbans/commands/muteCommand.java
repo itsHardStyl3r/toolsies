@@ -7,6 +7,7 @@ import me.hardstyl3r.tbans.objects.Punishment;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -36,38 +37,36 @@ public class muteCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.mute")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.mute"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.mute")));
             return true;
         }
         if (args.length > 0) {
             String target = args[0];
             punishmentManager.deleteIfExpired(PunishmentType.MUTE, target);
             if (!punishmentManager.canSenderPunishTarget(sender, target, type)) {
-                sender.sendMessage(l.getColoredString("mute.priority_too_high"));
+                sender.sendMessage(l.getStringComponent("mute.priority_too_high"));
                 return true;
             }
             if (punishmentManager.isPunished(PunishmentType.MUTE, target)) {
-                sender.sendMessage(l.getColoredString("mute.is_muted").replace("<name>", target));
+                sender.sendMessage(l.getStringComponent("mute.is_muted", Placeholder.unparsed("name", target)));
                 return true;
             }
             if (target.length() > punishmentManager.getMaximumNickLength()) {
-                sender.sendMessage(l.getColoredString("ban.name_too_long").replace("<length>", String.valueOf(punishmentManager.getMaximumNickLength())));
+                sender.sendMessage(l.getStringComponent("ban.name_too_long", Placeholder.unparsed("length", String.valueOf(punishmentManager.getMaximumNickLength()))));
                 return true;
             }
             if (userManager.getUser(target) == null) {
-                sender.sendMessage(l.getColoredString("players.unknown").replace("<name>", args[0]));
+                sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("name", args[0])));
                 return true;
             }
             String admin = sender.getName();
             String reason = (args.length > 1 ? localeManager.createMessage(args, 1) : null);
             UUID uuid = userManager.getUserIgnoreCase(target).getUUID();
             Punishment punishment = punishmentManager.createPunishment(PunishmentType.MUTE, uuid, target, admin, reason, null);
-            sender.sendMessage(l.getColoredString("mute.mute").replace("<name>", target));
+            sender.sendMessage(l.getStringComponent("mute.mute", Placeholder.unparsed("name", target)));
             Player p = Bukkit.getPlayerExact(target);
             if (Bukkit.getPlayerExact(target) != null) {
-                p.sendMessage(userManager.determineLocale(p).getColoredString("mute.mute_target")
-                        .replace("<admin>", punishment.getAdmin())
-                        .replace("<reason>", (punishment.getReason() == null ? "brak" : punishment.getReason())));
+                p.sendMessage(userManager.determineLocale(p).getStringComponent("mute.mute_target", Placeholder.unparsed("admin", punishment.getAdmin()), Placeholder.unparsed("reason", (punishment.getReason() == null ? "brak" : punishment.getReason()))));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

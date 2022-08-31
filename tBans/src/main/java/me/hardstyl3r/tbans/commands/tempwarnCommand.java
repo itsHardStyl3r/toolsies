@@ -7,6 +7,7 @@ import me.hardstyl3r.tbans.objects.Punishment;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -36,47 +37,42 @@ public class tempwarnCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.tempwarn")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.tempwarn"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.tempwarn")));
             return true;
         }
         if (args.length > 1) {
             String target = args[0];
             if (!punishmentManager.canSenderPunishTarget(sender, target, type)) {
-                sender.sendMessage(l.getColoredString("warn.priority_too_high"));
+                sender.sendMessage(l.getStringComponent("warn.priority_too_high"));
                 return true;
             }
             if (target.length() > punishmentManager.getMaximumNickLength()) {
-                sender.sendMessage(l.getColoredString("ban.name_too_long").replace("<length>", String.valueOf(punishmentManager.getMaximumNickLength())));
+                sender.sendMessage(l.getStringComponent("ban.name_too_long", Placeholder.unparsed("length", String.valueOf(punishmentManager.getMaximumNickLength()))));
                 return true;
             }
             if (userManager.getUser(target) == null) {
-                sender.sendMessage(l.getColoredString("players.unknown").replace("<name>", args[0]));
+                sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("name", args[0])));
                 return true;
             }
             if (!localeManager.isValidStringTime(args[1])) {
-                sender.sendMessage(l.getColoredString("tempban.incorrect_time"));
+                sender.sendMessage(l.getStringComponent("tempban.incorrect_time"));
                 return true;
             }
             long duration = localeManager.parseTimeFromString(args[1]);
             long minimumDuration = punishmentManager.getMinimumDuration(PunishmentType.BAN);
             if (duration < minimumDuration) {
-                sender.sendMessage(l.getColoredString("tempban.duration_too_short").replace("<duration>", localeManager.parseTimeWithTranslate(minimumDuration, l)));
+                sender.sendMessage(l.getStringComponent("tempban.duration_too_short", Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(minimumDuration, l))));
                 return true;
             }
             String admin = sender.getName();
             String reason = (args.length > 2 ? localeManager.createMessage(args, 2) : null);
             UUID uuid = userManager.getUserIgnoreCase(target).getUUID();
             Punishment punishment = punishmentManager.createPunishment(type, uuid, target, admin, reason, duration);
-            sender.sendMessage(l.getColoredString("tempwarn.tempwarn_sender")
-                    .replace("<name>", target)
-                    .replace("<duration>", localeManager.parseTimeWithTranslate(duration, l)));
+            sender.sendMessage(l.getStringComponent("tempwarn.tempwarn_sender", Placeholder.unparsed("name", target), Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(duration, l))));
             Player p = Bukkit.getPlayerExact(target);
             if (Bukkit.getPlayerExact(target) != null) {
                 Locale pl = userManager.determineLocale(p);
-                p.sendMessage(pl.getColoredString("tempwarn.tempwarn_target")
-                        .replace("<admin>", punishment.getAdmin())
-                        .replace("<reason>", (punishment.getReason() == null ? "brak" : punishment.getReason()))
-                        .replace("<duration>", localeManager.parseTimeWithTranslate(duration, pl)));
+                p.sendMessage(pl.getStringComponent("tempwarn.tempwarn_target", Placeholder.unparsed("admin", punishment.getAdmin()), Placeholder.unparsed("reason", (punishment.getReason() == null ? "brak" : punishment.getReason())), Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(duration, pl))));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

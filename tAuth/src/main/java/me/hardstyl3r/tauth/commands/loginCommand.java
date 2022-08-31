@@ -8,6 +8,7 @@ import me.hardstyl3r.tauth.objects.AuthUser;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,11 +37,11 @@ public class loginCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            sender.sendMessage(l.getColoredString("console_sender"));
+            sender.sendMessage(l.getStringComponent("console_sender"));
             return true;
         }
         if (!sender.hasPermission("toolsies.login")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.login"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.login")));
             return true;
         }
         if (args.length == 1) {
@@ -48,20 +49,20 @@ public class loginCommand implements CommandExecutor, TabCompleter {
             AuthUser authUser = loginManager.getAuth(p);
             if (authUser != null) {
                 if (authUser.isLoggedIn()) {
-                    sender.sendMessage(l.getColoredString("login.already_logged_in"));
+                    sender.sendMessage(l.getStringComponent("login.already_logged_in"));
                     return true;
                 }
             }
             String password = args[0];
             if (loginManager.passwordMatches(authUser, password)) {
                 loginManagement.performLogin(p);
-                sender.sendMessage(l.getColoredString("login.logged_in"));
+                sender.sendMessage(l.getStringComponent("login.logged_in"));
             } else {
-                sender.sendMessage(l.getColoredString("login.incorrect_password"));
+                sender.sendMessage(l.getStringComponent("login.incorrect_password"));
                 loginManager.pushAuthHistory(authUser, AuthType.LOGIN, false, null);
             }
         } else {
-            sender.sendMessage(l.getColoredString("login.usage"));
+            sender.sendMessage(l.getStringComponent("login.usage"));
         }
         return true;
     }

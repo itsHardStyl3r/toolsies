@@ -8,6 +8,7 @@ import me.hardstyl3r.tperms.managers.PermissibleUserManager;
 import me.hardstyl3r.tperms.managers.PermissionsManager;
 import me.hardstyl3r.tperms.objects.Group;
 import me.hardstyl3r.tperms.objects.PermissibleUser;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -45,13 +46,12 @@ public class groupCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (!sender.hasPermission("toolsies.group")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.group"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.group")));
             return true;
         }
         if (args.length == 0) {
             PermissibleUser u = permissibleUserManager.getUser(sender);
-            sender.sendMessage(l.getColoredString("group.current_group")
-                    .replace("<group>", u.getMainGroup().getName() + (sender.isOp() ? " (" + permissionManager.listGroups(u.getGroups()) + ")" : "")));
+            sender.sendMessage(l.getStringComponent("group.current_group", Placeholder.unparsed("group", u.getMainGroup().getName() + (sender.isOp() ? " (" + permissionManager.listGroups(u.getGroups()) + ")" : ""))));
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("list")) {
                 if (!sender.hasPermission("toolsies.group.list")) {
@@ -59,17 +59,14 @@ public class groupCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 List<String> groups = permissionManager.getGroups();
-                sender.sendMessage(l.getColoredString("group.list" + (groups.size() == 0 ? "_none" : ""))
-                        .replace("<group>", groups.toString()));
+                sender.sendMessage(l.getStringComponent("group.list" + (groups.size() == 0 ? "_none" : ""), Placeholder.unparsed("group", groups.toString())));
             } else if (permissibleUserManager.getUser(args[0]) != null) {
                 if (!sender.hasPermission("toolsies.group.others")) {
                     localeManager.sendUsage(sender, cmd, l);
                     return true;
                 }
                 PermissibleUser u = permissibleUserManager.getUser(args[0]);
-                sender.sendMessage(l.getColoredString("group.current_group_sender")
-                        .replace("<player>", u.getName())
-                        .replace("<group>", u.getMainGroup().getName() + (sender.isOp() ? " (" + permissionManager.listGroups(u.getGroups()) + ")" : "")));
+                sender.sendMessage(l.getStringComponent("group.current_group_sender", Placeholder.unparsed("player", u.getName()), Placeholder.unparsed("group", u.getMainGroup().getName() + (sender.isOp() ? " (" + permissionManager.listGroups(u.getGroups()) + ")" : ""))));
             } else {
                 localeManager.sendUsage(sender, cmd, l);
             }
@@ -81,12 +78,12 @@ public class groupCommand implements CommandExecutor, TabCompleter {
             }
             for (String s : arguments) {
                 if (args[0].equalsIgnoreCase(s) && !sender.hasPermission("toolsies.group." + s)) {
-                    sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.group." + s));
+                    sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.group." + s)));
                     return true;
                 }
             }
             if (permissionManager.getGroup(args[1]) == null) {
-                sender.sendMessage(l.getColoredString("group.unknown_group").replace("<name>", args[1]));
+                sender.sendMessage(l.getStringComponent("group.unknown_group", Placeholder.unparsed("name", args[1])));
                 return true;
             }
             Group group = permissionManager.getGroup(args[1]);
@@ -101,7 +98,7 @@ public class groupCommand implements CommandExecutor, TabCompleter {
                 if (permissibleUserManager.getUser(args[2]) != null) {
                     puTarget = permissibleUserManager.getUser(args[2]);
                 } else {
-                    sender.sendMessage(l.getColoredString("players.unknown").replace("<name>", args[2]));
+                    sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("name", args[2])));
                     return true;
                 }
             }
@@ -109,52 +106,36 @@ public class groupCommand implements CommandExecutor, TabCompleter {
             if (args[0].equalsIgnoreCase("set")) {
                 if (groups.size() == 1 && groups.contains(group)) {
                     if (target == sender) {
-                        sender.sendMessage(l.getColoredString("group.current_group_already")
-                                .replace("<name>", group.getName()));
+                        sender.sendMessage(l.getStringComponent("group.current_group_already", Placeholder.unparsed("name", group.getName())));
                     } else {
-                        sender.sendMessage(l.getColoredString("group.current_group_already_sender")
-                                .replace("<name>", group.getName())
-                                .replace("<player>", puTarget.getName()));
+                        sender.sendMessage(l.getStringComponent("group.current_group_already_sender", Placeholder.unparsed("name", group.getName()), Placeholder.unparsed("player", puTarget.getName())));
                     }
                     return true;
                 }
                 if (target == sender) {
-                    sender.sendMessage(l.getColoredString("group.set_group")
-                            .replace("<name>", group.getName()));
+                    sender.sendMessage(l.getStringComponent("group.set_group", Placeholder.unparsed("name", group.getName())));
                 } else {
-                    sender.sendMessage(l.getColoredString("group.set_group_sender")
-                            .replace("<name>", group.getName())
-                            .replace("<player>", puTarget.getName()));
+                    sender.sendMessage(l.getStringComponent("group.set_group_sender", Placeholder.unparsed("name", group.getName()), Placeholder.unparsed("player", puTarget.getName())));
                     if (target != null) {
-                        target.sendMessage(l.getColoredString("group.set_group_target")
-                                .replace("<name>", group.getName())
-                                .replace("<admin>", sender.getName()));
+                        target.sendMessage(l.getStringComponent("group.set_group_target", Placeholder.unparsed("name", group.getName()), Placeholder.unparsed("admin", sender.getName())));
                     }
                 }
                 puTarget.setGroups(Collections.singletonList(group));
             } else if (args[0].equalsIgnoreCase("add")) {
                 if (groups.contains(group)) {
                     if (target == sender) {
-                        sender.sendMessage(l.getColoredString("group.current_group_already")
-                                .replace("<name>", group.getName()));
+                        sender.sendMessage(l.getStringComponent("group.current_group_already", Placeholder.unparsed("name", group.getName())));
                     } else {
-                        sender.sendMessage(l.getColoredString("group.current_group_already_sender")
-                                .replace("<name>", group.getName())
-                                .replace("<player>", puTarget.getName()));
+                        sender.sendMessage(l.getStringComponent("group.current_group_already_sender", Placeholder.unparsed("name", group.getName()), Placeholder.unparsed("player", puTarget.getName())));
                     }
                     return true;
                 }
                 if (target == sender) {
-                    sender.sendMessage(l.getColoredString("group.add_group")
-                            .replace("<name>", group.getName()));
+                    sender.sendMessage(l.getStringComponent("group.add_group", Placeholder.unparsed("name", group.getName())));
                 } else {
-                    sender.sendMessage(l.getColoredString("group.add_group_sender")
-                            .replace("<name>", group.getName())
-                            .replace("<player>", puTarget.getName()));
+                    sender.sendMessage(l.getStringComponent("group.add_group_sender", Placeholder.unparsed("name", group.getName()), Placeholder.unparsed("player", puTarget.getName())));
                     if (target != null) {
-                        target.sendMessage(l.getColoredString("group.add_group_target")
-                                .replace("<name>", group.getName())
-                                .replace("<admin>", sender.getName()));
+                        target.sendMessage(l.getStringComponent("group.add_group_target", Placeholder.unparsed("name", group.getName()), Placeholder.unparsed("admin", sender.getName())));
                     }
                 }
                 groups.add(group);
@@ -162,39 +143,28 @@ public class groupCommand implements CommandExecutor, TabCompleter {
             } else if (args[0].equalsIgnoreCase("remove")) {
                 if (!groups.contains(group)) {
                     if (target == sender) {
-                        sender.sendMessage(l.getColoredString("group.not_in_the_group")
-                                .replace("<name>", group.getName()));
+                        sender.sendMessage(l.getStringComponent("group.not_in_the_group", Placeholder.unparsed("name", group.getName())));
                     } else {
-                        sender.sendMessage(l.getColoredString("group.not_in_the_group_sender")
-                                .replace("<name>", group.getName())
-                                .replace("<player>", puTarget.getName()));
+                        sender.sendMessage(l.getStringComponent("group.not_in_the_group_sender", Placeholder.unparsed("name", group.getName()), Placeholder.unparsed("player", puTarget.getName())));
                     }
                     return true;
                 }
                 if (groups.size() == 1) {
                     if (permissionManager.getDefaultGroups().contains(puTarget.getMainGroup())) {
                         if (target == sender) {
-                            sender.sendMessage(l.getColoredString("group.remove_will_remove_last_group")
-                                    .replace("<name>", group.getName()));
+                            sender.sendMessage(l.getStringComponent("group.remove_will_remove_last_group", Placeholder.unparsed("name", group.getName())));
                         } else {
-                            sender.sendMessage(l.getColoredString("group.remove_will_remove_last_group_sender")
-                                    .replace("<name>", group.getName())
-                                    .replace("<player>", puTarget.getName()));
+                            sender.sendMessage(l.getStringComponent("group.remove_will_remove_last_group_sender", Placeholder.unparsed("name", group.getName()), Placeholder.unparsed("player", puTarget.getName())));
                         }
                         return true;
                     }
                 }
                 if (target == sender) {
-                    sender.sendMessage(l.getColoredString("group.remove_group")
-                            .replace("<name>", group.getName()));
+                    sender.sendMessage(l.getStringComponent("group.remove_group", Placeholder.unparsed("name", group.getName())));
                 } else {
-                    sender.sendMessage(l.getColoredString("group.remove_group_sender")
-                            .replace("<name>", group.getName())
-                            .replace("<player>", puTarget.getName()));
+                    sender.sendMessage(l.getStringComponent("group.remove_group_sender", Placeholder.unparsed("name", group.getName()), Placeholder.unparsed("player", puTarget.getName())));
                     if (target != null) {
-                        target.sendMessage(l.getColoredString("group.remove_group_target")
-                                .replace("<name>", group.getName())
-                                .replace("<admin>", sender.getName()));
+                        target.sendMessage(l.getStringComponent("group.remove_group_target", Placeholder.unparsed("name", group.getName()), Placeholder.unparsed("admin", sender.getName())));
                     }
                 }
                 groups.remove(group);

@@ -6,6 +6,7 @@ import me.hardstyl3r.toolsies.managers.LocationManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.objects.Spawn;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -38,7 +39,7 @@ public class delspawnCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (!sender.hasPermission("toolsies.delspawn")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.delspawn"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.delspawn")));
             return true;
         }
         if (args.length <= 1) {
@@ -48,20 +49,20 @@ public class delspawnCommand implements CommandExecutor, TabCompleter {
                 if (args.length == 0) {
                     s = locationManager.getSpawn(p.getLocation());
                     if (!locationManager.isLocationIdentical(s.getLocation(), p.getLocation())) {
-                        sender.sendMessage(l.getColoredString("delspawn.no_spawn_specified"));
+                        sender.sendMessage(l.getStringComponent("delspawn.no_spawn_specified"));
                         return true;
                     }
                 }
             }
             if (s == null) {
-                sender.sendMessage(l.getColoredString("delspawn.unknown_spawn").replace("<name>", args[0]));
+                sender.sendMessage(l.getStringComponent("delspawn.unknown_spawn", Placeholder.unparsed("name", args[0])));
                 return true;
             }
             if (s.isDefault()) {
-                sender.sendMessage(l.getColoredString("delspawn.delspawn_default").replace("<name>", s.getName()));
+                sender.sendMessage(l.getStringComponent("delspawn.delspawn_default", Placeholder.unparsed("name", s.getName())));
                 return true;
             }
-            sender.sendMessage(l.getColoredString("delspawn.delspawn").replace("<name>", s.getName()));
+            sender.sendMessage(l.getStringComponent("delspawn.delspawn", Placeholder.unparsed("name", s.getName())));
             locationManager.deleteSpawn(s);
         } else {
             localeManager.sendUsage(sender, cmd, l);

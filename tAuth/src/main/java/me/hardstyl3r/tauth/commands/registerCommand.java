@@ -7,6 +7,7 @@ import me.hardstyl3r.tauth.objects.AuthUser;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,11 +36,11 @@ public class registerCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            sender.sendMessage(l.getColoredString("console_sender"));
+            sender.sendMessage(l.getStringComponent("console_sender"));
             return true;
         }
         if (!sender.hasPermission("toolsies.register")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.register"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.register")));
             return true;
         }
         if (args.length == 2) {
@@ -47,7 +48,7 @@ public class registerCommand implements CommandExecutor, TabCompleter {
             AuthUser user = loginManager.getAuth(p);
             if (user != null) {
                 if (user.isRegistered()) {
-                    sender.sendMessage(l.getColoredString("register.already_registered"));
+                    sender.sendMessage(l.getStringComponent("register.already_registered"));
                     return true;
                 }
             }
@@ -55,12 +56,12 @@ public class registerCommand implements CommandExecutor, TabCompleter {
             if (loginManager.register(p, args[0])) {
                 //temp
                 loginManagement.performRegistration(p);
-                sender.sendMessage(l.getColoredString("register.registered"));
+                sender.sendMessage(l.getStringComponent("register.registered"));
             } else {
-                sender.sendMessage(l.getColoredString("register.register_failed"));
+                sender.sendMessage(l.getStringComponent("register.register_failed"));
             }
         } else {
-            sender.sendMessage(l.getColoredString("register.usage"));
+            sender.sendMessage(l.getStringComponent("register.usage"));
         }
         return true;
     }

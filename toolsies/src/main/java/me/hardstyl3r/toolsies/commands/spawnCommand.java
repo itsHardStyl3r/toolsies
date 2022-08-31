@@ -6,6 +6,7 @@ import me.hardstyl3r.toolsies.managers.LocationManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.objects.Spawn;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -39,7 +40,7 @@ public class spawnCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (!sender.hasPermission("toolsies.spawn")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.spawn"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.spawn")));
             return true;
         }
         if (args.length <= 2) {
@@ -54,7 +55,7 @@ public class spawnCommand implements CommandExecutor, TabCompleter {
                 }
                 target = Bukkit.getPlayerExact(args[1]);
                 if (target == null) {
-                    sender.sendMessage(l.getColoredString("players.unknown").replace("<name>", args[1]));
+                    sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("name", args[1])));
                     return true;
                 }
             }
@@ -67,30 +68,25 @@ public class spawnCommand implements CommandExecutor, TabCompleter {
                     }
                 }
                 if (Bukkit.getWorld(args[0]) == null) {
-                    sender.sendMessage(l.getColoredString("getspawn.unknown_world")
-                            .replace("<name>", args[0]));
+                    sender.sendMessage(l.getStringComponent("getspawn.unknown_world", Placeholder.unparsed("name", args[0])));
                     return true;
                 }
                 s = locationManager.getSpawn(Bukkit.getWorld(args[0]));
             }
             if (s == null) {
-                sender.sendMessage(l.getColoredString("spawn.unknown_spawn")
-                        .replace("<name>", args[0]));
+                sender.sendMessage(l.getStringComponent("spawn.unknown_spawn", Placeholder.unparsed("name", args[0])));
                 return true;
             }
             if (locationManager.isLocationIdenticalExact(s.getLocation(), target.getLocation())) {
-                sender.sendMessage(l.getColoredString("spawn.spawn_is_current_location" + (target == sender ? "" : "_sender")
-                                .replace("<name>", target.getName())));
+                sender.sendMessage(l.getStringComponent("spawn.spawn_is_current_location" + (target == sender ? "" : "_sender"), Placeholder.unparsed("name", target.getName())));
                 return true;
             }
             target.teleport(s.getLocation());
             if (target == sender) {
-                sender.sendMessage(l.getColoredString("spawn.teleported_to_spawn"));
+                sender.sendMessage(l.getStringComponent("spawn.teleported_to_spawn"));
             } else {
-                sender.sendMessage(l.getColoredString("spawn.teleported_to_spawn_sender")
-                        .replace("<name>", target.getName()));
-                target.sendMessage(userManager.getUser(target).getLocale().getColoredString("spawn.teleported_to_spawn_target")
-                        .replace("<admin>", sender.getName()));
+                sender.sendMessage(l.getStringComponent("spawn.teleported_to_spawn_sender", Placeholder.unparsed("name", target.getName())));
+                target.sendMessage(userManager.getUser(target).getLocale().getStringComponent("spawn.teleported_to_spawn_sender", Placeholder.unparsed("admin", sender.getName())));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

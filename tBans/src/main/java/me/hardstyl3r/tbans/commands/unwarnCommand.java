@@ -8,6 +8,7 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.utils.StringUtils;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -35,27 +36,26 @@ public class unwarnCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.unwarn")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.unwarn"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.unwarn")));
             return true;
         }
         if (args.length == 1) {
             if (!StringUtils.isNumeric(args[0])) {
-                sender.sendMessage(l.getColoredString("unwarn.wrong_id"));
+                sender.sendMessage(l.getStringComponent("unwarn.wrong_id"));
                 return true;
             }
             int i = Integer.parseInt(args[0]);
             Punishment warn = punishmentManager.getPunishmentById(PunishmentType.WARN, i);
             punishmentManager.deleteIfExpired(warn);
             if (warn == null) {
-                sender.sendMessage(l.getColoredString("unwarn.no_such_warn").replace("<id>", args[0]));
+                sender.sendMessage(l.getStringComponent("unwarn.no_such_warn", Placeholder.unparsed("id", args[0])));
                 return true;
             }
             punishmentManager.deletePunishment(warn, sender.getName());
-            sender.sendMessage(l.getColoredString("unwarn.unwarn").replace("<id>", args[0]));
+            sender.sendMessage(l.getStringComponent("unwarn.unwarn", Placeholder.unparsed("id", args[0])));
             Player p = Bukkit.getPlayer(warn.getUUID());
             if (Bukkit.getPlayer(warn.getUUID()) != null) {
-                p.sendMessage(userManager.determineLocale(p).getColoredString("unwarn.unwarn_target")
-                        .replace("<admin>", sender.getName()));
+                p.sendMessage(userManager.determineLocale(p).getStringComponent("unwarn.unwarn_target", Placeholder.unparsed("admin", sender.getName())));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

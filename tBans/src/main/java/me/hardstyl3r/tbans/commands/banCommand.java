@@ -7,6 +7,7 @@ import me.hardstyl3r.tbans.objects.Punishment;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -36,29 +37,29 @@ public class banCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.ban")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.ban"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.ban")));
             return true;
         }
         if (args.length > 0) {
             String target = args[0];
             punishmentManager.deleteIfExpired(type, target);
             if (!punishmentManager.canSenderPunishTarget(sender, target, type)) {
-                sender.sendMessage(l.getColoredString("ban.priority_too_high"));
+                sender.sendMessage(l.getStringComponent("ban.priority_too_high"));
                 return true;
             }
             if (punishmentManager.isPunished(type, target)) {
-                sender.sendMessage(l.getColoredString("ban.is_banned").replace("<name>", target));
+                sender.sendMessage(l.getStringComponent("ban.is_banned", Placeholder.unparsed("name", target)));
                 return true;
             }
             if (target.length() > punishmentManager.getMaximumNickLength()) {
-                sender.sendMessage(l.getColoredString("ban.name_too_long").replace("<length>", String.valueOf(punishmentManager.getMaximumNickLength())));
+                sender.sendMessage(l.getStringComponent("ban.name_too_long", Placeholder.unparsed("length", String.valueOf(punishmentManager.getMaximumNickLength()))));
                 return true;
             }
             String admin = sender.getName();
             String reason = (args.length > 1 ? localeManager.createMessage(args, 1) : null);
             UUID uuid = (userManager.getUserIgnoreCase(target) == null ? null : userManager.getUserIgnoreCase(target).getUUID());
             Punishment punishment = punishmentManager.createPunishment(type, uuid, target, admin, reason, null);
-            sender.sendMessage(l.getColoredString("ban.ban").replace("<name>", target));
+            sender.sendMessage(l.getStringComponent("ban.ban", Placeholder.unparsed("name", target)));
             Player p = Bukkit.getPlayerExact(target);
             if (Bukkit.getPlayerExact(target) != null) {
                 p.kickPlayer(punishmentManager.formatMessage(punishment, userManager.determineLocale(p), "kick"));

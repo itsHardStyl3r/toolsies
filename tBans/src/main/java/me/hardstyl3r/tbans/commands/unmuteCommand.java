@@ -7,6 +7,7 @@ import me.hardstyl3r.tbans.objects.Punishment;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,23 +35,22 @@ public class unmuteCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.unmute")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.unmute"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.unmute")));
             return true;
         }
         if (args.length == 1) {
             String target = args[0];
             punishmentManager.deleteIfExpired(PunishmentType.MUTE, target);
             if (!punishmentManager.isPunished(PunishmentType.MUTE, target)) {
-                sender.sendMessage(l.getColoredString("unmute.is_not_muted").replace("<name>", target));
+                sender.sendMessage(l.getStringComponent("unmute.is_not_muted", Placeholder.unparsed("name", target)));
                 return true;
             }
             Punishment mute = punishmentManager.getPunishment(PunishmentType.MUTE, target);
             punishmentManager.deletePunishment(mute, sender.getName());
-            sender.sendMessage(l.getColoredString("unmute.unmute").replace("<name>", mute.getName()));
+            sender.sendMessage(l.getStringComponent("unmute.unmute", Placeholder.unparsed("name", mute.getName())));
             Player p = Bukkit.getPlayer(mute.getUUID());
             if (Bukkit.getPlayer(mute.getUUID()) != null) {
-                p.sendMessage(userManager.determineLocale(p).getColoredString("unmute.unmute_target")
-                        .replace("<admin>", sender.getName()));
+                p.sendMessage(userManager.determineLocale(p).getStringComponent("unmute.unmute_target", Placeholder.unparsed("admin", sender.getName())));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

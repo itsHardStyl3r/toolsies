@@ -6,6 +6,7 @@ import me.hardstyl3r.tchat.managers.MessagingManager;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -36,22 +37,22 @@ public class replyCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            sender.sendMessage(l.getColoredString("console_sender"));
+            sender.sendMessage(l.getStringComponent("console_sender"));
             return true;
         }
         if (!sender.hasPermission("toolsies.reply")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.reply"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.reply")));
             return true;
         }
         if (args.length > 0) {
             Player p = (Player) sender;
             UUID victim = messagingManager.getConversation(p);
             if (victim == null) {
-                sender.sendMessage(l.getColoredString("reply.has_no_convo"));
+                sender.sendMessage(l.getStringComponent("reply.has_no_convo"));
                 return true;
             }
             if (Bukkit.getPlayer(victim) == null) {
-                sender.sendMessage(l.getColoredString("reply.recipient_offline"));
+                sender.sendMessage(l.getStringComponent("reply.recipient_offline"));
                 return true;
             }
             Player target = Bukkit.getPlayer(messagingManager.getConversation(p));

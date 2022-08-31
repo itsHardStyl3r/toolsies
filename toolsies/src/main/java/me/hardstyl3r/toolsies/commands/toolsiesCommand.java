@@ -3,6 +3,7 @@ package me.hardstyl3r.toolsies.commands;
 import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.User;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,7 +28,7 @@ public class toolsiesCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player) {
             User u = userManager.getUser(sender);
             if (!sender.hasPermission("toolsies.toolsies")) {
-                sender.sendMessage(u.getLocale().getColoredString("no_permission").replace("<permission>", "toolsies.locale"));
+                sender.sendMessage(u.getLocale().getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.toolsies")));
                 return true;
             }
         }

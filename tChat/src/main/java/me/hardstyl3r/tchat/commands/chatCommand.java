@@ -5,6 +5,7 @@ import me.hardstyl3r.tchat.managers.ChatManager;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -36,7 +37,7 @@ public class chatCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.chat")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.chat"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.chat")));
             return true;
         }
         if (args.length == 1) {
@@ -44,17 +45,14 @@ public class chatCommand implements CommandExecutor, TabCompleter {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     for (int i = 0; i < 100; i++) p.sendMessage(" ");
                     for (String s : userManager.determineLocale(p).getStringList("chat.clear.broadcast"))
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', s)
-                                .replace("<nick>", sender.getName()));
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', s).replace("<nick>", sender.getName()));
                 }
             } else if ((args[0].equalsIgnoreCase("toggle") || args[0].equalsIgnoreCase("lock"))
                     && sender.hasPermission("toolsies.chat.toggle")) {
                 chatManager.toggleLocked();
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     for (String s : userManager.determineLocale(p).getStringList("chat.toggle.broadcast"))
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', s
-                                        .replace("<type>", l.getString("chat.toggle.types." + chatManager.isLocked())))
-                                .replace("<nick>", sender.getName()));
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', s.replace("<type>", l.getString("chat.toggle.types." + chatManager.isLocked()))).replace("<nick>", sender.getName()));
                 }
             } else
                 localeManager.sendUsage(sender, cmd, l);

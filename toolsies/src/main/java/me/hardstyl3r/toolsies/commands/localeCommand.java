@@ -5,6 +5,7 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.objects.User;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,29 +31,29 @@ public class localeCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            sender.sendMessage(l.getColoredString("console_sender"));
+            sender.sendMessage(l.getStringComponent("console_sender"));
             return true;
         }
         if (!sender.hasPermission("toolsies.locale")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.locale"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.locale")));
             return true;
         }
         if (args.length == 1) {
             if (localeManager.getLocale(args[0]) == null) {
-                sender.sendMessage(l.getColoredString("locale.unknown_locale").replace("<name>", args[0]));
+                sender.sendMessage(l.getStringComponent("locale.unknown_locale", Placeholder.unparsed("name", args[0])));
                 return true;
             }
             Locale locale = localeManager.getLocale(args[0]);
             if (l.equals(locale)) {
-                sender.sendMessage(l.getColoredString("locale.current_locale").replace("<name>", locale.getName()));
+                sender.sendMessage(l.getStringComponent("locale.current_locale", Placeholder.unparsed("name", locale.getName())));
                 return true;
             }
             User u = userManager.getUser(sender);
             u.setLocale(locale);
             userManager.updateUser(u);
-            sender.sendMessage(locale.getColoredString("locale.changed_own").replace("<name>", locale.getName()));
+            sender.sendMessage(locale.getStringComponent("locale.changed_own", Placeholder.unparsed("name", locale.getName())));
         } else {
-            sender.sendMessage(l.getColoredString("locale.available_locales").replace("<locales>", localeManager.getLocales().toString()));
+            sender.sendMessage(l.getStringComponent("locale.available_locales", Placeholder.unparsed("locales", localeManager.getLocales().toString())));
         }
         return true;
     }

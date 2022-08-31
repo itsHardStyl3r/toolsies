@@ -7,6 +7,7 @@ import me.hardstyl3r.tauth.objects.AuthUser;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -42,7 +43,7 @@ public class authCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (!sender.hasPermission("toolsies.auth")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.auth"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.auth")));
             return true;
         }
         if (args.length >= 2) {
@@ -57,49 +58,45 @@ public class authCommand implements CommandExecutor, TabCompleter {
             }
             AuthUser authUser = loginManager.getAuth(p);
             if (authUser == null || !authUser.isRegistered()) {
-                sender.sendMessage(l.getColoredString("players.unknown").replace("<name>", target));
+                sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("name", target)));
                 return true;
             }
             if (args[0].equalsIgnoreCase("logout")) {
                 if (!authUser.isLoggedIn()) {
-                    sender.sendMessage(l.getColoredString("auth.logout_not_logged_in").replace("<name>", p.getName()));
+                    sender.sendMessage(l.getStringComponent("auth.logout_not_logged_in", Placeholder.unparsed("name", p.getName())));
                     return true;
                 }
                 if (p == sender) {
                     Bukkit.dispatchCommand(sender, "logout");
                     return true;
                 }
-                sender.sendMessage(l.getColoredString("auth.logout_sender").replace("<name>", p.getName()));
-                p.sendMessage(l.getColoredString("auth.logout_target"));
+                sender.sendMessage(l.getStringComponent("auth.logout_sender", Placeholder.unparsed("name", p.getName())));
+                p.sendMessage(l.getStringComponent("auth.logout_target"));
                 loginManagement.performLogout(p, comment);
             } else if (args[0].equalsIgnoreCase("reload")) {
-                sender.sendMessage(l.getColoredString("auth.reload_sender").replace("<name>", target));
+                sender.sendMessage(l.getStringComponent("auth.reload_sender", Placeholder.unparsed("name", target)));
                 if (p != null && !silent) {
-                    Bukkit.getPlayerExact(target).sendMessage(l.getColoredString("auth.reload_target"));
+                    Bukkit.getPlayerExact(target).sendMessage(l.getStringComponent("auth.reload_target"));
                 }
                 loginManager.refreshAuth(authUser);
             } else if (args[0].equalsIgnoreCase("info")) {
-                sender.sendMessage(l.getColoredString("auth.info.header").replace("<name>", authUser.getName()));
-                sender.sendMessage(l.getColoredString("auth.info.uuid").replace("<uuid>", authUser.getUUID().toString()));
-                sender.sendMessage(l.getColoredString("auth.info.ip").replace("<ip>", authUser.getIp()).replace("<regip>", authUser.getRegisterIp()));
-                sender.sendMessage(l.getColoredString("auth.info.regdate").replace("<regdate>", localeManager.getFullDate(authUser.getRegisterDate())));
-                sender.sendMessage(l.getColoredString("auth.info.email").replace("<email>", (authUser.getEmail() == null ? "N/A" : authUser.getEmail())));
+                sender.sendMessage(l.getStringComponent("auth.info.header", Placeholder.unparsed("name", authUser.getName())));
+                sender.sendMessage(l.getStringComponent("auth.info.uuid", Placeholder.unparsed("uuid", authUser.getUUID().toString())));
+                sender.sendMessage(l.getStringComponent("auth.info.ip", Placeholder.unparsed("ip", authUser.getIp()), Placeholder.unparsed("regip", authUser.getRegisterIp())));
+                sender.sendMessage(l.getStringComponent("auth.info.regdate", Placeholder.unparsed("regdate", localeManager.getFullDate(authUser.getRegisterDate()))));
+                sender.sendMessage(l.getStringComponent("auth.info.email", Placeholder.unparsed("email", (authUser.getEmail() == null ? "N/A" : authUser.getEmail()))));
                 Location loc = authUser.getLastLocation();
-                sender.sendMessage(l.getColoredString("auth.info.lastlocation")
-                        .replace("<x>", String.valueOf(loc.getBlockX()))
-                        .replace("<y>", String.valueOf(loc.getBlockY()))
-                        .replace("<z>", String.valueOf(loc.getBlockZ()))
-                        .replace("<world>", loc.getWorld().getName()));
-                sender.sendMessage(l.getColoredString("auth.info.lastlogin").replace("<lastlogin>", localeManager.getFullDate(authUser.getLastLoginDate())));
+                sender.sendMessage(l.getStringComponent("auth.info.lastlocation", Placeholder.unparsed("x", String.valueOf(loc.getBlockX())), Placeholder.unparsed("y", String.valueOf(loc.getBlockY())), Placeholder.unparsed("z", String.valueOf(loc.getBlockZ())), Placeholder.unparsed("world", loc.getWorld().getName())));
+                sender.sendMessage(l.getStringComponent("auth.info.lastlogin", Placeholder.unparsed("lastlogin", localeManager.getFullDate(authUser.getLastLoginDate()))));
                 ArrayList<AuthUser> multis = loginManager.getMultiAccounts(authUser);
-                sender.sendMessage(l.getColoredString("auth.info.multis").replace("<multi>", (multis.isEmpty() ? "0" : getNames(multis).toString())));
+                sender.sendMessage(l.getStringComponent("auth.info.multis", Placeholder.unparsed("multi", (multis.isEmpty() ? "0" : getNames(multis).toString()))));
             } else if (args[0].equalsIgnoreCase("login")) {
                 if (authUser.isLoggedIn()) {
-                    sender.sendMessage(l.getColoredString("auth.login_logged_in").replace("<name>", target));
+                    sender.sendMessage(l.getStringComponent("auth.login_logged_in", Placeholder.unparsed("name", target)));
                     return true;
                 }
-                sender.sendMessage(l.getColoredString("auth.login_sender").replace("<name>", p.getName()));
-                p.sendMessage(l.getColoredString("auth.login_target"));
+                sender.sendMessage(l.getStringComponent("auth.login_sender", Placeholder.unparsed("name", p.getName())));
+                p.sendMessage(l.getStringComponent("auth.login_target"));
                 loginManagement.performLogin(p, comment);
             } else {
                 localeManager.sendUsage(sender, cmd, l);

@@ -7,6 +7,7 @@ import me.hardstyl3r.tbans.objects.Punishment;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,19 +33,19 @@ public class unbanCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!sender.hasPermission("toolsies.unban")) {
-            sender.sendMessage(l.getColoredString("no_permission").replace("<permission>", "toolsies.unban"));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.unban")));
             return true;
         }
         if (args.length == 1) {
             String target = args[0];
             punishmentManager.deleteIfExpired(PunishmentType.BAN, target);
             if (!punishmentManager.isPunished(PunishmentType.BAN, target)) {
-                sender.sendMessage(l.getColoredString("unban.is_not_banned").replace("<name>", target));
+                sender.sendMessage(l.getStringComponent("unban.is_not_banned", Placeholder.unparsed("name", target)));
                 return true;
             }
             Punishment ban = punishmentManager.getPunishment(PunishmentType.BAN, target);
             punishmentManager.deletePunishment(ban, sender.getName());
-            sender.sendMessage(l.getColoredString("unban.unban").replace("<name>", ban.getName()));
+            sender.sendMessage(l.getStringComponent("unban.unban", Placeholder.unparsed("name", ban.getName())));
         } else {
             localeManager.sendUsage(sender, cmd, l);
         }
