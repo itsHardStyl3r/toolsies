@@ -2,6 +2,7 @@ package me.hardstyl3r.tchat.listeners;
 
 import me.hardstyl3r.tchat.TChat;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
+import me.hardstyl3r.toolsies.utils.StringUtils;
 import me.hardstyl3r.tperms.managers.PermissibleUserManager;
 import me.hardstyl3r.tperms.objects.Group;
 import me.hardstyl3r.tperms.objects.PermissibleUser;
@@ -30,7 +31,7 @@ public class TPermsAsyncPlayerChatListener implements Listener {
         if (format == null) return;
         if (e.getPlayer().isOp())
             format = format.replace("<name>", localeManager.getConfig().getString("groups.op-prefix"));
-        e.setFormat(ChatColor.translateAlternateColorCodes('&', format)
+        e.setFormat(StringUtils.translateBothColorCodes(format)
                 .replace("<name>", "%1$s")
                 .replace("<message>", "%2$s"));
     }

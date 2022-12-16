@@ -3,6 +3,7 @@ package me.hardstyl3r.tchat.managers;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import me.hardstyl3r.toolsies.utils.StringUtils;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -23,7 +24,7 @@ public class MessagingManagement {
 
     public void sendMessage(CommandSender sender, Player target, String message, Locale l) {
         if (sender.hasPermission("toolsies.msg.colored"))
-            message = ChatColor.translateAlternateColorCodes('&', message);
+            message = StringUtils.translateBothColorCodes(message);
         boolean hasTargetMsgToggled = messagingManager.hasMsgToggled(target.getUniqueId());
         boolean canBypassToggle = sender.hasPermission("toolsies.msg.bypasstoggle");
         long time = System.currentTimeMillis();

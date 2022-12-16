@@ -1,6 +1,7 @@
 package me.hardstyl3r.toolsies.managers;
 
 import me.hardstyl3r.toolsies.utils.LogUtil;
+import me.hardstyl3r.toolsies.utils.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -67,14 +68,14 @@ public class KitManager {
             if (!lore.isEmpty()) {
                 List<String> colorlore = new ArrayList<>();
                 for (String s : lore) {
-                    colorlore.add(ChatColor.translateAlternateColorCodes('&', s)
+                    colorlore.add(StringUtils.translateBothColorCodes(s)
                             .replace("<name>", p.getName()).replace("<date>", String.valueOf(System.currentTimeMillis())));
                 }
                 im.setLore(colorlore);
             }
             String name = config.getString("kits." + kit + ".items." + kitMaterial + ".name");
             if (name != null) {
-                im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+                im.setDisplayName(StringUtils.translateBothColorCodes(name));
             }
             item.setItemMeta(im);
             p.getInventory().addItem(item);

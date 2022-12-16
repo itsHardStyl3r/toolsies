@@ -1,5 +1,6 @@
 package me.hardstyl3r.toolsies.objects;
 
+import me.hardstyl3r.toolsies.utils.StringUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
@@ -57,7 +58,7 @@ public class Locale {
     }
 
     public String getColoredString(String path) {
-        return ChatColor.translateAlternateColorCodes('&', getString(path));
+        return StringUtils.translateBothColorCodes(getString(path));
     }
 
     public List<String> getStringList(String path) {
