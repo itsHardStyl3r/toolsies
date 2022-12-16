@@ -2,6 +2,9 @@ package me.hardstyl3r.toolsies.managers;
 
 import me.hardstyl3r.toolsies.utils.LogUtil;
 import me.hardstyl3r.toolsies.utils.StringUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -18,6 +21,7 @@ import java.util.Set;
 public class KitManager {
 
     private final FileConfiguration config;
+    private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     public KitManager(ConfigManager configManager) {
         config = configManager.loadConfig(null, "kits");
@@ -66,16 +70,17 @@ public class KitManager {
             ItemMeta im = item.getItemMeta();
             List<String> lore = config.getStringList("kits." + kit + ".items." + kitMaterial + ".lore");
             if (!lore.isEmpty()) {
-                List<String> colorlore = new ArrayList<>();
+                List<Component> colorlore = new ArrayList<>();
                 for (String s : lore) {
-                    colorlore.add(StringUtils.translateBothColorCodes(s)
-                            .replace("<name>", p.getName()).replace("<date>", String.valueOf(System.currentTimeMillis())));
+                    colorlore.add(miniMessage.deserialize(s,
+                            Placeholder.unparsed("name", p.getName()),
+                            Placeholder.unparsed("date", String.valueOf(System.currentTimeMillis()))));
                 }
-                im.setLore(colorlore);
+                im.lore(colorlore);
             }
             String name = config.getString("kits." + kit + ".items." + kitMaterial + ".name");
             if (name != null) {
-                im.setDisplayName(StringUtils.translateBothColorCodes(name));
+                im.displayName(miniMessage.deserialize(name));
             }
             item.setItemMeta(im);
             p.getInventory().addItem(item);

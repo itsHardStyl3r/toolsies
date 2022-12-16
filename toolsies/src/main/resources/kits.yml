@@ -21,43 +21,43 @@ kits:
     items:
       DIAMOND_SWORD:
         amount: 1
-        name: "&aKit Start"
+        name: "<green>Kit Start</green>"
         lore:
-          - "&e<name>"
-          - "&e<date>"
+          - "<yellow><name></yellow>"
+          - "<yellow><date></yellow>"
       COOKED_BEEF:
         amount: 32
-        name: "&aKit Start"
+        name: "<green>Kit Start</green>"
       COOKED_BEEF-1:
         amount: 32
-        name: "&aKit Start 2"
+        name: "<green>Kit Start 2</green>"
   vip:
     items:
       DIAMOND_CHESTPLATE:
         amount: 1
-        name: "&bKit VIP"
+        name: "<blue>Kit VIP</blue>"
         lore:
-          - "&e<name>"
-          - "&e<date>"
+          - "<yellow><name></yellow>"
+          - "<yellow><date></yellow>"
   svip:
     items:
       DIAMOND_LEGGINGS:
         amount: 1
-        name: "&dKit SVIP"
+        name: "<light_purple>Kit SVIP</light_purple>"
         lore:
-          - "&e<name>"
-          - "&e<date>"
+          - "<yellow><name></yellow>"
+          - "<yellow><date></yellow>"
   admin:
     items:
       LEATHER:
         amount: 1
-        name: "&aKit Admin"
+        name: "<green>Kit Admin</green>"
         lore:
-          - "&e<name>"
-          - "&e<date>"
+          - "<yellow><name></yellow>"
+          - "<yellow><date></yellow>"
       COMPASS:
         amount: 1
-        name: "&aKit Admin"
+        name: "<green>Kit Admin</green>"
       STRING:
         amount: 1
-        name: "&aKit Admin"
+        name: "<green>Kit Admin</green>"
