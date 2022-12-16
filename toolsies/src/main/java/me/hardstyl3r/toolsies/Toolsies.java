@@ -51,7 +51,7 @@ public class Toolsies extends JavaPlugin {
         localeManager = new LocaleManager(configManager);
         userManager = new UserManager(localeManager);
         kitManager = new KitManager(configManager);
-        locationManager = new LocationManager(configManager);
+        locationManager = new LocationManager(this, configManager);
     }
 
     private void initCommands() {
@@ -62,7 +62,6 @@ public class Toolsies extends JavaPlugin {
         new spawnCommand(this, userManager, localeManager, locationManager);
         new setspawnCommand(this, userManager, localeManager, locationManager);
         new getspawnCommand(this, userManager, localeManager, locationManager);
-        new delspawnCommand(this, userManager, localeManager, locationManager);
     }
 
     private void initListeners() {

@@ -5,8 +5,9 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.LocationManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
-import me.hardstyl3r.toolsies.objects.Spawn;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,60 +35,33 @@ public class setspawnCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            if (args.length != 2) {
-                localeManager.sendUsage(sender, cmd, l);
-                return true;
-            }
+            sender.sendMessage(l.getStringComponent("console_sender"));
+            return true;
         }
         if (!sender.hasPermission("toolsies.setspawn")) {
             sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.setspawn")));
             return true;
         }
-        if (args.length == 0) {
-            Player p = (Player) sender;
-            if (locationManager.getSpawn(p.getLocation()) != null && locationManager.isLocationIdenticalExact(locationManager.getSpawn(p.getLocation()).getLocation(), p.getLocation())) {
-                sender.sendMessage(l.getStringComponent("setspawn.spawn_is_current_location"));
+        Location location = ((Player) sender).getLocation();
+        World w = location.getWorld();
+        Location currentSpawn = locationManager.getSpawn(w);
+        if (locationManager.isLocationIdentical(location, currentSpawn)) {
+            if (locationManager.getDefaultSpawn().getWorld() == w) {
+                sender.sendMessage(l.getStringComponent("setspawn.spawn_always_preferred"));
                 return true;
             }
-            boolean def = locationManager.getDefaultSpawn() == null;
-            Spawn s = locationManager.setSpawn(p);
-            sender.sendMessage(l.getStringComponent("setspawn.setspawn" + (def ? "_default" : ""), Placeholder.unparsed("name", s.getName())));
-        } else if (args.length == 2) {
-            Spawn s = locationManager.getSpawn(args[0]);
-            if (args[1].equalsIgnoreCase("preferred")) {
-                boolean b = !s.isPreferred();
-                s.setPreferred(b);
-                locationManager.saveSpawn(s);
-                sender.sendMessage(l.getStringComponent("setspawn.set_preferred_" + b, Placeholder.unparsed("name", s.getName())));
-            } else if (args[1].equalsIgnoreCase("default")) {
-                Spawn sold = locationManager.getDefaultSpawn();
-                if (s.isDefault()) {
-                    sender.sendMessage(l.getStringComponent("setspawn.set_default_already", Placeholder.unparsed("name", s.getName())));
-                    return true;
-                }
-                s.setDefault(true);
-                if (sold != null) {
-                    sold.setDefault(false);
-                    locationManager.saveSpawn(sold);
-                }
-                locationManager.saveSpawn(s);
-                sender.sendMessage(l.getStringComponent("setspawn.set_default", Placeholder.unparsed("name", s.getName())));
-            } else {
-                localeManager.sendUsage(sender, cmd, l);
-            }
-        } else {
-            localeManager.sendUsage(sender, cmd, l);
+            locationManager.switchPreferredSpawn(w);
+            sender.sendMessage(l.getStringComponent("setspawn.spawn_"
+                    + (locationManager.isSpawnPreferred(w) ? "" : "un") + "set_preferred"));
+            return true;
         }
+        locationManager.setSpawn(location);
+        sender.sendMessage(l.getStringComponent("setspawn.setspawn", Placeholder.unparsed("name", w.getName())));
         return true;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-        if (sender.hasPermission("toolsies.setspawn")) {
-            if (args.length == 1) return localeManager.formatTabArguments(args[0], locationManager.getSpawns());
-            if (args.length == 2)
-                return localeManager.formatTabArguments(args[1], Arrays.asList("preferred", "default"));
-        }
         return Collections.emptyList();
     }
 }

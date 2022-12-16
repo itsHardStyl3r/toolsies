@@ -1,116 +1,128 @@
 package me.hardstyl3r.toolsies.managers;
 
-import me.hardstyl3r.toolsies.objects.Spawn;
+import me.hardstyl3r.toolsies.Toolsies;
 import me.hardstyl3r.toolsies.utils.LogUtil;
+import me.hardstyl3r.toolsies.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import javax.tools.Tool;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class LocationManager {
 
-    private final FileConfiguration config;
+    private final FileConfiguration locationsFile;
     private final ConfigManager configManager;
+    private final Toolsies plugin;
 
-    private final HashMap<String, Spawn> spawns = new HashMap<>();
+    private final HashMap<String, Location> spawns = new HashMap<>();
 
-    public LocationManager(ConfigManager configManager) {
+    /*
+    Spawn location - a custom spawn set here
+    Spawnpoint - World's default spawnpoint
+     */
+    public LocationManager(Toolsies plugin, ConfigManager configManager) {
+        this.plugin = plugin;
         this.configManager = configManager;
-        config = configManager.loadConfig(null, "locations");
+        locationsFile = configManager.loadConfig(null, "locations");
         loadSpawns();
     }
 
-    private Location getLocation(String world, String path) {
-        double x = config.getDouble(path + ".x");
-        double y = config.getDouble(path + ".y");
-        double z = config.getDouble(path + ".z");
-        float yaw = (float) config.getDouble(path + ".yaw");
-        float pitch = (float) config.getDouble(path + ".pitch");
-        return new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
-    }
-
     private void loadSpawns() {
-        if (config.getConfigurationSection("spawn") == null) {
-            LogUtil.info("[toolsies] loadSpawns(): Could not find any spawns.");
-            return;
-        }
-        for (String s : config.getConfigurationSection("spawn").getKeys(false)) {
-            if (Bukkit.getWorld(s) == null) {
-                LogUtil.info("[toolsies] loadSpawns(): Could not find world " + s + ".");
+        if (locationsFile.getConfigurationSection("spawns") == null) return;
+        for (String spawnEntry : locationsFile.getConfigurationSection("spawns").getKeys(false)) {
+            World world = Bukkit.getWorld(spawnEntry);
+            if (world == null) {
+                LogUtil.warn("[toolsies] loadSpawns(): Could not find world " + spawnEntry + ". Skipping.");
                 continue;
             }
-            Spawn spawn = new Spawn(getLocation(s, "spawn." + s));
-            spawn.setPreferred(config.getBoolean("spawn." + s + ".preferred"));
-            spawn.setOwner(UUID.fromString(config.getString("spawn." + s + ".owner")));
-            spawn.setDefault(config.getBoolean("spawn." + s + ".default"));
-            spawn.setAdded(config.getLong("spawn." + s + ".added"));
-            spawns.put(s, spawn);
+            if (!StringUtils.isDouble(locationsFile.getString("spawns." + spawnEntry + ".x"))
+                    || !StringUtils.isDouble(locationsFile.getString("spawns." + spawnEntry + ".y"))
+                    || !StringUtils.isDouble(locationsFile.getString("spawns." + spawnEntry + ".z"))) {
+                LogUtil.warn("[toolsies] loadSpawns(): Coordinates of " + spawnEntry + "'s spawn are wrong. Skipping.");
+                continue;
+            }
+            Location spawn = new Location(world,
+                    locationsFile.getDouble("spawns." + spawnEntry + ".x"),
+                    locationsFile.getDouble("spawns." + spawnEntry + ".y"),
+                    locationsFile.getDouble("spawns." + spawnEntry + ".z"),
+                    (float) locationsFile.getDouble("spawns." + spawnEntry + ".yaw"),
+                    (float) locationsFile.getDouble("spawns." + spawnEntry + ".pitch"));
+            spawns.put(world.getName(), spawn);
         }
         LogUtil.info("[toolsies] loadSpawns(): Loaded " + spawns.size() + " spawns.");
     }
 
-    public Spawn setSpawn(Player p) {
-        Location l = p.getLocation();
-        boolean b = getDefaultSpawn() == null;
-        Spawn spawn = new Spawn(l);
-        spawn.setOwner(p.getUniqueId());
-        spawn.setPreferred(b);
-        spawn.setDefault(b);
-        if (spawns.get(l.getWorld().getName()) != null) {
+    public void setSpawn(Location l) {
+        String worldName = l.getWorld().getName();
+        if (spawns.get(worldName) != null) {
             LogUtil.info("[toolsies] setSpawn(): Replaced previous " + l.getWorld().getName() + " spawn.");
-            spawn.setLocation(l);
+            spawns.remove(worldName);
         } else {
-            LogUtil.info("[toolsies] setSpawn(): Created new spawn for " + l.getWorld().getName() + ".");
-            spawns.put(l.getWorld().getName(), spawn);
+            LogUtil.info("[toolsies] setSpawn(): Created new " + l.getWorld().getName() + " spawn.");
         }
-        saveSpawn(spawn);
+        spawns.put(worldName, l);
         l.getWorld().setSpawnLocation(l);
-        return spawn;
+        locationsFile.set("spawns." + worldName + ".x", l.getX());
+        locationsFile.set("spawns." + worldName + ".y", l.getY());
+        locationsFile.set("spawns." + worldName + ".z", l.getZ());
+        locationsFile.set("spawns." + worldName + ".yaw", l.getYaw());
+        locationsFile.set("spawns." + worldName + ".pitch", l.getPitch());
+        locationsFile.set("spawns." + worldName + ".preferred", isSpawnPreferred(l.getWorld()));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
+                configManager.saveConfig(plugin, locationsFile, "locations"));
     }
 
-    public Spawn getSpawn(Location l) {
-        return getSpawn(l.getWorld().getName());
+    /**
+     * A method to return spawn location. If not set, will return world's Spawnpoint.
+     *
+     * @param w A world
+     * @return Spawn location or Spawnpoint if null
+     */
+    public Location getSpawn(World w) {
+        if (spawns.get(w.getName()) == null) return w.getSpawnLocation();
+        return spawns.get(w.getName());
     }
 
-    public Spawn getSpawn(World w) {
-        return getSpawn(w.getName());
+    /**
+     * This method returns preferred spawn of the world.
+     * If spawn location in this world is not preferred, return the world's default spawn location.
+     *
+     * @param w A world
+     * @return Location of preferred spawn
+     */
+    public Location getPreferredSpawn(World w) {
+        if (isSpawnPreferred(w)) return getSpawn(w);
+        return getDefaultSpawn();
     }
 
-    public Spawn getSpawn(String s) {
-        return spawns.get(s);
+    /**
+     * @return Spawn location of default world
+     */
+    public Location getDefaultSpawn() {
+        return getSpawn(Bukkit.getWorlds().get(0));
     }
 
-    public Spawn getDefaultSpawn() {
-        for (Spawn s : spawns.values()) {
-            if (s.isDefault()) return s;
-        }
-        return null;
+    /**
+     * Determines whether world's spawn location is preferred.
+     *
+     * @param w A world
+     * @return true if world's spawn location is preferred, false otherwise
+     */
+    public boolean isSpawnPreferred(World w) {
+        return locationsFile.getBoolean("spawns." + w.getName() + ".preferred", false) || getDefaultSpawn().getWorld() == w;
     }
 
-    public ArrayList<String> getAvailableSpawns(CommandSender sender) {
-        ArrayList<String> worlds = new ArrayList<>();
-        for (Spawn s : spawns.values()) {
-            if (sender.hasPermission("toolsies.spawn." + s.getName())) {
-                if (Bukkit.getWorld(s.getName()) != null) {
-                    worlds.add(s.getName());
-                }
-            }
-        }
-        return worlds;
-    }
-
-    public ArrayList<String> getSpawns() {
-        ArrayList<String> worlds = new ArrayList<>();
-        for (Spawn s : spawns.values()) {
-            worlds.add(s.getName());
-        }
-        return worlds;
+    public void switchPreferredSpawn(World w) {
+        locationsFile.set("spawns." + w.getName() + ".preferred", !isSpawnPreferred(w));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
+                configManager.saveConfig(plugin, locationsFile, "locations"));
     }
 
     public boolean isLocationIdentical(Location l1, Location l2) {
@@ -123,26 +135,5 @@ public class LocationManager {
         return isLocationIdentical(l1, l2)
                 && (l1.getYaw() == l2.getYaw())
                 && (l1.getPitch() == l2.getPitch());
-    }
-
-    public void saveSpawn(Spawn s) {
-        Location l = s.getLocation();
-        String path = "spawn." + l.getWorld().getName();
-        config.set(path + ".x", l.getX());
-        config.set(path + ".y", l.getY());
-        config.set(path + ".z", l.getZ());
-        config.set(path + ".yaw", l.getYaw());
-        config.set(path + ".pitch", l.getPitch());
-        config.set(path + ".owner", s.getOwner().toString());
-        config.set(path + ".added", s.getAdded());
-        config.set(path + ".preferred", s.isPreferred());
-        config.set(path + ".default", s.isDefault());
-        configManager.saveConfig(null, config, "locations");
-    }
-
-    public void deleteSpawn(Spawn s) {
-        spawns.remove(s.getName());
-        config.set("spawn." + s.getLocation().getWorld().getName(), null);
-        configManager.saveConfig(null, config, "locations");
     }
 }

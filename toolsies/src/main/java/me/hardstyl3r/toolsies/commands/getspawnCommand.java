@@ -5,10 +5,8 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.LocationManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
-import me.hardstyl3r.toolsies.objects.Spawn;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -38,7 +36,7 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Locale l = userManager.determineLocale(sender);
         if (!(sender instanceof Player)) {
-            if (args.length > 1) {
+            if (args.length != 1) {
                 localeManager.sendUsage(sender, cmd, l);
                 return true;
             }
@@ -47,45 +45,29 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.getspawn")));
             return true;
         }
-        if (args.length <= 1) {
-            World w = Bukkit.getWorlds().get(0);
+        if (args.length < 2) {
+            Location spawn = locationManager.getDefaultSpawn();
             if (sender instanceof Player) {
-                w = ((Player) sender).getWorld();
+                spawn = locationManager.getSpawn(((Player) sender).getWorld());
             }
             if (args.length == 1) {
-                if (Bukkit.getWorld(args[0]) == null) {
+                World w = Bukkit.getWorld(args[0]);
+                if (w == null) {
                     sender.sendMessage(l.getStringComponent("getspawn.unknown_world", Placeholder.unparsed("name", args[0])));
                     return true;
-                } else if (locationManager.getSpawn(args[0]) == null) {
-                    Location loc = Bukkit.getWorld(args[0]).getSpawnLocation();
-                    sender.sendMessage(l.getStringComponent("getspawn.small",
-                            Placeholder.unparsed("<name>", loc.getWorld().getName()),
-                            Placeholder.unparsed("<x>", String.valueOf(loc.getBlockX())),
-                            Placeholder.unparsed("<y>", String.valueOf(loc.getBlockY())),
-                            Placeholder.unparsed("<z>", String.valueOf(loc.getBlockZ())),
-                            Placeholder.unparsed("<yaw>", String.valueOf(loc.getYaw())),
-                            Placeholder.unparsed("<pitch>", String.valueOf(loc.getPitch()))));
-                    return true;
                 }
-                w = Bukkit.getWorld(args[0]);
+                spawn = locationManager.getSpawn(w);
             }
-            if (locationManager.getSpawn(w) == null) {
-                sender.sendMessage(l.getStringComponent("getspawn.unknown_spawn", Placeholder.unparsed("name", args[0])));
-                return true;
-            }
-            Spawn s = locationManager.getSpawn(w);
             sender.sendMessage(l.getStringComponent("getspawn.details",
-                    Placeholder.unparsed("<name>", s.getLocation().getWorld().getName()),
-                    Placeholder.unparsed("<x>", String.valueOf(s.getLocation().getBlockX())),
-                    Placeholder.unparsed("<y>", String.valueOf(s.getLocation().getBlockY())),
-                    Placeholder.unparsed("<z>", String.valueOf(s.getLocation().getBlockZ())),
-                    Placeholder.unparsed("<yaw>", String.valueOf(s.getLocation().getYaw())),
-                    Placeholder.unparsed("<pitch>", String.valueOf(s.getLocation().getPitch())),
-                    Placeholder.unparsed("<distance>", (sender instanceof Player && s.getLocation().getWorld() == ((Player) sender).getWorld() ? String.valueOf(Math.round(s.getLocation().distance(((Player) sender).getLocation()))) : "N/A")),
-                    Placeholder.unparsed("<owner>", userManager.getUser(s.getOwner()).getName()),
-                    Placeholder.unparsed("<time>", String.valueOf(s.getAdded())),
-                    Placeholder.unparsed("<preferred>", localeManager.translateBoolean(l, s.isPreferred())),
-                    Placeholder.unparsed("<default>", localeManager.translateBoolean(l, s.isDefault()))));
+                    Placeholder.unparsed("name", spawn.getWorld().getName()),
+                    Placeholder.unparsed("x", String.valueOf(spawn.getBlockX())),
+                    Placeholder.unparsed("y", String.valueOf(spawn.getBlockY())),
+                    Placeholder.unparsed("z", String.valueOf(spawn.getBlockZ())),
+                    Placeholder.unparsed("yaw", String.valueOf(spawn.getYaw())),
+                    Placeholder.unparsed("pitch", String.valueOf(spawn.getPitch())),
+                    Placeholder.unparsed("preferred", localeManager.translateBoolean(l,
+                            locationManager.isSpawnPreferred(spawn.getWorld())))));
+            return true;
         } else {
             localeManager.sendUsage(sender, cmd, l);
         }

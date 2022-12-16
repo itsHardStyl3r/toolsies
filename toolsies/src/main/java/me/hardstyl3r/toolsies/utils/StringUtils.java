@@ -25,6 +25,20 @@ public class StringUtils {
     }
 
     /**
+     * A very bad function to determine whether a given string is a double.
+     * @param s A string to be checked.
+     * @return True if string s is double, false otherwise.
+     */
+    public static boolean isDouble(String s){
+        try {
+            Double.parseDouble(s);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
      * A function to determine whether a given string is a correct UUID.
      *
      * @param s A string to be checked.

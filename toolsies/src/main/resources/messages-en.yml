@@ -135,48 +135,29 @@ getspawn:
     console-getspawn: "/getspawn [świat] - spawn information"
   unknown_world: "<red>#</red> <grey>World <name> does not exist."
   unknown_spawn: "<red>#</red> <grey>World <name> does not have a spawn point."
-  small: "<yellow>#</yellow> <grey>Spawnpoint information of <name></grey><newline>
-    <yellow>></yellow> <grey>XYZ: <x>, <y>, <z></grey><newline>
-    <yellow>></yellow> <grey>Yaw/Pitch: <yaw>, <pitch></grey>"
   details: "<yellow>#</yellow> <grey>Spawn information of <name></grey><newline>
     <yellow>></yellow> <grey>XYZ: <x>, <y>, <z></grey><newline>
     <yellow>></yellow> <grey>Yaw/Pitch: <yaw>, <pitch></grey><newline>
-    <yellow>></yellow> <grey>Distance: <distance> blocks</grey><newline>
-    <yellow>></yellow> <grey>Set by <owner> on <time>.</grey><newline>
-    <yellow>></yellow> <grey>Preferred? <preferred></grey><newline>
-    <yellow>></yellow> <grey>Default? <default></grey>"
+    <yellow>></yellow> <grey>Preferred: <preferred></grey>"
 
 spawn:
   usage:
-    spawn: "/spawn [world] [arg-player] - teleports to spawn"
-    console-spawn: "/spawn [world] <player> - teleports to spawn"
-  unknown_spawn: "<red>#</red> <grey>World <name> does not have a spawn point.</grey>"
+    spawn: "/spawn [arg-player] - teleports to spawn"
+    console-spawn: "/spawn <player> - teleports to spawn"
   teleported_to_spawn: "<green>#</green> <grey>Teleported to spawn.</grey>"
   teleported_to_spawn_sender: "<green>#</green> <grey>Teleported <name> to spawn.</grey>"
   teleported_to_spawn_target: "<yellow>#</yellow> <grey>Teleported to spawn by <admin>.</grey>"
-  spawn_is_current_location: "<yellow>#</yellow> <grey>You're currently on spawn.</grey>"
-  spawn_is_current_location_sender: "<yellow>#</yellow> <grey><name> is currently on spawn.</grey>"
+  currently_on_spawn: "<yellow>#</yellow> <grey>You're currently on spawn.</grey>"
+  currently_on_spawn_sender: "<yellow>#</yellow> <grey><name> is currently on spawn.</grey>"
 
 setspawn:
   usage:
     setspawn: "/setspawn [world] [preferred/default] - sets or manages spawn"
     console-setspawn: "/setspawn <world> <preferred/default> - sets or manages spawn"
-  setspawn: "<green>#</green> <grey>Set spawn <name>.</grey>"
-  setspawn_default: "<green>#</green> <grey>Set default spawn <name>.</grey>"
-  spawn_is_current_location: "<yellow>#</yellow> <grey>There's already set spawn here.</grey>"
-  set_preferred_false: "<green>#</green> <grey>Spawn <name> is no longer preferred.</grey>"
-  set_preferred_true: "<green>#</green> <grey>Spawn <name> is now preferred.</grey>"
-  set_default: "<green>#</green> <grey>Spawn <name> is now default.</grey>"
-  set_default_already: "<yellow>#</yellow> <grey>Spawn <name> is already default.</grey>"
-
-delspawn:
-  usage:
-    delspawn: "/delspawn [world] - deletes spawn"
-    console-delspawn: "/delspawn <world> - deletes spawn"
-  unknown_spawn: "<red>#</red> <grey>World <name> does not have a spawn point.</grey>"
-  delspawn: "<green>#</green> <grey>Deleted spawn <name>.</grey>"
-  delspawn_default: "<red>#</red> <grey>You can't delete default spawn <name>.</grey>"
-  no_spawn_specified: "<yellow>#</yellow> <grey>You have to be on spawn or specify it.</grey>"
+  setspawn: "<green>#</green> <grey>Set spawn location <name>.<newline>If this location should be preferred, retype command in the same location.</grey>"
+  spawn_set_preferred: "<green>#</green> <grey>This spawn location is now preferred.</grey>"
+  spawn_unset_preferred: "<green>#</green> <grey>This spawn location is no longer preferred.</grey>"
+  spawn_always_preferred: "<yellow>#</yellow> <grey>This spawn location is always preferred.</grey>"
 
 ban:
   usage:

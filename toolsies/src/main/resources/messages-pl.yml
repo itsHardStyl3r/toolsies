@@ -147,9 +147,8 @@ getspawn:
 
 spawn:
   usage:
-    spawn: "/spawn [świat] [arg-player] - teleportuje na spawn"
-    console-spawn: "/spawn <świat> <gracz> - teleportuje na spawn"
-  unknown_spawn: "<red>#</red> <grey>Świat <name> nie ma ustawionego spawnu.</grey>"
+    spawn: "/spawn [arg-player] - teleportuje na spawn"
+    console-spawn: "/spawn <gracz> - teleportuje na spawn"
   teleported_to_spawn: "<green>#</green> <grey>Teleportowano na spawn.</grey>"
   teleported_to_spawn_sender: "<green>#</green> <grey>Teleportowano <name> na spawn.</grey>"
   teleported_to_spawn_target: "<yellow>#</yellow> <grey>Teleportowano na spawn przez <admin>.</grey>"
@@ -160,22 +159,10 @@ setspawn:
   usage:
     setspawn: "/setspawn [świat] [preferred/default] - ustawia lub zarządza spawnem"
     console-setspawn: "/setspawn <świat> <preferred/default> - ustawia lub zarządza spawnem"
-  setspawn: "<green>#</green> <grey>Ustawiono spawn <name>.</grey>"
-  setspawn_default: "<green>#</green> <grey>Ustawiono domyślny spawn <name>.</grey>"
-  spawn_is_current_location: "<yellow>#</yellow> <grey>W tym miejscu znajduje się już spawn.</grey>"
-  set_preferred_false: "<green>#</green> <grey>Spawn <name> nie jest już preferowany.</grey>"
-  set_preferred_true: "<green>#</green> <grey>Spawn <name> jest teraz preferowany.</grey>"
-  set_default: "<green>#</green> <grey>Spawn <name> jest teraz domyślny.</grey>"
-  set_default_already: "<yellow>#</yellow> <grey>Spawn <name> jest już domyślny.</grey>"
-
-delspawn:
-  usage:
-    delspawn: "/delspawn [świat] - usuwa spawn"
-    console-delspawn: "/delspawn <świat> - usuwa spawn"
-  unknown_spawn: "<red>#</red> <grey>Świat <name> nie ma ustawionego spawnu."
-  delspawn: "<green>#</green> <grey>Usunięto spawn <name>.</grey>"
-  delspawn_default: "<red>#</red> <grey>Nie możesz usunąć domyślnego spawnu <name>.</grey>"
-  no_spawn_specified: "<yellow>#</yellow> <grey>Musisz znajdować się na spawnie lub określić świat.</grey>"
+  setspawn: "<green>#</green> <grey>Ustawiono lokalizację spawn <name>.<newline>Jeżeli ta lokalizacja ma być preferowana, wpisz jeszcze raz tę komendę w tym miejscu.</grey>"
+  spawn_set_preferred: "<green>#</green> <grey>Ta lokalizacja spawnu jest teraz preferowana.</grey>"
+  spawn_unset_preferred: "<green>#</green> <grey>Ta lokalizacja spawnu nie jest już preferowana.</grey>"
+  spawn_always_preferred: "<yellow>#</yellow> <grey>Ta lokalizacja spawnu jest zawsze preferowana.</grey>"
 
 ban:
   usage:

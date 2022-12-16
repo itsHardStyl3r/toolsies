@@ -67,7 +67,6 @@ groups:
       - 'toolsies.permission'
       - 'toolsies.permission.others'
       - 'toolsies.permission.clear'
-      - 'toolsies.spawn.world'
       - 'toolsies.spawn.others'
       - 'toolsies.getspawn'
       - 'toolsies.chat'
@@ -91,7 +90,6 @@ groups:
       - 'toolsies.permission.remove'
       - 'toolsies.delspawn'
       - 'toolsies.setspawn'
-      - 'toolsies.spawn.bypass'
       - 'toolsies.socialspy'
     inherits:
       - 'player'
