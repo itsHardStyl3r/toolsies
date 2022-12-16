@@ -4,6 +4,7 @@ import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
 import me.hardstyl3r.toolsies.utils.StringUtils;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -36,9 +37,17 @@ public class MessagingManagement {
             }
             messagingManager.setConversation(p.getUniqueId(), target.getUniqueId());
         }
-        sender.sendMessage(l.getStringComponent("msg.text_sender", Placeholder.unparsed("time", localeManager.getTime(time)), Placeholder.unparsed("name", target.getName()), Placeholder.unparsed("message", message)));
+        sender.sendMessage(l.getStringComponent("msg.text_sender",
+                Placeholder.unparsed("time", localeManager.getTime(time)),
+                Placeholder.unparsed("name", target.getName()),
+                Placeholder.unparsed("message", message))
+                .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + target.getName() + " ")));
         if (!hasTargetMsgToggled || canBypassToggle)
-            target.sendMessage(targetLocale.getStringComponent("msg.text_target", Placeholder.unparsed("time", localeManager.getTime(time)), Placeholder.unparsed("name", sender.getName()), Placeholder.unparsed("message", message)));
+            target.sendMessage(targetLocale.getStringComponent("msg.text_target",
+                    Placeholder.unparsed("time", localeManager.getTime(time)),
+                    Placeholder.unparsed("name", sender.getName()),
+                    Placeholder.unparsed("message", message))
+                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + sender.getName() + " ")));
         if (hasTargetMsgToggled && canBypassToggle)
             sender.sendMessage(l.getStringComponent("msg.target_toggled_info", Placeholder.unparsed("name", target.getName())));
         messagingManager.doSocialSpy(sender, target, message);
