@@ -44,16 +44,16 @@ public class chatCommand implements CommandExecutor, TabCompleter {
             if (args[0].equalsIgnoreCase("clear") && sender.hasPermission("toolsies.chat.clear")) {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     for (int i = 0; i < 100; i++) p.sendMessage(" ");
-                    for (String s : userManager.determineLocale(p).getStringList("chat.clear.broadcast"))
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', s).replace("<nick>", sender.getName()));
+                    p.sendMessage(l.getStringComponent("chat.clear.broadcast",
+                            Placeholder.unparsed("<nick>", sender.getName())));
                 }
             } else if ((args[0].equalsIgnoreCase("toggle") || args[0].equalsIgnoreCase("lock"))
                     && sender.hasPermission("toolsies.chat.toggle")) {
                 chatManager.toggleLocked();
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    for (String s : userManager.determineLocale(p).getStringList("chat.toggle.broadcast"))
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', s.replace("<type>", l.getString("chat.toggle.types." + chatManager.isLocked()))).replace("<nick>", sender.getName()));
-                }
+                for (Player p : Bukkit.getOnlinePlayers())
+                    p.sendMessage(l.getStringComponent("chat.toggle.broadcast",
+                            Placeholder.unparsed("<nick>", sender.getName()),
+                            Placeholder.unparsed("<type>", l.getString("chat.toggle.types." + chatManager.isLocked()))));
             } else
                 localeManager.sendUsage(sender, cmd, l);
         } else

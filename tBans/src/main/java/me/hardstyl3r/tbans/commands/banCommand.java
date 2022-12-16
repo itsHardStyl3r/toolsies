@@ -14,6 +14,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerKickEvent;
 
 import java.util.Collections;
 import java.util.List;
@@ -61,9 +62,11 @@ public class banCommand implements CommandExecutor, TabCompleter {
             Punishment punishment = punishmentManager.createPunishment(type, uuid, target, admin, reason, null);
             sender.sendMessage(l.getStringComponent("ban.ban", Placeholder.unparsed("name", target)));
             Player p = Bukkit.getPlayerExact(target);
-            if (Bukkit.getPlayerExact(target) != null) {
-                p.kickPlayer(punishmentManager.formatMessage(punishment, userManager.determineLocale(p), "kick"));
-            }
+            if (p != null)
+                p.kick(userManager.determineLocale(uuid).getStringComponent("ban.kick_message",
+                        Placeholder.unparsed("admin", admin),
+                                Placeholder.unparsed("reason", (reason == null ? "" : reason))),
+                        PlayerKickEvent.Cause.BANNED);
         } else {
             localeManager.sendUsage(sender, cmd, l);
         }

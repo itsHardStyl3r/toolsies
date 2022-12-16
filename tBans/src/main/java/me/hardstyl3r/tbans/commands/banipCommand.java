@@ -14,6 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerKickEvent;
 
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -72,9 +73,11 @@ public class banipCommand implements CommandExecutor, TabCompleter {
             Punishment punishment = punishmentManager.createPunishment(target, admin, reason, null);
             sender.sendMessage(l.getStringComponent("ban-ip.ban-ip", Placeholder.unparsed("address", target.getHostAddress())));
             for (Player kick : Bukkit.getOnlinePlayers()) {
-                if (kick.getAddress().getAddress().equals(target)) {
-                    kick.kickPlayer(punishmentManager.formatMessage(punishment, userManager.determineLocale(kick), "kick"));
-                }
+                if (kick.getAddress().getAddress().equals(target))
+                    p.kick(userManager.determineLocale(kick).getStringComponent("ban.kick_message",
+                                    Placeholder.unparsed("admin", admin),
+                                    Placeholder.unparsed("reason", (reason == null ? "" : reason))),
+                            PlayerKickEvent.Cause.IP_BANNED);
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

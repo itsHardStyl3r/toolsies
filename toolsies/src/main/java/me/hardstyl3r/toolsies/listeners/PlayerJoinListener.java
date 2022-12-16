@@ -58,10 +58,6 @@ public class PlayerJoinListener implements Listener {
             User users = userManager.getUser(p);
             p.sendMessage(users.getLocale().getStringComponent("players.join.broadcast", Placeholder.unparsed("name", target.getName())));
         }
-
-        for (String s : u.getLocale().getStringList("players.join.motd")) {
-            target.sendMessage(ChatColor.translateAlternateColorCodes('&', s)
-                    .replace("<name>", target.getName()));
-        }
+        target.sendMessage(u.getLocale().getStringComponent("players.join.motd", Placeholder.unparsed("name", target.getName())));
     }
 }

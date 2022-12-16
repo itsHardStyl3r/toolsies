@@ -14,6 +14,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerKickEvent;
 
 import java.util.Collections;
 import java.util.List;
@@ -56,22 +57,16 @@ public class kickCommand implements CommandExecutor, TabCompleter {
             String reason = (args.length > 1 ? localeManager.createMessage(args, 1) : null);
             sender.sendMessage(l.getStringComponent("kick.kick", Placeholder.unparsed("name", target)));
             Player p = Bukkit.getPlayerExact(target);
-            if (Bukkit.getPlayerExact(target) != null) {
-                p.kickPlayer(ChatColor.translateAlternateColorCodes('&', constructMessage(userManager.determineLocale(p), sender.getName(), reason)));
+            if (p != null) {
+                p.kick(userManager.determineLocale(p).getStringComponent("kick.kick_message",
+                        Placeholder.unparsed("admin", sender.getName()),
+                        Placeholder.unparsed("reason", (reason == null ? "" : reason))),
+                        PlayerKickEvent.Cause.KICK_COMMAND);
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);
         }
         return true;
-    }
-
-    private String constructMessage(Locale l, String admin, String reason) {
-        String message = l.getString("kick.kickmessage.header");
-        message += "\n" + l.getString("kick.kickmessage.admin").replace("<admin>", admin);
-        if (reason != null) {
-            message += "\n" + l.getString("kick.kickmessage.reason").replace("<reason>", reason);
-        }
-        return message;
     }
 
     @Override

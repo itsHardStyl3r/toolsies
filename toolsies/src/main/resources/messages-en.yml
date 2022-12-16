@@ -135,18 +135,16 @@ getspawn:
     console-getspawn: "/getspawn [świat] - spawn information"
   unknown_world: "<red>#</red> <grey>World <name> does not exist."
   unknown_spawn: "<red>#</red> <grey>World <name> does not have a spawn point."
-  small:
-    - "<yellow>#</yellow> <grey>Spawnpoint information of <name></grey>"
-    - "<yellow>></yellow> <grey>XYZ: <x>, <y>, <z></grey>"
-    - "<yellow>></yellow> <grey>Yaw/Pitch: <yaw>, <pitch></grey>"
-  details:
-    - "<yellow>#</yellow> <grey>Spawn information of <name></grey>"
-    - "<yellow>></yellow> <grey>XYZ: <x>, <y>, <z></grey>"
-    - "<yellow>></yellow> <grey>Yaw/Pitch: <yaw>, <pitch></grey>"
-    - "<yellow>></yellow> <grey>Distance: <distance> blocks</grey>"
-    - "<yellow>></yellow> <grey>Set by <owner> on <time>.</grey>"
-    - "<yellow>></yellow> <grey>Preferred? <preferred></grey>"
-    - "<yellow>></yellow> <grey>Default? <default></grey>"
+  small: "<yellow>#</yellow> <grey>Spawnpoint information of <name></grey><newline>
+    <yellow>></yellow> <grey>XYZ: <x>, <y>, <z></grey><newline>
+    <yellow>></yellow> <grey>Yaw/Pitch: <yaw>, <pitch></grey>"
+  details: "<yellow>#</yellow> <grey>Spawn information of <name></grey><newline>
+    <yellow>></yellow> <grey>XYZ: <x>, <y>, <z></grey><newline>
+    <yellow>></yellow> <grey>Yaw/Pitch: <yaw>, <pitch></grey><newline>
+    <yellow>></yellow> <grey>Distance: <distance> blocks</grey><newline>
+    <yellow>></yellow> <grey>Set by <owner> on <time>.</grey><newline>
+    <yellow>></yellow> <grey>Preferred? <preferred></grey><newline>
+    <yellow>></yellow> <grey>Default? <default></grey>"
 
 spawn:
   usage:
@@ -185,17 +183,13 @@ ban:
     ban: "/ban <player> [reason] - bans a player"
     console-ban: "/ban <player> [reason] - bans a player"
   ban: "<green>#</green> <grey>Banned <name>.</grey>"
-  messages:
-    kick:
-      header: "<red>You've been permanently banned.</red><newline>"
-      footer: "<white>Appeal at: somewhere</white>"
-    join:
-      header: "<red>You are permanently banned.</red><newline>"
-      footer: "<white>Appeal at: somewhere</white>"
-    date: "<white>Banned on: <date></white>"
-    admin: "<white>Banned by: <admin></white>"
-    reason: "<white>Reason: <reason></white>"
-    duration: "<white>Expires on: <duration></white>"
+  kick_message: "<red>You've been permanently banned by <admin>.</red><newline>
+    <white>Reason: <reason></white><newline>
+    <white>Appeal at: somewhere</white>"
+  join_message: "<red>You're currently banned by <admin>.</red><newline>
+    <white>Reason: <reason></white><newline>
+    <white>Banned on: <date></white><newline>
+    <white>Appeal at: somewhere</white>"
   ban_broadcast: "<green>#</green> <grey>Player <name> has been permanently banned by <admin>.</grey>"
   is_banned: "<yellow>#</yellow> <grey><name> is already banned.</grey>"
   unresolved_hostname: "&cYour IP address could not be resolved.</grey>"
@@ -227,6 +221,15 @@ tempban:
     console-tempban: "/tempban <player> <time> [reason] - temporarily bans player"
   tempban: "<green>#</green> <grey>Temporarily banned <name> for <duration>.</grey>"
   tempban_broadcast: "<green>#</green> <grey>Player <name> has been temporarily banned by <admin> for <duration>.</grey>"
+  kick_message: "<red>You've been temporarily banned by <admin>.</red><newline>
+    <white>Reason: <reason><newline>
+    <white>Expires on: <duration><newline>
+    <white>Appeal at: somewhere</white>"
+  join_message: "<red>You're currently banned by <admin>.</red><newline>
+    <white>Reason: <reason><newline>
+    <white>Banned on: <date></white><newline>
+    <white>Expires on: <duration></white><newline>
+    <white>Appeal at: somewhere</white>"
   incorrect_time: "<red>#</red> <grey>Incorrect duration entered.</grey>"
   duration_too_short: "<red>#</red> <grey>Duration must be at least <duration>.</grey>"
   priority_too_high: "<red>#</red> <grey>You can't temporarily ban this player.</grey>"
@@ -335,10 +338,7 @@ kick:
     kick: "/kick <player> - kicks a player"
     console-kick: "/kick <player> - kicks a player"
   kick: "<green>#</green> <grey>Kicked <name>.</grey>"
-  kickmessage:
-    header: "<red>You've been kicked.</red><newline>"
-    admin: "<white>Kicked by: <admin></white>"
-    reason: "<white>Reason: <reason></white>"
+  kick_message: "<red>You've been kicked by <admin>.</red><newline><white>Reason: <reason></white>"
   priority_too_high: "<red>#</red> <grey>You can't kick this player.</grey>"
 
 tempban-ip:
@@ -447,15 +447,9 @@ chat:
     clear: "/chat clear - clears chat"
     lock: "/chat lock - lock and unlock chat"
   clear:
-    broadcast:
-      - ''
-      - '<yellow><bold>></bold></yellow> <grey>Chat has been cleared by <yellow><nick></yellow>.</grey>'
-      - ''
+    broadcast: "<newline><yellow><bold>></bold></yellow> <grey>Chat has been cleared by <yellow><nick></yellow>.</grey><newline>"
   toggle:
-    broadcast:
-      - ''
-      - '<yellow><bold>></bold></yellow> <grey>Chat has been <type> by <yellow><nick></yellow>.</grey>'
-      - ''
+    broadcast: "<newline><yellow><bold>></bold></yellow> <grey>Chat has been <type> by <yellow><nick></yellow>.</grey><newline>"
     chat_locked: "<yellow>#</yellow> <grey>Chat is currently locked.</grey>"
     types:
       true: "<red>locked</red>"
@@ -504,8 +498,7 @@ players:
   offline: "<red>#</red> <grey>Player <name> is offline.</grey>"
   join:
     broadcast: "<yellow><name> joined the game</yellow>"
-    motd:
-      - '<gold>*</gold> <grey>Welcome to the server, <name>!</grey>'
+    motd: "<gold>*</gold> <grey>Welcome to the server, <name>!</grey>"
     new_player: "<light_purple>Player <name> joined the server for the first time!</light_purple>"
   quit:
     broadcast: "<yellow><name> left the game</yellow>"

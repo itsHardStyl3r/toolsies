@@ -134,18 +134,16 @@ getspawn:
     console-getspawn: "/getspawn [świat] - informacje o spawnie"
   unknown_world: "<red>#</red> <grey>Świat <name> nie istnieje.</grey>"
   unknown_spawn: "<red>#</red> <grey>Świat <name> nie ma ustawionego spawnu.</grey>"
-  small:
-    - "<yellow>#</yellow> <grey>Informacje o spawnpoincie <name></grey>"
-    - "<yellow>></yellow> <grey>XYZ: <x>, <y>, <z></grey>"
-    - "<yellow>></yellow> <grey>Yaw/Pitch: <yaw>, <pitch></grey>"
-  details:
-    - "<yellow>#</yellow> <grey>Informacje o spawnie <name></grey>"
-    - "<yellow>></yellow> <grey>XYZ: <x>, <y>, <z></grey>"
-    - "<yellow>></yellow> <grey>Yaw/Pitch: <yaw>, <pitch></grey>"
-    - "<yellow>></yellow> <grey>Odległość: <distance> bloków</grey>"
-    - "<yellow>></yellow> <grey>Ustawiony przez <owner> o <time>.</grey>"
-    - "<yellow>></yellow> <grey>Preferowany? <preferred></grey>"
-    - "<yellow>></yellow> <grey>Domyślny? <default></grey>"
+  small: "<yellow>#</yellow> <grey>Informacje o spawnpoincie <name></grey><newline>
+    <yellow>></yellow> <grey>XYZ: <x>, <y>, <z></grey><newline>
+    <yellow>></yellow> <grey>Yaw/Pitch: <yaw>, <pitch></grey>"
+  details: "<yellow>#</yellow> <grey>Informacje o spawnie <name></grey><newline>
+    <yellow>></yellow> <grey>XYZ: <x>, <y>, <z></grey><newline>
+    <yellow>></yellow> <grey>Yaw/Pitch: <yaw>, <pitch></grey><newline>
+    <yellow>></yellow> <grey>Odległość: <distance> bloków</grey><newline>
+    <yellow>></yellow> <grey>Ustawiony przez <owner> o <time>.</grey><newline>
+    <yellow>></yellow> <grey>Preferowany? <preferred></grey><newline>
+    <yellow>></yellow> <grey>Domyślny? <default></grey>"
 
 spawn:
   usage:
@@ -184,17 +182,13 @@ ban:
     ban: "/ban <gracz> [powód] - banuje gracza"
     console-ban: "/ban <gracz> [powód] - banuje gracza"
   ban: "<green>#</green> <grey>Zbanowano gracza <name>.</grey>"
-  messages:
-    kick:
-      header: "<red>Zostałeś permanentnie zbanowany.</red><newline>"
-      footer: "<white>Odwołaj się w: somewhere</white>"
-    join:
-      header: "<red>Jesteś permanentnie zbanowany.</red><newline>"
-      footer: "<white>Odwołaj się w: somewhere</white>"
-    date: "<white>Zbanowany w: <date></white>"
-    admin: "<white>Zbanowany przez: <admin></white>"
-    reason: "<white>Powód: <reason></white>"
-    duration: "<white>Przedawniony po: <duration></white>"
+  kick_message: "<red>Zostałeś permanentnie zbanowany przez <admin>.</red><newline>
+    <white>Powód: <reason></white><newline>
+    <white>Odwołaj się w: somewhere</white>"
+  join_message: "<red>Jesteś obecnie zbanowany przez <admin>.</red><newline>
+    <white>Powód: <reason></white><newline>
+    <white>Zbanowany w: <date></white><newline>
+    <white>Odwołaj się w: somewhere</white>"
   ban_broadcast: "<green>#</green> <grey>Gracz <name> został permanentnie zbanowany przez <admin>.</grey>"
   is_banned: "<yellow>#</yellow> <grey><name> jest już zbanowany.</grey>"
   unresolved_hostname: "<red>Nie udało się potwierdzić adresu IP.</red>"
@@ -226,6 +220,15 @@ tempban:
     console-tempban: "/tempban <gracz> <czas> [powód] - tymczasowo banuje gracza"
   tempban: "<green>#</green> <grey>Tymczasowo zbanowano gracza <name> na <duration>.</grey>"
   tempban_broadcast: "<green>#</green> <grey>Gracz <name> został tymczasowo zbanowany <admin> na <duration>.</grey>"
+  kick_message: "<red>Zostałeś permanentnie zbanowany przez <admin>.</red><newline>
+    <white>Powód: <reason></white><newline>
+    <white>Przedawniony po: <duration><newline>
+    <white>Odwołaj się w: somewhere</white>"
+  join_message: "<red>Jesteś obecnie zbanowany przez <admin>.</red><newline>
+    <white>Powód: <reason></white><newline>
+    <white>Zbanowany w: <date></white><newline>
+    <white>Przedawniony po: <duration></white><newline>
+    <white>Odwołaj się w: somewhere</white>"
   incorrect_time: "<red>#</red> <grey>Niepoprawny czas długości bana.</grey>"
   duration_too_short: "<red>#</red> <grey>Okres musi mieć co najmniej <duration>.</grey>"
   priority_too_high: "<red>#</red> <grey>Nie możesz tymczasowo zbanować tego gracza.</grey>"
@@ -334,10 +337,7 @@ kick:
     kick: "/kick <gracz> - wyrzuca gracza"
     console-kick: "/kick <gracz> - wyrzuca gracza"
   kick: "<green>#</green> <grey>Wyrzucono <name>.</grey>"
-  kickmessage:
-    header: "<red>Zostałeś wyrzucony.</red><newline>"
-    admin: "<white>Wyrzucony przez: <admin></white>"
-    reason: "<white>Powód: <reason></white>"
+  kick_message: "<red>Zostałeś wyrzucony przez <admin>.</red><newline><white>Powód: <reason></white>"
   priority_too_high: "<red>#</red> <grey>Nie możesz wyrzucić tego gracza.</grey>"
 
 tempban-ip:
@@ -446,15 +446,9 @@ chat:
     clear: "/chat clear - czyści chat"
     lock: "/chat lock - blokuje lub odblokowuje chat"
   clear:
-    broadcast:
-      - ''
-      - '<yellow><bold>></bold></yellow> <grey>Chat zostal wyczyszczony przez <yellow><nick></yellow>.</grey>'
-      - ''
+    broadcast: "<newline><yellow><bold>></bold></yellow> <grey>Chat zostal wyczyszczony przez <yellow><nick></yellow>.</grey><newline>"
   toggle:
-    broadcast:
-      - ''
-      - '<yellow><bold>></bold></yellow> <grey>Chat zostal <type> przez <yellow><nick></yellow>.</grey>'
-      - ''
+    broadcast: "<newline><yellow><bold>></bold></yellow> <grey>Chat zostal <type> przez <yellow><nick></yellow>.</grey><newline>"
     chat_locked: "<yellow>#</yellow> <grey>Chat jest obecnie zablokowany.</grey>"
     types:
       true: "<red>zablokowany</red>"
@@ -503,8 +497,7 @@ players:
   offline: "<red>#</red> <grey>Gracz <name> jest offline.</grey>"
   join:
     broadcast: "<yellow><name> dołączył do gry</yellow>"
-    motd:
-      - '<gold>*</gold> <grey>Witaj na serwerze, <name>!</grey>'
+    motd: "<gold>*</gold> <grey>Witaj na serwerze, <name>!</grey>"
     new_player: "<light_purple>Gracz <name> po raz pierwszy dołączył na serwer!</light_purple>"
   quit:
     broadcast: "<yellow><name> opuścił grę</yellow>"

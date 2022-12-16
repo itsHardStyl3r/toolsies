@@ -341,20 +341,6 @@ public class PunishmentManager {
         });
     }
 
-    public String formatMessage(Punishment punishment, Locale l, String action) {
-        String message = l.getString("ban.messages." + action + ".header");
-        message += "\n" + l.getString("ban.messages.date").replace("<date>", localeManager.getFullDate(punishment.getDate()));
-        message += "\n" + l.getString("ban.messages.admin").replace("<admin>", punishment.getAdmin());
-        if (punishment.getReason() != null) {
-            message += "\n" + l.getString("ban.messages.reason").replace("<reason>", punishment.getReason());
-        }
-        if (punishment.getDuration() != null) {
-            message += "\n" + l.getString("ban.messages.duration").replace("<duration>", localeManager.parseTimeWithTranslate(punishment.getRemaining(), l));
-        }
-        message += "\n" + l.getString("ban.messages." + action + ".footer");
-        return ChatColor.translateAlternateColorCodes('&', message);
-    }
-
     public Long getMinimumDuration(PunishmentType type) {
         String duration = config.getString("minimumDuration." + type.toString());
         if (duration == null || duration.equals("0")) {

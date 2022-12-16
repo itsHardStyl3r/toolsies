@@ -58,15 +58,13 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
                     return true;
                 } else if (locationManager.getSpawn(args[0]) == null) {
                     Location loc = Bukkit.getWorld(args[0]).getSpawnLocation();
-                    for (String m : l.getStringList("getspawn.small")) {
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', m)
-                                .replace("<name>", loc.getWorld().getName())
-                                .replace("<x>", String.valueOf(loc.getBlockX()))
-                                .replace("<y>", String.valueOf(loc.getBlockY()))
-                                .replace("<z>", String.valueOf(loc.getBlockZ()))
-                                .replace("<yaw>", String.valueOf(loc.getYaw()))
-                                .replace("<pitch>", String.valueOf(loc.getPitch())));
-                    }
+                    sender.sendMessage(l.getStringComponent("getspawn.small",
+                            Placeholder.unparsed("<name>", loc.getWorld().getName()),
+                            Placeholder.unparsed("<x>", String.valueOf(loc.getBlockX())),
+                            Placeholder.unparsed("<y>", String.valueOf(loc.getBlockY())),
+                            Placeholder.unparsed("<z>", String.valueOf(loc.getBlockZ())),
+                            Placeholder.unparsed("<yaw>", String.valueOf(loc.getYaw())),
+                            Placeholder.unparsed("<pitch>", String.valueOf(loc.getPitch()))));
                     return true;
                 }
                 w = Bukkit.getWorld(args[0]);
@@ -76,20 +74,18 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
             Spawn s = locationManager.getSpawn(w);
-            for (String m : l.getStringList("getspawn.details")) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', m)
-                        .replace("<name>", s.getLocation().getWorld().getName())
-                        .replace("<x>", String.valueOf(s.getLocation().getBlockX()))
-                        .replace("<y>", String.valueOf(s.getLocation().getBlockY()))
-                        .replace("<z>", String.valueOf(s.getLocation().getBlockZ()))
-                        .replace("<yaw>", String.valueOf(s.getLocation().getYaw()))
-                        .replace("<pitch>", String.valueOf(s.getLocation().getPitch()))
-                        .replace("<distance>", (sender instanceof Player && s.getLocation().getWorld() == ((Player) sender).getWorld() ? String.valueOf(Math.round(s.getLocation().distance(((Player) sender).getLocation()))) : "N/A"))
-                        .replace("<owner>", userManager.getUser(s.getOwner()).getName())
-                        .replace("<time>", String.valueOf(s.getAdded()))
-                        .replace("<preferred>", localeManager.translateBoolean(l, s.isPreferred()))
-                        .replace("<default>", localeManager.translateBoolean(l, s.isDefault())));
-            }
+            sender.sendMessage(l.getStringComponent("getspawn.details",
+                    Placeholder.unparsed("<name>", s.getLocation().getWorld().getName()),
+                    Placeholder.unparsed("<x>", String.valueOf(s.getLocation().getBlockX())),
+                    Placeholder.unparsed("<y>", String.valueOf(s.getLocation().getBlockY())),
+                    Placeholder.unparsed("<z>", String.valueOf(s.getLocation().getBlockZ())),
+                    Placeholder.unparsed("<yaw>", String.valueOf(s.getLocation().getYaw())),
+                    Placeholder.unparsed("<pitch>", String.valueOf(s.getLocation().getPitch())),
+                    Placeholder.unparsed("<distance>", (sender instanceof Player && s.getLocation().getWorld() == ((Player) sender).getWorld() ? String.valueOf(Math.round(s.getLocation().distance(((Player) sender).getLocation()))) : "N/A")),
+                    Placeholder.unparsed("<owner>", userManager.getUser(s.getOwner()).getName()),
+                    Placeholder.unparsed("<time>", String.valueOf(s.getAdded())),
+                    Placeholder.unparsed("<preferred>", localeManager.translateBoolean(l, s.isPreferred())),
+                    Placeholder.unparsed("<default>", localeManager.translateBoolean(l, s.isDefault()))));
         } else {
             localeManager.sendUsage(sender, cmd, l);
         }

@@ -14,6 +14,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerKickEvent;
 
 import java.util.Collections;
 import java.util.List;
@@ -71,8 +72,13 @@ public class tempbanCommand implements CommandExecutor, TabCompleter {
             Punishment punishment = punishmentManager.createPunishment(type, uuid, target, admin, reason, duration);
             sender.sendMessage(l.getStringComponent("tempban.tempban", Placeholder.unparsed("name", target), Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(duration, l))));
             Player p = Bukkit.getPlayerExact(target);
-            if (Bukkit.getPlayerExact(target) != null) {
-                p.kickPlayer(punishmentManager.formatMessage(punishment, userManager.determineLocale(target), "kick"));
+            if (p != null) {
+                Locale targetLocale = userManager.determineLocale(uuid);
+                p.kick(targetLocale.getStringComponent("tempban.kick_message",
+                                Placeholder.unparsed("admin", admin),
+                                Placeholder.unparsed("reason", (reason == null ? "" : reason)),
+                                Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(duration, targetLocale))),
+                        PlayerKickEvent.Cause.BANNED);
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);
