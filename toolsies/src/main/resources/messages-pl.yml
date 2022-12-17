@@ -99,6 +99,11 @@ broadcast:
     console-broadcast: "/broadcast <wiadomość> - ogłasza wiadomość"
   style: "<dark_grey>[<blue>Ogłoszenie</blue>]</dark_grey> <grey><message></grey>"
 
+broadcastraw:
+  usage:
+    broadcast: "/broadcastraw <wiadomość> - ogłasza tylko sformatowaną wiadomość"
+    console-broadcast: "/broadcastraw <wiadomość> - ogłasza tylko sformatowaną wiadomość"
+
 permission:
   usage:
     permission: "/permission [arg-player] - sprawdza dodatkowe uprawnienia"

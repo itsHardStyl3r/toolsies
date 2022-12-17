@@ -9,6 +9,7 @@ commands:
   kit:
   locale:
   broadcast:
+  broadcastraw:
   getspawn:
   setspawn:
   spawn:
