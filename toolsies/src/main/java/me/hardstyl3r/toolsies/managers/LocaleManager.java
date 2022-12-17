@@ -97,12 +97,12 @@ public class LocaleManager {
                         } else {
                             usage = usage.replace("[arg-player] ", "").replace("<arg-player> ", "");
                         }
-                        sender.sendMessage(locale.getStringComponent("usage.format", Placeholder.unparsed("<usages>", usage)));
+                        sender.sendMessage(locale.getStringComponent("usage.format", Placeholder.unparsed("usages", usage)));
                     }
                 } else {
                     String val = s.replace("-", ".").replace("arg", "").replaceAll("\\d", "");
                     if (sender.hasPermission("toolsies." + (val.isEmpty() ? command : val))) {
-                        sender.sendMessage(locale.getStringComponent("usage.argument", Placeholder.unparsed("<args>", locale.getString(command + ".usage." + s))));
+                        sender.sendMessage(locale.getStringComponent("usage.argument", Placeholder.unparsed("args", locale.getString(command + ".usage." + s))));
                     }
                 }
             }
