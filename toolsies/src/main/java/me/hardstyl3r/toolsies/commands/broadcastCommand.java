@@ -40,11 +40,11 @@ public class broadcastCommand implements CommandExecutor, TabCompleter {
         }
         if (args.length > 0) {
             String input = StringUtils.translateBothColorCodes(localeManager.createMessage(args, 0));
-            Component message;
+            Component message = Component.text(input);
             try {
-                message = miniMessage.deserialize(input);
+                if (sender.hasPermission("toolsies.broadcast.minimessage"))
+                    message = miniMessage.deserialize(input);
             } catch (Exception ignored) {
-                message = Component.text(input);
             }
             if (!(sender instanceof Player)) sender.sendMessage(message);
             for (Player p : Bukkit.getOnlinePlayers())

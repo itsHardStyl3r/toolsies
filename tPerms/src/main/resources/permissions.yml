@@ -80,6 +80,7 @@ groups:
     priority: 4
   admin:
     permissions:
+      - 'toolsies.broadcast.minimessage'
       - 'toolsies.group.list'
       - 'toolsies.group.set'
       - 'toolsies.group.add'
