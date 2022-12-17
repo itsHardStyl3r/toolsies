@@ -42,7 +42,7 @@ login:
     loginAllowedCommands:
       - 'login'
   applyBlindnessToUnauthorised: true
-  teleportUnauthorisedToSpawn: false
+  teleportUnauthorisedToSpawn: true
   useWalkSpeedFlySpeed: true
   chat:
     allowUnauthorisedToChat: false
