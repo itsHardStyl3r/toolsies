@@ -2,9 +2,9 @@ no_permission: "<dark_red>You don't have permission to do this.</dark_red> <dark
 console_sender: "This command can't be executed in console."
 
 usage:
-  header: "<yellow>#</yellow> <grey>Available usages:"
-  format: "<yellow>></yellow>   <grey><usages>"
-  argument: "&e@    <grey><args>"
+  header: "<yellow>#</yellow> <grey>Available usages:</grey>"
+  format: "<yellow>></yellow>   <grey><usages></grey>"
+  argument: "<yellow>@</yellow>    <grey><args></grey>"
 
 common:
   player: "player"
