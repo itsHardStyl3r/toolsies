@@ -43,6 +43,7 @@ common:
   currentPassword: "obecneHasło"
   newPassword: "noweHasło"
   email: "adresEmail"
+  amount: "ilość"
 
 locale:
   unknown_locale: "<red>#</red> <grey>Język <name> nie istnieje.</grey>"
@@ -483,6 +484,16 @@ socialspy:
   toggle_false: "<green>#</green> <grey>Podgląd prywatnych wiadomości został włączony.</grey>"
   toggle_true: "<green>#</green> <grey>Podgląd prywatnych wiadomości został wyłączony.</grey>"
   broadcast: "<dark_red>PW</dark_red> <grey><italic><attacker> do <victim>: <message></italic></grey>"
+
+more:
+  usage:
+    more: "/more - zwiększa ilość przedmiotu w główej lub drugiej ręce"
+    argmore-bypass: "[amount] - ustawia konkretną ilość"
+  not_numeric: "<red>#</red> <grey>Ilość musi być cyfrą.</grey>"
+  empty_hand: "<yellow>#</yellow> <grey>Musisz trzymać przedmiot w którejś dłoni.</grey>"
+  same_amount: "<yellow>#</yellow> <grey>Osiągnięto <choice:'0#maksymalny stack|1#żądaną ilość'> tego przedmiotu.</grey>"
+  set_amount: "<green>#</green> <grey><amounttype:'0#Zmniej|1#Zwięk'>szono ilość przedmiotu w ręce do <newamount>.</grey>"
+  excluded_item: "<yellow>#</yellow> <grey>Nie możesz modyfikować ilości tego przedmiotu.</grey>"
 
 players:
   unknown: "<red>#</red> <grey>Gracz <name> nie istnieje.</grey>"

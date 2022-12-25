@@ -13,3 +13,4 @@ commands:
   getspawn:
   setspawn:
   spawn:
+  more:

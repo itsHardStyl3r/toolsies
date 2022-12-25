@@ -92,6 +92,7 @@ groups:
       - 'toolsies.delspawn'
       - 'toolsies.setspawn'
       - 'toolsies.socialspy'
+      - 'toolsies.more'
     inherits:
       - 'player'
       - 'moderator'
@@ -102,6 +103,8 @@ groups:
       - 'toolsies.kick.bypasspriority'
       - 'toolsies.warn.bypasspriority'
       - 'toolsies.mute.bypasspriority'
+      - 'toolsies.more.bypass'
+      - 'toolsies.more.exceedstack'
     inherits:
       - 'admin'
     priority: 6

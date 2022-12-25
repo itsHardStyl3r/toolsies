@@ -62,6 +62,7 @@ public class Toolsies extends JavaPlugin {
         new spawnCommand(this, userManager, localeManager, locationManager);
         new setspawnCommand(this, userManager, localeManager, locationManager);
         new getspawnCommand(this, userManager, localeManager, locationManager);
+        new moreCommand(this, userManager, localeManager, configManager.getConfig());
     }
 
     private void initListeners() {

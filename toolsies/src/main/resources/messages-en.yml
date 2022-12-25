@@ -44,6 +44,7 @@ common:
   currentPassword: "currentPassword"
   newPassword: "newPassword"
   email: "emailAddress"
+  amount: "amount"
 
 locale:
   unknown_locale: "<red>#</red> <grey>Locale <name> does not exist.</grey>"
@@ -478,6 +479,16 @@ socialspy:
   toggle_false: "<green>#</green> <grey>Spying on private messages has been turned on.</grey>"
   toggle_true: "<green>#</green> <grey>Spying on private messages has been turned off.</grey>"
   broadcast: "<dark_red>PM</dark_red> <grey><italic><attacker> to <victim>: <message></italic></grey>"
+
+more:
+  usage:
+    more: "/more - maximizes amount of item in main/off-hand"
+    argmore-bypass: "[amount] - sets custom amount"
+  not_numeric: "<red>#</red> <grey>Amount must be a number.</grey>"
+  empty_hand: "<yellow>#</yellow> <grey>You need to hold an item in either hand.</grey>"
+  same_amount: "<yellow>#</yellow> <grey><choice:'0#Maximum stack|1#Requested amount'> of this item reached.</grey>"
+  set_amount: "<green>#</green> <grey><amounttype:'0#De|1#In'>creased amount of item in hand to <newamount>.</grey>"
+  excluded_item: "<yellow>#</yellow> <grey>You can't modify amount of this item.</grey>"
 
 players:
   unknown: "<red>#</red> <grey>Player <name> does not exist.</grey>"

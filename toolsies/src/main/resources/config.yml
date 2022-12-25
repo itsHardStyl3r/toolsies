@@ -32,3 +32,26 @@ default:
 locales:
   - 'pl'
   - 'en'
+
+#                                            #
+#              COMMANDS SECTION              #
+#                                            #
+#
+# excludeItems: <true/false>, default: true
+#   If true, user won't be allowed to change amount items listed below.
+#   toolsies.more.bypass permission bypasses this limitation.
+more:
+  excludeItems: true
+  excludedItems:
+    - ''
+  excludedItemsStartsWith:
+    - ''
+  excludedItemsEndsWith:
+    - 'HELMET'
+    - 'CHESTPLATE'
+    - 'LEGGINS'
+    - 'BOOTS'
+    - 'SWORD'
+    - 'SHOVEL'
+    - 'AXE' # + pickaxe
+    - 'HOE'
