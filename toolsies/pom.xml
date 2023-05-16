@@ -5,7 +5,7 @@
     <parent>
         <artifactId>toolsiesParent</artifactId>
         <groupId>me.hardstyl3r</groupId>
-        <version>0.12-BETA</version>
+        <version>0.13-BETA</version>
     </parent>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>

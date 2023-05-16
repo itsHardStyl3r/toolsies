@@ -7,7 +7,7 @@
     <groupId>me.hardstyl3r</groupId>
     <artifactId>toolsiesParent</artifactId>
     <packaging>pom</packaging>
-    <version>0.12-BETA</version>
+    <version>0.13-BETA</version>
     <modules>
         <module>toolsies</module>
         <module>tPerms</module>
