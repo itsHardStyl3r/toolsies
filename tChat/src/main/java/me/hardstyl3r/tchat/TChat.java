@@ -86,7 +86,7 @@ public class TChat extends JavaPlugin {
 
     private void initListeners() {
         new AsyncChatListener(this, chatManager, toolsies.userManager, toolsies.localeManager);
-        new AsyncPlayerChatListener(this);
+        new AsyncPlayerChatListener(this, config);
         if (isTPermsAvailable())
             new TPermsAsyncPlayerChatListener(this, tPerms.permissibleUserManager, toolsies.localeManager);
     }

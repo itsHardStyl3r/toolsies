@@ -28,3 +28,18 @@ msg:
 # and socialspies will be saved to file storage.yml.
 # Default: 1200 seconds (20 minutes)
 saveToFilePeriod: 1200
+
+# Chat mentioning system.
+mentions:
+  # This option determines whether full (true) or beginning of (false) a nickname should be considered a mention.
+  # e.g. @HardStyl3r is a "full name" mention, whereas @hard, @hards, or @hardstyl are "beginning of" mentions.
+  usePlayerExact: false
+  # An option to allow @everyone mentions, which mentions every player online.
+  # Permission `toolsies.chat.mention.everyone` would still be required.
+  allowEveryoneMention: true
+  # Define how the mentioned user should be notified.
+  # Note that volume should be between 0 and 1 and pitch between 0 and 2.
+  notification:
+    sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    volume: 0.6
+    pitch: 1
