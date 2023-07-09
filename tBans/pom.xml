@@ -5,12 +5,12 @@
     <parent>
         <artifactId>toolsiesParent</artifactId>
         <groupId>me.hardstyl3r</groupId>
-        <version>0.13-BETA</version>
+        <version>0.14-BETA</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>tBans</artifactId>
-    <version>0.3-BETA</version>
+    <version>0.4-BETA</version>
 
     <build>
         <plugins>
@@ -58,7 +58,7 @@
         <dependency>
             <groupId>me.hardstyl3r</groupId>
             <artifactId>tPerms</artifactId>
-            <version>0.6-BETA</version>
+            <version>0.7-BETA</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
