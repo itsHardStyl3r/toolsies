@@ -154,6 +154,9 @@ public class LoginManager {
                 authUser.setPlaytime(rs.getLong("playtime"));
                 Player online = Bukkit.getPlayer(UUID.fromString(rs.getString("uuid")));
                 if (online != null && rs.getBoolean("loggedin")) {
+                    // Refresh last login date on reload.
+                    authUser.setLastLoginDate(System.currentTimeMillis());
+
                     if (config.getBoolean("login.logoutOnReload", true)) {
                         Locale l = userManager.determineLocale(UUID.fromString(rs.getString("uuid")));
                         online.sendMessage(l.getStringComponent("login.reload_login"));
