@@ -1,5 +1,6 @@
 no_permission: "<dark_red>You don't have permission to do this.</dark_red> <dark_grey>(<permission>)</dark_grey>"
 console_sender: "This command can't be executed in console."
+unknown_command: "<yellow>#</yellow> <grey>Command <command> does not exist.</grey>"
 
 usage:
   header: "<yellow>#</yellow> <grey>Available usages:</grey>"

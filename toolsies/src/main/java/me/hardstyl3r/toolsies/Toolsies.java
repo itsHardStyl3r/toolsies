@@ -1,6 +1,7 @@
 package me.hardstyl3r.toolsies;
 
 import me.hardstyl3r.toolsies.commands.*;
+import me.hardstyl3r.toolsies.listeners.PlayerCommandPreprocessListener;
 import me.hardstyl3r.toolsies.listeners.PlayerJoinListener;
 import me.hardstyl3r.toolsies.listeners.PlayerQuitListener;
 import me.hardstyl3r.toolsies.listeners.PlayerRespawnListener;
@@ -69,6 +70,7 @@ public class Toolsies extends JavaPlugin {
         new PlayerJoinListener(this, userManager);
         new PlayerQuitListener(this, userManager);
         new PlayerRespawnListener(this, locationManager);
+        new PlayerCommandPreprocessListener(this, userManager);
     }
 
     public static Toolsies getInstance() {
