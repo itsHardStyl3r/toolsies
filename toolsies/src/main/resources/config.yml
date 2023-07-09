@@ -9,7 +9,7 @@ database:
   class: "com.mysql.jdbc.jdbc2.optional.MysqlDataSource"
   host: 127.0.0.1
   port: 3306
-  user:
+  user: root
   password:
 
 #                                            #
