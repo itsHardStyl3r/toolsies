@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
@@ -54,8 +55,8 @@ public class TAuth extends JavaPlugin {
         initManagers();
         initCommands();
         initListeners();
-        if (Bukkit.spigot().getPaperConfig().getBoolean("settings.enable-player-collisions")) {
-            LogUtil.warn("[tAuth] Please disable player collisions in paper.yml config! (settings.enable-player-collisions)");
+        if (Bukkit.spigot().getPaperConfig().getBoolean("collisions.enable-player-collisions")) {
+            LogUtil.info("[tAuth] Consider disabling player collisions in config" + File.separator + "paper-global.yml. (collisions.enable-player-collisions)");
         }
         LogUtil.info("[tAuth] Enabled tAuth. (took " + (System.currentTimeMillis() - current) + "ms)");
     }
@@ -76,7 +77,6 @@ public class TAuth extends JavaPlugin {
         new changepasswordCommand(this, toolsies.userManager, loginManager, toolsies.localeManager);
         new playtimeCommand(this, toolsies.userManager, toolsies.localeManager, loginManager);
         new emailCommand(this, toolsies.userManager, toolsies.localeManager, loginManager, emailConfig);
-
     }
 
     private void initManagers() {
