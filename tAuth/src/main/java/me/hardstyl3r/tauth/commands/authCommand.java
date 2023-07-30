@@ -89,7 +89,7 @@ public class authCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage(l.getStringComponent("auth.info.lastlocation", Placeholder.unparsed("x", String.valueOf(loc.getBlockX())), Placeholder.unparsed("y", String.valueOf(loc.getBlockY())), Placeholder.unparsed("z", String.valueOf(loc.getBlockZ())), Placeholder.unparsed("world", loc.getWorld().getName())));
                 sender.sendMessage(l.getStringComponent("auth.info.lastlogin", Placeholder.unparsed("lastlogin", localeManager.getFullDate(authUser.getLastLoginDate()))));
                 ArrayList<AuthUser> multis = loginManager.getMultiAccounts(authUser);
-                sender.sendMessage(l.getStringComponent("auth.info.multis", Placeholder.unparsed("multi", (multis.isEmpty() ? "0" : getNames(multis).toString()))));
+                sender.sendMessage(l.getStringComponent("auth.info.multis", Placeholder.unparsed("multi", (multis.isEmpty() ? "0" : String.join(",", multis.stream().map(AuthUser::getName).toList())))));
             } else if (args[0].equalsIgnoreCase("login")) {
                 if (authUser.isLoggedIn()) {
                     sender.sendMessage(l.getStringComponent("auth.login_logged_in", Placeholder.unparsed("name", target)));
@@ -105,14 +105,6 @@ public class authCommand implements CommandExecutor, TabCompleter {
             localeManager.sendUsage(sender, cmd, l);
         }
         return true;
-    }
-
-    private ArrayList<String> getNames(ArrayList<AuthUser> users) {
-        ArrayList<String> names = new ArrayList<>();
-        for (AuthUser authUser : users) {
-            names.add(authUser.getName());
-        }
-        return names;
     }
 
     @Override

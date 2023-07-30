@@ -53,7 +53,7 @@ public class localeCommand implements CommandExecutor, TabCompleter {
             userManager.updateUser(u);
             sender.sendMessage(locale.getStringComponent("locale.changed_own", Placeholder.unparsed("name", locale.getName())));
         } else {
-            sender.sendMessage(l.getStringComponent("locale.available_locales", Placeholder.unparsed("locales", localeManager.getLocales().toString())));
+            sender.sendMessage(l.getStringComponent("locale.available_locales", Placeholder.unparsed("locales", String.join(", ", localeManager.getLocales()))));
         }
         return true;
     }

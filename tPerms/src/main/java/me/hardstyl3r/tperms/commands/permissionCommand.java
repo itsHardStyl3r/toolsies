@@ -58,7 +58,7 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
             if (!u.hasPermissions()) {
                 sender.sendMessage(l.getStringComponent("permission.no_permissions"));
             } else {
-                sender.sendMessage(l.getStringComponent("permission.current_permissions", Placeholder.unparsed("permissions", permissibleUserManager.serialize(u.getPermissions()))));
+                sender.sendMessage(l.getStringComponent("permission.current_permissions", Placeholder.unparsed("permissions", String.join(", ", u.getPermissions()))));
             }
         } else if (args.length == 1) {
             if (permissibleUserManager.getUser(args[0]) != null) {
@@ -70,7 +70,7 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
                 if (!u.hasPermissions()) {
                     sender.sendMessage(l.getStringComponent("permission.no_permissions" + (sender.getName().equals(u.getName()) ? "" : "_sender"), Placeholder.unparsed("player", u.getName())));
                 } else {
-                    sender.sendMessage(l.getStringComponent("permission.current_permissions" + (sender.getName().equals(u.getName()) ? "" : "_sender"), Placeholder.unparsed("player", u.getName()), Placeholder.unparsed("permissions", permissibleUserManager.serialize(u.getPermissions()))));
+                    sender.sendMessage(l.getStringComponent("permission.current_permissions" + (sender.getName().equals(u.getName()) ? "" : "_sender"), Placeholder.unparsed("player", u.getName()), Placeholder.unparsed("permissions", String.join(", ", u.getPermissions()))));
                 }
             } else {
                 localeManager.sendUsage(sender, cmd, l);

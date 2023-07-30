@@ -74,7 +74,7 @@ public class PermissibleUserManager {
                     user.setGroups(permissionsManager.getDefaultGroups());
                     String update = "UPDATE `users` SET `groups`=? WHERE `uuid`=?";
                     PreparedStatement p1 = connection.prepareStatement(update);
-                    p1.setString(1, permissionsManager.listGroups(user.getGroups()));
+                    p1.setString(1, String.join(",", user.listGroups()));
                     p1.setString(2, user.getUUID().toString());
                     p1.execute();
                     p1.close();
@@ -120,8 +120,9 @@ public class PermissibleUserManager {
             try {
                 connection = Hikari.getHikari().getConnection();
                 p = connection.prepareStatement(update);
-                p.setString(1, permissionsManager.listGroups(user.getGroups()));
-                p.setString(2, serialize(user.getPermissions()));
+                List<String> permissions = user.getPermissions();
+                p.setString(1, String.join(",", user.listGroups()));
+                p.setString(2, (permissions == null || permissions.isEmpty() ? null : String.join(",", permissions)));
                 p.setString(3, user.getUUID().toString());
                 p.execute();
                 LogUtil.info("[tPerms] updatePermissibleUser(): Updated " + user.getName() + ".");
@@ -131,17 +132,5 @@ public class PermissibleUserManager {
                 Hikari.close(connection, p, null);
             }
         });
-    }
-
-    public String serialize(List<String> strings) {
-        if (strings == null) return null;
-        if (strings.isEmpty() || strings.size() == 0) return null;
-        for (String s : strings) {
-            if (s.contains(",")) s.replace(",", ".");
-        }
-        return strings.toString()
-                .replace("[", "")
-                .replace("]", "")
-                .replace(" ", "");
     }
 }

@@ -51,7 +51,8 @@ public class groupCommand implements CommandExecutor, TabCompleter {
         }
         if (args.length == 0) {
             PermissibleUser u = permissibleUserManager.getUser(sender);
-            sender.sendMessage(l.getStringComponent("group.current_group", Placeholder.unparsed("group", u.getMainGroup().getName() + (sender.isOp() ? " (" + permissionManager.listGroups(u.getGroups()) + ")" : ""))));
+            sender.sendMessage(l.getStringComponent("group.current_group",
+                    Placeholder.unparsed("group", u.getMainGroup().getName() + (sender.isOp() ? " (" + String.join(", ", u.listGroups()) + ")" : ""))));
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("list")) {
                 if (!sender.hasPermission("toolsies.group.list")) {
@@ -59,14 +60,16 @@ public class groupCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 List<String> groups = permissionManager.getGroups();
-                sender.sendMessage(l.getStringComponent("group.list" + (groups.size() == 0 ? "_none" : ""), Placeholder.unparsed("group", groups.toString())));
+                sender.sendMessage(l.getStringComponent("group.list" + (groups.size() == 0 ? "_none" : ""), Placeholder.unparsed("groups", String.join(", ", groups))));
             } else if (permissibleUserManager.getUser(args[0]) != null) {
                 if (!sender.hasPermission("toolsies.group.others")) {
                     localeManager.sendUsage(sender, cmd, l);
                     return true;
                 }
                 PermissibleUser u = permissibleUserManager.getUser(args[0]);
-                sender.sendMessage(l.getStringComponent("group.current_group_sender", Placeholder.unparsed("player", u.getName()), Placeholder.unparsed("group", u.getMainGroup().getName() + (sender.isOp() ? " (" + permissionManager.listGroups(u.getGroups()) + ")" : ""))));
+                sender.sendMessage(l.getStringComponent("group.current_group_sender",
+                        Placeholder.unparsed("player", u.getName()),
+                        Placeholder.unparsed("group", u.getMainGroup().getName() + (sender.isOp() ? " (" + String.join(", ", u.listGroups()) + ")" : ""))));
             } else {
                 localeManager.sendUsage(sender, cmd, l);
             }

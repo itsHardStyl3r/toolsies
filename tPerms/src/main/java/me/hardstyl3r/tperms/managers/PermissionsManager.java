@@ -111,17 +111,4 @@ public class PermissionsManager {
             permissions.remove(p.getUniqueId());
         }
     }
-
-    /*
-    Not the nicest way, but quickest.
-     */
-    public String listGroups(List<Group> groups) {
-        if (groups == null) return "";
-        ArrayList<String> convert = new ArrayList<>();
-        for (Group g : groups) convert.add(g.getName());
-        return convert.toString()
-                .replace("[", "")
-                .replace("]", "")
-                .replace(" ", "");
-    }
 }

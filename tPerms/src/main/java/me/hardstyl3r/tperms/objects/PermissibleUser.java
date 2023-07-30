@@ -40,6 +40,10 @@ public class PermissibleUser {
         this.groups = l;
     }
 
+    public List<String> listGroups(){
+        return groups.stream().map(Group::getName).toList();
+    }
+
     public Group getMainGroup() {
         return getGroups().get(getGroups().size() - 1);
     }

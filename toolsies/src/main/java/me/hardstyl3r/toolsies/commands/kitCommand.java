@@ -47,11 +47,11 @@ public class kitCommand implements CommandExecutor, TabCompleter {
         }
         Set<String> kits = kitManager.getKits(sender);
         if (args.length == 0) {
-            sender.sendMessage(l.getStringComponent("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits"), Placeholder.unparsed("kits", kits.toString())));
+            sender.sendMessage(l.getStringComponent("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits"), Placeholder.unparsed("kits", String.join(", ", kits))));
         } else if (args.length >= 1 && args.length <= 2) {
             String kit = args[0].toLowerCase();
             if (!kitManager.isKit(kit) || !sender.hasPermission("toolsies.kits." + kit)) {
-                sender.sendMessage(l.getStringComponent("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits"), Placeholder.unparsed("kits", kits.toString())));
+                sender.sendMessage(l.getStringComponent("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits"), Placeholder.unparsed("kits", String.join(", ", kits))));
                 return true;
             }
             Player target = null;
@@ -64,7 +64,7 @@ public class kitCommand implements CommandExecutor, TabCompleter {
                     }
                     if (!sender.hasPermission("toolsies.kit.others.bypass")) {
                         if (!target.hasPermission("toolsies.kits." + kit) || !sender.hasPermission("toolsies.kit.others." + kit)) {
-                            sender.sendMessage(l.getStringComponent("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits"), Placeholder.unparsed("kits", kits.toString())));
+                            sender.sendMessage(l.getStringComponent("kit." + (kits.isEmpty() ? "no_kits_available" : "available_kits"), Placeholder.unparsed("kits", String.join(", ", kits))));
                             return true;
                         }
                     }
