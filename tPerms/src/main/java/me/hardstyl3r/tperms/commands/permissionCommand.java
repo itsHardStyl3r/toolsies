@@ -88,7 +88,7 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
                 }
             }
             String permission = args[1].toLowerCase();
-            if (!permission.matches("^[\\w.]+$")) {
+            if (!permission.matches("^[-\\w.]+$")) {
                 sender.sendMessage(l.getStringComponent("permission.illegal_characters"));
                 return true;
             }
