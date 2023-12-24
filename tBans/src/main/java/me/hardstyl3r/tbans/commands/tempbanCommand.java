@@ -52,10 +52,6 @@ public class tempbanCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage(l.getStringComponent("punishments.player_is_banned", Placeholder.unparsed("player_name", target)));
                 return true;
             }
-            if (target.length() > punishmentManager.getMaximumNickLength()) {
-                sender.sendMessage(l.getStringComponent("punishments.name_too_long", Placeholder.unparsed("length", String.valueOf(punishmentManager.getMaximumNickLength()))));
-                return true;
-            }
             if (!localeManager.isValidStringTime(args[1])) {
                 sender.sendMessage(l.getStringComponent("punishments.incorrect_time"));
                 return true;

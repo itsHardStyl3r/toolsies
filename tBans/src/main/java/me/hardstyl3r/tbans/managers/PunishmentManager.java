@@ -349,10 +349,6 @@ public class PunishmentManager {
         return localeManager.parseTimeFromString(duration);
     }
 
-    public Integer getMaximumNickLength() {
-        return config.getInt("maximumNameLength");
-    }
-
     public boolean canSenderPunishTarget(CommandSender sender, String target, PunishmentType type) {
         if (sender.getName().equalsIgnoreCase(target)) return true;
         if (!(sender instanceof Player) || sender.isOp() || sender.hasPermission("toolsies." + type + ".bypasspriority"))

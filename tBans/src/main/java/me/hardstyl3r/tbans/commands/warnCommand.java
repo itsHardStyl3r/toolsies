@@ -46,10 +46,6 @@ public class warnCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage(l.getStringComponent("warn.priority_too_high"));
                 return true;
             }
-            if (target.length() > punishmentManager.getMaximumNickLength()) {
-                sender.sendMessage(l.getStringComponent("punishments.name_too_long", Placeholder.unparsed("length", String.valueOf(punishmentManager.getMaximumNickLength()))));
-                return true;
-            }
             if (userManager.getUser(target) == null) {
                 sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("player_name", args[0])));
                 return true;

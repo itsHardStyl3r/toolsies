@@ -22,9 +22,6 @@ minimumDuration:
   warn: 5m
   mute: 30s
 
-# Maximum length of username. Used in /ban, /warn, etc.
-maximumNameLength: 16
-
 # Priority-aware punishments require tPerms (!)
 #
 # This section determines whether priorities should matter

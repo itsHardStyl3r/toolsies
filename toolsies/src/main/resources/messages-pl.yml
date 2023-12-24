@@ -166,7 +166,6 @@ setspawn:
 punishments:
   incorrect_time: "<red>#</red> <grey>Niepoprawny czas długości trwania kary.</grey>"
   duration_too_short: "<red>#</red> <grey>Czas trwania musi mieć co najmniej <duration>.</grey>"
-  name_too_long: "<yellow>#</yellow> <grey>Nick nie może być dłuższy niż <length>.</grey>"
   player_is_not_banned: "<yellow>#</yellow> <grey>Gracz <player_name> nie jest zbanowany.</grey>"
   address_is_not_banned: "<yellow>#</yellow> <grey>Adres <address> nie jest zbanowany.</grey>"
   player_is_banned: "<yellow>#</yellow> <grey>Gracz <player_name> jest już zbanowany.</grey>"

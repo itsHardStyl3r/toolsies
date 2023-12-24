@@ -51,10 +51,6 @@ public class tempmuteCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage(l.getStringComponent("mute.is_muted", Placeholder.unparsed("player_name", target)));
                 return true;
             }
-            if (target.length() > punishmentManager.getMaximumNickLength()) {
-                sender.sendMessage(l.getStringComponent("punishments.name_too_long", Placeholder.unparsed("length", String.valueOf(punishmentManager.getMaximumNickLength()))));
-                return true;
-            }
             if (userManager.getUser(target) == null) {
                 sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("player_name", args[0])));
                 return true;

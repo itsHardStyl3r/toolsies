@@ -166,7 +166,6 @@ setspawn:
 punishments:
   incorrect_time: "<red>#</red> <grey>Incorrect duration entered.</grey>"
   duration_too_short: "<red>#</red> <grey>Duration must be at least <duration>.</grey>"
-  name_too_long: "<yellow>#</yellow> <grey>Nickname can't be longer than <length>.</grey>"
   player_is_not_banned: "<yellow>#</yellow> <grey>Player <player_name> is not banned.</grey>"
   address_is_not_banned: "<yellow>#</yellow> <grey>Address <address> is not banned.</grey>"
   player_is_banned: "<yellow>#</yellow> <grey>Player <player_name> is already banned.</grey>"
