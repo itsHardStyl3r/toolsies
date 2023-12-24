@@ -42,15 +42,15 @@ public class unmuteCommand implements CommandExecutor, TabCompleter {
             String target = args[0];
             punishmentManager.deleteIfExpired(PunishmentType.MUTE, target);
             if (!punishmentManager.isPunished(PunishmentType.MUTE, target)) {
-                sender.sendMessage(l.getStringComponent("unmute.is_not_muted", Placeholder.unparsed("name", target)));
+                sender.sendMessage(l.getStringComponent("unmute.is_not_muted", Placeholder.unparsed("player_name", target)));
                 return true;
             }
             Punishment mute = punishmentManager.getPunishment(PunishmentType.MUTE, target);
             punishmentManager.deletePunishment(mute, sender.getName());
-            sender.sendMessage(l.getStringComponent("unmute.unmute", Placeholder.unparsed("name", mute.getName())));
+            sender.sendMessage(l.getStringComponent("unmute.unmute", Placeholder.unparsed("player_name", mute.getName())));
             Player p = Bukkit.getPlayer(mute.getUUID());
             if (Bukkit.getPlayer(mute.getUUID()) != null) {
-                p.sendMessage(userManager.determineLocale(p).getStringComponent("unmute.unmute_target", Placeholder.unparsed("admin", sender.getName())));
+                p.sendMessage(userManager.determineLocale(p).getStringComponent("unmute.unmute_target", Placeholder.unparsed("sender_name", sender.getName())));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

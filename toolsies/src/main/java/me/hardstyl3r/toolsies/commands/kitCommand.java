@@ -59,7 +59,7 @@ public class kitCommand implements CommandExecutor, TabCompleter {
                 if (sender.hasPermission("toolsies.kit.others")) {
                     target = Bukkit.getPlayerExact(args[1]);
                     if (target == null) {
-                        sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("name", args[1])));
+                        sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("player_name", args[1])));
                         return true;
                     }
                     if (!sender.hasPermission("toolsies.kit.others.bypass")) {
@@ -75,10 +75,10 @@ public class kitCommand implements CommandExecutor, TabCompleter {
             kitManager.giveKit(target, kit);
             User utarget = userManager.getUser(target);
             if (sender == target) {
-                sender.sendMessage(l.getStringComponent("kit.kit_applied", Placeholder.unparsed("name", kit)));
+                sender.sendMessage(l.getStringComponent("kit.kit_applied", Placeholder.unparsed("kit_name", kit)));
             } else {
-                target.sendMessage(utarget.getLocale().getStringComponent("kit.player_gifted", Placeholder.unparsed("name", kit), Placeholder.unparsed("admin", sender.getName())));
-                sender.sendMessage(utarget.getLocale().getStringComponent("kit.gifted_kit_to_player", Placeholder.unparsed("name", kit), Placeholder.unparsed("player", target.getName())));
+                target.sendMessage(utarget.getLocale().getStringComponent("kit.player_gifted", Placeholder.unparsed("kit_name", kit), Placeholder.unparsed("sender_name", sender.getName())));
+                sender.sendMessage(utarget.getLocale().getStringComponent("kit.gifted_kit_to_player", Placeholder.unparsed("kit_name", kit), Placeholder.unparsed("player_name", target.getName())));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

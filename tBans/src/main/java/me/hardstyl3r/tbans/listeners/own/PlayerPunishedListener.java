@@ -31,7 +31,7 @@ public class PlayerPunishedListener implements Listener {
                 Punishment ban = e.getPunishment();
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     Locale l = userManager.determineLocale(p);
-                    p.sendMessage(l.getStringComponent(ban.getDuration() != null ? "tempban.tempban_broadcast" : "ban.ban_broadcast", Placeholder.unparsed("name", ban.getName()), Placeholder.unparsed("admin", e.getSender()), Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(ban.getRemaining(), l))));
+                    p.sendMessage(l.getStringComponent(ban.getDuration() != null ? "tempban.tempban_broadcast" : "ban.ban_broadcast", Placeholder.unparsed("player_name", ban.getName()), Placeholder.unparsed("sender_name", e.getSender()), Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(ban.getRemaining(), l))));
                 }
             }
         }

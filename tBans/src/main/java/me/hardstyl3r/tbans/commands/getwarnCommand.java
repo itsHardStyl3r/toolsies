@@ -49,7 +49,7 @@ public class getwarnCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage(l.getStringComponent("getwarn.no_such_warn", Placeholder.unparsed("id", args[0])));
                 return true;
             }
-            sender.sendMessage(l.getStringComponent("getwarn.getwarn_header", Placeholder.unparsed("id", args[0]), Placeholder.unparsed("name", warn.getName())));
+            sender.sendMessage(l.getStringComponent("getwarn.getwarn_header", Placeholder.unparsed("id", args[0]), Placeholder.unparsed("player_name", warn.getName())));
             sender.sendMessage(l.getStringComponent("getwarn.entries.admin", Placeholder.unparsed("admin", warn.getAdmin())));
             sender.sendMessage(l.getStringComponent("getwarn.entries.reason", Placeholder.unparsed("reason", warn.getReason())));
             sender.sendMessage(l.getStringComponent("getwarn.entries.date", Placeholder.unparsed("date", localeManager.getFullDate(warn.getDate()))));

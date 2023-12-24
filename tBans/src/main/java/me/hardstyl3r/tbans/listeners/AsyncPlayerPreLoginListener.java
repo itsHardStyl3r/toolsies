@@ -36,7 +36,7 @@ public class AsyncPlayerPreLoginListener implements Listener {
                 Punishment ban = punishmentManager.getBan(e.getAddress());
                 e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED,
                         l.getStringComponent((ban.getDuration() == null ? "ban" : "tempban") + ".join_message",
-                                Placeholder.unparsed("admin", ban.getAdmin()),
+                                Placeholder.unparsed("sender_name", ban.getAdmin()),
                                 Placeholder.unparsed("reason", (ban.getReason() == null ? "" : ban.getReason())),
                                 Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(ban.getRemaining(), l)),
                                 Placeholder.unparsed("date", localeManager.getFullDate(ban.getDate()))));
@@ -52,7 +52,7 @@ public class AsyncPlayerPreLoginListener implements Listener {
             Punishment ban = punishmentManager.getPunishment(PunishmentType.BAN, e.getUniqueId());
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED,
                     l.getStringComponent((ban.getDuration() == null ? "ban" : "tempban") + ".join_message",
-                            Placeholder.unparsed("admin", ban.getAdmin()),
+                            Placeholder.unparsed("sender_name", ban.getAdmin()),
                             Placeholder.unparsed("reason", (ban.getReason() == null ? "" : ban.getReason())),
                             Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(ban.getRemaining(), l)),
                             Placeholder.unparsed("date", localeManager.getFullDate(ban.getDate()))));
@@ -60,7 +60,7 @@ public class AsyncPlayerPreLoginListener implements Listener {
             Punishment ban = punishmentManager.getPunishment(PunishmentType.BAN, e.getName());
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED,
                     l.getStringComponent((ban.getDuration() == null ? "ban" : "tempban") + ".join_message",
-                            Placeholder.unparsed("admin", ban.getAdmin()),
+                            Placeholder.unparsed("sender_name", ban.getAdmin()),
                             Placeholder.unparsed("reason", (ban.getReason() == null ? "" : ban.getReason())),
                             Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(ban.getRemaining(), l)),
                             Placeholder.unparsed("date", localeManager.getFullDate(ban.getDate()))));

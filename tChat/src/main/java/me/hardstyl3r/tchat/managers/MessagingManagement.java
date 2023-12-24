@@ -32,24 +32,24 @@ public class MessagingManagement {
         Locale targetLocale = userManager.determineLocale(target);
         if (sender instanceof Player p) {
             if (p.getUniqueId().equals(target.getUniqueId())) {
-                sender.sendMessage(l.getStringComponent("msg.text_self", Placeholder.unparsed("time", localeManager.getTime(time)), Placeholder.unparsed("name", sender.getName()), Placeholder.unparsed("message", message)));
+                sender.sendMessage(l.getStringComponent("msg.text_self", Placeholder.unparsed("message", message)));
                 return;
             }
             messagingManager.setConversation(p.getUniqueId(), target.getUniqueId());
         }
         sender.sendMessage(l.getStringComponent("msg.text_sender",
                 Placeholder.unparsed("time", localeManager.getTime(time)),
-                Placeholder.unparsed("name", target.getName()),
+                Placeholder.unparsed("target_name", target.getName()),
                 Placeholder.unparsed("message", message))
                 .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + target.getName() + " ")));
         if (!hasTargetMsgToggled || canBypassToggle)
             target.sendMessage(targetLocale.getStringComponent("msg.text_target",
                     Placeholder.unparsed("time", localeManager.getTime(time)),
-                    Placeholder.unparsed("name", sender.getName()),
+                    Placeholder.unparsed("sender_name", sender.getName()),
                     Placeholder.unparsed("message", message))
                     .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + sender.getName() + " ")));
         if (hasTargetMsgToggled && canBypassToggle)
-            sender.sendMessage(l.getStringComponent("msg.target_toggled_info", Placeholder.unparsed("name", target.getName())));
+            sender.sendMessage(l.getStringComponent("msg.target_toggled_info", Placeholder.unparsed("player_name", target.getName())));
         messagingManager.doSocialSpy(sender, target, message);
         target.playSound(target.getLocation(), Sound.BLOCK_LAVA_POP, 30F, 1.2F);
     }

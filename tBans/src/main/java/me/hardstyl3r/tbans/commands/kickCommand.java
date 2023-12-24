@@ -43,7 +43,7 @@ public class kickCommand implements CommandExecutor, TabCompleter {
         if (args.length > 0) {
             String target = args[0];
             if (userManager.getUser(target) == null) {
-                sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("name", args[0])));
+                sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("player_name", args[0])));
                 return true;
             }
             if (!punishmentManager.canSenderPunishTarget(sender, target, type)) {
@@ -51,15 +51,15 @@ public class kickCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
             if (Bukkit.getPlayerExact(target) == null) {
-                sender.sendMessage(l.getStringComponent("players.offline", Placeholder.unparsed("name", args[0])));
+                sender.sendMessage(l.getStringComponent("players.offline", Placeholder.unparsed("player_name", args[0])));
                 return true;
             }
             String reason = (args.length > 1 ? localeManager.createMessage(args, 1) : null);
-            sender.sendMessage(l.getStringComponent("kick.kick", Placeholder.unparsed("name", target)));
+            sender.sendMessage(l.getStringComponent("kick.kick", Placeholder.unparsed("player_name", target)));
             Player p = Bukkit.getPlayerExact(target);
             if (p != null) {
                 p.kick(userManager.determineLocale(p).getStringComponent("kick.kick_message",
-                        Placeholder.unparsed("admin", sender.getName()),
+                        Placeholder.unparsed("sender_name", sender.getName()),
                         Placeholder.unparsed("reason", (reason == null ? "" : reason))),
                         PlayerKickEvent.Cause.KICK_COMMAND);
             }

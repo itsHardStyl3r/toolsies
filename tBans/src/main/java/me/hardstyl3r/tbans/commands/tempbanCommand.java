@@ -49,33 +49,33 @@ public class tempbanCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
             if (punishmentManager.isPunished(type, target)) {
-                sender.sendMessage(l.getStringComponent("ban.is_banned", Placeholder.unparsed("name", target)));
+                sender.sendMessage(l.getStringComponent("punishments.player_is_banned", Placeholder.unparsed("player_name", target)));
                 return true;
             }
             if (target.length() > punishmentManager.getMaximumNickLength()) {
-                sender.sendMessage(l.getStringComponent("ban.name_too_long", Placeholder.unparsed("length", String.valueOf(punishmentManager.getMaximumNickLength()))));
+                sender.sendMessage(l.getStringComponent("punishments.name_too_long", Placeholder.unparsed("length", String.valueOf(punishmentManager.getMaximumNickLength()))));
                 return true;
             }
             if (!localeManager.isValidStringTime(args[1])) {
-                sender.sendMessage(l.getStringComponent("tempban.incorrect_time"));
+                sender.sendMessage(l.getStringComponent("punishments.incorrect_time"));
                 return true;
             }
             long duration = localeManager.parseTimeFromString(args[1]);
             long minimumDuration = punishmentManager.getMinimumDuration(type);
             if (duration < minimumDuration) {
-                sender.sendMessage(l.getStringComponent("tempban.duration_too_short", Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(minimumDuration, l))));
+                sender.sendMessage(l.getStringComponent("punishments.duration_too_short", Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(minimumDuration, l))));
                 return true;
             }
             String admin = sender.getName();
             String reason = (args.length > 2 ? localeManager.createMessage(args, 2) : null);
             UUID uuid = (userManager.getUserIgnoreCase(target) == null ? null : userManager.getUserIgnoreCase(target).getUUID());
             Punishment punishment = punishmentManager.createPunishment(type, uuid, target, admin, reason, duration);
-            sender.sendMessage(l.getStringComponent("tempban.tempban", Placeholder.unparsed("name", target), Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(duration, l))));
+            sender.sendMessage(l.getStringComponent("tempban.tempban", Placeholder.unparsed("player_name", target), Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(duration, l))));
             Player p = Bukkit.getPlayerExact(target);
             if (p != null) {
                 Locale targetLocale = userManager.determineLocale(uuid);
                 p.kick(targetLocale.getStringComponent("tempban.kick_message",
-                                Placeholder.unparsed("admin", admin),
+                                Placeholder.unparsed("sender_name", admin),
                                 Placeholder.unparsed("reason", (reason == null ? "" : reason)),
                                 Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(duration, targetLocale))),
                         PlayerKickEvent.Cause.BANNED);

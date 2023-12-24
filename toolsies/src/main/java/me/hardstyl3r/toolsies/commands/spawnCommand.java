@@ -51,20 +51,20 @@ public class spawnCommand implements CommandExecutor, TabCompleter {
         if (args.length == 1 && sender.hasPermission("toolsies.spawn.others")) {
             target = Bukkit.getPlayerExact(args[0]);
             if (target == null) {
-                sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("name", args[0])));
+                sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("player_name", args[0])));
                 return true;
             }
         }
         if (locationManager.isLocationIdenticalExact(spawn, target.getLocation())) {
-            sender.sendMessage(l.getStringComponent("spawn.currently_on_spawn" + (target == sender ? "" : "_sender"), Placeholder.unparsed("name", target.getName())));
+            sender.sendMessage(l.getStringComponent("spawn.currently_on_spawn" + (target == sender ? "" : "_sender"), Placeholder.unparsed("player_name", target.getName())));
             return true;
         }
         target.teleport(spawn);
         if (target == sender) {
             sender.sendMessage(l.getStringComponent("spawn.teleported_to_spawn"));
         } else {
-            sender.sendMessage(l.getStringComponent("spawn.teleported_to_spawn_sender", Placeholder.unparsed("name", target.getName())));
-            target.sendMessage(userManager.determineLocale(target).getStringComponent("spawn.teleported_to_spawn_target", Placeholder.unparsed("admin", sender.getName())));
+            sender.sendMessage(l.getStringComponent("spawn.teleported_to_spawn_sender", Placeholder.unparsed("player_name", target.getName())));
+            target.sendMessage(userManager.determineLocale(target).getStringComponent("spawn.teleported_to_spawn_target", Placeholder.unparsed("sender_name", sender.getName())));
         }
         return true;
     }

@@ -40,18 +40,18 @@ public class localeCommand implements CommandExecutor, TabCompleter {
         }
         if (args.length == 1) {
             if (localeManager.getLocale(args[0]) == null) {
-                sender.sendMessage(l.getStringComponent("locale.unknown_locale", Placeholder.unparsed("name", args[0])));
+                sender.sendMessage(l.getStringComponent("locale.unknown_locale", Placeholder.unparsed("locale_name", args[0])));
                 return true;
             }
             Locale locale = localeManager.getLocale(args[0]);
             if (l.equals(locale)) {
-                sender.sendMessage(l.getStringComponent("locale.current_locale", Placeholder.unparsed("name", locale.getName())));
+                sender.sendMessage(l.getStringComponent("locale.current_locale", Placeholder.unparsed("locale_name", locale.getName())));
                 return true;
             }
             User u = userManager.getUser(sender);
             u.setLocale(locale);
             userManager.updateUser(u);
-            sender.sendMessage(locale.getStringComponent("locale.changed_own", Placeholder.unparsed("name", locale.getName())));
+            sender.sendMessage(locale.getStringComponent("locale.changed_own", Placeholder.unparsed("locale_name", locale.getName())));
         } else {
             sender.sendMessage(l.getStringComponent("locale.available_locales", Placeholder.unparsed("locales", String.join(", ", localeManager.getLocales()))));
         }

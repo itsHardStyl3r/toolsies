@@ -66,17 +66,17 @@ public class tempbanipCommand implements CommandExecutor, TabCompleter {
             }
             punishmentManager.deleteIfExpired(target);
             if (punishmentManager.isBanned(target)) {
-                sender.sendMessage(l.getStringComponent("ban-ip.is_banned", Placeholder.unparsed("address", target.getHostAddress())));
+                sender.sendMessage(l.getStringComponent("punishments.address_is_banned", Placeholder.unparsed("address", target.getHostAddress())));
                 return true;
             }
             if (!localeManager.isValidStringTime(args[1])) {
-                sender.sendMessage(l.getStringComponent("tempban.incorrect_time"));
+                sender.sendMessage(l.getStringComponent("punishments.incorrect_time"));
                 return true;
             }
             long duration = localeManager.parseTimeFromString(args[1]);
             long minimumDuration = punishmentManager.getMinimumDuration(PunishmentType.BAN);
             if (duration < minimumDuration) {
-                sender.sendMessage(l.getStringComponent("tempban.duration_too_short", Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(minimumDuration, l))));
+                sender.sendMessage(l.getStringComponent("punishments.duration_too_short", Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(minimumDuration, l))));
                 return true;
             }
             String admin = sender.getName();
@@ -87,7 +87,7 @@ public class tempbanipCommand implements CommandExecutor, TabCompleter {
                 if (kick.getAddress().getAddress().equals(target)) {
                         Locale targetLocale = userManager.determineLocale(kick);
                         p.kick(targetLocale.getStringComponent("tempban.kick_message",
-                                Placeholder.unparsed("admin", admin),
+                                Placeholder.unparsed("sender_name", admin),
                                         Placeholder.unparsed("reason", (reason == null ? "" : reason)),
                                 Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate(duration, targetLocale))),
                                 PlayerKickEvent.Cause.IP_BANNED);

@@ -53,12 +53,12 @@ public class unbanipCommand implements CommandExecutor, TabCompleter {
             }
             punishmentManager.deleteIfExpired(target);
             if (!punishmentManager.isBanned(target)) {
-                sender.sendMessage(l.getStringComponent("unban.is_not_banned", Placeholder.unparsed("name", target.getHostAddress())));
+                sender.sendMessage(l.getStringComponent("punishments.address_is_not_banned", Placeholder.unparsed("address", target.getHostAddress())));
                 return true;
             }
             Punishment ban = punishmentManager.getBan(target);
             punishmentManager.deletePunishment(ban, sender.getName());
-            sender.sendMessage(l.getStringComponent("unban.unban", Placeholder.unparsed("name", ban.getName())));
+            sender.sendMessage(l.getStringComponent("unban.unban", Placeholder.unparsed("player_name", ban.getName())));
         } else {
             localeManager.sendUsage(sender, cmd, l);
         }

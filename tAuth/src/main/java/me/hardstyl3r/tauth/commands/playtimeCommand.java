@@ -52,13 +52,13 @@ public class playtimeCommand implements CommandExecutor, TabCompleter {
                 if (loginManager.getAuth(args[0]) != null) {
                     authUser = loginManager.getAuth(args[0]);
                 } else {
-                    sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("name", args[0])));
+                    sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("player_name", args[0])));
                     return true;
                 }
             } else {
                 authUser = loginManager.getAuth((Player) sender);
             }
-            sender.sendMessage(l.getStringComponent("playtime.header", Placeholder.unparsed("name", authUser.getName())));
+            sender.sendMessage(l.getStringComponent("playtime.header", Placeholder.unparsed("sender_name", authUser.getName())));
             if (authUser.isLoggedIn()) sender.sendMessage(l.getStringComponent("playtime.session", Placeholder.unparsed("session", localeManager.parseTimeWithTranslate(authUser.getSessionDuration(), l))));
             sender.sendMessage(l.getStringComponent("playtime.total", Placeholder.unparsed("playtime", localeManager.parseTimeWithTranslate(authUser.getPlaytime(), l))));
             sender.sendMessage(l.getStringComponent("playtime.regdate", Placeholder.unparsed("regdate", localeManager.getFullDate(authUser.getRegisterDate()))));

@@ -54,17 +54,17 @@ public class warnsCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 if (userManager.getUser(target) == null) {
-                    sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("name", args[0])));
+                    sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("player_name", args[0])));
                     return true;
                 }
                 warns = punishmentManager.getPunishments(PunishmentType.WARN, target);
             }
             warns.removeIf(punishmentManager::deleteIfExpired);
             if (warns.isEmpty()) {
-                sender.sendMessage(l.getStringComponent("warns.no_warns" + ((sender.getName().equalsIgnoreCase(target)) ? "" : "_sender"), Placeholder.unparsed("name", target)));
+                sender.sendMessage(l.getStringComponent("warns.no_warns" + ((sender.getName().equalsIgnoreCase(target)) ? "" : "_sender"), Placeholder.unparsed("player_name", target)));
                 return true;
             }
-            sender.sendMessage(l.getStringComponent("warns.warns" + ((sender.getName().equalsIgnoreCase(target)) ? "" : "_sender"), Placeholder.unparsed("warns", printWarns(warns)), Placeholder.unparsed("total", String.valueOf(warns.size())), Placeholder.unparsed("name", target)));
+            sender.sendMessage(l.getStringComponent("warns.warns" + ((sender.getName().equalsIgnoreCase(target)) ? "" : "_sender"), Placeholder.unparsed("warns", printWarns(warns)), Placeholder.unparsed("total", String.valueOf(warns.size())), Placeholder.unparsed("player_name", target)));
         } else {
             localeManager.sendUsage(sender, cmd, l);
         }

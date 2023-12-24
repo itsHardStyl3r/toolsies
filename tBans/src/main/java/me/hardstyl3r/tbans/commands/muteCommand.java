@@ -48,25 +48,25 @@ public class muteCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
             if (punishmentManager.isPunished(PunishmentType.MUTE, target)) {
-                sender.sendMessage(l.getStringComponent("mute.is_muted", Placeholder.unparsed("name", target)));
+                sender.sendMessage(l.getStringComponent("mute.is_muted", Placeholder.unparsed("player_name", target)));
                 return true;
             }
             if (target.length() > punishmentManager.getMaximumNickLength()) {
-                sender.sendMessage(l.getStringComponent("ban.name_too_long", Placeholder.unparsed("length", String.valueOf(punishmentManager.getMaximumNickLength()))));
+                sender.sendMessage(l.getStringComponent("punishments.name_too_long", Placeholder.unparsed("length", String.valueOf(punishmentManager.getMaximumNickLength()))));
                 return true;
             }
             if (userManager.getUser(target) == null) {
-                sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("name", args[0])));
+                sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("player_name", args[0])));
                 return true;
             }
             String admin = sender.getName();
             String reason = (args.length > 1 ? localeManager.createMessage(args, 1) : null);
             UUID uuid = userManager.getUserIgnoreCase(target).getUUID();
             Punishment punishment = punishmentManager.createPunishment(PunishmentType.MUTE, uuid, target, admin, reason, null);
-            sender.sendMessage(l.getStringComponent("mute.mute", Placeholder.unparsed("name", target)));
+            sender.sendMessage(l.getStringComponent("mute.mute", Placeholder.unparsed("player_name", target)));
             Player p = Bukkit.getPlayerExact(target);
             if (Bukkit.getPlayerExact(target) != null) {
-                p.sendMessage(userManager.determineLocale(p).getStringComponent("mute.mute_target", Placeholder.unparsed("admin", punishment.getAdmin()), Placeholder.unparsed("reason", (punishment.getReason() == null ? "brak" : punishment.getReason()))));
+                p.sendMessage(userManager.determineLocale(p).getStringComponent("mute.mute_target", Placeholder.unparsed("sender_name", punishment.getAdmin()), Placeholder.unparsed("reason", (punishment.getReason() == null ? "brak" : punishment.getReason()))));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

@@ -50,7 +50,7 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (!sender.hasPermission("toolsies.permission")) {
-            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.permission")));
+            sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission_name", "toolsies.permission")));
             return true;
         }
         if (args.length == 0) {
@@ -68,9 +68,9 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
                 }
                 PermissibleUser u = permissibleUserManager.getUser(args[0]);
                 if (!u.hasPermissions()) {
-                    sender.sendMessage(l.getStringComponent("permission.no_permissions" + (sender.getName().equals(u.getName()) ? "" : "_sender"), Placeholder.unparsed("player", u.getName())));
+                    sender.sendMessage(l.getStringComponent("permission.no_permissions" + (sender.getName().equals(u.getName()) ? "" : "_sender"), Placeholder.unparsed("player_name", u.getName())));
                 } else {
-                    sender.sendMessage(l.getStringComponent("permission.current_permissions" + (sender.getName().equals(u.getName()) ? "" : "_sender"), Placeholder.unparsed("player", u.getName()), Placeholder.unparsed("permissions", String.join(", ", u.getPermissions()))));
+                    sender.sendMessage(l.getStringComponent("permission.current_permissions" + (sender.getName().equals(u.getName()) ? "" : "_sender"), Placeholder.unparsed("player_name", u.getName()), Placeholder.unparsed("permissions", String.join(", ", u.getPermissions()))));
                 }
             } else {
                 localeManager.sendUsage(sender, cmd, l);
@@ -83,7 +83,7 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
             }
             for (String s : arguments) {
                 if (args[0].equalsIgnoreCase(s) && !sender.hasPermission("toolsies.permission." + s)) {
-                    sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission", "toolsies.permission." + s)));
+                    sender.sendMessage(l.getStringComponent("no_permission", Placeholder.unparsed("permission_name", "toolsies.permission." + s)));
                     return true;
                 }
             }
@@ -104,51 +104,51 @@ public class permissionCommand implements CommandExecutor, TabCompleter {
                 if (permissibleUserManager.getUser(check) != null) {
                     puTarget = permissibleUserManager.getUser(check);
                 } else {
-                    sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("name", check)));
+                    sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("player_name", check)));
                     return true;
                 }
             }
             List<String> permissions = new ArrayList<>(puTarget.getPermissions());
             if (args[0].equalsIgnoreCase("clear")) {
                 if (!puTarget.hasPermissions()) {
-                    sender.sendMessage(l.getStringComponent("permission.no_permissions" + (target == sender ? "" : "_sender"), Placeholder.unparsed("player", puTarget.getName())));
+                    sender.sendMessage(l.getStringComponent("permission.no_permissions" + (target == sender ? "" : "_sender"), Placeholder.unparsed("player_name", puTarget.getName())));
                     return true;
                 }
                 if (target == sender) {
                     sender.sendMessage(l.getStringComponent("permission.clear_permissions", Placeholder.unparsed("count", String.valueOf(puTarget.getPermissions().size()))));
                 } else {
-                    sender.sendMessage(l.getStringComponent("permission.clear_permissions_sender", Placeholder.unparsed("count", String.valueOf(puTarget.getPermissions().size())), Placeholder.unparsed("player", puTarget.getName())));
+                    sender.sendMessage(l.getStringComponent("permission.clear_permissions_sender", Placeholder.unparsed("count", String.valueOf(puTarget.getPermissions().size())), Placeholder.unparsed("player_name", puTarget.getName())));
                     if (target != null) {
-                        target.sendMessage(l.getStringComponent("permission.clear_permissions_target", Placeholder.unparsed("admin", sender.getName())));
+                        target.sendMessage(l.getStringComponent("permission.clear_permissions_target", Placeholder.unparsed("sender_name", sender.getName())));
                     }
                 }
                 puTarget.setPermissions(Collections.emptyList());
             } else if (args[0].equalsIgnoreCase("add")) {
                 if (puTarget.getPermissions().contains(permission)) {
-                    sender.sendMessage(l.getStringComponent("permission.has_permission_already" + (target == sender ? "" : "_sender"), Placeholder.unparsed("player", puTarget.getName())));
+                    sender.sendMessage(l.getStringComponent("permission.has_permission_already" + (target == sender ? "" : "_sender"), Placeholder.unparsed("player_name", puTarget.getName())));
                     return true;
                 }
                 if (target == sender) {
-                    sender.sendMessage(l.getStringComponent("permission.add_permission", Placeholder.unparsed("permission", permission)));
+                    sender.sendMessage(l.getStringComponent("permission.add_permission", Placeholder.unparsed("permission_name", permission)));
                 } else {
-                    sender.sendMessage(l.getStringComponent("permission.add_permission_sender", Placeholder.unparsed("permission", permission), Placeholder.unparsed("player", puTarget.getName())));
+                    sender.sendMessage(l.getStringComponent("permission.add_permission_sender", Placeholder.unparsed("permission_name", permission), Placeholder.unparsed("player_name", puTarget.getName())));
                     if (target != null) {
-                        target.sendMessage(l.getStringComponent("permission.add_permission_target", Placeholder.unparsed("admin", sender.getName())));
+                        target.sendMessage(l.getStringComponent("permission.add_permission_target", Placeholder.unparsed("sender_name", sender.getName())));
                     }
                 }
                 permissions.add(permission);
                 puTarget.setPermissions(permissions);
             } else if (args[0].equalsIgnoreCase("remove")) {
                 if (!puTarget.getPermissions().contains(permission)) {
-                    sender.sendMessage(l.getStringComponent("permission.has_permission_already" + (target == sender ? "" : "_sender"), Placeholder.unparsed("player", puTarget.getName())));
+                    sender.sendMessage(l.getStringComponent("permission.has_permission_already" + (target == sender ? "" : "_sender"), Placeholder.unparsed("player_name", puTarget.getName())));
                     return true;
                 }
                 if (target == sender) {
-                    sender.sendMessage(l.getStringComponent("permission.remove_permission", Placeholder.unparsed("permission", permission)));
+                    sender.sendMessage(l.getStringComponent("permission.remove_permission", Placeholder.unparsed("permission_name", permission)));
                 } else {
-                    sender.sendMessage(l.getStringComponent("permission.remove_permission_sender", Placeholder.unparsed("permission", permission), Placeholder.unparsed("player", puTarget.getName())));
+                    sender.sendMessage(l.getStringComponent("permission.remove_permission_sender", Placeholder.unparsed("permission_name", permission), Placeholder.unparsed("player_name", puTarget.getName())));
                     if (target != null) {
-                        target.sendMessage(l.getStringComponent("permission.remove_permission_target", Placeholder.unparsed("admin", sender.getName())));
+                        target.sendMessage(l.getStringComponent("permission.remove_permission_target", Placeholder.unparsed("sender_name", sender.getName())));
                     }
                 }
                 permissions.remove(permission);

@@ -45,15 +45,14 @@ public class chatCommand implements CommandExecutor, TabCompleter {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     for (int i = 0; i < 100; i++) p.sendMessage(" ");
                     p.sendMessage(l.getStringComponent("chat.clear.broadcast",
-                            Placeholder.unparsed("nick", sender.getName())));
+                            Placeholder.unparsed("sender_name", sender.getName())));
                 }
             } else if ((args[0].equalsIgnoreCase("toggle") || args[0].equalsIgnoreCase("lock"))
                     && sender.hasPermission("toolsies.chat.toggle")) {
                 chatManager.toggleLocked();
                 for (Player p : Bukkit.getOnlinePlayers())
-                    p.sendMessage(l.getStringComponent("chat.toggle.broadcast",
-                            Placeholder.unparsed("nick", sender.getName()),
-                            Placeholder.unparsed("type", l.getString("chat.toggle.types." + chatManager.isLocked()))));
+                    p.sendMessage(l.getStringComponent("chat.toggle.broadcast_" + (chatManager.isLocked() ? "locked" : "unlocked"),
+                            Placeholder.unparsed("sender_name", sender.getName())));
             } else
                 localeManager.sendUsage(sender, cmd, l);
         } else

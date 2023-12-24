@@ -65,7 +65,7 @@ public class banipCommand implements CommandExecutor, TabCompleter {
             }
             punishmentManager.deleteIfExpired(target);
             if (punishmentManager.isBanned(target)) {
-                sender.sendMessage(l.getStringComponent("ban-ip.is_banned", Placeholder.unparsed("address", target.getHostAddress())));
+                sender.sendMessage(l.getStringComponent("punishments.address_is_banned", Placeholder.unparsed("address", target.getHostAddress())));
                 return true;
             }
             String admin = sender.getName();
@@ -75,7 +75,7 @@ public class banipCommand implements CommandExecutor, TabCompleter {
             for (Player kick : Bukkit.getOnlinePlayers()) {
                 if (kick.getAddress().getAddress().equals(target))
                     p.kick(userManager.determineLocale(kick).getStringComponent("ban.kick_message",
-                                    Placeholder.unparsed("admin", admin),
+                                    Placeholder.unparsed("sender_name", admin),
                                     Placeholder.unparsed("reason", (reason == null ? "" : reason))),
                             PlayerKickEvent.Cause.IP_BANNED);
             }

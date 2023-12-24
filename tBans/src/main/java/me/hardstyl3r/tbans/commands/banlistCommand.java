@@ -76,7 +76,7 @@ public class banlistCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage(l.getStringComponent("banlist.banlist_header", Placeholder.unparsed("page", String.valueOf(finalArg)), Placeholder.unparsed("maxpages", String.valueOf(maxpages)), Placeholder.unparsed("total", String.valueOf(total))));
                     long current = System.currentTimeMillis();
                     while (rs.next()) {
-                        sender.sendMessage(l.getStringComponent("banlist.banlist_" + (rs.getLong("duration") != 0L ? "tempban" : "ban") + "_entry", Placeholder.unparsed("name", rs.getString("name")), Placeholder.unparsed("date", localeManager.getFullDate(rs.getLong("date"))), Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate((rs.getLong("duration") - current), l))));
+                        sender.sendMessage(l.getStringComponent("banlist.banlist_" + (rs.getLong("duration") != 0L ? "tempban" : "ban") + "_entry", Placeholder.unparsed("player_name", rs.getString("name")), Placeholder.unparsed("ban_date", localeManager.getFullDate(rs.getLong("date"))), Placeholder.unparsed("duration", localeManager.parseTimeWithTranslate((rs.getLong("duration") - current), l))));
                     }
                     sender.sendMessage(l.getStringComponent("banlist.banlist_footer"));
                 } catch (SQLException e) {

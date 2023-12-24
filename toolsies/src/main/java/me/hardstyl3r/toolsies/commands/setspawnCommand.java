@@ -56,7 +56,7 @@ public class setspawnCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         locationManager.setSpawn(location);
-        sender.sendMessage(l.getStringComponent("setspawn.setspawn", Placeholder.unparsed("name", w.getName())));
+        sender.sendMessage(l.getStringComponent("setspawn.setspawn", Placeholder.unparsed("world_name", w.getName())));
         return true;
     }
 

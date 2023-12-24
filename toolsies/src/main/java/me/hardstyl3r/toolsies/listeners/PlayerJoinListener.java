@@ -33,7 +33,7 @@ public class PlayerJoinListener implements Listener {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (p != target) {
                     User users = userManager.getUser(p);
-                    p.sendMessage(users.getLocale().getStringComponent("players.join.new_player", Placeholder.unparsed("name", target.getName())));
+                    p.sendMessage(users.getLocale().getStringComponent("players.join.new_player", Placeholder.unparsed("player_name", target.getName())));
                 }
             }
             userManager.createUser(target);
@@ -56,8 +56,8 @@ public class PlayerJoinListener implements Listener {
         User u = userManager.getUser(target);
         for (Player p : Bukkit.getOnlinePlayers()) {
             User users = userManager.getUser(p);
-            p.sendMessage(users.getLocale().getStringComponent("players.join.broadcast", Placeholder.unparsed("name", target.getName())));
+            p.sendMessage(users.getLocale().getStringComponent("players.join.broadcast", Placeholder.unparsed("player_name", target.getName())));
         }
-        target.sendMessage(u.getLocale().getStringComponent("players.join.motd", Placeholder.unparsed("name", target.getName())));
+        target.sendMessage(u.getLocale().getStringComponent("players.join.motd", Placeholder.unparsed("player_name", target.getName())));
     }
 }

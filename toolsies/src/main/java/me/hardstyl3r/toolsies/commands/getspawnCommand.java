@@ -53,13 +53,13 @@ public class getspawnCommand implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 World w = Bukkit.getWorld(args[0]);
                 if (w == null) {
-                    sender.sendMessage(l.getStringComponent("getspawn.unknown_world", Placeholder.unparsed("name", args[0])));
+                    sender.sendMessage(l.getStringComponent("getspawn.unknown_world", Placeholder.unparsed("world_name", args[0])));
                     return true;
                 }
                 spawn = locationManager.getSpawn(w);
             }
             sender.sendMessage(l.getStringComponent("getspawn.details",
-                    Placeholder.unparsed("name", spawn.getWorld().getName()),
+                    Placeholder.unparsed("world_name", spawn.getWorld().getName()),
                     Placeholder.unparsed("x", String.valueOf(spawn.getBlockX())),
                     Placeholder.unparsed("y", String.valueOf(spawn.getBlockY())),
                     Placeholder.unparsed("z", String.valueOf(spawn.getBlockZ())),

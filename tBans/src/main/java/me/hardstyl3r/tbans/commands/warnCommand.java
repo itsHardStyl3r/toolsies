@@ -47,21 +47,21 @@ public class warnCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
             if (target.length() > punishmentManager.getMaximumNickLength()) {
-                sender.sendMessage(l.getStringComponent("ban.name_too_long", Placeholder.unparsed("length", String.valueOf(punishmentManager.getMaximumNickLength()))));
+                sender.sendMessage(l.getStringComponent("punishments.name_too_long", Placeholder.unparsed("length", String.valueOf(punishmentManager.getMaximumNickLength()))));
                 return true;
             }
             if (userManager.getUser(target) == null) {
-                sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("name", args[0])));
+                sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("player_name", args[0])));
                 return true;
             }
             String admin = sender.getName();
             String reason = localeManager.createMessage(args, 1);
             UUID uuid = userManager.getUserIgnoreCase(target).getUUID();
             Punishment punishment = punishmentManager.createPunishment(type, uuid, target, admin, reason, null);
-            sender.sendMessage(l.getStringComponent("warn.warn_sender", Placeholder.unparsed("name", target)));
+            sender.sendMessage(l.getStringComponent("warn.warn_sender", Placeholder.unparsed("player_name", target)));
             Player p = Bukkit.getPlayerExact(target);
             if (Bukkit.getPlayerExact(target) != null) {
-                p.sendMessage(userManager.determineLocale(p).getStringComponent("warn.warn_target", Placeholder.unparsed("admin", punishment.getAdmin()), Placeholder.unparsed("reason", punishment.getReason())));
+                p.sendMessage(userManager.determineLocale(p).getStringComponent("warn.warn_target", Placeholder.unparsed("sender_name", punishment.getAdmin()), Placeholder.unparsed("reason", punishment.getReason())));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

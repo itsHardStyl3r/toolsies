@@ -48,185 +48,173 @@ common:
   amount: "amount"
 
 locale:
-  unknown_locale: "<red>#</red> <grey>Locale <name> does not exist.</grey>"
-  changed_own: "<green>#</green> <grey>Your locale has been changed to <name>.</grey>"
-  current_locale: "<yellow>#</yellow> <grey>Your current locale is <name>.</grey>"
-  available_locales: "<yellow>#</yellow> <grey>Available languages: <locales>.<newline>  In order to change your locale, use /locale <locale>.</grey>"
+  unknown_locale: "<red>#</red> <grey>Locale <locale_name> does not exist.</grey>"
+  changed_own: "<green>#</green> <grey>Your locale has been changed to <locale_name>.</grey>"
+  current_locale: "<yellow>#</yellow> <grey>Your current locale is <locale_name>.</grey>"
+  available_locales: "<yellow>#</yellow> <grey>Available languages: <locales>.<newline>  In order to change your locale, use /locale <language>.</grey>"
 
 kit:
   usage:
-    kit: "/kit [kit] [arg-player] - gives or checks for available kits"
-    console-kit: "/kit <kit> <player> - gives a kit"
-  kit_applied: "<green>#</green> <grey>Applied kit <name>.</grey>"
+    kit: "/kit [kit name] [arg-player] - gives or checks for available kits"
+    console-kit: "/kit <kit name> <player name> - gives a kit"
+  kit_applied: "<green>#</green> <grey>Applied kit <kit_name>.</grey>"
   available_kits: "<yellow>#</yellow> <grey>Available kits: <kits>.</grey>"
-  no_kits_available: "<yellow>#</yellow> <grey>There are no available kits.</grey>"
-  cant_gift_to_that_player: "<red>#</red> <grey>You can't give kit <name> to <player>.</grey>"
-  gifted_kit_to_player: "<green>#</green> <grey>Gifted kit <name> to <player>.</grey>"
-  player_gifted: "<yellow>#</yellow> <grey>You have been gifted a kit <name> by <admin>.</grey>"
+  no_kits_available: "<yellow>#</yellow> <grey>There aren't any available kits.</grey>"
+  cant_gift_to_that_player: "<red>#</red> <grey>You can't give kit <kit_name> to <player_name>.</grey>"
+  gifted_kit_to_player: "<green>#</green> <grey>Gave kit <kit_name> to <target>.</grey>"
+  player_gifted: "<yellow>#</yellow> <grey>You've been given a kit <kit_name> by <sender_name>.</grey>"
 
 group:
   usage:
     group: "/group [arg-player] - checks current group"
     group-list: "/group list - lists all groups"
     console-group-list: "/group list - lists all groups"
-    group-set: "/group set <group> [player] - sets a group"
-    console-group-set: "/group set <group> <player> - sets a group"
-    group-remove: "/group remove <group> [player] - removes a group"
-    console-group-remove: "/group remove <group> <player> - removes a group"
-    group-add: "/group add <group> [player] - adds a group"
-    console-group-add: "/group add <group> <player> - adds a group"
-  current_group: "<yellow>#</yellow> <grey>Your current group: <group>.</grey>"
-  current_group_sender: "<yellow>#</yellow> <grey><player>'s current group: <group>.</grey>"
-  unknown_group: "<red>#</red> <grey>Group <name> does not exist.</grey>"
-  current_group_already: "<yellow>#</yellow> <grey>You already are in group <name>.</grey>"
-  current_group_already_sender: "<yellow>#</yellow> <grey><player> is already in group <name>.</grey>"
-  set_group: "<green>#</green> <grey>Your group has been changed to <name>.</grey>"
-  set_group_sender: "<green>#</green> <grey>Set <player>'s group to <name>.</grey>"
-  set_group_target: "<yellow>#</yellow> <grey>Your group has been set to <name> by <admin>.</grey>"
-  add_group: "<green>#</green> <grey>You have been added to group <name>.</grey>"
-  add_group_sender: "<green>#</green> <grey>Added <player> to group <name>.</grey>"
-  add_group_target: "<yellow>#</yellow> <grey>You have been added to group <name> by <admin>.</grey>"
-  remove_group: "<green>#</green> <grey>You have been removed from group <name>.</grey>"
-  remove_group_sender: "<green>#</green> <grey>Removed <player> from group <name>.</grey>"
-  remove_group_target: "<yellow>#</yellow> <grey>You have been removed from group <name> by <admin>.</grey>"
-  remove_will_remove_last_group: "<red>#</red> <grey>You can't remove yourself from your only group <name>.</grey>"
-  remove_will_remove_last_group_sender: "<red>#</red> <grey>You can't remove <player> from their only group <name>.</grey>"
-  not_in_the_group: "<yellow>#</yellow> <grey>You are not in group <name>.</grey>"
-  not_in_the_group_sender: "<yellow>#</yellow> <grey><player> is not in group <name>.</grey>"
+    group-set: "/group set <group name> [player name] - sets a group"
+    console-group-set: "/group set <group name> <player name> - sets a group"
+    group-remove: "/group remove <group name> [player name] - removes a group"
+    console-group-remove: "/group remove <group name> <player name> - removes a group"
+    group-add: "/group add <group name> [player name] - adds a group"
+    console-group-add: "/group add <group name> <player name> - adds a group"
+  current_group: "<yellow>#</yellow> <grey>Your current group is <group_name>.</grey>"
+  current_group_sender: "<yellow>#</yellow> <grey>Current group of <player_name> is <group_name>.</grey>"
+  unknown_group: "<red>#</red> <grey>Group <group_name> does not exist.</grey>"
+  current_group_already: "<yellow>#</yellow> <grey>You already are in group <group_name>.</grey>"
+  current_group_already_sender: "<yellow>#</yellow> <grey>Player <player_name> is already in the group <group_name>.</grey>"
+  set_group: "<green>#</green> <grey>Your group has been changed to <group_name>.</grey>"
+  set_group_sender: "<green>#</green> <grey>Changed <player_name>'s group to <group_name>.</grey>"
+  set_group_target: "<yellow>#</yellow> <grey>Your group has been changed to <group_name> by <sender_name>.</grey>"
+  add_group: "<green>#</green> <grey>You've been added to group <group_name>.</grey>"
+  add_group_sender: "<green>#</green> <grey>Added <player_name> to group <group_name>.</grey>"
+  add_group_target: "<yellow>#</yellow> <grey>You've been added to group <group_name> by <sender_name>.</grey>"
+  remove_group: "<green>#</green> <grey>You've been removed from group <group_name>.</grey>"
+  remove_group_sender: "<green>#</green> <grey>Removed <player_name> from group <group_name>.</grey>"
+  remove_group_target: "<yellow>#</yellow> <grey>You've been removed from group <group_name> by <sender_name>.</grey>"
+  remove_will_remove_default_group: "<red>#</red> <grey>You can't remove yourself from the default group <group_name>.</grey>"
+  remove_will_remove_default_group_sender: "<red>#</red> <grey>You can't remove <player_name> from the default group <group_name>.</grey>"
+  not_in_the_group: "<yellow>#</yellow> <grey>You are not in group <group_name>.</grey>"
+  not_in_the_group_sender: "<yellow>#</yellow> <grey>Player <player_name> is not in group <group_name>.</grey>"
   list: "<yellow>#</yellow> <grey>Available groups: <groups>.</grey>"
   list_none: "<yellow>#</yellow> <grey>No available groups.</grey>"
 
 broadcast:
   usage:
-    broadcast: "/broadcast <message> - broadcasts a message"
-    console-broadcast: "/broadcast <message> - broadcasts a message"
+    broadcast: "/broadcast <message> - broadcasts a formatted message"
+    console-broadcast: "/broadcast <message> - broadcasts a formatted message"
   style: "<dark_grey>[<blue>Broadcast</blue>]</dark_grey> <grey><message></grey>"
 
 broadcastraw:
   usage:
-    broadcast: "/broadcastraw <message> - broadcasts only a formatted message"
-    console-broadcast: "/broadcastraw <message> - broadcasts only a formatted message"
+    broadcast: "/broadcastraw <message> - broadcasts a formatted message without styling"
+    console-broadcast: "/broadcastraw <message> - broadcasts a formatted message without styling"
 
 permission:
   usage:
     permission: "/permission [arg-player] - displays additional permissions"
     console-permission: "/permission <player> - displays additional permissions"
-    permission-clear: "/permission remove [arg-player] - clears permissions"
-    console-permission-clear: "/permission clear <gracz> - clears permissions"
+    permission-clear: "/permission clear [arg-player] - clears permissions"
+    console-permission-clear: "/permission clear <player> - clears permissions"
     permission-add: "/permission add <uprawnienie> [arg-player] - grants permmission"
-    console-permission-add: "/permission add <uprawnienie> <gracz> - grants permmission"
+    console-permission-add: "/permission add <uprawnienie> <player> - grants permmission"
     permission-remove: "/permission remove <uprawnienie> [arg-player] - revokes permmission"
-    console-permission-remove: "/permission remove <uprawnienie> <gracz> - revokes permmission"
+    console-permission-remove: "/permission remove <uprawnienie> <player> - revokes permmission"
   current_permissions: "<yellow>#</yellow> <grey>Your additional permissions: <permissions></grey>"
-  current_permissions_sender: "<yellow>#</yellow> <grey><player>'s additional permissions: <permissions></grey>"
+  current_permissions_sender: "<yellow>#</yellow> <grey>Additional permissions granted to <player_name>: <permissions></grey>"
   no_permissions: "<yellow>#</yellow> <grey>You're not granted any additional permissions.</grey>"
-  no_permissions_sender: "<yellow>#</yellow> <grey><player> is not granted any additional permissions.</grey>"
-  illegal_characters: "<red>#</red> <grey>Permission can only consist of letters and numbers.</grey>"
-  clear_permissions: "<green>#</green> <grey>Cleared permissions (<count>).</grey>"
-  clear_permissions_sender: "<green>#</green> <grey>Cleared <player>'s permissions (<count>).</grey>"
-  clear_permissions_target: "<yellow>#</yellow> <grey>Your additional permissions were cleared by <admin>.</grey>"
+  no_permissions_sender: "<yellow>#</yellow> <grey>Player <player_name> is not granted any additional permissions.</grey>"
+  illegal_characters: "<red>#</red> <grey>Permission can only consist of letters, numbers and - character.</grey>"
+  clear_permissions: "<green>#</green> <grey>Revoked all additional permissions (<count>).</grey>"
+  clear_permissions_sender: "<green>#</green> <grey>Revoked all additional permissions of player <player_name> (<count>).</grey>"
+  clear_permissions_target: "<yellow>#</yellow> <grey>Your additional permissions were revoked by <sender_name>.</grey>"
   has_permission_already: "<yellow>#</yellow> <grey>You're already granted this permission.</grey>"
-  has_permission_already_sender: "<yellow>#</yellow> <grey><player> is already granted this permission.</grey>"
-  add_permission: "<green>#</green> <grey>Granted permission <permission>.</grey>"
-  add_permission_sender: "<green>#</green> <grey>Granted <player> permission <permission></grey>"
-  add_permission_target: "<yellow>#</yellow> <grey>Additional permissions granted by <admin>.</grey>"
+  has_permission_already_sender: "<yellow>#</yellow> <grey>This additional permission is already granted to <player_name>.</grey>"
+  add_permission: "<green>#</green> <grey>Granted additional permission <permission_name>.</grey>"
+  add_permission_sender: "<green>#</green> <grey>Permission <permission_name> granted to player <player_name>.</grey>"
+  add_permission_target: "<yellow>#</yellow> <grey>Additional permissions granted by <sender_name>.</grey>"
   does_not_have_permission: "<yellow>#</yellow> <grey>You're not granted this permission.</grey>"
-  does_not_have_permission_sender: "<yellow>#</yellow> <grey><player> is not granted this permission.</grey>"
-  remove_permission: "<green>#</green> <grey>Revoked permission <permission></grey>"
-  remove_permission_sender: "<green>#</green> <grey>Revoked <player> permission <permission></grey>"
-  remove_permission_target: "<yellow>#</yellow> <grey>Additional permissions revoked by <admin>.</grey>"
+  does_not_have_permission_sender: "<yellow>#</yellow> <grey>Player <player_name> is not granted this permission.</grey>"
+  remove_permission: "<green>#</green> <grey>Revoked additional permission <permission_name>.</grey>"
+  remove_permission_sender: "<green>#</green> <grey>Revoked additional permission <permission_name> for player <player_name>.</grey>"
+  remove_permission_target: "<yellow>#</yellow> <grey>Additional permissions revoked by <sender_name>.</grey>"
 
 getspawn:
   usage:
-    getspawn: "/getspawn [świat] - spawn information"
-    console-getspawn: "/getspawn [świat] - spawn information"
-  unknown_world: "<red>#</red> <grey>World <name> does not exist."
-  unknown_spawn: "<red>#</red> <grey>World <name> does not have a spawn point."
-  details: "<yellow>#</yellow> <grey>Spawn information of <name></grey><newline>
-    <yellow>></yellow> <grey>XYZ: <x>, <y>, <z></grey><newline>
-    <yellow>></yellow> <grey>Yaw/Pitch: <yaw>, <pitch></grey><newline>
-    <yellow>></yellow> <grey>Preferred: <preferred></grey>"
+    getspawn: "/getspawn [world name] - spawn information"
+    console-getspawn: "/getspawn [world name] - spawn information"
+  unknown_world: "<red>#</red> <grey>World <world_name> does not exist."
+  unknown_spawn: "<red>#</red> <grey>World <world_name> does not have a spawn point."
+  details: "<yellow>#</yellow> <grey>Spawn information of world <world_name></grey><newline><yellow>></yellow> <grey>XYZ: <x>, <y>, <z></grey><newline><yellow>></yellow> <grey>Yaw/Pitch: <yaw>, <pitch></grey><newline><yellow>></yellow> <grey>Preferred: <preferred></grey>"
 
 spawn:
   usage:
     spawn: "/spawn [arg-player] - teleports to spawn"
     console-spawn: "/spawn <player> - teleports to spawn"
   teleported_to_spawn: "<green>#</green> <grey>Teleported to spawn.</grey>"
-  teleported_to_spawn_sender: "<green>#</green> <grey>Teleported <name> to spawn.</grey>"
-  teleported_to_spawn_target: "<yellow>#</yellow> <grey>Teleported to spawn by <admin>.</grey>"
+  teleported_to_spawn_sender: "<green>#</green> <grey>Teleported <player_name> to spawn.</grey>"
+  teleported_to_spawn_target: "<yellow>#</yellow> <grey>Teleported to spawn by <sender_name>.</grey>"
   currently_on_spawn: "<yellow>#</yellow> <grey>You're currently on spawn.</grey>"
-  currently_on_spawn_sender: "<yellow>#</yellow> <grey><name> is currently on spawn.</grey>"
+  currently_on_spawn_sender: "<yellow>#</yellow> <grey>Player <player_name> is currently on spawn.</grey>"
 
 setspawn:
   usage:
-    setspawn: "/setspawn [world] [preferred/default] - sets or manages spawn"
-    console-setspawn: "/setspawn <world> <preferred/default> - sets or manages spawn"
-  setspawn: "<green>#</green> <grey>Set spawn location <name>.<newline>If this location should be preferred, retype command in the same location.</grey>"
+    setspawn: "/setspawn - sets location of the spawn"
+    console-setspawn: "/setspawn - sets location of the spawn"
+  setspawn: "<green>#</green> <grey>Set spawn location of world <world_name>.<newline>If this location should be preferred, retype command in the same location.</grey>"
   spawn_set_preferred: "<green>#</green> <grey>This spawn location is now preferred.</grey>"
   spawn_unset_preferred: "<green>#</green> <grey>This spawn location is no longer preferred.</grey>"
   spawn_always_preferred: "<yellow>#</yellow> <grey>This spawn location is always preferred.</grey>"
+
+punishments:
+  incorrect_time: "<red>#</red> <grey>Incorrect duration entered.</grey>"
+  duration_too_short: "<red>#</red> <grey>Duration must be at least <duration>.</grey>"
+  name_too_long: "<yellow>#</yellow> <grey>Nickname can't be longer than <length>.</grey>"
+  player_is_not_banned: "<yellow>#</yellow> <grey>Player <player_name> is not banned.</grey>"
+  address_is_not_banned: "<yellow>#</yellow> <grey>Address <address> is not banned.</grey>"
+  player_is_banned: "<yellow>#</yellow> <grey>Player <player_name> is already banned.</grey>"
+  address_is_banned: "<yellow>#</yellow> <grey>Address <address> is already banned.</grey>"
 
 ban:
   usage:
     ban: "/ban <player> [reason] - bans a player"
     console-ban: "/ban <player> [reason] - bans a player"
-  ban: "<green>#</green> <grey>Banned <name>.</grey>"
-  kick_message: "<red>You've been permanently banned by <admin>.</red><newline>
-    <white>Reason: <reason></white><newline>
-    <white>Appeal at: somewhere</white>"
-  join_message: "<red>You're currently banned by <admin>.</red><newline>
-    <white>Reason: <reason></white><newline>
-    <white>Banned on: <date></white><newline>
-    <white>Appeal at: somewhere</white>"
-  ban_broadcast: "<green>#</green> <grey>Player <name> has been permanently banned by <admin>.</grey>"
-  is_banned: "<yellow>#</yellow> <grey><name> is already banned.</grey>"
-  unresolved_hostname: "&cYour IP address could not be resolved.</grey>"
-  name_too_long: "<yellow>#</yellow> <grey>Nickname can't be longer than <length>.</grey>"
+  ban: "<green>#</green> <grey>Banned <player_name>.</grey>"
+  kick_message: "<red>Your account has permanently banned by <sender_name>.</red><newline><white>Reason: <reason></white><newline><white>Appeal on server website</white>"
+  join_message: "<red>Your account is currently banned by <sender_name>.</red><newline><white>Reason: <reason></white><newline><white>Banned on: <ban_date></white><newline><white>Appeal on server website</white>"
+  ban_broadcast: "<yellow>#</yellow> <grey>Player <player_name> has been permanently banned by <sender_name>.</grey>"
+  unresolved_hostname: "<red>Your IP address could not be resolved.</red>"
   priority_too_high: "<red>#</red> <grey>You can't ban this player.</grey>"
 
 unban:
   usage:
     unban: "/unban <player> - unbans a player"
     console-unban: "/unban <player> - unbans a player"
-  unban: "<green>#</green> <grey>Unbanned <name>.</grey>"
-  unban_broadcast: "<green>#</green> <grey>Player <name> has been unbanned by <admin>.</grey>"
-  is_not_banned: "<yellow>#</yellow> <grey><name> is not banned.</grey>"
+  unban: "<green>#</green> <grey>Unbanned <player_name>.</grey>"
+  unban_broadcast: "<yellow>#</yellow> <grey>Player <player_name> has been unbanned by <sender_name>.</grey>"
 
 banlist:
   usage:
     banlist: "/banlist [page] - displays ban list"
     console-banlist: "/banlist [page] - displays ban list"
   banlist_header: "<yellow>#</yellow> <grey>Ban list (<page>/<maxpages>). Total: <total></grey>"
-  banlist_ban_entry: "<yellow>></yellow> <grey><name> banned on <date></grey>"
-  banlist_tempban_entry: "<yellow>></yellow> <grey><name> banned for <duration></grey>"
-  banlist_footer: "<yellow>#</yellow> <grey>For details, type /getban <name>.</grey>"
+  banlist_ban_entry: "<yellow>></yellow> <grey><player_name> banned on <ban_date></grey>"
+  banlist_tempban_entry: "<yellow>></yellow> <grey><player_name> banned for <duration></grey>"
+  banlist_footer: "<yellow>#</yellow> <grey>For details, type /getban <player name>.</grey>"
   unknown_page: "<yellow>#</yellow> <grey>Unknown page.</grey>"
   failed: "<red>#</red> <grey>Failed to retrieve banlist.</grey>"
 
 tempban:
   usage:
-    tempban: "/tempban <player> <time> [reason] - temporarily bans player"
-    console-tempban: "/tempban <player> <time> [reason] - temporarily bans player"
-  tempban: "<green>#</green> <grey>Temporarily banned <name> for <duration>.</grey>"
-  tempban_broadcast: "<green>#</green> <grey>Player <name> has been temporarily banned by <admin> for <duration>.</grey>"
-  kick_message: "<red>You've been temporarily banned by <admin>.</red><newline>
-    <white>Reason: <reason><newline>
-    <white>Expires on: <duration><newline>
-    <white>Appeal at: somewhere</white>"
-  join_message: "<red>You're currently banned by <admin>.</red><newline>
-    <white>Reason: <reason><newline>
-    <white>Banned on: <date></white><newline>
-    <white>Expires on: <duration></white><newline>
-    <white>Appeal at: somewhere</white>"
-  incorrect_time: "<red>#</red> <grey>Incorrect duration entered.</grey>"
-  duration_too_short: "<red>#</red> <grey>Duration must be at least <duration>.</grey>"
-  priority_too_high: "<red>#</red> <grey>You can't temporarily ban this player.</grey>"
+    tempban: "/tempban <player> <time> [reason] - bans player for a period of time"
+    console-tempban: "/tempban <player> <time> [reason] - bans player for a period of time"
+  tempban: "<green>#</green> <grey>Banned <player_name> for <duration>.</grey>"
+  tempban_broadcast: "<yellow>#</yellow> <grey>Player <player_name> has been banned by <sender_name> for <duration>.</grey>"
+  kick_message: "<red>Your account has been banned by <sender_name>.</red><newline><white>Reason: <reason><newline><white>Expires on: <duration><newline><white>Appeal on the server website</white>"
+  join_message: "<red>Your account is currently banned by <sender_name>.</red><newline><white>Reason: <reason><newline><white>Banned on: <date></white><newline><white>Expires on: <duration></white><newline><white>Appeal on the server website</white>"
 
 getban:
   usage:
     getban: "/getban <nick> - displays ban information"
     console-getban: "/getban <nick> - displays ban information"
-  getban_header: "<yellow>#</yellow> <grey>Ban information of <name> (#<id>).</grey>"
+  getban_header: "<yellow>#</yellow> <grey>Ban information of <player_name> (#<id>).</grey>"
   entries:
     type: "<yellow>></yellow> <grey>Type: <type></grey>"
     admin: "<yellow>></yellow> <grey>Admin: <admin></grey>"
@@ -241,17 +229,15 @@ ban-ip:
     ban-ip: "/ban-ip <address/player> [reason] - bans ip"
     console-ban-ip: "/ban-ip <address/player> [reason] - bans ip"
   ban-ip: "<green>#</green> <grey>Banned address <address></grey>"
-  is_banned: "<yellow>#</yellow> <grey>Address <address> is already banned.</grey>"
   incorrect_address: "<red>#</red> <grey>Player could not be found or wrong ip was entered.</grey>"
   ipv6_address: "<yellow>#</yellow> <grey>IPv6 addresses are not enabled.</grey>"
-  priority_too_high: "<red>#</red> <grey>You can't ban this player.</grey>"
 
 warn:
   usage:
     warn: "/warn <player> <reason> - warns a player"
     console-warn: "/warn <player> <reason> - warns a player"
-  warn_sender: "<green>#</green> <grey>Warned <name>.</grey>"
-  warn_target: "<yellow>#</yellow> <grey>You've been warned by <admin>.<newline><yellow>></yellow> <grey>Reason: <reason></grey>"
+  warn_sender: "<green>#</green> <grey>Warned <player_name>.</grey>"
+  warn_target: "<yellow>#</yellow> <grey>You've been warned by <sender_name>.<newline><yellow>></yellow> <grey>Reason: <reason></grey>"
   priority_too_high: "<red>#</red> <grey>You can't warn this player.</grey>"
 
 unwarn:
@@ -261,13 +247,13 @@ unwarn:
   unwarn: "<green>#</green> <grey>Deleted warn #<id>.</grey>"
   no_such_warn: "<yellow>#</yellow> <grey>Warn #<id> does not exist.</grey>"
   wrong_id: "<red>#</red> <grey>ID must be a number.</grey>"
-  unwarn_target: "<yellow>#</yellow> <grey>Your warn #<id> has been removed by <admin>.</grey>"
+  unwarn_target: "<yellow>#</yellow> <grey>Your warn #<id> has been removed by <sender_name>.</grey>"
 
 getwarn:
   usage:
     getwarn: "/getwarn <id> - warn information"
     console-getwarn: "/getwarn <id> - warn information"
-  getwarn_header: "<yellow>#</yellow> <grey><name>'s #<id> warn information</grey>"
+  getwarn_header: "<yellow>#</yellow> <grey><player_name>'s #<id> warn information</grey>"
   entries:
     admin: "<yellow>></yellow> <grey>Admin: <admin></grey>"
     reason: "<yellow>></yellow> <grey>Reason: <reason></grey>"
@@ -282,58 +268,56 @@ warns:
     warns: "/warns [arg-player] - retrieves a list of warns"
     console-warns: "/warns [arg-player] - retrieves a list of warns"
   warns: "<yellow>#</yellow> <grey>Your warns: <warns>.</grey><newline><yellow>#</yellow> <grey>Total: <total></grey><newline><yellow>#</yellow> <grey>For more information, type /getwarn <id></grey>"
-  warns_sender: "<yellow>#</yellow> <grey><name>'s warns: <warns>.</grey><newline><yellow>#</yellow> <grey>Total: <total></grey><newline><yellow>#</yellow> <grey>For more information, type /getwarn <id></grey>"
+  warns_sender: "<yellow>#</yellow> <grey><player_name>'s warns: <warns>.</grey><newline><yellow>#</yellow> <grey>Total: <total></grey><newline><yellow>#</yellow> <grey>For more information, type /getwarn <id></grey>"
   no_warns: "<yellow>#</yellow> <grey>You don't have any warns.</grey>"
-  no_warns_sender: "<yellow>#</yellow> <grey><name> does not have any warns.</grey>"
+  no_warns_sender: "<yellow>#</yellow> <grey>Player <player_name> does not have any warns.</grey>"
 
 mute:
   usage:
     mute: "/mute <player> [reason] - mutes a player"
     console-mute: "/mute <player> [reason] - mutes a player"
-  mute: "<green>#</green> <grey>Muted <name>.</grey>"
-  is_muted: "<yellow>#</yellow> <grey><name> is already muted.</grey>"
-  mute_target: "<yellow>#</yellow> <grey>You've been muted by <admin>.</grey><newline><yellow>></yellow> <grey>Reason: <reason></grey>"
+  mute: "<green>#</green> <grey>Muted <player_name>.</grey>"
+  is_muted: "<yellow>#</yellow> <grey><player_name> is already muted.</grey>"
+  mute_target: "<yellow>#</yellow> <grey>You've been muted by <sender_name>.</grey><newline><yellow>></yellow> <grey>Reason: <reason></grey>"
   chat_muted: "<yellow>#</yellow> <grey>You are muted.</grey>"
   priority_too_high: "<red>#</red> <grey>You can't mute this player.</grey>"
 
 tempmute:
   usage:
     tempmute: "/tempmute <player> <time> [reason] - temporarily mutes a player"
-    console-tempmute: "/tempmute <gracz> <time> [reason] - temporarily mutes a player"
-  tempmute: "<green>#</green> <grey>Muted <name> for <duration>.</grey>"
-  tempmute_target: "<yellow>#</yellow> <grey>You've been muted by <admin> for <duration>.</grey>"
+    console-tempmute: "/tempmute <player> <time> [reason] - temporarily mutes a player"
+  tempmute: "<green>#</green> <grey>Muted <player_name> for <duration>.</grey>"
+  tempmute_target: "<yellow>#</yellow> <grey>You've been muted by <sender_name> for <duration>.</grey>"
   chat_muted: "<yellow>#</yellow> <grey>You are muted for <duration>.</grey>"
-  priority_too_high: "<red>#</red> <grey>You can't temporarily mute this player.</grey>"
 
 tempwarn:
   usage:
     tempwarn: "/tempwarn <player> <time> [reason] - warns a player"
-    console-tempwarn: "/tempwarn <gracz> <time> [reason] - warns a player"
-  tempwarn_sender: "<green>#</green> <grey>Warned <name> for <duration>.</grey>"
-  tempwarn_target: "<yellow>#</yellow> <grey>You've been warned by <admin> for <duration>.</grey><newline><yellow>></yellow> <grey>Reason: <reason></grey>"
-  priority_too_high: "<red>#</red> <grey>You can't temporarily warn this player.</grey>"
+    console-tempwarn: "/tempwarn <player> <time> [reason] - warns a player"
+  tempwarn_sender: "<green>#</green> <grey>Warned <player_name> for <duration>.</grey>"
+  tempwarn_target: "<yellow>#</yellow> <grey>You've been warned by <sender_name> for <duration>.</grey><newline><yellow>></yellow> <grey>Reason: <reason></grey>"
 
 unmute:
   usage:
     unmute: "/unmute <player> - unmutes a player"
     console-unmute: "/unmute <player> - unmutes a player"
-  is_not_muted: "<yellow>#</yellow> <grey><name> is not muted.</grey>"
-  unmute: "<green>#</green> <grey>Unmuted <name>.</grey>"
-  unmute_target: "<yellow>#</yellow> <grey>You've been muted by <admin>.</grey>"
+  is_not_muted: "<yellow>#</yellow> <grey>Player <player_name> is not muted.</grey>"
+  unmute: "<green>#</green> <grey>Unmuted <player_name>.</grey>"
+  unmute_target: "<yellow>#</yellow> <grey>You've been unmuted by <sender_name>.</grey>"
 
 kick:
   usage:
     kick: "/kick <player> - kicks a player"
     console-kick: "/kick <player> - kicks a player"
-  kick: "<green>#</green> <grey>Kicked <name>.</grey>"
-  kick_message: "<red>You've been kicked by <admin>.</red><newline><white>Reason: <reason></white>"
+  kick: "<green>#</green> <grey>Kicked <player_name>.</grey>"
+  kick_message: "<red>You've been kicked by <sender_name>.</red><newline><white>Reason: <reason></white>"
   priority_too_high: "<red>#</red> <grey>You can't kick this player.</grey>"
 
 tempban-ip:
   usage:
     tempban-ip: "/tempban <address/player> <time> [reason] - temporarily bans address"
     console-tempban-ip: "/tempban <address> <time> [reason] - temporarily bans address"
-  tempban-ip: "<green>#</green> <grey>Temporarily banned <address> for <duration>.</grey>"
+  tempban-ip: "<green>#</green> <grey>Banned IP address <address> for <duration>.</grey>"
   priority_too_high: "<red>#</red> <grey>You can't ban this player.</grey>"
 
 login:
@@ -344,7 +328,7 @@ login:
   login: "<yellow>#</yellow> <grey>Log in using /login <password>.</grey>"
   timeout: "<green>Login time exceeded.</green>"
   online_kick: "<green>Another player with this nickname is already on the server.</green>"
-  command_kick: "<green>You can't use any other commands during logging in.</green>"
+  command_kick: "<green>You can't use any other commands before logging in.</green>"
   nick_too_short: "<green>Your nickname is too short.</green>"
   nick_too_long: "<green>Your nickname is too long.</green>"
   wrong_nick: "<green>Your nickname contains disallowed characters.</green>"
@@ -363,7 +347,7 @@ register:
   register: "<yellow>#</yellow> <grey>Register using /register <password> <confirmPassword></grey>"
   illegal_password: "<yellow>#</yellow> <grey>Incorrect password.</grey>"
   timeout: "<green>Register time exceeded.</green>"
-  command_kick: "<green>You can't use any other commands during register.</green>"
+  command_kick: "<green>You can't use any other commands before registration.</green>"
 
 logout:
   usage: "<yellow>#</yellow> <grey>Correct usage: /logout</grey>"
@@ -384,22 +368,22 @@ auth:
     auth-reload: "/auth reload <player> - reload player's auth data from database"
     argauth-silent: "<player>-silent - does not add comments to the history"
     auth-info: "/auth info <player> - player information"
-  logout_sender: "<green>#</green> <grey>Logged out <name>.</grey>"
+  logout_sender: "<green>#</green> <grey>Logged out <player_name>.</grey>"
   logout_target: "<yellow>#</yellow> <grey>You've been logged out.</grey>"
-  logout_not_logged_in: "<yellow>#</yellow> <grey><name> is not logged in.</grey>"
-  reload_sender: "<green>#</green> <grey>Reloaded <name>.</grey>"
+  logout_not_logged_in: "<yellow>#</yellow> <grey>Player <player_name> is not logged in.</grey>"
+  reload_sender: "<green>#</green> <grey>Reloaded <player_name>.</grey>"
   reload_target: "<green>#</green> <grey>Your auth data have been updated.</grey>"
   info:
-    header: "<yellow>#</yellow> <grey><name> details.</grey>"
+    header: "<yellow>#</yellow> <grey><player_name> details.</grey>"
     uuid: "<yellow>></yellow> <grey>UUID: <uuid></grey>"
     ip: "<yellow>></yellow> <grey>IP addresses: <ip> i <regip></grey>"
     regdate: "<yellow>></yellow> <grey>Registration date: <regdate></grey>"
     email: "<yellow>></yellow> <grey>Email: <email></grey>"
     lastlocation: "<yellow>></yellow> <grey>Last location: X<x>, Y<y>, Z<z>, <world></grey>"
     lastlogin: "<yellow>></yellow> <grey>Last login: <lastlogin></grey>"
-    multis: "<yellow>></yellow> <grey>Multiaccounts (any IP address): <multi></grey>"
-  login_sender: "<green>#</green> <grey>Logged in <name>.</grey>"
-  login_logged_in: "<yellow>#</yellow> <grey><name> is already logged in.</grey>"
+    multis: "<yellow>></yellow> <grey>Multi accounts (any IP address): <multi></grey>"
+  login_sender: "<green>#</green> <grey>Logged in <player_name>.</grey>"
+  login_logged_in: "<yellow>#</yellow> <grey>Player <player_name> is already logged in.</grey>"
   login_target: "<green>#</green> <grey>You've been logged in.</grey>"
   playtime_chat: "<yellow>#</yellow> <grey>You need to wait <time> before you can chat.</grey>"
 
@@ -417,14 +401,14 @@ email:
   email_set_current: "<yellow>#</yellow> <grey>This is your current email address.</grey>"
   email_clear: "<green>#</green> <grey>Email address cleared.</grey>"
   email_no_email: "<yellow>#</yellow> <grey>You don't have any email address set.</grey>"
-  email: "<green>#</green> <grey>Your email address: <email>.</grey>"
+  email: "<green>#</green> <grey>Your email address is <email>.</grey>"
 
 playtime:
   usage:
     console-playtime: "/playtime <player> - check play time"
     playtime: "/playtime - checks play time"
-    argplaytime-others: "[gracz] - play time of another player"
-  header: "<yellow>#</yellow> <grey><name>'s play time.</grey>"
+    argplaytime-others: "[player] - play time of another player"
+  header: "<yellow>#</yellow> <grey><player_name>'s play time.</grey>"
   session: "<yellow>></yellow> <grey>Logged in for: <session></grey>"
   regdate: "<yellow>></yellow> <grey>Registration date: <regdate></grey>"
   total: "<yellow>></yellow> <grey>Total play time: <playtime></grey>"
@@ -435,20 +419,18 @@ chat:
     clear: "/chat clear - clears chat"
     lock: "/chat lock - lock and unlock chat"
   clear:
-    broadcast: "<newline><yellow><bold>></bold></yellow> <grey>Chat has been cleared by <yellow><nick></yellow>.</grey><newline>"
+    broadcast: "<newline><yellow><bold>></bold></yellow> <grey>Chat has been cleared by <yellow><sender_name></yellow>.</grey><newline>"
   toggle:
-    broadcast: "<newline><yellow><bold>></bold></yellow> <grey>Chat has been <type> by <yellow><nick></yellow>.</grey><newline>"
+    broadcast_locked: "<newline><yellow><bold>></bold></yellow> <grey>Chat has been <red>locked</red> by <yellow><sender_name></yellow>.</grey><newline>"
+    broadcast_unlocked: "<newline><yellow><bold>></bold></yellow> <grey>Chat has been <green>unlocked</green> by <yellow><sender_name></yellow>.</grey><newline>"
     chat_locked: "<yellow>#</yellow> <grey>Chat is currently locked.</grey>"
-    types:
-      true: "<red>locked</red>"
-      false: "<green>unlocked</green>"
   cooldown:
     chat:
-      onChat: "<yellow>#</yellow> <grey>Wait <time> before chatting again.</grey>"
+      onChat: "<yellow>#</yellow> <grey>You need to wait <time> before chatting again.</grey>"
 
 tchat:
   usage:
-    tchat: "/tchat <chat> [toggle/clear]"
+    tchat: "/tchat chat cooldown [toggle/clear]"
   cooldown:
     chat:
       status: "<yellow>#</yellow> <grey>Chat cooldown status: <status> (default: <default>)</grey>"
@@ -459,13 +441,12 @@ msg:
   usage:
     msg: "/msg <player> <message> - sends a private message"
     console-msg: "/msg <player> <message> - sends a private message"
-  text_self: "<grey><time> <italic>* <message></italic></grey>"
-  text_sender: "<hover:show_text:'Click here to text new message.'><grey><time></grey> <gold>You → <name>: <message></gold></hover>"
-  text_target: "<hover:show_text:'Click here to reply.'><grey><time></grey> <gold><name> → You: <message></gold></hover>"
-  reply_available: "<grey>You can now reply to each other using /reply command.</grey>"
+  text_self: "<grey><italic>* <message></italic></grey>"
+  text_sender: "<hover:show_text:'Click here to text new message.'><grey><time></grey> <gold>You → <target_name>: <message></gold></hover>"
+  text_target: "<hover:show_text:'Click here to reply.'><grey><time></grey> <gold><sender_name> → You: <message></gold></hover>"
   toggle_false: "<green>#</green> <grey>Private messages turned off.</grey>"
   toggle_true: "<green>#</green> <grey>Private messages turned on.</grey>"
-  target_toggled_info: "<grey><italic><name> has private messages turned off.</italic></grey>"
+  target_toggled_info: "<grey><italic>Player <player_name> has private messages turned off.</italic></grey>"
 
 reply:
   usage:
@@ -489,22 +470,21 @@ more:
   empty_hand: "<yellow>#</yellow> <grey>You need to hold an item in either hand.</grey>"
   same_amount: "<yellow>#</yellow> <grey><choice:'0#Maximum stack|1#Requested amount'> of this item reached.</grey>"
   set_amount: "<green>#</green> <grey><amounttype:'0#De|1#In'>creased amount of item in hand to <newamount>.</grey>"
-  excluded_item: "<yellow>#</yellow> <grey>You can't modify amount of this item.</grey>"
+  excluded_item: "<red>#</red> <grey>You can't modify amount of this item.</grey>"
 
 players:
-  unknown: "<red>#</red> <grey>Player <name> does not exist.</grey>"
-  offline: "<red>#</red> <grey>Player <name> is offline.</grey>"
+  unknown: "<red>#</red> <grey>Player <player_name> does not exist.</grey>"
+  offline: "<red>#</red> <grey>Player <player_name> is offline.</grey>"
   join:
-    broadcast: "<yellow><name> joined the game</yellow>"
-    motd: "<gold>*</gold> <grey>Welcome to the server, <name>!</grey>"
-    new_player: "<light_purple>Player <name> joined the server for the first time!</light_purple>"
+    broadcast: "<yellow><player_name> joined the game</yellow>"
+    motd: "<gold>*</gold> <grey>Welcome to the server, <player_name>!</grey>"
+    new_player: "<light_purple>Player <player_name> joined the server for the first time!</light_purple>"
   quit:
-    broadcast: "<yellow><name> left the game</yellow>"
+    broadcast: "<yellow><player_name> left the game</yellow>"
 
 config:
   name: 'English'
-  aliases:
-    # 'en' <- this is already the ID
+  aliases: # 'en' <- this is already the ID
     - 'england'
     - 'angielski'
     - 'british'

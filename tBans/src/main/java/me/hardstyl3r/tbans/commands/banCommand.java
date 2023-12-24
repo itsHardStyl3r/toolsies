@@ -49,22 +49,22 @@ public class banCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
             if (punishmentManager.isPunished(type, target)) {
-                sender.sendMessage(l.getStringComponent("ban.is_banned", Placeholder.unparsed("name", target)));
+                sender.sendMessage(l.getStringComponent("punishments.player_is_banned", Placeholder.unparsed("player_name", target)));
                 return true;
             }
             if (target.length() > punishmentManager.getMaximumNickLength()) {
-                sender.sendMessage(l.getStringComponent("ban.name_too_long", Placeholder.unparsed("length", String.valueOf(punishmentManager.getMaximumNickLength()))));
+                sender.sendMessage(l.getStringComponent("punishments.name_too_long", Placeholder.unparsed("length", String.valueOf(punishmentManager.getMaximumNickLength()))));
                 return true;
             }
             String admin = sender.getName();
             String reason = (args.length > 1 ? localeManager.createMessage(args, 1) : null);
             UUID uuid = (userManager.getUserIgnoreCase(target) == null ? null : userManager.getUserIgnoreCase(target).getUUID());
             Punishment punishment = punishmentManager.createPunishment(type, uuid, target, admin, reason, null);
-            sender.sendMessage(l.getStringComponent("ban.ban", Placeholder.unparsed("name", target)));
+            sender.sendMessage(l.getStringComponent("ban.ban", Placeholder.unparsed("player_name", target)));
             Player p = Bukkit.getPlayerExact(target);
             if (p != null)
                 p.kick(userManager.determineLocale(uuid).getStringComponent("ban.kick_message",
-                        Placeholder.unparsed("admin", admin),
+                        Placeholder.unparsed("sender_name", admin),
                                 Placeholder.unparsed("reason", (reason == null ? "" : reason))),
                         PlayerKickEvent.Cause.BANNED);
         } else {

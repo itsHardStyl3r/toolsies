@@ -25,7 +25,7 @@ public class PlayerQuitListener implements Listener {
         Player target = e.getPlayer();
         for (Player p : Bukkit.getOnlinePlayers()) {
             User users = userManager.getUser(p);
-            p.sendMessage(users.getLocale().getStringComponent("players.quit.broadcast", Placeholder.unparsed("name", target.getName())));
+            p.sendMessage(users.getLocale().getStringComponent("players.quit.broadcast", Placeholder.unparsed("player_name", target.getName())));
         }
     }
 }

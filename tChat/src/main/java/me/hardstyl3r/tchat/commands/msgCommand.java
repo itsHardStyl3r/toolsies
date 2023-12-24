@@ -38,11 +38,11 @@ public class msgCommand implements CommandExecutor, TabCompleter {
         }
         if (args.length > 1) {
             if (userManager.getUser(args[0]) == null) {
-                sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("name", args[0])));
+                sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("player_name", args[0])));
                 return true;
             }
             if (Bukkit.getPlayerExact(args[0]) == null) {
-                sender.sendMessage(l.getStringComponent("players.offline", Placeholder.unparsed("name", args[0])));
+                sender.sendMessage(l.getStringComponent("players.offline", Placeholder.unparsed("player_name", args[0])));
                 return true;
             }
             Player target = Bukkit.getPlayerExact(args[0]);

@@ -58,29 +58,29 @@ public class authCommand implements CommandExecutor, TabCompleter {
             }
             AuthUser authUser = loginManager.getAuth(p);
             if (authUser == null || !authUser.isRegistered()) {
-                sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("name", target)));
+                sender.sendMessage(l.getStringComponent("players.unknown", Placeholder.unparsed("player_name", target)));
                 return true;
             }
             if (args[0].equalsIgnoreCase("logout")) {
                 if (!authUser.isLoggedIn()) {
-                    sender.sendMessage(l.getStringComponent("auth.logout_not_logged_in", Placeholder.unparsed("name", p.getName())));
+                    sender.sendMessage(l.getStringComponent("auth.logout_not_logged_in", Placeholder.unparsed("player_name", p.getName())));
                     return true;
                 }
                 if (p == sender) {
                     Bukkit.dispatchCommand(sender, "logout");
                     return true;
                 }
-                sender.sendMessage(l.getStringComponent("auth.logout_sender", Placeholder.unparsed("name", p.getName())));
+                sender.sendMessage(l.getStringComponent("auth.logout_sender", Placeholder.unparsed("player_name", p.getName())));
                 p.sendMessage(l.getStringComponent("auth.logout_target"));
                 loginManagement.performLogout(p, comment);
             } else if (args[0].equalsIgnoreCase("reload")) {
-                sender.sendMessage(l.getStringComponent("auth.reload_sender", Placeholder.unparsed("name", target)));
+                sender.sendMessage(l.getStringComponent("auth.reload_sender", Placeholder.unparsed("player_name", target)));
                 if (p != null && !silent) {
                     Bukkit.getPlayerExact(target).sendMessage(l.getStringComponent("auth.reload_target"));
                 }
                 loginManager.refreshAuth(authUser);
             } else if (args[0].equalsIgnoreCase("info")) {
-                sender.sendMessage(l.getStringComponent("auth.info.header", Placeholder.unparsed("name", authUser.getName())));
+                sender.sendMessage(l.getStringComponent("auth.info.header", Placeholder.unparsed("player_name", authUser.getName())));
                 sender.sendMessage(l.getStringComponent("auth.info.uuid", Placeholder.unparsed("uuid", authUser.getUUID().toString())));
                 sender.sendMessage(l.getStringComponent("auth.info.ip", Placeholder.unparsed("ip", authUser.getIp()), Placeholder.unparsed("regip", authUser.getRegisterIp())));
                 sender.sendMessage(l.getStringComponent("auth.info.regdate", Placeholder.unparsed("regdate", localeManager.getFullDate(authUser.getRegisterDate()))));
@@ -92,10 +92,10 @@ public class authCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage(l.getStringComponent("auth.info.multis", Placeholder.unparsed("multi", (multis.isEmpty() ? "0" : String.join(",", multis.stream().map(AuthUser::getName).toList())))));
             } else if (args[0].equalsIgnoreCase("login")) {
                 if (authUser.isLoggedIn()) {
-                    sender.sendMessage(l.getStringComponent("auth.login_logged_in", Placeholder.unparsed("name", target)));
+                    sender.sendMessage(l.getStringComponent("auth.login_logged_in", Placeholder.unparsed("player_name", target)));
                     return true;
                 }
-                sender.sendMessage(l.getStringComponent("auth.login_sender", Placeholder.unparsed("name", p.getName())));
+                sender.sendMessage(l.getStringComponent("auth.login_sender", Placeholder.unparsed("player_name", p.getName())));
                 p.sendMessage(l.getStringComponent("auth.login_target"));
                 loginManagement.performLogin(p, comment);
             } else {

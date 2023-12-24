@@ -55,7 +55,7 @@ public class unwarnCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(l.getStringComponent("unwarn.unwarn", Placeholder.unparsed("id", args[0])));
             Player p = Bukkit.getPlayer(warn.getUUID());
             if (Bukkit.getPlayer(warn.getUUID()) != null) {
-                p.sendMessage(userManager.determineLocale(p).getStringComponent("unwarn.unwarn_target", Placeholder.unparsed("admin", sender.getName())));
+                p.sendMessage(userManager.determineLocale(p).getStringComponent("unwarn.unwarn_target", Placeholder.unparsed("sender_name", sender.getName())));
             }
         } else {
             localeManager.sendUsage(sender, cmd, l);

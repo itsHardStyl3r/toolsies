@@ -40,12 +40,12 @@ public class unbanCommand implements CommandExecutor, TabCompleter {
             String target = args[0];
             punishmentManager.deleteIfExpired(PunishmentType.BAN, target);
             if (!punishmentManager.isPunished(PunishmentType.BAN, target)) {
-                sender.sendMessage(l.getStringComponent("unban.is_not_banned", Placeholder.unparsed("name", target)));
+                sender.sendMessage(l.getStringComponent("punishments.player_is_not_banned", Placeholder.unparsed("player_name", target)));
                 return true;
             }
             Punishment ban = punishmentManager.getPunishment(PunishmentType.BAN, target);
             punishmentManager.deletePunishment(ban, sender.getName());
-            sender.sendMessage(l.getStringComponent("unban.unban", Placeholder.unparsed("name", ban.getName())));
+            sender.sendMessage(l.getStringComponent("unban.unban", Placeholder.unparsed("player_name", ban.getName())));
         } else {
             localeManager.sendUsage(sender, cmd, l);
         }
