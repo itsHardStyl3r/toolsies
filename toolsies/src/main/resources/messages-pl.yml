@@ -377,15 +377,11 @@ chat:
   usage:
     clear: "/chat clear - czyści chat"
     lock: "/chat lock - blokuje lub odblokowuje chat"
-  clear:
-    broadcast: "<newline><yellow><bold>></bold></yellow> <grey>Chat został wyczyszczony przez <yellow><nick></yellow>.</grey><newline>"
-  toggle:
-    broadcast_locked: "<newline><yellow><bold>></bold></yellow> <grey>Chat został <red>zablokowany</red> przez <yellow><nick></yellow>.</grey><newline>"
-    broadcast_unlocked: "<newline><yellow><bold>></bold></yellow> <grey>Chat został <green>odblokowany</green> przez <yellow><nick></yellow>.</grey><newline>"
-    chat_locked: "<yellow>#</yellow> <grey>Chat jest obecnie zablokowany.</grey>"
+  clear_broadcast: "<newline><yellow>✎</yellow> <grey>Chat został wyczyszczony przez <yellow><sender_name></yellow>.</grey><newline>"
+  toggle_broadcast: "<newline><yellow>✎</yellow> <grey>Chat został </grey><choice:\"0#'<green>odblokowany</green>'|1#'<red>zablokowany</red>'\"><grey> przez <yellow><sender_name></yellow>.</grey><newline>"
+  chat_locked: "<yellow>#</yellow> <grey>Chat jest obecnie zablokowany.</grey>"
   cooldown:
-    chat:
-      onChat: "<yellow>#</yellow> <grey>Musisz odczekać <time> zanim będziesz mógł ponownie pisać.</grey>"
+    onChat: "<yellow>#</yellow> <grey>Musisz odczekać <time> zanim będziesz mógł ponownie pisać.</grey>"
 
 tchat:
   usage:

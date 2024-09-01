@@ -5,9 +5,9 @@ import me.hardstyl3r.tchat.managers.ChatManager;
 import me.hardstyl3r.toolsies.managers.LocaleManager;
 import me.hardstyl3r.toolsies.managers.UserManager;
 import me.hardstyl3r.toolsies.objects.Locale;
+import net.kyori.adventure.text.minimessage.tag.resolver.Formatter;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -44,15 +44,16 @@ public class chatCommand implements CommandExecutor, TabCompleter {
             if (args[0].equalsIgnoreCase("clear") && sender.hasPermission("toolsies.chat.clear")) {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     for (int i = 0; i < 100; i++) p.sendMessage(" ");
-                    p.sendMessage(l.getStringComponent("chat.clear.broadcast",
+                    p.sendMessage(l.getStringComponent("chat.clear_broadcast",
                             Placeholder.unparsed("sender_name", sender.getName())));
                 }
             } else if ((args[0].equalsIgnoreCase("toggle") || args[0].equalsIgnoreCase("lock"))
                     && sender.hasPermission("toolsies.chat.toggle")) {
                 chatManager.toggleLocked();
                 for (Player p : Bukkit.getOnlinePlayers())
-                    p.sendMessage(l.getStringComponent("chat.toggle.broadcast_" + (chatManager.isLocked() ? "locked" : "unlocked"),
-                            Placeholder.unparsed("sender_name", sender.getName())));
+                    p.sendMessage(userManager.determineLocale(p).getStringComponent("chat.toggle_broadcast",
+                            Placeholder.unparsed("sender_name", sender.getName()),
+                            Formatter.choice("choice", (chatManager.isLocked() ? 1 : 0))));
             } else
                 localeManager.sendUsage(sender, cmd, l);
         } else
