@@ -10,10 +10,10 @@ commands:
   chat:
   tchat:
   msg:
-    aliases: [message, pm, m, tell, whisper]
+    aliases: [w, m, t, pm, tell, whisper]
   reply:
     aliases: [r]
   msgtoggle:
-    aliases: [mtoggle, rtoggle, messagetoggle, pmtoggle, telltoggle, whispertoggle]
+    aliases: [pmtoggle, mtoggle]
   socialspy:
 
