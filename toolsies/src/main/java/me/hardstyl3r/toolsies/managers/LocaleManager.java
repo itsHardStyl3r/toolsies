@@ -23,6 +23,7 @@ public class LocaleManager {
     private final ConfigManager configManager;
     private final FileConfiguration config;
     private final StringBuilder sb = new StringBuilder();
+    private final Pattern timeString = Pattern.compile("^(?:\\d+s|\\d+m|\\d+h|\\d+d|\\d+mo|\\d+y)+$");
 
     public LocaleManager(ConfigManager configManager) {
         this.configManager = configManager;
@@ -261,9 +262,7 @@ public class LocaleManager {
     }
 
     public boolean isValidStringTime(String s) {
-        Pattern pattern = Pattern.compile("(?:([0-9]+)\\s*y[a-z]*[, \\s]*)?(?:([0-9]+)\\s*mo[a-z]*[, \\s]*)?(?:([0-9]+)\\s*d[a-z]*[, \\s]*)?(?:([0-9]+)\\s*h[a-z]*[, \\s]*)?(?:([0-9]+)\\s*m[a-z]*[, \\s]*)?(?:([0-9]+)\\s*(?:s[a-z]*)?)?");
-        Matcher matcher = pattern.matcher(s);
-        return matcher.find();
+        return timeString.matcher(s).find();
     }
 
     private int plural(Integer value) {

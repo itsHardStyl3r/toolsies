@@ -46,6 +46,7 @@ common:
   newPassword: "newPassword"
   email: "emailAddress"
   amount: "amount"
+  none: "none"
 
 locale:
   unknown_locale: "<red>#</red> <grey>Locale <locale_name> does not exist.</grey>"
@@ -164,56 +165,45 @@ setspawn:
   spawn_always_preferred: "<yellow>#</yellow> <grey>This spawn location is always preferred.</grey>"
 
 punishments:
-  incorrect_time: "<red>#</red> <grey>Incorrect duration entered.</grey>"
+  incorrect_time: "<red>#</red> <grey>Incorrect punishment duration entered.</grey>"
   duration_too_short: "<red>#</red> <grey>Duration must be at least <duration>.</grey>"
-  player_is_not_banned: "<yellow>#</yellow> <grey>Player <player_name> is not banned.</grey>"
-  address_is_not_banned: "<yellow>#</yellow> <grey>Address <address> is not banned.</grey>"
-  player_is_banned: "<yellow>#</yellow> <grey>Player <player_name> is already banned.</grey>"
-  address_is_banned: "<yellow>#</yellow> <grey>Address <address> is already banned.</grey>"
+  target_is_not_banned: "<yellow>#</yellow> <grey><target:'0#Player|1#IP address'> <target_name> is not banned.</grey>"
+  target_is_banned: "<yellow>#</yellow> <grey><target:'0#Player|1#IP address'> <target_name> is already banned.</grey>"
 
 ban:
   usage:
-    ban: "/ban <player> [reason] - bans a player"
-    console-ban: "/ban <player> [reason] - bans a player"
-  ban: "<green>#</green> <grey>Banned <player_name>.</grey>"
-  kick_message: "<red>Your account has permanently banned by <sender_name>.</red><newline><white>Reason: <reason></white><newline><white>Appeal on server website</white>"
-  join_message: "<red>Your account is currently banned by <sender_name>.</red><newline><white>Reason: <reason></white><newline><white>Banned on: <ban_date></white><newline><white>Appeal on server website</white>"
-  ban_broadcast: "<yellow>#</yellow> <grey>Player <player_name> has been permanently banned by <sender_name>.</grey>"
-  unresolved_hostname: "<red>Your IP address could not be resolved.</red>"
+    ban: "/ban <IP address | player> [duration | reason...] - bans a player"
+    console-ban: "/ban <IP address | player> [duration | reason...] - bans a player"
+  target_banned: "<green>#</green> <grey><target:'0#Player|1#IP address'> <target_name> banned<choice:\"0#|1< for '<duration>'\">.</grey>"
+  ban_broadcast_message: "<yellow>#</yellow> <grey>Player <player_name> has been permanently banned by <sender_name>.</grey>"
+  tempban_broadcast_message: "<yellow>#</yellow> <grey>Player <player_name> has been banned by <sender_name> for <duration>.</grey>"
+  messages:
+    kick_header: "<red>Your account has been<choice:'|1> permanently'> banned by <sender_name>.</red><newline>"
+    ip_kick_header: "<red>Your IP address is<choice:'|1> permanently'> banned by <sender_name>.</red><newline>"
+    join_header: "<red>Your IP address has been<choice:'|1> permanently'> banned by <sender_name>.</red><newline>"
+    ip_join_header: "<red>Your IP address is<choice:'|1> permanently'> banned by <sender_name>.</red><newline>"
+    reason: "<newline><white>Reason: <reason>.</white>"
+    banned_on: "<newline><white>Banned on: <banned_on>."
+    expires_after: "<newline><white>Ban expires after <remaining><newline>(<remaining_date>)</white>"
+    footer: ""
   priority_too_high: "<red>#</red> <grey>You can't ban this player.</grey>"
-
-unban:
-  usage:
-    unban: "/unban <player> - unbans a player"
-    console-unban: "/unban <player> - unbans a player"
-  unban: "<green>#</green> <grey>Unbanned <player_name>.</grey>"
-  unban_broadcast: "<yellow>#</yellow> <grey>Player <player_name> has been unbanned by <sender_name>.</grey>"
 
 banlist:
   usage:
-    banlist: "/banlist [page] - displays ban list"
-    console-banlist: "/banlist [page] - displays ban list"
-  banlist_header: "<yellow>#</yellow> <grey>Ban list (<page>/<maxpages>). Total: <total></grey>"
-  banlist_ban_entry: "<yellow>></yellow> <grey><player_name> banned on <ban_date></grey>"
-  banlist_tempban_entry: "<yellow>></yellow> <grey><player_name> banned for <duration></grey>"
-  banlist_footer: "<yellow>#</yellow> <grey>For details, type /getban <player name>.</grey>"
+    banlist: "/banlist [strona] - displays ban list"
+    console-banlist: "/banlist [strona] - displays ban list"
+  header: "<yellow>#</yellow> <grey>Ban list, page <page> of <pages>. Total: <total>.</grey>"
+  entry: "<yellow><number>.</yellow> <grey><player_name> | <sender_name> | <ban_date></grey>"
+  entry_hover: "<yellow>▪</yellow> <grey><player_name> <dark_grey><italic>#<ban_id></italic></dark_grey><newline><yellow>></yellow> Reason: <reason><choice:\"0#|1< '<newline><yellow>></yellow>' Expires in '<duration>'\"></grey>"
+  footer: "<yellow>#</yellow> <grey>More info on hover or with /getban <player>.<newline><yellow>#</yellow> <grey>Command arguments are s:<admin name>, t:<player name> and page number in any order, typed separately.</grey>"
+  empty: "<yellow>#</yellow> <grey>Ban list is empty.</grey>"
   unknown_page: "<yellow>#</yellow> <grey>Unknown page.</grey>"
-  failed: "<red>#</red> <grey>Failed to retrieve banlist.</grey>"
-
-tempban:
-  usage:
-    tempban: "/tempban <player> <time> [reason] - bans player for a period of time"
-    console-tempban: "/tempban <player> <time> [reason] - bans player for a period of time"
-  tempban: "<green>#</green> <grey>Banned <player_name> for <duration>.</grey>"
-  tempban_broadcast: "<yellow>#</yellow> <grey>Player <player_name> has been banned by <sender_name> for <duration>.</grey>"
-  kick_message: "<red>Your account has been banned by <sender_name>.</red><newline><white>Reason: <reason><newline><white>Expires on: <duration><newline><white>Appeal on the server website</white>"
-  join_message: "<red>Your account is currently banned by <sender_name>.</red><newline><white>Reason: <reason><newline><white>Banned on: <date></white><newline><white>Expires on: <duration></white><newline><white>Appeal on the server website</white>"
 
 getban:
   usage:
     getban: "/getban <nick> - displays ban information"
     console-getban: "/getban <nick> - displays ban information"
-  getban_header: "<yellow>#</yellow> <grey>Ban information of <player_name> (#<id>).</grey>"
+  getban_header: "<yellow>#</yellow> <grey>Ban information of <target_name> (#<id>).</grey>"
   entries:
     type: "<yellow>></yellow> <grey>Type: <type></grey>"
     admin: "<yellow>></yellow> <grey>Admin: <admin></grey>"
@@ -223,101 +213,71 @@ getban:
     remaining: "<yellow>></yellow> <grey>Remaining: <remaining></grey>"
     uuid: "<yellow>></yellow> <grey>UUID: <uuid></grey>"
 
-ban-ip:
+kick:
   usage:
-    ban-ip: "/ban-ip <address/player> [reason] - bans ip"
-    console-ban-ip: "/ban-ip <address/player> [reason] - bans ip"
-  ban-ip: "<green>#</green> <grey>Banned address <address></grey>"
-  incorrect_address: "<red>#</red> <grey>Player could not be found or wrong ip was entered.</grey>"
-  ipv6_address: "<yellow>#</yellow> <grey>IPv6 addresses are not enabled.</grey>"
+    kick: "/kick <player> [reason] - kicks a player"
+    console-kick: "/kick <player> [reason] - kicks a player"
+  player_kicked: "<green>#</green> <grey>Kicked <player_name>.</grey>"
+  messages:
+    header: "<red>Kicked from the server by <sender_name>.</red>"
+    reason: "<newline><newline><white>Reason: <reason></white>"
+  priority_too_high: "<red>#</red> <grey>You can't kick this player.</grey>"
+
+unban:
+  usage:
+    unban: "/unban <player> - unbans a player"
+    console-unban: "/unban <player> - unbans a player"
+  target_unbanned: "<green>#</green> <grey>Unbanned <target:'0#gracza|1#adres IP'> <target_name>.</grey>"
+  player_unbanned_broadcast: "<yellow>#</yellow> <grey>Player <player_name> has been unbanned by <sender_name>.</grey>"
 
 warn:
   usage:
-    warn: "/warn <player> <reason> - warns a player"
-    console-warn: "/warn <player> <reason> - warns a player"
-  warn_sender: "<green>#</green> <grey>Warned <player_name>.</grey>"
-  warn_target: "<yellow>#</yellow> <grey>You've been warned by <sender_name>.<newline><yellow>></yellow> <grey>Reason: <reason></grey>"
+    warn: "/warn <player> <duration | reason...> - warns a player"
+    console-warn: "/warn <player> <duration | reason...> - warns a player"
+  player_warned: "<green>#</green> <grey>Warned <player_name>.</grey>"
+  warn_notification: "<yellow>#</yellow> <grey>You've been warned by <sender_name>.<newline><yellow>></yellow> <grey>Reason: <reason></grey>"
   priority_too_high: "<red>#</red> <grey>You can't warn this player.</grey>"
 
 unwarn:
   usage:
     unwarn: "/unwarn <id> - deletes a warn"
     console-unwarn: "/unwarn <id> - deletes a warn"
-  unwarn: "<green>#</green> <grey>Deleted warn #<id>.</grey>"
+  player_unwarned: "<green>#</green> <grey>Removed <player_name>'s warn #<id>.</grey>"
   no_such_warn: "<yellow>#</yellow> <grey>Warn #<id> does not exist.</grey>"
-  wrong_id: "<red>#</red> <grey>ID must be a number.</grey>"
-  unwarn_target: "<yellow>#</yellow> <grey>Your warn #<id> has been removed by <sender_name>.</grey>"
-
-getwarn:
-  usage:
-    getwarn: "/getwarn <id> - warn information"
-    console-getwarn: "/getwarn <id> - warn information"
-  getwarn_header: "<yellow>#</yellow> <grey><player_name>'s #<id> warn information</grey>"
-  entries:
-    admin: "<yellow>></yellow> <grey>Admin: <admin></grey>"
-    reason: "<yellow>></yellow> <grey>Reason: <reason></grey>"
-    date: "<yellow>></yellow> <grey>Warned on: <date></grey>"
-    duration: "<yellow>></yellow> <grey>Expiration date: <duration></grey>"
-    remaining: "<yellow>></yellow> <grey>Remaining: <remaining></grey>"
-  no_such_warn: "<yellow>#</yellow> <grey>Warn #<id> does not exist.</grey>"
-  wrong_id: "<red>#</red> <grey>ID must be a number.</grey>"
+  wrong_id: "<red>#</red> <grey>Warn ID has to be a positive number.</grey>"
+  unwarn_notification: "<yellow>#</yellow> <grey>Your warning #<id> has been removed by <sender_name>.</grey>"
 
 warns:
   usage:
-    warns: "/warns [arg-player] - retrieves a list of warns"
-    console-warns: "/warns [arg-player] - retrieves a list of warns"
-  warns: "<yellow>#</yellow> <grey>Your warns: <warns>.</grey><newline><yellow>#</yellow> <grey>Total: <total></grey><newline><yellow>#</yellow> <grey>For more information, type /getwarn <id></grey>"
-  warns_sender: "<yellow>#</yellow> <grey><player_name>'s warns: <warns>.</grey><newline><yellow>#</yellow> <grey>Total: <total></grey><newline><yellow>#</yellow> <grey>For more information, type /getwarn <id></grey>"
+    warns: "/warns [arg-player] - displays a list of warns"
+    console-warns: "/warns [arg-player] - displays a list of wrans"
   no_warns: "<yellow>#</yellow> <grey>You don't have any warns.</grey>"
-  no_warns_sender: "<yellow>#</yellow> <grey>Player <player_name> does not have any warns.</grey>"
+  no_warns_sender: "<yellow>#</yellow> <grey>Player <player_name> has no warns.</grey>"
+  header: "<yellow>#</yellow> <grey>List of <player_name>'s warns (<total>):</grey>"
+  header_self: "<yellow>#</yellow> <grey>Your warn list (<total>):</grey>"
+  entry: "<yellow>></yellow> <grey>\"<reason>\" by <sender_name></grey>"
+  entry_hover: "<yellow>▪</yellow> <grey>Warn <italic>#<warn_id></italic><newline><yellow>></yellow> Warned on: <warn_date><newline><yellow>></yellow><choice:\"0# Permanent|1< Expires after '<duration>'\">"
+  footer: "<yellow>#</yellow> <grey>Hover over the entries for more information.</grey>"
 
 mute:
   usage:
     mute: "/mute <player> [reason] - mutes a player"
     console-mute: "/mute <player> [reason] - mutes a player"
-  mute: "<green>#</green> <grey>Muted <player_name>.</grey>"
-  is_muted: "<yellow>#</yellow> <grey><player_name> is already muted.</grey>"
-  mute_target: "<yellow>#</yellow> <grey>You've been muted by <sender_name>.</grey><newline><yellow>></yellow> <grey>Reason: <reason></grey>"
-  chat_muted: "<yellow>#</yellow> <grey>You are muted.</grey>"
+  player_muted: "<green>#</green> <grey>Muted <player_name><choice:\"0#|1< for '<duration>'\">.</grey>"
+  player_is_muted: "<yellow>#</yellow> <grey>Player <player_name> is already muted.</grey>"
+  mute_notification: "<yellow>#</yellow> <grey>You've been muted by <sender_name><choice:\"0#|1< for '<duration>'\">.</grey>"
+  mute_notification_reason: "<newline><yellow>></yellow> <grey>Reason: <reason>.</grey>"
+  muted_chat_attempt: "<yellow>#</yellow> <grey>You are currently muted<choice:\"0#|1< for '<remaining>'\">.</grey>"
+  muted_cmd_attempt: "<yellow>#</yellow> <grey>You can't use this command while muted<choice:\"0#|1< for '<remaining>'\">.</grey>"
   priority_too_high: "<red>#</red> <grey>You can't mute this player.</grey>"
-
-tempmute:
-  usage:
-    tempmute: "/tempmute <player> <time> [reason] - temporarily mutes a player"
-    console-tempmute: "/tempmute <player> <time> [reason] - temporarily mutes a player"
-  tempmute: "<green>#</green> <grey>Muted <player_name> for <duration>.</grey>"
-  tempmute_target: "<yellow>#</yellow> <grey>You've been muted by <sender_name> for <duration>.</grey>"
-  chat_muted: "<yellow>#</yellow> <grey>You are muted for <duration>.</grey>"
-
-tempwarn:
-  usage:
-    tempwarn: "/tempwarn <player> <time> [reason] - warns a player"
-    console-tempwarn: "/tempwarn <player> <time> [reason] - warns a player"
-  tempwarn_sender: "<green>#</green> <grey>Warned <player_name> for <duration>.</grey>"
-  tempwarn_target: "<yellow>#</yellow> <grey>You've been warned by <sender_name> for <duration>.</grey><newline><yellow>></yellow> <grey>Reason: <reason></grey>"
 
 unmute:
   usage:
     unmute: "/unmute <player> - unmutes a player"
     console-unmute: "/unmute <player> - unmutes a player"
-  is_not_muted: "<yellow>#</yellow> <grey>Player <player_name> is not muted.</grey>"
-  unmute: "<green>#</green> <grey>Unmuted <player_name>.</grey>"
-  unmute_target: "<yellow>#</yellow> <grey>You've been unmuted by <sender_name>.</grey>"
-
-kick:
-  usage:
-    kick: "/kick <player> - kicks a player"
-    console-kick: "/kick <player> - kicks a player"
-  kick: "<green>#</green> <grey>Kicked <player_name>.</grey>"
-  kick_message: "<red>You've been kicked by <sender_name>.</red><newline><white>Reason: <reason></white>"
-  priority_too_high: "<red>#</red> <grey>You can't kick this player.</grey>"
-
-tempban-ip:
-  usage:
-    tempban-ip: "/tempban <address/player> <time> [reason] - temporarily bans address"
-    console-tempban-ip: "/tempban <address> <time> [reason] - temporarily bans address"
-  tempban-ip: "<green>#</green> <grey>Banned IP address <address> for <duration>.</grey>"
-  priority_too_high: "<red>#</red> <grey>You can't ban this player.</grey>"
+  player_is_not_muted: "<yellow>#</yellow> <grey>Player <player_name> is not muted.</grey>"
+  player_unmuted: "<green>#</green> <grey>Unmuted player <player_name>.</grey>"
+  unmute_notification: "<yellow>#</yellow> <grey>You've been unmuted by <sender_name>.</grey>"
 
 login:
   usage: "<yellow>#</yellow> <grey>Correct usage: /login <password></grey>"

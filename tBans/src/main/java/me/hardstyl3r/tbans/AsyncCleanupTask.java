@@ -2,31 +2,30 @@ package me.hardstyl3r.tbans;
 
 import me.hardstyl3r.tbans.managers.PunishmentManager;
 import me.hardstyl3r.tbans.objects.Punishment;
-import me.hardstyl3r.toolsies.utils.LogUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.Set;
 
 public class AsyncCleanupTask implements Runnable {
 
     private final PunishmentManager punishmentManager;
 
-    public AsyncCleanupTask(TBans plugin, PunishmentManager punishmentManager, FileConfiguration config) {
+    /**
+     * An asynchronous task to remove expired punishments from memory.
+     *
+     * @param period Time in seconds
+     */
+    public AsyncCleanupTask(TBans plugin, PunishmentManager punishmentManager, int period) {
         this.punishmentManager = punishmentManager;
-        long period = config.getInt("cleanupTaskTimer") * 20L;
-        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this, period, period);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this, period * 20L, period * 20L);
     }
 
     @Override
     public void run() {
-        if (punishmentManager.getPunishments() == null) {
-            return;
-        }
-        for (Punishment punishment : punishmentManager.getPunishments()) {
-            if (punishment != null) {
-                if (punishmentManager.deleteIfExpired(punishment)) {
-                    LogUtil.info("[tBans] AsyncCleanupTask(): " + punishment.getType() + "(" + punishment.getName() + ") expired.");
-                }
-            }
+        Set<Punishment> punishments = punishmentManager.getPunishments();
+        if (punishments.isEmpty()) return;
+        for (Punishment punishment : punishments) {
+            if (punishment.isExpired()) punishmentManager.deletePunishment(punishment);
         }
     }
 }

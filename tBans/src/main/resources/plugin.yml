@@ -8,20 +8,38 @@ depend: [ toolsies ]
 softdepend: [ tPerms ]
 commands:
   ban:
+    usage: "/ban <player/ip address> [duration | reason...]"
+    description: "Bans a player permanently or temporarily"
+    aliases: [ban-ip, tempban, tempban-ip]
   banlist:
+    usage: "/banlist [page]"
+    description: "Displays a list of current bans"
+    aliases: [bans]
   unban:
-  tempban:
+    usage: "/unban <player/ip address>"
+    description: "Unbans a player"
+    aliases: [pardon, pardon-ip]
   getban:
-  ban-ip:
-  unban-ip:
+    usage: "/getban <player/ip address>"
+    description: "Displays information about a ban"
   warn:
+    usage: "/warn <player> [duration | reason...] <reason>"
+    description: "Warns a player"
   unwarn:
+    usage: "/unwarn <warn_id>"
+    description: "Removes a warning"
   warns:
-  getwarn:
+    usage: "/warns [player]"
+    description: "Displays current warnings"
+    aliases: [getwarns]
   mute:
-  tempmute:
-  tempwarn:
+    usage: "/mute <player> [duration | reason...]"
+    description: "Mutes a player"
+    aliases: [gag]
   unmute:
+    usage: "/unmute <player>"
+    description: "Unmutes a player"
+    aliases: [ungag]
   kick:
-  tempban-ip:
-  getban-ip:
+    usage: "/kick <player> [reason]"
+    description: "Kicks player from the server"

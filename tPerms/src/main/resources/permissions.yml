@@ -42,6 +42,9 @@ groups:
       - '-bukkit.command.plugins'
       - '-minecraft.nbt.copy'
       - '-minecraft.command.me'
+      - 'toolsies.banlist'
+      - 'toolsies.getban'
+      - 'toolsies.warns'
     priority: 1
     default: true
   vip:
@@ -75,6 +78,15 @@ groups:
       - 'toolsies.chat.toggle'
       - 'toolsies.chat.cooldown.bypass'
       - 'toolsies.msg.bypasstoggle'
+      - 'toolsies.ban'
+      - 'toolsies.getban.ip'
+      - 'toolsies.kick'
+      - 'toolsies.mute'
+      - 'toolsies.unban'
+      - 'toolsies.unmute'
+      - 'toolsies.unwarn'
+      - 'toolsies.warn'
+      - 'toolsies.warns.others'
     inherits:
       - 'player'
     priority: 4
@@ -93,6 +105,8 @@ groups:
       - 'toolsies.setspawn'
       - 'toolsies.socialspy'
       - 'toolsies.more'
+      - 'toolsies.ban.ip'
+      - 'toolsies.unban.ip'
     inherits:
       - 'player'
       - 'moderator'

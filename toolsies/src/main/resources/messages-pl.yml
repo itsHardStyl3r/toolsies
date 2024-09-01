@@ -46,6 +46,7 @@ common:
   newPassword: "noweHasło"
   email: "adresEmail"
   amount: "ilość"
+  none: "brak"
 
 locale:
   unknown_locale: "<red>#</red> <grey>Język <locale_name> nie istnieje.</grey>"
@@ -166,54 +167,43 @@ setspawn:
 punishments:
   incorrect_time: "<red>#</red> <grey>Niepoprawny czas długości trwania kary.</grey>"
   duration_too_short: "<red>#</red> <grey>Czas trwania musi mieć co najmniej <duration>.</grey>"
-  player_is_not_banned: "<yellow>#</yellow> <grey>Gracz <player_name> nie jest zbanowany.</grey>"
-  address_is_not_banned: "<yellow>#</yellow> <grey>Adres <address> nie jest zbanowany.</grey>"
-  player_is_banned: "<yellow>#</yellow> <grey>Gracz <player_name> jest już zbanowany.</grey>"
-  address_is_banned: "<yellow>#</yellow> <grey>Adres <address> jest już zbanowany.</grey>"
+  target_is_not_banned: "<yellow>#</yellow> <grey><target:'0#Gracz|1#Adres IP'> <target_name> nie jest zbanowany.</grey>"
+  target_is_banned: "<yellow>#</yellow> <grey><target:'0#Gracz|1#Adres IP'> <target_name> jest już zbanowany.</grey>"
 
 ban:
   usage:
-    ban: "/ban <gracz> [powód] - banuje gracza"
-    console-ban: "/ban <gracz> [powód] - banuje gracza"
-  ban: "<green>#</green> <grey>Zbanowano gracza <player_name>.</grey>"
-  kick_message: "<red>Twoje konto zostało permanentnie zablokowane przez <sender_name>.</red><newline><white>Powód: <reason></white><newline><white>Złóż odwołanie na stronie serwera.</white>"
-  join_message: "<red>Twoje konto jest obecnie zablokowane przez <sender_name>.</red><newline><white>Powód: <reason></white><newline><white>Data zablokowania: <ban_date></white><newline><white>Złóż odwołanie na stronie serwera</white>"
-  ban_broadcast: "<yellow>#</yellow> <grey>Gracz <player_name> został permanentnie zbanowany przez <sender_name>.</grey>"
-  unresolved_hostname: "<red>Nie udało się potwierdzić adresu IP.</red>"
+    ban: "/ban <adres IP | gracz> [czas trwania | powód...] - banuje gracza"
+    console-ban: "/ban <adres IP | gracz> [czas trwania | powód...] - banuje gracza"
+  target_banned: "<green>#</green> <grey>Zbanowano <target:'0#gracza|1#adres IP'> <target_name><choice:\"0#|1< na '<duration>'\">.</grey>"
+  ban_broadcast_message: "<yellow>#</yellow> <grey>Gracz <player_name> został permanentnie zbanowany przez <sender_name>.</grey>"
+  tempban_broadcast_message: "<yellow>#</yellow> <grey>Gracz <player_name> został zbanowany przez <sender_name> na <duration>.</grey>"
+  messages:
+    kick_header: "<red>Twoje konto zostało<choice:'|1> permanentnie'> zbanowane przez <sender_name>.</red><newline>"
+    ip_kick_header: "<red>Twój adres IP został<choice:'|1> permanentnie'> zbanowany przez <sender_name>.</red><newline>"
+    join_header: "<red>Twoje konto jest obecnie<choice:'|1> permanentnie'> zbanowane przez <sender_name>.</red><newline>"
+    ip_join_header: "<red>Twój adres IP jest obecnie<choice:'|1> permanentnie'> zbanowany przez <sender_name>.</red><newline>"
+    reason: "<newline><white>Powód: <reason>.</white>"
+    banned_on: "<newline><white>Data nałożenia bana: <banned_on>."
+    expires_after: "<newline><white>Ban przedawni się za <remaining><newline>(<remaining_date>)</white>"
+    footer: "ban id <ban_id>"
   priority_too_high: "<red>#</red> <grey>Nie możesz zbanować tego gracza.</grey>"
-
-unban:
-  usage:
-    unban: "/unban <gracz> - odbanowuje gracza"
-    console-unban: "/unban <gracz> - odbanowuje gracza"
-  unban: "<green>#</green> <grey>Odbanowano <player_name>."
-  unban_broadcast: "<yellow>#</yellow> <grey>Gracz <player_name> został odbanowany przez <sender_name>.</grey>"
 
 banlist:
   usage:
     banlist: "/banlist [strona] - wyświetla listę banów"
     console-banlist: "/banlist [strona] - wyświetla listę banów"
-  banlist_header: "<yellow>#</yellow> <grey>Lista banów (<page>/<maxpages>). Łącznie: <total></grey>"
-  banlist_ban_entry: "<yellow>></yellow> <grey><player_name> zbanowany w <ban_date></grey>"
-  banlist_tempban_entry: "<yellow>></yellow> <grey><player_name> zbanowany na <duration></grey>"
-  banlist_footer: "<yellow>#</yellow> <grey>Po szczegóły, wpisz /getban <nazwa gracza>.</grey>"
-  unknown_page: "<yellow>#</yellow> <grey>Nie ma takiej strony.</grey>"
-  failed: "<red>#</red> <grey>Nie udało się pobrać listy banów.</grey>"
-
-tempban:
-  usage:
-    tempban: "/tempban <gracz> <czas> [powód] - banuje gracza na określony czas"
-    console-tempban: "/tempban <gracz> <czas> [powód] - banuje gracza na określony czas"
-  tempban: "<green>#</green> <grey>Zbanowano gracza <player_name> na <duration>.</grey>"
-  tempban_broadcast: "<yellow>#</yellow> <grey>Gracz <player_name> został zbanowany przez <admin> na <duration>.</grey>"
-  kick_message: "<red>Zostałeś permanentnie zbanowany przez <sender_name>.</red><newline><white>Powód: <reason></white><newline><white>Przedawniony po: <duration><newline><white>Złóż odwołanie na stronie serwera</white>"
-  join_message: "<red>Jesteś obecnie zbanowany przez <sender_name>.</red><newline><white>Powód: <reason></white><newline><white>Zbanowany w: <date></white><newline><white>Przedawniony po: <duration></white><newline><white>Złóż odwołanie na stronie serwera</white>"
+  header: "<yellow>#</yellow> <grey>Lista banów, strona <page> z <pages>. Łącznie: <total>.</grey>"
+  entry: "<yellow><number>.</yellow> <grey><player_name> | <sender_name> | <ban_date></grey>"
+  entry_hover: "<yellow>▪</yellow> <grey><player_name> <dark_grey><italic>#<ban_id></italic></dark_grey><newline><yellow>></yellow> Powód: <reason><newline><yellow>></yellow><choice:\"0# Permanentny|1< Wygasa za '<duration>'\"></grey>"
+  footer: "<yellow>#</yellow> <grey>Więcej informacji po najechaniu lub w /getban <gracz>.<newline><yellow>#</yellow> <grey>Argumentami komendy są s:<nazwa admina>, t:<nazwa gracza> i numer strony, wpisane osobno w obojętnej kolejności.</grey>"
+  empty: "<yellow>#</yellow> <grey>Lista banów jest pusta.</grey>"
+  unknown_page: "<yellow>#</yellow> <grey>Nieznana strona.</grey>"
 
 getban:
   usage:
-    getban: "/getban <nick> - wyświetla informacje o banie"
-    console-getban: "/getban <nick> - wyświetla informacje o banie"
-  getban_header: "<yellow>#</yellow> <grey>Informacje o banie <player_name> (#<id>).</grey>"
+    getban: "/getban <gracz> - wyświetla informacje o banie"
+    console-getban: "/getban <gracz> - wyświetla informacje o banie"
+  getban_header: "<yellow>#</yellow> <grey>Informacje o banie <target_name> (#<id>).</grey>"
   entries:
     type: "<yellow>></yellow> <grey>Typ: <type></grey>"
     admin: "<yellow>></yellow> <grey>Admin: <admin></grey>"
@@ -223,101 +213,71 @@ getban:
     remaining: "<yellow>></yellow> <grey>Pozostało: <remaining></grey>"
     uuid: "<yellow>></yellow> <grey>UUID: <uuid></grey>"
 
-ban-ip:
+kick:
   usage:
-    ban-ip: "/ban-ip <adres/gracz> [powód] - banuje ip"
-    console-ban-ip: "/ban-ip <adres/gracz> [powód] - banuje ip"
-  ban-ip: "<green>#</green> <grey>Zbanowano adres <address></grey>"
-  incorrect_address: "<red>#</red> <grey>Nie odnaleziono gracza lub podano błędne IP.</grey>"
-  ipv6_address: "<yellow>#</yellow> <grey>Adresy IPv6 nie są włączone.</grey>"
+    kick: "/kick <gracz> [powód] - wyrzuca gracza"
+    console-kick: "/kick <gracz> [powód] - wyrzuca gracza"
+  player_kicked: "<green>#</green> <grey>Wyrzucono <player_name>.</grey>"
+  messages:
+    header: "<red>Wyrzucono z serwera przez <sender_name>.</red>"
+    reason: "<newline><newline><white>Powód: <reason></white>"
+  priority_too_high: "<red>#</red> <grey>Nie możesz wyrzucić tego gracza.</grey>"
+
+unban:
+  usage:
+    unban: "/unban <gracz> - odbanowuje gracza"
+    console-unban: "/unban <gracz> - odbanowuje gracza"
+  target_unbanned: "<green>#</green> <grey>Odbanowano <target:'0#gracza|1#adres IP'> <target_name>."
+  player_unbanned_broadcast: "<yellow>#</yellow> <grey>Gracz <player_name> został odbanowany przez <sender_name>.</grey>"
 
 warn:
   usage:
-    warn: "/warn <gracz> <reason> - nadaje ostrzeżenie"
-    console-warn: "/warn <gracz> <reason> - nadaje ostrzeżenie"
-  warn_sender: "<green>#</green> <grey>Ostrzeżono <player_name>.</grey>"
-  warn_target: "<yellow>#</yellow> <grey>Otrzymano ostrzeżenie od <sender_name>.<newline><yellow>></yellow> <grey>Powód: <reason></grey>"
+    warn: "/warn <gracz> <czas | powód...> - nadaje ostrzeżenie"
+    console-warn: "/warn <gracz> <czas | powód...> - nadaje ostrzeżenie"
+  player_warned: "<green>#</green> <grey>Ostrzeżono <player_name>.</grey>"
+  warn_notification: "<yellow>#</yellow> <grey>Otrzymano ostrzeżenie od <sender_name>.<newline><yellow>></yellow> <grey>Powód: <reason></grey>."
   priority_too_high: "<red>#</red> <grey>Nie możesz nadać ostrzeżenia temu graczowi.</grey>"
 
 unwarn:
   usage:
     unwarn: "/unwarn <id> - usuwa ostrzeżenie"
     console-unwarn: "/unwarn <id> - usuwa ostrzeżenie"
-  unwarn: "<green>#</green> <grey>Usunięto ostrzeżenie #<id>.</grey>"
+  player_unwarned: "<green>#</green> <grey>Usunięto ostrzeżenie #<id> gracza <player_name>.</grey>"
   no_such_warn: "<yellow>#</yellow> <grey>Ostrzeżenie #<id> nie istnieje.</grey>"
-  wrong_id: "<red>#</red> <grey>ID musi być liczbą.</grey>"
-  unwarn_target: "<yellow>#</yellow> <grey>Twoje ostrzeżenie #<id> zostało usunięte przez <sender_name>.</grey>"
-
-getwarn:
-  usage:
-    getwarn: "/getwarn <id> - informacje o ostrzeżeniu"
-    console-getwarn: "/getwarn <id> - informacje o ostrzeżeniu"
-  getwarn_header: "<yellow>#</yellow> <grey>Ostrzeżenie #<id> gracza <player_name></grey>"
-  entries:
-    admin: "<yellow>></yellow> <grey>Admin: <admin></grey>"
-    reason: "<yellow>></yellow> <grey>Powód: <reason></grey>"
-    date: "<yellow>></yellow> <grey>Nadano w: <date></grey>"
-    duration: "<yellow>></yellow> <grey>Data przedawnienie: <duration></grey>"
-    remaining: "<yellow>></yellow> <grey>Pozostało: <remaining></grey>"
-  no_such_warn: "<yellow>#</yellow> <grey>Ostrzeżenie #<id> nie istnieje.</grey>"
-  wrong_id: "<red>#</red> <grey>ID musi być cyfrą.</grey>"
+  wrong_id: "<red>#</red> <grey>Numer ID ostrzeżenia musi być liczbą dodatnią.</grey>"
+  unwarn_notification: "<yellow>#</yellow> <grey>Twoje ostrzeżenie #<id> zostało usunięte przez <sender_name>.</grey>"
 
 warns:
   usage:
     warns: "/warns [arg-player] - wyświetla listę ostrzeżeń"
     console-warns: "/warns [arg-player] - wyświetla listę ostrzeżeń"
-  warns: "<yellow>#</yellow> <grey>Twoje ostrzeżenia: <warns>.</grey><newline><yellow>#</yellow> <grey>Łącznie: <total></grey><newline><yellow>#</yellow> <grey>Po więcej informacji, wpisz /getwarn <id></grey>"
-  warns_sender: "<yellow>#</yellow> <grey>Ostrzeżenia <player_name>: <warns>.</grey><newline><yellow>#</yellow> <grey>Łącznie: <total></grey><newline><yellow>#</yellow> <grey>Po więcej informacji, wpisz /getwarn <id></grey>"
   no_warns: "<yellow>#</yellow> <grey>Nie masz żadnych ostrzeżeń.</grey>"
   no_warns_sender: "<yellow>#</yellow> <grey>Gracz <player_name> nie ma żadnych ostrzeżeń.</grey>"
+  header: "<yellow>#</yellow> <grey>Ostrzeżenia gracza <player_name> (<total>):</grey>"
+  header_self: "<yellow>#</yellow> <grey>Twoje ostrzeżenia (<total>):</grey>"
+  entry: "<yellow>></yellow> <grey>\"<reason>\" przez <sender_name></grey>"
+  entry_hover: "<yellow>▪</yellow> <grey>Ostrzeżenie <italic>#<warn_id></italic><newline><yellow>></yellow> Data nadania: <warn_date><newline><yellow>></yellow><choice:\"0# Permanentny|1< Wygasa za '<duration>'\">"
+  footer: "<yellow>#</yellow> <grey>Najedź na ostrzeżenie po więcej informacji.</grey>"
 
 mute:
   usage:
     mute: "/mute <gracz> [powód] - wycisza gracza"
     console-mute: "/mute <gracz> [powód] - wycisza gracza"
-  mute: "<green>#</green> <grey>Wyciszono <player_name>.</grey>"
-  is_muted: "<yellow>#</yellow> <grey>Gracz <player_name> jest już wyciszony.</grey>"
-  mute_target: "<yellow>#</yellow> <grey>Zostałeś wyciszony przez <sender_name>.</grey><newline><yellow>></yellow> <grey>Powód: <reason></grey>"
-  chat_muted: "<yellow>#</yellow> <grey>Jesteś wyciszony.</grey>"
+  player_muted: "<green>#</green> <grey>Wyciszono <player_name><choice:\"0#|1< na '<duration>'\">.</grey>"
+  player_is_muted: "<yellow>#</yellow> <grey>Gracz <player_name> jest już wyciszony.</grey>"
+  mute_notification: "<yellow>#</yellow> <grey>Wyciszono przez <sender_name><choice:\"0#|1< na '<duration>'\">.</grey>"
+  mute_notification_reason: "<newline><yellow>></yellow> <grey>Powód: <reason>.</grey>"
+  muted_chat_attempt: "<yellow>#</yellow> <grey>Twoja komunikacja jest zablokowana<choice:\"0#|1< jeszcze przez '<remaining>'\">.</grey>"
+  muted_cmd_attempt: "<yellow>#</yellow> <grey>Nie możesz użyć tej komendy przez wyciszenie<choice:\"0#|1<, zostało '<remaining>'\">.</grey>"
   priority_too_high: "<red>#</red> <grey>Nie możesz wyciszyć tego gracza.</grey>"
-
-tempmute:
-  usage:
-    tempmute: "/tempmute <gracz> <czas> [powód] - ucisza gracza"
-    console-tempmute: "/tempmute <gracz> <czas> [powód] - ucisza gracza"
-  tempmute: "<green>#</green> <grey>Uciszono <player_name> na <duration>.</grey>"
-  tempmute_target: "<yellow>#</yellow> <grey>Zostałeś uciszony przez <sender_name> na <duration>.</grey>"
-  chat_muted: "<yellow>#</yellow> <grey>Jesteś uciszony przez <duration>.</grey>"
-
-tempwarn:
-  usage:
-    tempwarn: "/tempwarn <gracz> <czas> [powód] - nadaje ostrzeżenie"
-    console-tempwarn: "/tempwarn <gracz> <czas> [powód] - nadaje ostrzeżenie"
-  tempwarn_sender: "<green>#</green> <grey>Ostrzeżono <player_name> na <duration>.</grey>"
-  tempwarn_target: "<yellow>#</yellow> <grey>Otrzymano ostrzeżenie od <sender_name> na <duration>.<newline><yellow>></yellow> <grey>Powód: <reason></grey>"
 
 unmute:
   usage:
     unmute: "/unmute <gracz> - wyłącza uciszenie gracza"
     console-unmute: "/unmute <gracz> - wyłącza uciszenie gracza"
-  is_not_muted: "<yellow>#</yellow> <grey>Gracz <player_name> nie jest wyciszony.</grey>"
-  unmute: "<green>#</green> <grey>Wyłączono uciszenie graczowi <player_name>.</grey>"
-  unmute_target: "<yellow>#</yellow> <grey>Uciszenie zostało wyłączone przez <sender_name>.</grey>"
-
-kick:
-  usage:
-    kick: "/kick <gracz> - wyrzuca gracza"
-    console-kick: "/kick <gracz> - wyrzuca gracza"
-  kick: "<green>#</green> <grey>Wyrzucono <player_name>.</grey>"
-  kick_message: "<red>Zostałeś wyrzucony przez <sender_name>.</red><newline><white>Powód: <reason></white>"
-  priority_too_high: "<red>#</red> <grey>Nie możesz wyrzucić tego gracza.</grey>"
-
-tempban-ip:
-  usage:
-    tempban-ip: "/tempban <adres/gracz> <czas> [powód] - banuje ip na określony czas"
-    console-tempban-ip: "/tempban <adres/gracz> <czas> [powód] - banuje ip na określony czas"
-  tempban-ip: "<green>#</green> <grey>Zbanowano adres IP <address> na <duration>.</grey>"
-  priority_too_high: "<red>#</red> <grey>Nie możesz zbanować tego gracza.</grey>"
+  player_is_not_muted: "<yellow>#</yellow> <grey>Gracz <player_name> nie jest wyciszony.</grey>"
+  player_unmuted: "<green>#</green> <grey>Wyłączono uciszenie graczowi <player_name>.</grey>"
+  unmute_notification: "<yellow>#</yellow> <grey>Uciszenie zostało wyłączone przez <sender_name>.</grey>"
 
 login:
   usage: "<yellow>#</yellow> <grey>Poprawne zastosowanie: /login <hasło></grey>"

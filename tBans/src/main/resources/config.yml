@@ -2,21 +2,13 @@
 #             PUNISHMENTS SECTION            #
 #                                            #
 #
-# Should clean up task be enabled?
-# Clean up task clears expired punishments.
-# The task is running asynchronously. It calls deleteIfExpired with null sender.
-cleanupTaskEnabled: true
-# This specifies the duration in seconds between next cleanup task.
+# Clean up task clears expired punishments from memory. It runs asynchronously.
+# This specifies the duration in seconds between next cleanup task. Enter 0 to disable.
+# Default: 1800 seconds (30 minutes)
 cleanupTaskTimer: 1800
-
-# Currently disabled but the implementation should be ready though.
-ipv6BansEnabled: false
 
 # Minimum duration of temporary punishments.
 # Value 0 corresponds to minimum duration of 5 seconds.
-#
-# It is highly unrecommended to set values less than 5 seconds.
-# There's no particular reason, it just doesn't make sense.
 minimumDuration:
   ban: 15s
   warn: 5m
@@ -39,3 +31,13 @@ higherPriorityPunishment:
   kick: true
   warn: true
   mute: true
+  ip: true
+
+# This setting changes how many entries are displayed per page in /banlist.
+# Default: 5
+banlistResultsPerPage: 5
+
+# This is a list of commands that will be disabled if a player is muted.
+# The list should only contain 'main' commands, as the aliases are also checked.
+muteDisabledCommands:
+  - 'msg'

@@ -8,11 +8,11 @@ import java.util.UUID;
 public class Punishment {
 
     private final String name;
+    private final PunishmentType type;
     private UUID uuid;
     private Long duration;
     private Long date;
-    private String admin;
-    private final PunishmentType type;
+    private String sender;
     private String reason;
     private int id;
 
@@ -35,11 +35,15 @@ public class Punishment {
     }
 
     public Long getDuration() {
-        return duration;
+        return (isPermanent() ? -1L : this.duration);
     }
 
     public void setDuration(Long l) {
         this.duration = l;
+    }
+
+    public boolean isPermanent() {
+        return this.duration == null || this.duration < 1;
     }
 
     public Long getDate() {
@@ -50,12 +54,12 @@ public class Punishment {
         this.date = l;
     }
 
-    public String getAdmin() {
-        return this.admin;
+    public String getSender() {
+        return this.sender;
     }
 
-    public void setAdmin(String s) {
-        this.admin = s;
+    public void setSender(String s) {
+        this.sender = s;
     }
 
     public PunishmentType getType() {
@@ -67,16 +71,11 @@ public class Punishment {
     }
 
     public void setReason(String s) {
-        if (s != null) {
-            this.reason = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', s));
-        }
+        if (s != null) this.reason = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', s));
     }
 
     public Long getRemaining() {
-        if (this.duration != null) {
-            return this.duration - System.currentTimeMillis();
-        }
-        return 0L;
+        return (isPermanent() ? -1L : this.duration - System.currentTimeMillis());
     }
 
     public int getId() {
@@ -85,5 +84,9 @@ public class Punishment {
 
     public void setId(Integer i) {
         this.id = i;
+    }
+
+    public boolean isExpired() {
+        return getRemaining() <= 0 && !isPermanent();
     }
 }

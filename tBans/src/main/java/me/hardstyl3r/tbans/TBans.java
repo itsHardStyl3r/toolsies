@@ -1,10 +1,8 @@
 package me.hardstyl3r.tbans;
 
 import me.hardstyl3r.tbans.commands.*;
-import me.hardstyl3r.tbans.listeners.AsyncPlayerChatListener;
 import me.hardstyl3r.tbans.listeners.AsyncPlayerPreLoginListener;
-import me.hardstyl3r.tbans.listeners.own.PlayerPunishedListener;
-import me.hardstyl3r.tbans.listeners.own.PlayerUnpunishedListener;
+import me.hardstyl3r.tbans.listeners.MuteListeners;
 import me.hardstyl3r.tbans.managers.PunishmentManager;
 import me.hardstyl3r.toolsies.Hikari;
 import me.hardstyl3r.toolsies.Toolsies;
@@ -24,10 +22,13 @@ public class TBans extends JavaPlugin {
 
     private static TBans instance;
     private Toolsies toolsies;
-    private TPerms tPerms;
     private PunishmentManager punishmentManager;
     private FileConfiguration config;
     private PermissibleUserManager permissibleUserManager;
+
+    public static TBans getInstance() {
+        return instance;
+    }
 
     @Override
     public void onEnable() {
@@ -46,14 +47,13 @@ public class TBans extends JavaPlugin {
             return;
         }
         try {
-            tPerms = (TPerms) Bukkit.getServer().getPluginManager().getPlugin("tPerms");
+            TPerms tPerms = (TPerms) Bukkit.getServer().getPluginManager().getPlugin("tPerms");
             double version = Double.parseDouble(tPerms.getDescription().getVersion().split("-")[0]);
             if (version < 0.6)
                 throw new Exception("unsupported tPerms version (<0.6)");
             LogUtil.info("[tBans] Found tPerms!");
             permissibleUserManager = tPerms.permissibleUserManager;
         } catch (Exception e) {
-            tPerms = null;
             LogUtil.info("[tBans] Could not hook into tPerms: " + e + ".");
         }
         createTables();
@@ -66,10 +66,8 @@ public class TBans extends JavaPlugin {
 
     @Override
     public void onDisable() {
-    }
-
-    public static TBans getInstance() {
-        return instance;
+        LogUtil.info("[tBans] Disabling tasks.");
+        Bukkit.getScheduler().cancelTasks(this);
     }
 
     private void initManagers() {
@@ -79,41 +77,27 @@ public class TBans extends JavaPlugin {
 
     private void initCommands() {
         new banCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
-        new banlistCommand(this, toolsies.userManager, toolsies.localeManager);
+        new banlistCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager, config);
         new unbanCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
-        new tempbanCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
         new getbanCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
-        new banipCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager, config);
-        new unbanipCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
         new warnCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
         new unwarnCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
-        new getwarnCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
         new warnsCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
         new muteCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
-        new tempmuteCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
         new unmuteCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
-        new tempwarnCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
-        new kickCommand(this, toolsies.userManager, toolsies.localeManager, punishmentManager);
-        new tempbanipCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager, config);
-        new getbanipCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
+        new kickCommand(this, toolsies.userManager, punishmentManager, toolsies.localeManager);
     }
 
     private void initListeners() {
-        new PlayerPunishedListener(this, toolsies.userManager, toolsies.localeManager);
-        new PlayerUnpunishedListener(this, toolsies.userManager);
-
         new AsyncPlayerPreLoginListener(this, punishmentManager, toolsies.localeManager, toolsies.userManager);
-        new AsyncPlayerChatListener(this, punishmentManager, toolsies.localeManager, toolsies.userManager);
+        new MuteListeners(this, punishmentManager, toolsies.localeManager, toolsies.userManager, config);
     }
 
     private void initTasks() {
         Bukkit.getScheduler().cancelTasks(this);
-        if (config.getBoolean("cleanupTaskEnabled")) {
-            new AsyncCleanupTask(this, punishmentManager, config);
-            LogUtil.info("[tBans] initTasks(): Cleanup task enabled.");
-        } else {
-            LogUtil.info("[tBans] initTasks(): Cleanup task disabled.");
-        }
+        if (config.getInt("cleanupTaskTimer") < 0) return;
+        new AsyncCleanupTask(this, punishmentManager, config.getInt("cleanupTaskTimer"));
+        LogUtil.info("[tBans] initTasks(): Cleanup task enabled.");
     }
 
     private void createTables() {
@@ -145,7 +129,9 @@ public class TBans extends JavaPlugin {
             if (Hikari.isColumnMissing(metaData, "punishments", "duration")) {
                 p.executeUpdate("ALTER TABLE `punishments` ADD COLUMN `duration` BIGINT(20);");
             }
-            p.executeUpdate("CREATE TABLE IF NOT EXISTS `punishments_history` LIKE `punishments`;");
+            if (Hikari.isColumnMissing(metaData, "punishments", "active")) {
+                p.executeUpdate("ALTER TABLE `punishments` ADD COLUMN `active` BOOLEAN DEFAULT 0;");
+            }
         } catch (SQLException e) {
             LogUtil.error("[tBans] createTables(): " + e + ".");
         } finally {
