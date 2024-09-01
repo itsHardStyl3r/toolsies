@@ -46,7 +46,7 @@ public class AsyncChatListener implements Listener {
         } else {
             Long chatCooldown = chatManager.getChatCooldown(p).getRemaining();
             Locale l = userManager.determineLocale(p.getUniqueId());
-            p.sendMessage(l.getStringComponent("chat.cooldown.onChat", Placeholder.unparsed("time", localeManager.parseTimeWithTranslate(chatCooldown, l))));
+            p.sendMessage(l.getStringComponent("chat.cooldown.onChat", Placeholder.unparsed("time", localeManager.parseTimeWithTranslate(chatCooldown + 1000, l))));
             e.setCancelled(true);
         }
     }
